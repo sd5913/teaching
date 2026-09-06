@@ -1,25 +1,42 @@
 """
-SD5913 · Week 02 — Python you must be able to read.
+SD5913 · Week 02 — Reading code.
 
     deckgen build --pptx        # export/ only, no node needed
     deckgen build               # everything, as the workflows run it
 
-The reframe from docs/course-plan-2026.md: this week is no longer "learn to write
-Python", it is "learn to read Python well enough to tell whether what you were handed
-is right". Same material — types, control flow, data structures, uv — inverted
-exercises: given working code predict the output, given broken code find the fault,
-given a spec decide whether the code meets it.
+Sources this is built from, all in the admin workspace ~/dev/sd5913:
 
-The 1-2-4-All carries over from week 1, where the room ran out of time.
+  docs/course-plan-2026.md   — the reframe: no longer "learn to write Python" but
+                               "learn to read Python well enough to tell whether what
+                               you were handed is right". Types, control flow, data
+                               structures, uv. Workshop: reading and breaking code
+                               that already works.
+  docs/deck-review/weeks-02-04.md — the 2025 deck was 94 slides, ~60% screenshots, and
+                               ~45 slides across weeks 2–4 re-taught the same syntax.
+                               The review says collapse to ~8 slides of "things that
+                               surprise you" and keep s30 (float equality), s36–37
+                               (mutable vs immutable) and s76 (project naming).
+  archive/SD5913-week01.pptx — what the room actually got in week 1.
 
-DRAFT — the structure and the anchors are from the course plan; the prose is a first
-cut and wants a pass before it is shown.
+Deliberately NOT here, because week 1 2026 already covered it (archive deck s24–38):
+Turing machines, kernel and shell, the terminal, PATH, package managers, compiled vs
+interpreted, syntax, "Python is a program that interprets text". Do not re-teach it —
+re-teaching is the single biggest failure of the 2025 decks.
+
+Also deliberately not here: the 2025 s42 claims. Function bodies are indented FOUR
+spaces (PEP 8), and Python does NOT automatically return the last statement. That slide
+was wrong in 2025 and was repeated in week 3; it is not coming back.
+
+Section 02, "Design the mark", is ported from archive/SD5913-week01.pptx slides 53–57,
+where it was written but never run — the room ran out of time. Its wording is carried
+over, not rewritten.
 """
+from deckgen import INK, PAPER
 from deckgen.layouts import (title, agenda, section, statement, content, cards,
                              question, two_col, activity, timeline, end)
 
 COURSE = 'SD5913'
-SITE = 'venetanji.github.io/sd5913-teaching'
+SITE = 'sd5913.github.io/teaching'
 REPO = 'github.com/sd5913/pfad'
 EYE = 'SD5913 · WEEK 02'
 
@@ -30,14 +47,15 @@ S.append(title(EYE, 'Reading code',
                'You will be handed code you did not write.'))
 
 S.append(agenda(EYE, [
-    'Where week 1 left off',
-    '1-2-4-All: what you want to make',
-    'The five things Python is made of',
+    'Loose ends from week 1',
+    'Design the mark — week 1 ran out of time',
+    'Reading, not writing',
+    'Five things that will surprise you',
     'uv: one command, every dependency',
-    'Workshop — read it, break it, fix it',
+    'Workshop — predict, break, fix',
 ]))
 
-# ───────────────────────── 1 · loose ends from week 1 ─────────────────────────
+# ───────────────────────── 1 · loose ends ─────────────────────────
 S.append(section('01', 'Loose ends', 'Where week 1 left off'))
 
 S.append(content('01 · LOOSE ENDS', 'Three things from last week', [
@@ -45,43 +63,80 @@ S.append(content('01 · LOOSE ENDS', 'Three things from last week', [
     'It {orange:expires after seven days} — accept it even if you do nothing else.',
     '- Being in the org is {bold:not} push access. Assignment 1 lives on '
     '**your own account**, which is why it does not matter yet.',
-    '- Not registered at {mono:pfad.ait4x.org}? Do it now, it takes a minute. '
-    'Nothing is marked until your ID and your GitHub username are the same row.',
-], notes='Ask for hands: who has NOT accepted. Expect a third of the room. '
-         'Anyone whose invitation expired — take the username, re-invite after class.'))
+    '- Not registered at {mono:pfad.ait4x.org}? Do it now. Nothing is marked until '
+    'your student ID and your GitHub username are the same row.',
+], notes='Ask for hands: who has NOT accepted. Expect a third of the room. Anyone whose '
+         'invitation expired — take the username, re-invite after class.'))
 
 S.append(question('short_answer', 'What broke for you last week?',
                   hint='One line. Git, the terminal, VS Code, the registry — anything.',
-                  notes='Two minutes, no more. This is triage, not a discussion. Read three '
-                        'out loud and fix them live if they are quick.'))
+                  notes='Two minutes, no more. Triage, not discussion. Read three out '
+                        'loud and fix them live if they are quick.'))
 
-# ───────────────────────── 2 · 1-2-4-All (carried from week 1) ─────────────────────────
-S.append(section('02', 'What do you want to make?', 'Carried over from week 1'))
+# ───────────── 2 · Design the mark — from week 1, slides 53–57 ─────────────
+S.append(section('02', 'Design the mark', 'Eight minutes, no software'))
 
-S.append(activity('1-2-4-All', 12, 'What do you want to make by December?', [
-    '**1 minute — alone.** Write one sentence. Not a technology, a thing: '
-    'an object, a screen, a sound, an installation, a tool for your own practice.',
-    '**2 minutes — in pairs.** Read each other yours. Find what they have in common.',
-    '**4 minutes — in fours.** Merge into {orange:one} idea the four of you would '
-    'actually want to see exist.',
-    '**All.** One sentence per table, out loud.',
-], notes='This is ideation, not team formation — say so. Groups of four by seating '
-         'adjacency is the wrong instrument for skill-diverse teams at 112 students; '
-         'the group project forms in week 7 by a different mechanism. '
-         'Capture the sentences: they are the best read on what the second half of the '
-         'course should contain.'))
+S.append(activity('1 — ALONE', 1, 'Name one thing it could be built from.', [
+    'This course needs a mark — a logo, the thing on the repo and at the top of the '
+    'slides. {bold:You are the client.}',
+    '',
+    '**Silent. Pen and paper.** A thing you could point at: an object, a shape, a tool. '
+    'Not an adjective — you cannot draw {muted:“innovative”}.',
+    '',
+    '{muted:e.g. a cursor that is also a pencil · a grid coming apart at one corner · '
+    'two square brackets facing each other}',
+], eyebrow_text='DESIGN THE MARK',
+   notes='One minute, silent, paper. One concrete object the course mark could be built '
+         'from. Not an adjective.'))
 
-S.append(question('word_cloud', 'One word: the thing your table would build.',
-                  notes='Run it while the tables are still talking. Screenshot it — '
-                        'it goes next to the week-1 survey results.'))
+S.append(activity('2 — IN PAIRS', 2, 'Two answers in. One answer out.', [
+    'Turn to your neighbour. Read each other your object. Leave with {orange:one} object '
+    '— not two, not a mix of two.',
+    '',
+    'Keep one, or build a third thing from both. **You may not keep both.**',
+    '',
+    "Whoever's object gets dropped says in one line what was good about it. "
+    'Write that down too.',
+], eyebrow_text='DESIGN THE MARK',
+   notes="Two minutes in pairs. Two answers in, one out. The dropped idea's owner says "
+         'in one line what was good about it.'))
 
-# ───────────────────────── 3 · the language ─────────────────────────
-S.append(section('03', 'Python, read not written', 'The five things it is made of'))
+S.append(activity('4 — TWO PAIRS', 4, 'Now it has to survive 16 pixels.', [
+    'Join the pair behind you. Four people, one object. It must work at {orange:16 px wide} '
+    '— the favicon on your repo, the avatar next to your name.',
+    '',
+    'At 16 px you get one shape and one idea. Detail disappears. Decide what survives: '
+    '{mono:“ours is a ___, and at 16px you can still tell, because ___.”}',
+    '',
+    'Then one line of anti-brief: the one thing it must **never** look like.',
+], eyebrow_text='DESIGN THE MARK',
+   notes='Four minutes in fours. The twist: it must work at 16 pixels — the favicon and '
+         'the GitHub avatar. One person writes.'))
+
+S.append(question('short_answer', 'Scribes only. One line per four.',
+                  eyebrow_text='DESIGN THE MARK · CAPTURE · 2 MIN · SHORT ANSWER',
+                  hint='OBJECT — what survives at 16px — never: ___',
+                  example='e.g. “A grid with one tile falling out — the gap where the '
+                          'tile was — never: a gear.”',
+                  notes='ClassPoint short answer. Scribes only, one line per four — about '
+                        '28 lines, not 112. These go into a design tool on the projector.'))
+
+S.append(content('DESIGN THE MARK · WHAT JUST HAPPENED', 'That was a design brief.', [
+    'Eight minutes, no software. The room now agrees on an object, what survives at '
+    '16 pixels, and one thing it must never be. Everything after this — drawing, '
+    'variations, file formats — is {muted:craft}.',
+    '',
+    '{orange:A machine can draw it. It cannot decide it.}',
+], bg=INK, notes='The payoff. Do not rush it — this is the argument for the whole course, '
+                 'and the last thing they should remember from the activity.'))
+
+# ───────────────────────── 3 · the shift ─────────────────────────
+S.append(section('03', 'Reading, not writing', 'The shift'))
 
 S.append(statement('You will not memorise the syntax.\nYou will learn to check it.',
                    eyebrow_text='03 · THE SHIFT'))
 
-S.append(content('03 · THE SHIFT', 'Three questions, all week', [
+S.append(content('03 · THE SHIFT', 'Three questions, all semester', [
     'Every exercise this week is one of these, and so is every quiz question:',
     '',
     '- Here is code that runs. **What does it print?**',
@@ -90,22 +145,9 @@ S.append(content('03 · THE SHIFT', 'Three questions, all week', [
     '',
     '{muted:None of them ask you to write a program from a blank file. That comes later, '
     'and by then you will be able to tell whether what you wrote is right.}',
-], notes='Land this hard. The room expects a syntax lecture; it is not one. The reason: '
-         'they will be handed generated code all semester and the only defensible skill '
-         'is verification.'))
-
-S.append(cards('03 · THE LANGUAGE', 'Five things, and that is most of it', [
-    ('01 · TYPES', 'Values have types',
-     'int, float, str, bool. Most bugs you meet are a str where a number was wanted.'),
-    ('02 · NAMES', 'Names point at values',
-     'Assignment does not copy. Two names can point at one list, and changing one changes both.'),
-    ('03 · FLOW', 'if · for · while',
-     'The indentation is the structure. Python has no braces, so the shape on screen is the shape of the logic.'),
-    ('04 · DATA', 'list · dict · tuple · set',
-     'Nearly everything you scrape, load or generate arrives as a list of dicts.'),
-    ('05 · FUNCTIONS', 'A name for a block',
-     'Inputs, and one output. Read the signature first, the body second.'),
-]))
+], notes='Land this hard — the room expects a syntax lecture and it is not one. The '
+         'reason: they will be handed generated code all semester, and verification is '
+         'the only defensible skill left.'))
 
 S.append(two_col('03 · READING', 'Read it out loud', [
     'Reading code is a skill you practise, not a thing you know.',
@@ -114,9 +156,9 @@ S.append(two_col('03 · READING', 'Read it out loud', [
     '- Then the signature: what does it take?',
     '- Only then the middle.',
     '',
-    'Say the types out loud as you go. "A list of dicts, each with a name and a year."',
+    'Say the types out loud as you go. "A list of dicts, each with a year and a height."',
 ], [
-    'def tide(rows, year):',
+    'def mean_height(rows, year):',
     '    out = []',
     '    for r in rows:',
     '        if r["year"] == year:',
@@ -124,45 +166,115 @@ S.append(two_col('03 · READING', 'Read it out loud', [
     '    return sum(out) / len(out)',
 ]))
 
-S.append(question('multiple_choice', 'What does that function return for an empty year?',
-                  choices=['0', 'None', 'It crashes', 'An empty list'],
-                  notes='Answer: it crashes — ZeroDivisionError on len(out) == 0. This is '
-                        'the whole week in one slide. The code is not wrong-looking; it is '
-                        'wrong for an input nobody tried.'))
+S.append(question('multiple_choice', 'What does it do for a year with no rows?',
+                  choices=['Returns 0', 'Returns None', 'Raises ZeroDivisionError',
+                           'Returns an empty list'],
+                  notes='C. len(out) is 0. This is the whole week in one slide: the code '
+                        'does not look wrong, it is wrong for an input nobody tried. Ask '
+                        'who would have shipped it.'))
 
-# ───────────────────────── 4 · uv ─────────────────────────
-S.append(section('04', 'uv', 'One command, every dependency'))
+# ───────── 4 · the surprises (2025 s30, s36–37, collapsed per the deck review) ─────────
+S.append(section('04', 'Five things that will surprise you', 'The parts that bite'))
 
-S.append(content('04 · UV', 'Why your code runs and theirs does not', [
-    'Last year every single week of this course shipped a {mono:requirements.txt} that '
-    'was missing something. The tutorial did not run on a clean machine — not because '
-    'the code was wrong, but because the {orange:environment was never written down}.',
+S.append(question('multiple_choice', 'What is the output of 0.1 + 0.1 + 0.1 == 0.3 ?',
+                  choices=['True', 'False'],
+                  eyebrow_text='04 · SURPRISE 01 · NUMBERS',
+                  notes='B — False. Binary floating point cannot represent 0.1 exactly, '
+                        'so the sum is 0.30000000000000004. Carried over from 2025 s30, '
+                        'which the deck review calls a verification lesson disguised as '
+                        'trivia. Never compare floats with ==; compare a difference '
+                        'against a tolerance.'))
+
+S.append(cards('04 · SURPRISES', 'The five that actually bite', [
+    ('01 · NUMBERS', 'Floats are not decimals',
+     '{mono:0.1+0.1+0.1 != 0.3}. Compare a difference against a tolerance, never with =='),
+    ('02 · ALIASING', 'Two names, one list',
+     'Immutable — int, float, bool, str, tuple — copies on assignment. Mutable — list, '
+     'dict, set — copies the reference. Change one name, the other changes.'),
+    ('03 · TRUTHINESS', 'Empty is False',
+     '{mono:[]}, {mono:{}}, {mono:""}, {mono:0} and {mono:None} are all falsy. '
+     '{mono:if rows:} and {mono:if rows is not None:} are different questions.'),
+    ('04 · DEFAULTS', 'The list that remembers',
+     '{mono:def f(x, seen=[]):} — the default is built once, at definition, and every '
+     'call shares it.'),
+    ('05 · INDENTATION', 'The shape is the logic',
+     '**Four** spaces, and Python does {bold:not} return the last statement — a function '
+     'with no {mono:return} gives you {mono:None}.'),
+], notes='Card 5 corrects two errors that were on 2025 week 2 slide 42 and repeated in '
+         'week 3: it said two spaces, and it said Python returns the last statement '
+         'automatically. Both wrong. Say so — being wrong in public about your own '
+         'material is the best possible demonstration of why you verify.'))
+
+S.append(two_col('04 · SURPRISE 02 · ALIASING', 'Two names, one list', [
+    'This is the bug an agent writes and you cannot see.',
     '',
-    '- {mono:uv run script.py} — runs it, in its own environment, installing what it needs',
+    'The list was never copied — {mono:b = a} copied the **reference**.',
+    '',
+    'To actually copy: {mono:b = a.copy()} or {mono:b = list(a)}.',
+], [
+    '>>> a = [1, 2, 3]',
+    '>>> b = a',
+    '>>> b.append(4)',
+    '>>> a',
+    '[1, 2, 3, 4]',
+    '',
+    '>>> x = 1',
+    '>>> y = x',
+    '>>> y += 1',
+    '>>> x',
+    '1',
+], right_bg=PAPER))
+
+# ───────────────────────── 5 · uv ─────────────────────────
+S.append(section('05', 'uv', 'One command, every dependency'))
+
+S.append(content('05 · UV', 'Why your code runs and theirs does not', [
+    'Last year, {orange:every single week} of this course shipped a {mono:requirements.txt} '
+    'that was missing something. Week 2 was missing matplotlib, drawsvg and pandas — so two '
+    'of five scripts broke {bold:after} you followed the install instructions.',
+    '',
+    'The code was fine. The environment was never written down.',
+    '',
+    '- {mono:uv run script.py} — runs it in its own environment, installing what it needs',
     '- {mono:uv add pandas} — records the dependency where the next person will find it',
     '- {mono:uv sync} — makes your machine match the file',
-    '',
-    '**A repo that does not say what it needs is not finished.** That is a grading '
-    'criterion, not a style note.',
-], notes='Be honest that this is a fix for a real failure in last year\'s course. '
-         'It lands better as "here is what went wrong" than as a tool tour.'))
+], notes='Be honest that this is a fix for a real failure in last year\'s course — it '
+         'lands far better as "here is what went wrong" than as a tool tour. uv replaces '
+         'the pip + virtualenv block from 2025 s52–54 entirely.'))
 
-# ───────────────────────── 5 · workshop ─────────────────────────
-S.append(section('05', 'Workshop', 'Read it, break it, fix it'))
+S.append(statement('A repo that does not say what it needs\nis not finished.',
+                   eyebrow_text='05 · UV', size=100))
 
-S.append(timeline('05 · WORKSHOP', 'Two hours', [
-    ('0:00', 'Clone the week 2 folder', f'{REPO} — {{mono:git pull}} first'),
+# ───────────────────────── 6 · workshop ─────────────────────────
+S.append(section('06', 'Workshop', 'Predict, break, fix'))
+
+S.append(timeline('06 · WORKSHOP', 'Two hours', [
+    ('0:00', 'Pull week 2', f'{{mono:git pull}} in your clone of {REPO}'),
     ('0:15', 'Predict, then run', 'Six short programs. Write your answer down before you run it.'),
-    ('0:45', 'Find the fault', 'Four programs that run and are wrong. One is the tide function.'),
+    ('0:45', 'Find the fault', 'Four programs that run and are wrong. One is mean_height.'),
     ('1:20', 'Meet the spec', 'A brief and three candidate solutions. Which one is right?'),
-    ('1:45', 'Commit and push', 'Your answers, in your own repo, as a markdown file.'),
+    ('1:45', 'Commit and push', 'Your answers, as a markdown file, in your own repo.'),
 ]))
+
+S.append(content('06 · WORKSHOP', 'Name it properly while you are here', [
+    'Assignment 2 is set next week and it lives in a repo with your name on it. '
+    'The name is the first thing anyone sees.',
+    '',
+    '- {muted:Bad:} {mono:assignment2} · {mono:ass2} · {mono:asdgjfjdj}',
+    '- {orange:Good:} {mono:tidal-spiral} · {mono:rainmaps-sz}',
+    '',
+    'Short, lowercase, easy to type, and it says what the thing does. '
+    'This repo is in your portfolio for longer than it is in my gradebook.',
+], notes='Carried from 2025 s76, which the deck review flags as worth keeping. Landing it '
+         'in week 2 rather than week 3 means they name it before they start.'))
 
 S.append(question('image_upload', 'Push your answers, then screenshot the green tick.',
                   notes='The upload is the attendance signal and the "it actually worked" '
-                        'signal in one. Anyone who cannot push is stuck on week 1 — deal '
-                        'with them at the back of the room.'))
+                        'signal in one. Anyone who cannot push is still stuck on week 1 — '
+                        'deal with them at the back of the room.'))
 
-S.append(end('See you next week', 'Week 3: getting data, and making it look like something.', SITE))
+S.append(end('See you next week',
+             'Week 3: getting data, and making it look like something. Assignment 2 is set.',
+             SITE))
 
 DECK = {'title': f'{COURSE} · Week 2 — Reading code', 'pdf': f'{COURSE}-week02.pdf', 'slides': S}
