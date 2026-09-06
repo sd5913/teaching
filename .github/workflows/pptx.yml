@@ -25,6 +25,8 @@ jobs:
       # the artifact is named in deckgen.toml, so the roster of courses stays in one file
       - id: cfg
         run: echo "artifact=$(python -c 'from deckgen.project import Project; print(Project.load().artifact)')" >> "$GITHUB_OUTPUT"
+      - name: Every exercise starts unsolved and is solvable
+        run: python tests/exercises.test.py
       - name: Build PowerPoints, documents and previews
         run: deckgen build --pptx
       - uses: actions/upload-artifact@v4

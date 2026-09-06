@@ -33,7 +33,8 @@ over, not rewritten.
 """
 from deckgen import INK, PAPER
 from deckgen.layouts import (title, agenda, section, statement, content, cards,
-                             question, two_col, activity, timeline, end)
+                             question, two_col, activity, timeline, exercise,
+                             code_panel, end)
 
 COURSE = 'SD5913'
 SITE = 'sd5913.github.io/teaching'
@@ -173,6 +174,53 @@ S.append(question('multiple_choice', 'What does it do for a year with no rows?',
                         'does not look wrong, it is wrong for an input nobody tried. Ask '
                         'who would have shipped it.'))
 
+S.append(content('03 · YOUR LAPTOP', 'Open the slides on your laptop', [
+    'Everything from here has a box you can type in. **The Python runs in your browser** — '
+    'nothing to install, nothing to hand in.',
+    '',
+    '- {orange:' + SITE + '/week02/}',
+    '- Press {mono:Run}, or {mono:ctrl+enter}.',
+    '- Backtick ({mono:`}) opens a console on any slide.',
+    '',
+    '{muted:Your answers are saved in the browser, so a reload does not lose them.}',
+], notes='Put the URL on the board and leave it there. First Run downloads ~12 MB, so it '
+         'takes a few seconds — say that out loud or they will think it has hung. If the '
+         'room wifi dies, every exercise is still readable on the slide.'))
+
+S.append(exercise('03 · READ IT', 'Run it and see', [
+    'This is the function from the last slide, with a year that has no rows.',
+    '',
+    'Predict what happens {bold:before} you press Run.',
+], code='rows = [{"year": 2024, "height": 2.1},\n'
+        '        {"year": 2024, "height": 2.5}]\n\n'
+        'def mean_height(rows, year):\n'
+        '    out = []\n'
+        '    for r in rows:\n'
+        '        if r["year"] == year:\n'
+        '            out.append(r["height"])\n'
+        '    return sum(out) / len(out)\n\n'
+        'print(mean_height(rows, 2025))',
+   hint='predict first, then run',
+   notes='Let them run it and hit the ZeroDivisionError themselves. The error message names '
+         'the line — read it together. This is the first time most of them have read a '
+         'traceback on purpose.'))
+
+S.append(exercise('03 · FIX IT', 'Now make it survive', [
+    'Give it something sensible when there are no rows for that year.',
+    '',
+    'It should print {mono:None} rather than raising.',
+], code='rows = [{"year": 2024, "height": 2.1}]\n\n'
+        'def mean_height(rows, year):\n'
+        '    out = [r["height"] for r in rows if r["year"] == year]\n'
+        '    # your line here\n'
+        '    return sum(out) / len(out)\n\n'
+        'print(mean_height(rows, 2025))',
+   expect='None',
+   hint='one line, before the return',
+   notes='Most will write `if not out: return None`. Some will write `if len(out) == 0:` — '
+         'both are right, and the difference is exactly the truthiness exercise later. '
+         'Nobody needs to have memorised anything to do this.'))
+
 # ───────── 4 · the surprises (2025 s30, s36–37, collapsed per the deck review) ─────────
 S.append(section('04', 'Five things that will surprise you', 'The parts that bite'))
 
@@ -205,25 +253,82 @@ S.append(cards('04 · SURPRISES', 'The five that actually bite', [
          'automatically. Both wrong. Say so — being wrong in public about your own '
          'material is the best possible demonstration of why you verify.'))
 
-S.append(two_col('04 · SURPRISE 02 · ALIASING', 'Two names, one list', [
-    'This is the bug an agent writes and you cannot see.',
+S.append(exercise('04 · DRILL 01 · NUMBERS', 'Make the comparison true', [
+    'Floats are stored in binary, and 0.1 has no exact binary form — so the sum is '
+    '{mono:0.30000000000000004}.',
     '',
-    'The list was never copied — {mono:b = a} copied the **reference**.',
+    'Compare a **difference against a tolerance** instead.',
+], code='total = 0.1 + 0.1 + 0.1\n\n'
+        '# change this line so it prints True\n'
+        'print(total == 0.3)',
+   expect='True',
+   hint='abs(a - b) < 1e-9',
+   notes='The point is not the trick, it is that == on floats is a question about '
+         'representation, not about maths. Ask what else in the course is a float — every '
+         'coordinate, every tide height.'))
+
+S.append(exercise('04 · DRILL 02 · ALIASING', 'Stop the aliasing', [
+    '{mono:b = a} does not copy the list. It gives the same list a second name, so '
+    'appending through one shows up in the other.',
     '',
-    'To actually copy: {mono:b = a.copy()} or {mono:b = list(a)}.',
-], [
-    '>>> a = [1, 2, 3]',
-    '>>> b = a',
-    '>>> b.append(4)',
-    '>>> a',
-    '[1, 2, 3, 4]',
+    'Make {mono:a} print unchanged.',
+], code='a = [1, 2, 3]\n'
+        'b = a\n'
+        'b.append(4)\n\n'
+        'print(a)',
+   expect='[1, 2, 3]',
+   hint='a.copy() or list(a)',
+   notes='This is the bug an agent writes and you cannot see in a diff. Immutable things — '
+         'int, float, bool, str, tuple — copy on assignment; mutable ones — list, dict, set '
+         '— do not. Carried from 2025 week 2 s36-37, which the deck review says to keep.'))
+
+S.append(exercise('04 · DRILL 03 · TRUTHINESS', 'Two different questions', [
+    '{mono:[]}, {mono:0}, {mono:""} and {mono:None} are all falsy, so '
+    '{mono:if rows:} and {mono:if rows is not None:} do {bold:not} ask the same thing.',
     '',
-    '>>> x = 1',
-    '>>> y = x',
-    '>>> y += 1',
-    '>>> x',
-    '1',
-], right_bg=PAPER))
+    'An empty list is a real answer. Missing data is not. Make it tell them apart.',
+], code='def describe(rows):\n'
+        '    if rows:\n'
+        '        return "got data"\n'
+        '    return "no data"\n\n'
+        'print(describe([1, 2]))\n'
+        'print(describe([]))\n'
+        'print(describe(None))',
+   expect='got data\nempty\nmissing',
+   hint='empty list -> "empty", None -> "missing"',
+   notes='Three lines out: "got data", "empty", "missing". They have to check None '
+         'explicitly and before the truthiness test. This is the distinction that makes '
+         'the fix in the reading exercise correct rather than lucky.'))
+
+S.append(exercise('04 · DRILL 04 · DEFAULTS', 'The list that remembers', [
+    'A default argument is built {bold:once}, when the function is defined — not on each '
+    'call. Every call then shares the same list.',
+    '',
+    'Make the second call print one item, not two.',
+], code='def collect(item, seen=[]):\n'
+        '    seen.append(item)\n'
+        '    return seen\n\n'
+        'print(collect("a"))\n'
+        'print(collect("b"))',
+   expect="['a']\n['b']",
+   hint='default to None, build inside',
+   notes='The fix is `seen=None` then `if seen is None: seen = []`. Which is drill 03 again, '
+         'used for real. Say that — the drills are not five unrelated facts.'))
+
+S.append(exercise('04 · DRILL 05 · RETURN', 'It gives you None', [
+    'Python does {bold:not} return the last statement. A function with no {mono:return} '
+    'hands back {mono:None}, silently.',
+    '',
+    '{muted:Last year this course told you otherwise, on a slide, twice. It was wrong.}',
+], code='def double(x):\n'
+        '    x * 2\n\n'
+        'print(double(21))',
+   expect='42',
+   hint='one word',
+   notes='This corrects 2025 week 2 s42, repeated as week 3 s13, which claimed Python '
+         'automatically returns the last statement and that bodies are indented two spaces '
+         '(PEP 8 says four). Own it out loud — being publicly wrong about your own material '
+         'is the best argument for verifying that you will ever get.'))
 
 # ───────────────────────── 5 · uv ─────────────────────────
 S.append(section('05', 'uv', 'One command, every dependency'))
@@ -250,11 +355,13 @@ S.append(section('06', 'Workshop', 'Predict, break, fix'))
 
 S.append(timeline('06 · WORKSHOP', 'Two hours', [
     ('0:00', 'Pull week 2', f'{{mono:git pull}} in your clone of {REPO}'),
-    ('0:15', 'Predict, then run', 'Six short programs. Write your answer down before you run it.'),
-    ('0:45', 'Find the fault', 'Four programs that run and are wrong. One is mean_height.'),
+    ('0:15', 'The rest of the drills', 'Same shape as the five you just did, on your own machine with uv.'),
+    ('0:50', 'Find the fault', 'Four programs that run and are wrong.'),
     ('1:20', 'Meet the spec', 'A brief and three candidate solutions. Which one is right?'),
     ('1:45', 'Commit and push', 'Your answers, as a markdown file, in your own repo.'),
-]))
+], notes='The drills in the slides are 30 seconds each and prove the idea. The tutorial is '
+         'where they do it on their own machine, in a repo, with uv — which is the thing '
+         'that has to work in the exam and in assignment 2.'))
 
 S.append(content('06 · WORKSHOP', 'Name it properly while you are here', [
     'Assignment 2 is set next week and it lives in a repo with your name on it. '
