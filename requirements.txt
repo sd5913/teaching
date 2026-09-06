@@ -1,2 +1,2 @@
 # Pinned by tag so a rebuild months from now produces the same deck.
-deckgen @ git+https://github.com/ait4x/deckgen@v0.2.0
+deckgen @ git+https://github.com/ait4x/deckgen@v0.3.0
