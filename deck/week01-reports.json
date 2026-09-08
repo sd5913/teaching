@@ -1,0 +1,38 @@
+[
+  {
+    "activity": "sa20260903014235203QOLO",
+    "question": "Why are we here?",
+    "type": "Short Answer",
+    "ran": "2026-09-03T01:42:35.203000Z",
+    "responses": 91
+  },
+  {
+    "activity": "mc20260903015443161FOUA",
+    "question": "Are you an artist or a designer?",
+    "type": "Multiple Choice",
+    "ran": "2026-09-03T01:54:43.161000Z",
+    "responses": 81
+  },
+  {
+    "activity": "mc20260903015744187IYBB",
+    "question": "Is programming an art?",
+    "type": "Multiple Choice",
+    "ran": "2026-09-03T01:57:44.187000Z",
+    "responses": 90
+  },
+  {
+    "activity": "wc20260903021235360VBUG",
+    "question": "What's your X?",
+    "type": "Word Cloud",
+    "ran": "2026-09-03T02:12:35.360000Z",
+    "responses": 132
+  },
+  {
+    "activity": null,
+    "question": "Do you want to leave your current tutorial group and join the 15:30 laptop group instead?",
+    "type": "Multiple Choice",
+    "ran": "2026-09-03T03:18:34.757000Z",
+    "responses": 78,
+    "withheld": "tutorial reallocation, not course material"
+  }
+]
