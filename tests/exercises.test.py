@@ -30,31 +30,36 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 RUNTIME = pathlib.Path(deckgen.__file__).parent / 'js' / 'pyodide-runtime.py'
 
 # eid -> the code a student who understood it would end up with.
-# None means the exercise deliberately has no check (the starter is the lesson).
+#   None      the exercise deliberately has no check (the starter is the lesson)
+#   FREE      the starter passes as given, on purpose — the one drill whose job is the
+#             green tick itself (and the Pyodide download), not the thinking
+#   callable  takes the deck module and returns the code, for a solution the deck
+#             already holds (the Nake drills are a broken copy of the deck's NAKE)
+FREE = 'passes as given, by design'
 SOLUTIONS = {
-    'run-it-and-see': None,
-    'now-make-it-survive':
-        'rows = [{"year": 2024, "height": 2.1}]\n\n'
-        'def mean_height(rows, year):\n'
-        '    out = [r["height"] for r in rows if r["year"] == year]\n'
-        '    if not out: return None\n'
-        '    return sum(out) / len(out)\n\n'
-        'print(mean_height(rows, 2025))',
+    # 04 · six types
+    'does-the-box-work': FREE,
+    'ask-python-what-it-is':
+        'print(type(3))\nprint(type(3.14))\nprint(type("3"))\nprint(type([]))',
+    'the-quotes-change-the-answer':
+        'a = "6"\nb = "6"\n\nprint(int(a) + int(b))',
+    'everything-is-looked-up-the-same-way':
+        'word = "design"\n'
+        'colours = ["red", "green", "blue"]\n'
+        'student = {"name": "Ada", "year": 2026}\n\n'
+        'print(len(word))\nprint(word[0])\nprint(student["name"])\n'
+        'print(colours[-1])\nprint(student["year"])',
+    'put-a-value-inside-a-sentence':
+        'name = "Ada"\nyears = 36\n\nprint(f"{name} is {years}")',
+    # 05 · reading a rule
+    'run-the-rule': None,
+    'half-the-picture-is-solid': lambda mod: mod.NAKE,
+    'does-this-still-meet-the-spec': lambda mod: mod.NAKE,
+    # 06 · surprises
     'make-the-comparison-true':
         'total = 0.1 + 0.1 + 0.1\n\nprint(abs(total - 0.3) < 1e-9)',
     'stop-the-aliasing':
         'a = [1, 2, 3]\nb = a.copy()\nb.append(4)\n\nprint(a)',
-    'two-different-questions':
-        'def describe(rows):\n'
-        '    if rows is None:\n        return "missing"\n'
-        '    if rows:\n        return "got data"\n'
-        '    return "empty"\n\n'
-        'print(describe([1, 2]))\nprint(describe([]))\nprint(describe(None))',
-    'the-list-that-remembers':
-        'def collect(item, seen=None):\n'
-        '    if seen is None:\n        seen = []\n'
-        '    seen.append(item)\n    return seen\n\n'
-        'print(collect("a"))\nprint(collect("b"))',
     'it-gives-you-none':
         'def double(x):\n    return x * 2\n\nprint(double(21))',
 }
@@ -85,6 +90,14 @@ def main():
                 fails.append(e.eid)
                 continue
             given = json.loads(run(e.code, e.check or '', e.expect))
+            if SOLUTIONS[e.eid] is FREE:
+                if given['ok'] is True:
+                    print(f'  ok   {e.eid}: passes as given, by design')
+                else:
+                    print(f'  FAIL {e.eid}: meant to pass as given, but does not — '
+                          f'out={given["out"]!r} err={given["err"][-60:]!r}')
+                    fails.append(e.eid)
+                continue
             if e.expect is None and not e.check:
                 what = (given['err'].splitlines()[-1][:44] if given['err']
                         else 'prints ' + repr(given['out']))
@@ -94,7 +107,8 @@ def main():
                 print(f'  FAIL {e.eid}: the starter code already passes')
                 fails.append(e.eid)
                 continue
-            got = json.loads(run(SOLUTIONS[e.eid], e.check or '', e.expect))
+            solution = SOLUTIONS[e.eid](mod) if callable(SOLUTIONS[e.eid]) else SOLUTIONS[e.eid]
+            got = json.loads(run(solution, e.check or '', e.expect))
             if got['ok'] is not True:
                 print(f'  FAIL {e.eid}: intended solution does not pass — '
                       f'out={got["out"]!r} err={got["err"][-60:]!r} msg={got["msg"][:60]!r}')
