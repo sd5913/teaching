@@ -7,11 +7,15 @@ name   = "Programming for Artists and Designers"
 year   = "2026/27"
 school = "PolyU School of Design"
 footer = "SD5913 · PFAD"
-decks  = ["week02"]
+decks  = ["week01", "week02"]
 
 [[nav]]
 label = "SD5913"
 href  = "index.html"
+
+[[nav]]
+label = "Week 1 slides"
+href  = "week01/"
 
 [[nav]]
 label = "Week 2 slides"
