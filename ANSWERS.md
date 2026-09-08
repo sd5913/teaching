@@ -12,4 +12,6 @@ Written by [classpoint.py](https://github.com/venetanji/classpoint.py)'s `weekly
 - [Are you an artist or a designer?](https://app.classpoint.io/activity/mc20260903015443161FOUA) — 81 responses
 - [Is programming an art?](https://app.classpoint.io/activity/mc20260903015744187IYBB) — 90 responses
 - [What's your X?](https://app.classpoint.io/activity/wc20260903021235360VBUG) — 132 responses
-- [Do you want to leave your current tutorial group and join the 15:30 laptop group instead?](https://app.classpoint.io/activity/mc20260903031834757OSCZ) — 78 responses
+
+One further activity was run this week and is deliberately not linked: a poll on moving
+tutorial group. It is recorded in `deck/week01-reports.json` with a null id.

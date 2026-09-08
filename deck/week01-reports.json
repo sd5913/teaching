@@ -28,10 +28,11 @@
     "responses": 132
   },
   {
-    "activity": "mc20260903031834757OSCZ",
+    "activity": null,
     "question": "Do you want to leave your current tutorial group and join the 15:30 laptop group instead?",
     "type": "Multiple Choice",
     "ran": "2026-09-03T03:18:34.757000Z",
-    "responses": 78
+    "responses": 78,
+    "withheld": "tutorial reallocation, not course material"
   }
 ]

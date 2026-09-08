@@ -98,7 +98,9 @@ disagree.
 `isNamesHidden`, but the payload behind it still carries `participantName` for every
 response — so linking one would hand out a way to undo the anonymity the room was
 promised. `weekly.py` records those with a null id and no link, and `ANSWERS.md` says so.
-None of week 1's five were run that way.
+None of week 1's five were run that way. The same null id also withholds a link by
+choice: week 1's fifth activity was a poll on moving tutorial group, which is
+administrative rather than course material, so it is recorded but not linked.
 
 ## Keeping the repository public
 
