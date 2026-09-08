@@ -53,6 +53,8 @@ S.append(agenda(EYE, [
     'Loose ends from week 1',
     'Design the mark — week 1 ran out of time',
     'Reading, not writing',
+    'Six types, on your laptop',
+    'Reading code that does something',
     'Five things that will surprise you',
     'uv: one command, every dependency',
     'Workshop — predict, break, fix',
@@ -152,7 +154,138 @@ S.append(content('03 · THE SHIFT', 'Three questions, all semester', [
          'reason: they will be handed generated code all semester, and verification is '
          'the only defensible skill left.'))
 
-S.append(two_col('03 · READING', 'Read it out loud', [
+S.append(content('03 · YOUR LAPTOP', 'Open the slides on your laptop', [
+    'Everything from here has a box you can type in. **The Python runs in your browser** — '
+    'nothing to install, nothing to hand in.',
+    '',
+    '- {orange:' + SITE + '/week02/}',
+    '- Press {mono:Run}, or {mono:ctrl+enter}.',
+    '- Backtick ({mono:`}) opens a console on any slide.',
+    '',
+    '{muted:Your answers are saved in the browser, so a reload does not lose them.}',
+], notes='Put the URL on the board and leave it there. First Run downloads ~12 MB, so it '
+         'takes a few seconds — say that out loud or they will think it has hung. If the '
+         'room wifi dies, every exercise is still readable on the slide.'))
+
+
+# ───────────── 4 · six types — the on-ramp week 1 never gave them ─────────────
+# Week 1 taught no Python mechanics at all: no print, no variables, no types, no REPL
+# (checked against archive/SD5913-week01.pptx — s34 shows a Python-looking snippet to
+# illustrate what "syntax" means, s36 states in passing that Python is dynamically
+# typed, and that is the lot). Going straight from there to reading a list of dicts is
+# a cliff. Five one-liners first, each one thing, each with a green tick at the end.
+# Ported from the 2025 python_foundations notebooks rather than from the 2025 slides,
+# which are screenshots.
+
+S.append(section('04', 'Six types', 'Everything you will be handed is one of these'))
+
+S.append(code_panel('04 · TYPES', 'Six types, and that is most of it', [
+    '3             int      a whole number',
+    '3.14          float    a number with a decimal point',
+    '"3"           str      text. The quotes are what make it text',
+    'True          bool     yes or no',
+    '[3, 1, 4]     list     several things, in order',
+    '{"n": 3}      dict     values you look up by name',
+], caption='You will meet tuple and set later. These six carry the whole course.',
+   notes='Two minutes, no more. Do not explain each one — the drills do that. The only '
+         'line worth saying out loud is the third: "3" and 3 are different things, and '
+         'every type bug a student hits this semester is a version of that.'))
+
+S.append(exercise('04 · ONE-LINER 01', 'Does the box work?', [
+    'Press {mono:Run}. That is the whole exercise.',
+    '',
+    '{muted:The first run downloads Python into your browser, so give it a few seconds. '
+    'After that it is instant.}',
+], code='print("hello")',
+   expect='hello',
+   hint='just press Run',
+   notes='Deliberately free. It passes on the first press, everyone sees a green tick, '
+         'and the ~12 MB Pyodide download happens here rather than in the middle of a '
+         'drill that has actual thinking in it. Say the download out loud or the room '
+         'will think it has hung. Hands up for anyone who did NOT go green — fix those '
+         'now, because every slide after this needs it.'))
+
+S.append(exercise('04 · ONE-LINER 02', 'Ask Python what it is', [
+    '{mono:type(x)} tells you what kind of thing {mono:x} is. You will use it all '
+    'semester to check what an agent actually handed you.',
+    '',
+    'Predict the three lines, then add a fourth for an {bold:empty list}.',
+], code='print(type(3))\n'
+        'print(type(3.14))\n'
+        'print(type("3"))\n'
+        '# add a line that prints the type of an empty list',
+   expect="<class 'int'>\n<class 'float'>\n<class 'str'>\n<class 'list'>",
+   hint='type([])',
+   notes='Make them predict line 3 before running — a good number of the room will say '
+         "int. It is str, because of the quotes. That single fact is the next drill and "
+         'half of the type errors they will hit all year.'))
+
+S.append(exercise('04 · ONE-LINER 03', 'The quotes change the answer', [
+    '{mono:+} means add for numbers and {bold:join} for text. Same symbol, two jobs, and '
+    'Python picks by type — not by what you meant.',
+    '',
+    'Make it print {mono:12} rather than {mono:66}.',
+], code='a = "6"\n'
+        'b = "6"\n\n'
+        'print(a + b)',
+   expect='12',
+   hint='int(a)',
+   notes='The canonical one. Ask what it prints before running — the room says 12, it '
+         'says 66. Nothing is broken and nothing errors; the code just quietly did the '
+         'other job. This is what "verify what you were handed" means in practice, and '
+         'it is why every scraped number needs int() or float() before it is arithmetic.'))
+
+S.append(exercise('04 · ONE-LINER 04', 'Everything is looked up the same way', [
+    'Square brackets ask a str, a list and a dict the same question: {bold:give me the '
+    'one at ___}. Positions count from {mono:0}; {mono:-1} is the last.',
+    '',
+    'Add the two missing lines — the {bold:last} colour, and the year.',
+], code='word = "design"\n'
+        'colours = ["red", "green", "blue"]\n'
+        'student = {"name": "Ada", "year": 2026}\n\n'
+        'print(len(word))\n'
+        'print(word[0])\n'
+        'print(student["name"])\n'
+        '# the last colour, then the year',
+   expect='6\nd\nAda\nblue\n2026',
+   hint='colours[-1] and student["year"]',
+   notes='Two things land here. One: a dict is looked up by name, not by position, which '
+         'is exactly what the reading exercise on the next slide does with r["year"]. '
+         'Two: len() works on all three. Someone will try colours[3] and get an '
+         'IndexError — good, read it together, it names the line.'))
+
+S.append(exercise('04 · ONE-LINER 05', 'Put a value inside a sentence', [
+    'An {mono:f} before the quotes lets you drop a value into the text with '
+    '{mono:\u007b\u007d}. This is how every label, caption and error message you write '
+    'gets made.',
+    '',
+    'Make it print {mono:Ada is 36}.',
+], code='name = "Ada"\n'
+        'years = 36\n\n'
+        'print("...")',
+   expect='Ada is 36',
+   hint='f"{name} is {years}"',
+   notes='Show the failure first: print("name is years") prints the words. The f is the '
+         'whole trick. Worth saying that string formatting is the single most common '
+         'thing they will ask an agent for, so recognising it matters more than recalling '
+         'the syntax.'))
+
+S.append(content('04 · TYPES', 'That is the syntax, and it is over', [
+    'Five lines, five minutes, and you can now read most of what you will be handed.',
+    '',
+    'What is left is not more syntax. It is {orange:noticing when the type is not the '
+    'one you assumed} — which is the next hour, and the rest of the semester.',
+    '',
+    '{muted:The console is always there: press backtick (}{mono:`}{muted:) on any slide '
+    'and type into it. Every drill has a }{mono:\u203a_}{muted: button that loads it in.}',
+], bg=INK, notes='Close the section fast. The point of the last line is that they now '
+                 'have a scratchpad — tell them to use it during the reading exercises '
+                 'rather than guessing.'))
+
+# ───────────── 5 · reading code that does something ─────────────
+S.append(section('05', 'Reading code', 'Now with all six types in one function'))
+
+S.append(two_col('05 · READING', 'Read it out loud', [
     'Reading code is a skill you practise, not a thing you know.',
     '',
     '- Start at the **bottom**: what does it return?',
@@ -176,20 +309,7 @@ S.append(question('multiple_choice', 'What does it do for a year with no rows?',
                         'does not look wrong, it is wrong for an input nobody tried. Ask '
                         'who would have shipped it.'))
 
-S.append(content('03 · YOUR LAPTOP', 'Open the slides on your laptop', [
-    'Everything from here has a box you can type in. **The Python runs in your browser** — '
-    'nothing to install, nothing to hand in.',
-    '',
-    '- {orange:' + SITE + '/week02/}',
-    '- Press {mono:Run}, or {mono:ctrl+enter}.',
-    '- Backtick ({mono:`}) opens a console on any slide.',
-    '',
-    '{muted:Your answers are saved in the browser, so a reload does not lose them.}',
-], notes='Put the URL on the board and leave it there. First Run downloads ~12 MB, so it '
-         'takes a few seconds — say that out loud or they will think it has hung. If the '
-         'room wifi dies, every exercise is still readable on the slide.'))
-
-S.append(exercise('03 · READ IT', 'Run it and see', [
+S.append(exercise('05 · READ IT', 'Run it and see', [
     'This is the function from the last slide, with a year that has no rows.',
     '',
     'Predict what happens {bold:before} you press Run.',
@@ -207,7 +327,7 @@ S.append(exercise('03 · READ IT', 'Run it and see', [
          'the line — read it together. This is the first time most of them have read a '
          'traceback on purpose.'))
 
-S.append(exercise('03 · FIX IT', 'Now make it survive', [
+S.append(exercise('05 · FIX IT', 'Now make it survive', [
     'Give it something sensible when there are no rows for that year.',
     '',
     'It should print {mono:None} rather than raising.',
@@ -223,19 +343,19 @@ S.append(exercise('03 · FIX IT', 'Now make it survive', [
          'both are right, and the difference is exactly the truthiness exercise later. '
          'Nobody needs to have memorised anything to do this.'))
 
-# ───────── 4 · the surprises (2025 s30, s36–37, collapsed per the deck review) ─────────
-S.append(section('04', 'Five things that will surprise you', 'The parts that bite'))
+# ───────── 6 · the surprises (2025 s30, s36–37, collapsed per the deck review) ─────────
+S.append(section('06', 'Five things that will surprise you', 'The parts that bite'))
 
 S.append(question('multiple_choice', 'What is the output of 0.1 + 0.1 + 0.1 == 0.3 ?',
                   choices=['True', 'False'],
-                  eyebrow_text='04 · SURPRISE 01 · NUMBERS',
+                  eyebrow_text='06 · SURPRISE 01 · NUMBERS',
                   notes='B — False. Binary floating point cannot represent 0.1 exactly, '
                         'so the sum is 0.30000000000000004. Carried over from 2025 s30, '
                         'which the deck review calls a verification lesson disguised as '
                         'trivia. Never compare floats with ==; compare a difference '
                         'against a tolerance.'))
 
-S.append(cards('04 · SURPRISES', 'The five that actually bite', [
+S.append(cards('06 · SURPRISES', 'The five that actually bite', [
     ('01 · NUMBERS', 'Floats are not decimals',
      '{mono:0.1+0.1+0.1 != 0.3}. Compare a difference against a tolerance, never with =='),
     ('02 · ALIASING', 'Two names, one list',
@@ -255,7 +375,7 @@ S.append(cards('04 · SURPRISES', 'The five that actually bite', [
          'automatically. Both wrong. Say so — being wrong in public about your own '
          'material is the best possible demonstration of why you verify.'))
 
-S.append(exercise('04 · DRILL 01 · NUMBERS', 'Make the comparison true', [
+S.append(exercise('06 · DRILL 01 · NUMBERS', 'Make the comparison true', [
     'Floats are stored in binary, and 0.1 has no exact binary form — so the sum is '
     '{mono:0.30000000000000004}.',
     '',
@@ -269,7 +389,7 @@ S.append(exercise('04 · DRILL 01 · NUMBERS', 'Make the comparison true', [
          'representation, not about maths. Ask what else in the course is a float — every '
          'coordinate, every tide height.'))
 
-S.append(exercise('04 · DRILL 02 · ALIASING', 'Stop the aliasing', [
+S.append(exercise('06 · DRILL 02 · ALIASING', 'Stop the aliasing', [
     '{mono:b = a} does not copy the list. It gives the same list a second name, so '
     'appending through one shows up in the other.',
     '',
@@ -284,7 +404,7 @@ S.append(exercise('04 · DRILL 02 · ALIASING', 'Stop the aliasing', [
          'int, float, bool, str, tuple — copy on assignment; mutable ones — list, dict, set '
          '— do not. Carried from 2025 week 2 s36-37, which the deck review says to keep.'))
 
-S.append(exercise('04 · DRILL 03 · TRUTHINESS', 'Two different questions', [
+S.append(exercise('06 · DRILL 03 · TRUTHINESS', 'Two different questions', [
     '{mono:[]}, {mono:0}, {mono:""} and {mono:None} are all falsy, so '
     '{mono:if rows:} and {mono:if rows is not None:} do {bold:not} ask the same thing.',
     '',
@@ -302,7 +422,7 @@ S.append(exercise('04 · DRILL 03 · TRUTHINESS', 'Two different questions', [
          'explicitly and before the truthiness test. This is the distinction that makes '
          'the fix in the reading exercise correct rather than lucky.'))
 
-S.append(exercise('04 · DRILL 04 · DEFAULTS', 'The list that remembers', [
+S.append(exercise('06 · DRILL 04 · DEFAULTS', 'The list that remembers', [
     'A default argument is built {bold:once}, when the function is defined — not on each '
     'call. Every call then shares the same list.',
     '',
@@ -317,7 +437,7 @@ S.append(exercise('04 · DRILL 04 · DEFAULTS', 'The list that remembers', [
    notes='The fix is `seen=None` then `if seen is None: seen = []`. Which is drill 03 again, '
          'used for real. Say that — the drills are not five unrelated facts.'))
 
-S.append(exercise('04 · DRILL 05 · RETURN', 'It gives you None', [
+S.append(exercise('06 · DRILL 05 · RETURN', 'It gives you None', [
     'Python does {bold:not} return the last statement. A function with no {mono:return} '
     'hands back {mono:None}, silently.',
     '',
@@ -332,10 +452,10 @@ S.append(exercise('04 · DRILL 05 · RETURN', 'It gives you None', [
          '(PEP 8 says four). Own it out loud — being publicly wrong about your own material '
          'is the best argument for verifying that you will ever get.'))
 
-# ───────────────────────── 5 · uv ─────────────────────────
-S.append(section('05', 'uv', 'One command, every dependency'))
+# ───────────────────────── 7 · uv ─────────────────────────
+S.append(section('07', 'uv', 'One command, every dependency'))
 
-S.append(content('05 · UV', 'Why your code runs and theirs does not', [
+S.append(content('07 · UV', 'Why your code runs and theirs does not', [
     'Last year, {orange:every single week} of this course shipped a {mono:requirements.txt} '
     'that was missing something. Week 2 was missing matplotlib, drawsvg and pandas — so two '
     'of five scripts broke {bold:after} you followed the install instructions.',
@@ -350,12 +470,12 @@ S.append(content('05 · UV', 'Why your code runs and theirs does not', [
          'the pip + virtualenv block from 2025 s52–54 entirely.'))
 
 S.append(statement('A repo that does not say what it needs\nis not finished.',
-                   eyebrow_text='05 · UV', size=100))
+                   eyebrow_text='07 · UV', size=100))
 
-# ───────────────────────── 6 · workshop ─────────────────────────
-S.append(section('06', 'Workshop', 'Predict, break, fix'))
+# ───────────────────────── 8 · workshop ─────────────────────────
+S.append(section('08', 'Workshop', 'Predict, break, fix'))
 
-S.append(timeline('06 · WORKSHOP', 'Two hours', [
+S.append(timeline('08 · WORKSHOP', 'Two hours', [
     ('0:00', 'Pull week 2', f'{{mono:git pull}} in your clone of {REPO}'),
     ('0:15', 'The rest of the drills', 'Same shape as the five you just did, on your own machine with uv.'),
     ('0:50', 'Find the fault', 'Four programs that run and are wrong.'),
@@ -365,7 +485,7 @@ S.append(timeline('06 · WORKSHOP', 'Two hours', [
          'where they do it on their own machine, in a repo, with uv — which is the thing '
          'that has to work in the exam and in assignment 2.'))
 
-S.append(content('06 · WORKSHOP', 'Name it properly while you are here', [
+S.append(content('08 · WORKSHOP', 'Name it properly while you are here', [
     'Assignment 2 is set next week and it lives in a repo with your name on it. '
     'The name is the first thing anyone sees.',
     '',
