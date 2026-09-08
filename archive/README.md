@@ -34,3 +34,8 @@ GitHub, issue → fork → commit → pull request) · data visualisation and th
 
 **Design the mark did not run — the room ran out of time.** It is carried into week 2,
 ported into `deck/week02.py` from these slides rather than rewritten.
+
+**Re-authored in deckgen on 2026-09-08 as `deck/week01.py`** — same argument, order and
+notes, minus Design the mark, with the five activities the room ran linked to their
+answers via `deck/week01-reports.json`. This file stays as the record of what was shown;
+the generated deck is what is published.
