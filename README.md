@@ -83,11 +83,16 @@ Each `deck/weekNN.py` calls `attach_reports(S, …)` just before `DECK = …`. I
 until the mapping file exists, so a week authored today picks its links up the week it is
 taught, with no edit.
 
-**Week 1 is the exception.** Its deck was built by a generator that is not in this repo, so
-there are no slides to hang links on and nothing for `ast` to read: its five questions were
-typed into `deck/week01-reports.json` by hand, off each activity's own slide image, and
+**Week 1 has no deck here yet**, so there are no slides to hang links on and nothing for
+`ast` to read. Its five questions were typed into `deck/week01-reports.json` by hand, off
+each activity's own slide image — the only surviving record of what was asked — and
 `ANSWERS.md` plus the site footer are where students find them. Any later run keeps that
 typing.
+
+When `deck/week01.py` does exist, the one `attach_reports(S, …)` line is all week 1 needs:
+the mapping is already in place, and because it carries the question text, **deckgen checks
+the regenerated deck against what the room was actually asked** and fails the build if they
+disagree.
 
 **Activities run with names hidden are not linked.** ClassPoint's page honours
 `isNamesHidden`, but the payload behind it still carries `participantName` for every
