@@ -31,7 +31,9 @@ Section 02, "Design the mark", is ported from archive/SD5913-week01.pptx slides 
 where it was written but never run — the room ran out of time. Its wording is carried
 over, not rewritten.
 """
-from deckgen import INK, PAPER
+from pathlib import Path
+
+from deckgen import attach_reports, INK, PAPER
 from deckgen.layouts import (title, agenda, section, statement, content, cards,
                              question, two_col, activity, timeline, exercise,
                              code_panel, end)
@@ -383,5 +385,9 @@ S.append(question('image_upload', 'Push your answers, then screenshot the green 
 S.append(end('See you next week',
              'Week 3: getting data, and making it look like something. Assignment 2 is set.',
              SITE))
+
+# Links each question slide to the answers the room gave. Written after the class by
+# classpoint.py's weekly.py, and a no-op until that file exists.
+attach_reports(S, Path(__file__).resolve().parent / 'week02-reports.json')
 
 DECK = {'title': f'{COURSE} · Week 2 — Reading code', 'pdf': f'{COURSE}-week02.pdf', 'slides': S}
