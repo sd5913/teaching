@@ -30,13 +30,22 @@ was wrong in 2025 and was repeated in week 3; it is not coming back.
 Section 02, "Design the mark", is ported from archive/SD5913-week01.pptx slides 53–57,
 where it was written but never run — the room ran out of time. Its wording is carried
 over, not rewritten.
+
+Section 05, "Reading a rule", is the Frieder Nake challenge from the 2025 deck (s9, s93),
+answered with the model script pfad kept on the 2025 branch at extra/nake/main.py. It
+replaced a list-of-dicts reading exercise that was a programmer's example, not a
+designer's: the rule has a picture, and the picture is the test.
 """
+import sys
 from pathlib import Path
 
-from deckgen import attach_reports, INK, PAPER
-from deckgen.layouts import (title, agenda, section, statement, content, cards,
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import figures as F                                   # noqa: E402
+from deckgen import attach_reports, INK, PAPER, WHITE  # noqa: E402
+from deckgen.layouts import (title, agenda, section, statement, content, cards,   # noqa: E402
                              question, two_col, activity, timeline, exercise,
-                             code_panel, end)
+                             code_panel, image_full, live, end)
 
 COURSE = 'SD5913'
 SITE = 'sd5913.github.io/teaching'
@@ -54,7 +63,7 @@ S.append(agenda(EYE, [
     'Design the mark — week 1 ran out of time',
     'Reading, not writing',
     'Six types, on your laptop',
-    'Reading code that does something',
+    'Reading a rule: Nake, 1966',
     'Five things that will surprise you',
     'uv: one command, every dependency',
     'Workshop — predict, break, fix',
@@ -249,8 +258,8 @@ S.append(exercise('04 · ONE-LINER 04', 'Everything is looked up the same way', 
         '# the last colour, then the year',
    expect='6\nd\nAda\nblue\n2026',
    hint='colours[-1] and student["year"]',
-   notes='Two things land here. One: a dict is looked up by name, not by position, which '
-         'is exactly what the reading exercise on the next slide does with r["year"]. '
+   notes='Two things land here. One: a dict is looked up by name and a list by position — '
+         'grid[w][h] in the Nake rule is two list lookups in a row. '
          'Two: len() works on all three. Someone will try colours[3] and get an '
          'IndexError — good, read it together, it names the line.'))
 
@@ -282,69 +291,203 @@ S.append(content('04 · TYPES', 'That is the syntax, and it is over', [
                  'have a scratchpad — tell them to use it during the reading exercises '
                  'rather than guessing.'))
 
-# ───────────── 5 · reading code that does something ─────────────
-S.append(section('05', 'Reading code', 'Now with all six types in one function'))
+# ───────────── 5 · reading a rule — Nake, 1966, from pfad's 2025 extra/nake/main.py ─────────────
+# The 2025 deck asked this on s9 and s93 and never answered it: "What is the pattern? What
+# combination never occurs? How do you draw progressively and ensure this condition?" The
+# model answer, 25 lines that print the picture as characters, sat in extra/nake/main.py
+# and no slide referenced it. Both the deck review and docs/week02-lesson-plan.md say to
+# build the reading around it, because it is the three exercise shapes with a picture as
+# the test: predict what the rule draws, find the line that forbids a combination, decide
+# whether a rewrite still meets that spec. The algorithm is the 2025 script's, line for
+# line; what changed for the slide: the two conditions are called bar and cap (as on the
+# reading slide, and so the lines fit the panel), the cap is a macron (¯) rather than
+# U+23B4, which the browser's mono font lacks, and size is 24 so a row fits the output
+# pane without wrapping. The verbatim file stays in pfad for the tutorial.
+
+NAKE = '''import random
+size = 24
+grid = []
+last_square_empty = False
+for w in range(size):
+    grid.append([])
+    for h in range(size):
+        bar = random.randint(0, size - 2) >= abs(w - h)
+        cap = (random.randint(0, size) > 0.2 * size
+               and last_square_empty)
+        grid[w].append((bar, cap))
+        if bar or cap:
+            last_square_empty = False
+        else:
+            last_square_empty = True
+
+for h in range(size):
+    for w in range(size):
+        print("|" if grid[w][h][0] else " ", end="")
+        print("¯" if grid[w][h][1] else " ", end="")
+    print()'''
+
+NAKE_JS = '''let seed = 1966, hProb = 0.2;
+const n = 30;
+
+function setup() {
+  createCanvas(600, 600);
+  stroke(20); strokeWeight(1.6);
+  noLoop();
+}
+
+function draw() {
+  background('#faf8f4');
+  randomSeed(seed);
+  const g = width / (n + 2);
+  let lastEmpty = false;
+  for (let w = 0; w < n; w++) {
+    for (let h = 0; h < n; h++) {
+      const x = (w + 1) * g, y = (h + 1) * g;
+      const bar = floor(random(n - 1)) >= abs(w - h);
+      const cap = random() > hProb && lastEmpty;
+      if (bar) line(x, y, x, y + g);
+      if (cap) line(x, y, x + g, y);
+      lastEmpty = !(bar || cap);
+    }
+  }
+}'''
+NAKE_EXTRA = '''function mouseMoved() { hProb = constrain(mouseX / width, 0, 1); redraw(); }
+function mousePressed() { seed = floor(random(1000000)); redraw(); }'''
+
+S.append(section('05', 'Reading a rule', 'Nake, 1966 · the picture is the test'))
+
+S.append(image_full('nake-walk-through-raster-1966.jpg', '05 · FRIEDER NAKE · WALK-THROUGH-RASTER · 1966',
+                    'Week 1 showed you this and asked whether a program can make art. Here is the program. '
+                    'Twenty-five lines. You are going to read them.',
+                    fit='contain', bg=WHITE,
+                    notes='Callback to week 1 s11. Last year this deck asked "what is the pattern? what '
+                          'combination never occurs?" on the last slide and never answered it. Today the '
+                          'room answers it by reading the rule.'))
 
 S.append(two_col('05 · READING', 'Read it out loud', [
     'Reading code is a skill you practise, not a thing you know.',
     '',
-    '- Start at the **bottom**: what does it return?',
-    '- Then the signature: what does it take?',
-    '- Only then the middle.',
+    '- Start at the **bottom**: what does it print?',
+    '- Then the loops: what is {mono:w}, what is {mono:h}, which one moves faster?',
+    '- Only then the two conditions.',
     '',
-    'Say the types out loud as you go. "A list of dicts, each with a year and a height."',
+    'Say the types as you go. "A list of columns. Each column is a list. Each cell is a '
+    'pair of booleans."',
 ], [
-    'def mean_height(rows, year):',
-    '    out = []',
-    '    for r in rows:',
-    '        if r["year"] == year:',
-    '            out.append(r["height"])',
-    '    return sum(out) / len(out)',
-]))
+    'for w in range(size):        # columns',
+    '    for h in range(size):    # rows, top down',
+    '        bar = (random.randint(0, size - 2)',
+    '               >= abs(w - h))',
+    '        cap = (random.randint(0, size)',
+    '               > 0.2 * size',
+    '               and last_square_empty)',
+    '        grid[w].append((bar, cap))',
+    '        if bar or cap:',
+    '            last_square_empty = False',
+    '        else:',
+    '            last_square_empty = True',
+], right_size=22, notes='The two conditions, and the state carried between cells. Ask what '
+                        'last_square_empty was last set by: the cell above, because h is the inner loop. '
+                        'That single fact is the next four slides.'))
 
-S.append(question('multiple_choice', 'What does it do for a year with no rows?',
-                  choices=['Returns 0', 'Returns None', 'Raises ZeroDivisionError',
-                           'Returns an empty list'],
-                  notes='C. len(out) is 0. This is the whole week in one slide: the code '
-                        'does not look wrong, it is wrong for an input nobody tried. Ask '
-                        'who would have shipped it.'))
+S.append(question('multiple_choice', 'Where will the picture be dense?',
+                  choices=['Along the top row', 'Along the diagonal', 'Everywhere the same',
+                           'Along the left edge'],
+                  notes='B. abs(w - h) is the distance from the diagonal; a bar is drawn when a random '
+                        'number up to size-2 is at least that distance, so near the diagonal almost always, '
+                        'far from it almost never. Do not run it yet — predict first, then the next slide.'))
 
-S.append(exercise('05 · READ IT', 'Run it and see', [
-    'This is the function from the last slide, with a year that has no rows.',
+S.append(exercise('05 · READ IT', 'Run the rule', [
+    'This is the whole program. Press Run and compare the picture with your prediction.',
     '',
-    'Predict what happens {bold:before} you press Run.',
-], code='rows = [{"year": 2024, "height": 2.1},\n'
-        '        {"year": 2024, "height": 2.5}]\n\n'
-        'def mean_height(rows, year):\n'
-        '    out = []\n'
-        '    for r in rows:\n'
-        '        if r["year"] == year:\n'
-        '            out.append(r["height"])\n'
-        '    return sum(out) / len(out)\n\n'
-        'print(mean_height(rows, 2025))',
-   hint='predict first, then run',
-   notes='Let them run it and hit the ZeroDivisionError themselves. The error message names '
-         'the line — read it together. This is the first time most of them have read a '
-         'traceback on purpose.'))
+    'Run it again. What changes, and what never does?',
+], code=NAKE, hint='predict, then run · run twice',
+   notes='What changes: every bar and cap. What never does: the dense diagonal, and one more thing '
+         'they have to find on the next slide. The output pane scrolls; the console (›_) shows it '
+         'taller. First Run on this deck downloads Pyodide if they skipped section 04.'))
 
-S.append(exercise('05 · FIX IT', 'Now make it survive', [
-    'Give it something sensible when there are no rows for that year.',
+S.append(question('short_answer', 'Which combination never occurs?',
+                  hint='Two marks that are never found together, and the line that forbids it.',
+                  example='e.g. "a ___ directly ___ a ___ — because line __ says ___"',
+                  notes='Give them three minutes with the code and the picture. The answer: a cap (¯) '
+                        'directly below a cell that has anything in it. cap needs '
+                        'last_square_empty, which is the cell above, because h is the inner loop. Read '
+                        'the best two answers out loud, then the next slide.'))
+
+S.append(content('05 · THE LINE THAT FORBIDS IT', 'A cap never sits under a drawn cell', [
+    '{mono:cap = (... and last_square_empty)}',
     '',
-    'It should print {mono:None} rather than raising.',
-], code='rows = [{"year": 2024, "height": 2.1}]\n\n'
-        'def mean_height(rows, year):\n'
-        '    out = [r["height"] for r in rows if r["year"] == year]\n'
-        '    # your line here\n'
-        '    return sum(out) / len(out)\n\n'
-        'print(mean_height(rows, 2025))',
-   expect='None',
-   hint='one line, before the return',
-   notes='Most will write `if not out: return None`. Some will write `if len(out) == 0:` — '
-         'both are right, and the difference is exactly the truthiness exercise later. '
-         'Nobody needs to have memorised anything to do this.'))
+    '{mono:last_square_empty} was set by the previous {mono:h} in the same {mono:w} — the cell '
+    '**above**. So a cap is only drawn under an empty cell, and the picture can be checked: find '
+    'a cap under a bar and the code is wrong.',
+    '',
+    '{orange:That is a specification.} A sentence about the output that is either true or false, '
+    'and a program that draws progressively has to carry state to keep it true.',
+], bg=INK, body_size=32, notes='The 2025 question, answered. "Draw progressively and ensure this '
+                                'condition" means: keep one boolean from the previous cell. Every '
+                                'generative rule they write this semester has a sentence like this in '
+                                'it, and the sentence is what you verify — not the code.'))
+
+S.append(exercise('05 · FIND THE FAULT', 'Half the picture is solid', [
+    'One character is missing from this copy. Run it: one half is solid bars.',
+    '',
+    'Find the line, and say **why** that side.',
+], code=NAKE.replace('>= abs(w - h)', '>= w - h'),
+   check='bars = sum(cell[0] for col in grid for cell in col)\n'
+         'ok = bars < 0.74 * size * size\n'
+         'msg = "" if ok else "still too many bars — the distance to the diagonal can go negative"',
+   hint='where does the distance go negative?',
+   notes='abs is gone, so where w < h the distance is negative and any random number beats it: '
+         'every cell above the diagonal has a bar. The check counts bars. The lesson is not abs, it '
+         'is that the picture told them something was wrong before the code did.'))
+
+S.append(exercise('05 · MEET THE SPEC', 'Does this still meet the spec?', [
+    'Someone tidied the code: the state is now set right after the bar is decided. It runs, and '
+    'the picture looks about right.',
+    '',
+    'The spec: {bold:a cap never sits under a drawn cell.} Run it — the check reads the grid. '
+    'Then fix it.',
+], code=NAKE.replace(
+        '        cap = (random.randint(0, size) > 0.2 * size\n'
+        '               and last_square_empty)\n'
+        '        grid[w].append((bar, cap))\n'
+        '        if bar or cap:\n'
+        '            last_square_empty = False\n'
+        '        else:\n'
+        '            last_square_empty = True\n',
+        '        last_square_empty = not bar\n'
+        '        cap = (random.randint(0, size) > 0.2 * size\n'
+        '               and last_square_empty)\n'
+        '        grid[w].append((bar, cap))\n'),
+   check='ok = all(not (grid[w][h][1] and (grid[w][h - 1][0] or grid[w][h - 1][1]))\n'
+         '         for w in range(size) for h in range(1, size))\n'
+         'msg = "" if ok else "a cap sits under a drawn cell — which cell is \'last\', and when is it set?"',
+   hint="'last' is the cell above, and it is set after the cell is done",
+   notes='Two faults in one move: the state is set before the cap is decided, so "last" means this '
+         'cell; and it only looks at the bar, so a cell with a cap counts as empty. The picture is '
+         'nearly indistinguishable — this is the one only the spec catches. Fix: move the update '
+         'below, and include the cap. That is the whole verification argument of the course in '
+         'one drill.'))
+
+assert NAKE.replace('>= abs(w - h)', '>= w - h') != NAKE and 'last_square_empty = not bar' not in NAKE
+
+S.append(content('05 · THE RULE, DRAWN', 'Same rule, lines instead of characters', [
+    'Twenty-five lines print it. Twenty-five different lines draw it: the rule does not care '
+    'what a bar is made of.',
+    '',
+    '- Mouse left to right: how often a cap is allowed',
+    '- Click: a new roll of the dice',
+    '',
+    '{muted:Week 3 you write the drawing version yourself, with data instead of dice.}',
+], figure=F.nake(), sketch=live('nake', NAKE_JS, 600, 600,
+                                 hint='move the mouse: cap chance · click: reroll', extra=NAKE_EXTRA),
+   notes='Live in the html deck. Slide the mouse to the right and caps disappear — that is the 0.2. '
+         'Then ask: does the spec still hold at every setting? It does, because the state logic '
+         'did not change. Close the section here.'))
+
 
 # ───────── 6 · the surprises (2025 s30, s36–37, collapsed per the deck review) ─────────
-S.append(section('06', 'Five things that will surprise you', 'The parts that bite'))
+S.append(section('06', 'Four things that will surprise you', 'The parts that bite'))
 
 S.append(question('multiple_choice', 'What is the output of 0.1 + 0.1 + 0.1 == 0.3 ?',
                   choices=['True', 'False'],
@@ -355,25 +498,21 @@ S.append(question('multiple_choice', 'What is the output of 0.1 + 0.1 + 0.1 == 0
                         'trivia. Never compare floats with ==; compare a difference '
                         'against a tolerance.'))
 
-S.append(cards('06 · SURPRISES', 'The five that actually bite', [
+S.append(cards('06 · SURPRISES', 'The four that actually bite', [
     ('01 · NUMBERS', 'Floats are not decimals',
      '{mono:0.1+0.1+0.1 != 0.3}. Compare a difference against a tolerance, never with =='),
     ('02 · ALIASING', 'Two names, one list',
      'Immutable — int, float, bool, str, tuple — copies on assignment. Mutable — list, '
      'dict, set — copies the reference. Change one name, the other changes.'),
     ('03 · TRUTHINESS', 'Empty is False',
-     '{mono:[]}, {mono:{}}, {mono:""}, {mono:0} and {mono:None} are all falsy. '
-     '{mono:if rows:} and {mono:if rows is not None:} are different questions.'),
-    ('04 · DEFAULTS', 'The list that remembers',
-     '{mono:def f(x, seen=[]):} — the default is built once, at definition, and every '
-     'call shares it.'),
-    ('05 · INDENTATION', 'The shape is the logic',
+     '{mono:[]}, {mono:""}, {mono:0} and {mono:None} are all falsy. {mono:if not problem:} '
+     'in the flow loop from week 1 relies on it. {mono:if rows:} and {mono:if rows is not '
+     'None:} are different questions.'),
+    ('04 · INDENTATION', 'The shape is the logic',
      '**Four** spaces, and Python does {bold:not} return the last statement — a function '
      'with no {mono:return} gives you {mono:None}.'),
-], notes='Card 5 corrects two errors that were on 2025 week 2 slide 42 and repeated in '
-         'week 3: it said two spaces, and it said Python returns the last statement '
-         'automatically. Both wrong. Say so — being wrong in public about your own '
-         'material is the best possible demonstration of why you verify.'))
+], notes='Card 4 is the one to slow down on: a function with no return gives None, and '
+         'generated code forgets the return more often than anything else.'))
 
 S.append(exercise('06 · DRILL 01 · NUMBERS', 'Make the comparison true', [
     'Floats are stored in binary, and 0.1 has no exact binary form — so the sum is '
@@ -404,70 +543,36 @@ S.append(exercise('06 · DRILL 02 · ALIASING', 'Stop the aliasing', [
          'int, float, bool, str, tuple — copy on assignment; mutable ones — list, dict, set '
          '— do not. Carried from 2025 week 2 s36-37, which the deck review says to keep.'))
 
-S.append(exercise('06 · DRILL 03 · TRUTHINESS', 'Two different questions', [
-    '{mono:[]}, {mono:0}, {mono:""} and {mono:None} are all falsy, so '
-    '{mono:if rows:} and {mono:if rows is not None:} do {bold:not} ask the same thing.',
-    '',
-    'An empty list is a real answer. Missing data is not. Make it tell them apart.',
-], code='def describe(rows):\n'
-        '    if rows:\n'
-        '        return "got data"\n'
-        '    return "no data"\n\n'
-        'print(describe([1, 2]))\n'
-        'print(describe([]))\n'
-        'print(describe(None))',
-   expect='got data\nempty\nmissing',
-   hint='empty list -> "empty", None -> "missing"',
-   notes='Three lines out: "got data", "empty", "missing". They have to check None '
-         'explicitly and before the truthiness test. This is the distinction that makes '
-         'the fix in the reading exercise correct rather than lucky.'))
-
-S.append(exercise('06 · DRILL 04 · DEFAULTS', 'The list that remembers', [
-    'A default argument is built {bold:once}, when the function is defined — not on each '
-    'call. Every call then shares the same list.',
-    '',
-    'Make the second call print one item, not two.',
-], code='def collect(item, seen=[]):\n'
-        '    seen.append(item)\n'
-        '    return seen\n\n'
-        'print(collect("a"))\n'
-        'print(collect("b"))',
-   expect="['a']\n['b']",
-   hint='default to None, build inside',
-   notes='The fix is `seen=None` then `if seen is None: seen = []`. Which is drill 03 again, '
-         'used for real. Say that — the drills are not five unrelated facts.'))
-
-S.append(exercise('06 · DRILL 05 · RETURN', 'It gives you None', [
+S.append(exercise('06 · DRILL 03 · RETURN', 'It gives you None', [
     'Python does {bold:not} return the last statement. A function with no {mono:return} '
     'hands back {mono:None}, silently.',
-    '',
-    '{muted:Last year this course told you otherwise, on a slide, twice. It was wrong.}',
 ], code='def double(x):\n'
         '    x * 2\n\n'
         'print(double(21))',
    expect='42',
    hint='one word',
-   notes='This corrects 2025 week 2 s42, repeated as week 3 s13, which claimed Python '
-         'automatically returns the last statement and that bodies are indented two spaces '
-         '(PEP 8 says four). Own it out loud — being publicly wrong about your own material '
-         'is the best argument for verifying that you will ever get.'))
+   notes='The 2025 deck claimed Python returns the last statement automatically and that '
+         'bodies are indented two spaces; both wrong, and this room never saw it. Just teach '
+         'the fact: no return, None comes back, silently — and print shows it.'))
 
 # ───────────────────────── 7 · uv ─────────────────────────
 S.append(section('07', 'uv', 'One command, every dependency'))
 
 S.append(content('07 · UV', 'Why your code runs and theirs does not', [
-    'Last year, {orange:every single week} of this course shipped a {mono:requirements.txt} '
-    'that was missing something. Week 2 was missing matplotlib, drawsvg and pandas — so two '
-    'of five scripts broke {bold:after} you followed the install instructions.',
+    'Your script needs Python, and a version of it, and every library it imports, and a '
+    'version of each of those. None of that is in the file. It is in **your machine**.',
     '',
-    'The code was fine. The environment was never written down.',
+    'So it runs for you and breaks for the next person — a groupmate, a marker, you on a '
+    'lab PC next week. {orange:The code is fine. The environment was never written down.}',
     '',
     '- {mono:uv run script.py} — runs it in its own environment, installing what it needs',
     '- {mono:uv add pandas} — records the dependency where the next person will find it',
     '- {mono:uv sync} — makes your machine match the file',
-], notes='Be honest that this is a fix for a real failure in last year\'s course — it '
-         'lands far better as "here is what went wrong" than as a tool tour. uv replaces '
-         'the pip + virtualenv block from 2025 s52–54 entirely.'))
+], notes='Frame it as the group project and the marker: a repo that only runs on the laptop it '
+         'was written on has not been handed in. uv writes the environment down in pyproject.toml '
+         'and uv.lock, and "uv run" is the one command to say — it fetches an interpreter if there '
+         'is none, and it sidesteps the Microsoft Store python stub on a fresh Windows machine. '
+         'It replaces the pip + virtualenv tour entirely.'))
 
 S.append(statement('A repo that does not say what it needs\nis not finished.',
                    eyebrow_text='07 · UV', size=100))
@@ -477,8 +582,8 @@ S.append(section('08', 'Workshop', 'Predict, break, fix'))
 
 S.append(timeline('08 · WORKSHOP', 'Two hours', [
     ('0:00', 'Pull week 2', f'{{mono:git pull}} in your clone of {REPO}'),
-    ('0:15', 'The rest of the drills', 'Same shape as the five you just did, on your own machine with uv.'),
-    ('0:50', 'Find the fault', 'Four programs that run and are wrong.'),
+    ('0:15', 'The rest of the drills', 'Same shape as the ones you just did, on your own machine with uv.'),
+    ('0:50', 'Find the fault', 'Four programs that run and are wrong. One of them is Nake.'),
     ('1:20', 'Meet the spec', 'A brief and three candidate solutions. Which one is right?'),
     ('1:45', 'Commit and push', 'Your answers, as a markdown file, in your own repo.'),
 ], notes='The drills in the slides are 30 seconds each and prove the idea. The tutorial is '

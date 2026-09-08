@@ -44,3 +44,25 @@ def schotter(name='schotter', cols=12, rows=22, square=32, margin=40, chaos=1.0,
 
 if __name__ == '__main__':
     print(schotter()[1])
+
+
+def nake(name='nake', n=30, size=600, h_prob=0.20, seed=1966):
+    """Frieder Nake, Walk-through-Raster, 1966 — the rule of pfad's 2025 `extra/nake/main.py`, drawn
+    with lines instead of characters. Column by column, top down: a vertical bar is likelier the
+    closer the cell is to the diagonal; a horizontal cap is drawn only when the cell above was
+    left empty. That second condition is the one the picture lets you check."""
+    c = Canvas(size, size, bg=PAPER)
+    rng = random.Random(seed)
+    g = size / (n + 2)
+    last_empty = False
+    for w in range(n):
+        for h in range(n):
+            x, y = (w + 1) * g, (h + 1) * g
+            bar = rng.randint(0, n - 2) >= abs(w - h)
+            cap = rng.randint(0, n) > h_prob * n and last_empty
+            if bar:
+                c.line(x, y, x, y + g, INK, 1.6, cap='butt')
+            if cap:
+                c.line(x, y, x + g, y, INK, 1.6, cap='butt')
+            last_empty = not (bar or cap)
+    return c.finish(name)

@@ -288,7 +288,7 @@ S.append(two_col('03 · COMPUTERS', 'Computers are Turing machines', [
     '',
     'read . rule . write . move',
     'repeat',
-], notes='Turing, 1936: On Computable Numbers. Every computer you own is one of these machines. '
+], lang=None, notes='Turing, 1936: On Computable Numbers. Every computer you own is one of these machines. '
          'The photo you usually see is a modern demonstration model in a vitrine; the machine in '
          'the paper is a thought experiment.'))
 
@@ -328,7 +328,7 @@ S.append(two_col('04 · PROGRAMS', 'Where are your programs running right now?',
     '  kernel',
     '',
     '  CPU  RAM  disk',
-], right_font='mono', notes='CPU does the steps, RAM holds what is running, disk keeps it when the '
+], lang=None, notes='CPU does the steps, RAM holds what is running, disk keeps it when the '
                             'power goes. Every program is a process managed by the OS — except the OS itself.'))
 
 S.append(two_col('04 · PROGRAMS', 'Kernel and shell', [
@@ -347,7 +347,7 @@ S.append(two_col('04 · PROGRAMS', 'Kernel and shell', [
     '      KERNEL',
     '        |',
     '     hardware',
-], notes='Pistachio: the kernel is the nut, the shell is what you touch. A terminal is a shell '
+], lang=None, notes='Pistachio: the kernel is the nut, the shell is what you touch. A terminal is a shell '
          'you type into.'))
 
 S.append(content('04 · PROGRAMS', 'A terminal', [
@@ -547,7 +547,7 @@ S.append(two_col('ASSIGNMENT 02 · STEP 02', 'Save the page', [
     '  YES -> read the file',
     '',
     'then: parse',
-], notes='Caching logic. Check first, then decide. This is the first if/else you will write.'))
+], lang=None, notes='Caching logic. Check first, then decide. This is the first if/else you will write.'))
 
 S.append(content('ASSIGNMENT 02 · 10% · DUE SUN 27 SEP', 'Data visualisation', [
     'Code committed to a GitHub repo. Submit the URL on Canvas. It should obtain data about a '
