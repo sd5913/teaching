@@ -253,19 +253,23 @@ S.append(activity('4 — TWO PAIRS', 4, 'Now it has to survive 16 pixels.', [
     '{mono:“ours is a ___, and at 16px you can still tell, because ___.”}',
     '',
     'Then one more line: the one thing it must **never** look like.',
+    '',
+    'Now all of it in **one line of 50 characters or fewer**. That line is the brief.',
 ], eyebrow_text='DESIGN THE MARK',
    notes='Four minutes in fours. The twist: it must work at 16 pixels — the favicon and '
-         'the GitHub avatar. One person writes.'))
+         'the GitHub avatar. One person writes. The second squeeze is the caption: '
+         'ClassPoint cuts image captions at 50 characters, so the brief has to fit in one.'))
 
-S.append(question('image_upload', 'One person per group: photograph the page.',
+S.append(question('image_upload', 'One person per group: photograph the sketch.',
                   eyebrow_text='DESIGN THE MARK · CAPTURE · 2 MIN · IMAGE UPLOAD',
-                  hint='Sketch + three lines on one page: OBJECT — survives at 16px — never: ___',
-                  example='e.g. a rough grid with one tile falling out, and under it: “the gap '
-                          'where the tile was — never: a gear.”',
+                  hint='Caption, 50 characters or fewer: OBJECT · what survives at 16px · never ___',
+                  example='e.g. “grid, one tile falling out · gap · never a gear”  (47 characters)',
                   notes='ClassPoint image upload. Scribes only, one photo per four — about '
-                        '28 images, not 112. Sketch and the three lines on one page, so the '
-                        'photo carries both. Put a few up on the projector and read the lines '
-                        'aloud; the sketches are the point, the words are the brief.'))
+                        '28 images, not 112. The caption is the brief, and ClassPoint truncates '
+                        'captions at exactly 50 characters (measured on SD2112 week 1: nine of '
+                        'sixty stopped mid-word at 50), so the limit is real, not a house rule. '
+                        'Put a few up on the projector and read the captions aloud; the '
+                        'sketches are the point, the caption is the brief.'))
 
 S.append(content('DESIGN THE MARK · WHAT JUST HAPPENED', 'That was a design brief.', [
     'Eight minutes, no software. The room now agrees on an object, what survives at '
