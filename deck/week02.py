@@ -69,6 +69,21 @@ S.append(agenda(EYE, [
     'Workshop — predict, break, fix',
 ]))
 
+S.append(content('SD5913 · WEEK 02 · WORDS', 'Words you will hear today', [
+    '- **repo** — a folder that git watches. **commit** — a saved version of it, with a message. '
+    '**push** — send your commits to GitHub.',
+    '- **script** — a file of Python. **run** — make the computer carry it out, top to bottom.',
+    '- **syntax** — the spelling and grammar of code. **type** — what kind of value something is: '
+    'number, text, yes/no, list.',
+    '- **loop** — do something once for each item. **condition** — a yes/no test that decides what happens.',
+    '- **spec** — a sentence about what the program must do, that is either true or false.',
+    '- **bug** — code that runs, and does the wrong thing.',
+    '',
+    '{muted:Every word from the slides, in plain language: ' + SITE + '/glossary.html — ask if one is missing.}',
+], body_size=30, notes='One minute. Do not read it out — point at it, say the glossary link is on the '
+                       'site and stays there all semester, and move on. Non-native speakers and '
+                       'non-programmers are the majority of the room; the words are the first wall.'))
+
 # ───────────────────────── 1 · loose ends ─────────────────────────
 # Written against the first 25 assignment-1 repos on Canvas (checked 2026-09-09 with
 # ~/dev/sd5913/scripts/check_submissions.py). Counts only — no repo, name or username
@@ -76,15 +91,15 @@ S.append(agenda(EYE, [
 S.append(section('01', 'Loose ends', 'One address, two files, until Sunday'))
 
 S.append(content('01 · ONE ADDRESS', 'pfad.ait4x.org has everything', [
-    'The slides, the course repo, the org and the lab setup are at the bottom of that page — '
-    '**no sign-in needed**. Bookmark it; it is the one address to remember.',
+    'The slides, the course repo, the GitHub organisation and the lab setup are all at the '
+    'bottom of that page — **no sign-in needed**. Bookmark it. It is the one address to remember.',
     '',
-    '- Sign in and you get a **dashboard**: what Canvas received for each assignment, and '
-    'whether that repo is on the account you registered. {orange:A mismatch is flagged '
-    'there, with what to do about it.}',
-    '- The **org invitation** goes to accounts whose submission matches. It comes by email '
-    'and {bold:expires after seven days} — accept it when it arrives.',
-    '- Not registered? Do it now, from the account you push with.',
+    '- Sign in and you see **your own page**: the repo you handed in on Canvas, and whether it '
+    'is on the GitHub account you registered. {orange:If it is not, the page says so, and '
+    'what to do.}',
+    '- The **invitation to the sd5913 organisation** goes to accounts whose repo matches. It '
+    'comes by email and {bold:stops working after seven days} — accept it when it arrives.',
+    '- Not registered? Do it now, with the account you use for your repo.',
 ], notes='Put the address on the board. The links are public; the dashboard is per student '
          'and shows the Canvas URL against the registered login. "I never got the invitation" '
          'usually means the repo is on a different account than the one they registered — the '
@@ -98,7 +113,8 @@ S.append(two_col('01 · ASSIGNMENT 1', 'A finished repo is two files', [
     'rejected and why. {muted:“I used none” is a fine PROCESS.md, in one sentence.}',
     '',
     'Public, on **the account you registered**, with a history that shows the essay '
-    'was written: several commits, more than one day, messages that say what changed.',
+    'was written: several commits (saved versions), on more than one day, each with a '
+    'message that says what changed.',
 ], [
     'why-are-we-here/',
     '├── README.md     the essay',
@@ -135,21 +151,21 @@ S.append(content('01 · UNTIL SUNDAY', 'You can still fix it', [
     'on Canvas keeps working — push to the same repo and it is fixed.',
     '',
     '- Wrong repo? Make the right one and **resubmit the URL** on Canvas. Attempts are unlimited.',
-    '- Essay done, no {mono:PROCESS.md}? Add it — top level, that exact name.',
+    '- Essay done, no {mono:PROCESS.md}? Add it — in the main folder, not a subfolder, with that exact name.',
     '- Everything in one commit? Too late to undo, not too late to add: every edit this '
     'week is a commit with a message.',
-    '- Pushed from an account other than the one you registered? Your dashboard at '
-    '{mono:pfad.ait4x.org} flags it — fix the registration, or resubmit the right URL.',
+    '- Repo on a different account from the one you registered? Your page at '
+    '{mono:pfad.ait4x.org} tells you. Fix the registration, or submit the right URL.',
 ], bg=INK, notes='The point of showing the first 25 is that there are four days left. The '
                  'check runs again after the deadline; what it finds then is what gets marked.'))
 
 S.append(two_col('01 · CHECK IT', 'Ask a script whether it meets the spec', [
-    'The whole course in one command: a spec, a repo, and a program that says whether '
-    'one meets the other. Run it **inside your assignment repo**.',
+    'A **spec** is a list of what the thing must do. This program reads your repo and '
+    'says whether it meets the spec. Run it **inside your assignment repo**.',
     '',
-    'It checks what a script can check — two files, the word count, a References '
-    'heading, a {mono:PROCESS.md} that says something, a history over more than one '
-    'sitting. {muted:Whether the essay is good is still a person\'s call.}',
+    'It checks what a program can check — two files, the word count, a References '
+    'heading, a {mono:PROCESS.md} that says something, commits on more than one day. '
+    '{muted:Whether the essay is good is still a person\'s call.}',
     '',
     'Copy {mono:assignments/check.yml} into your repo as {mono:.github/workflows/check.yml} '
     'and GitHub runs it on every push: {orange:a green tick, or a red cross.}',
@@ -206,18 +222,18 @@ S.append(activity('2 — IN PAIRS', 2, 'Two answers in. One answer out.', [
          'in one line what was good about it.'))
 
 S.append(activity('4 — TWO PAIRS', 4, 'Now it has to survive 16 pixels.', [
-    'Join the pair behind you. Four people, one object. It must work at {orange:16 px wide} '
-    '— the favicon on your repo, the avatar next to your name.',
+    'Join the pair behind you. Four people, one object. It must work at {orange:16 pixels wide} '
+    '— the tiny icon in a browser tab, the picture next to your name on GitHub.',
     '',
     'At 16 px you get one shape and one idea. Detail disappears. Decide what survives: '
     '{mono:“ours is a ___, and at 16px you can still tell, because ___.”}',
     '',
-    'Then one line of anti-brief: the one thing it must **never** look like.',
+    'Then one more line: the one thing it must **never** look like.',
 ], eyebrow_text='DESIGN THE MARK',
    notes='Four minutes in fours. The twist: it must work at 16 pixels — the favicon and '
          'the GitHub avatar. One person writes.'))
 
-S.append(question('short_answer', 'Scribes only. One line per four.',
+S.append(question('short_answer', 'One person per group types. One line.',
                   eyebrow_text='DESIGN THE MARK · CAPTURE · 2 MIN · SHORT ANSWER',
                   hint='OBJECT — what survives at 16px — never: ___',
                   example='e.g. “A grid with one tile falling out — the gap where the '
@@ -237,7 +253,7 @@ S.append(content('DESIGN THE MARK · WHAT JUST HAPPENED', 'That was a design bri
 # ───────────────────────── 3 · the shift ─────────────────────────
 S.append(section('03', 'Reading, not writing', 'The shift'))
 
-S.append(statement('You will not memorise the syntax.\nYou will learn to check it.',
+S.append(statement('You will not memorise the rules of Python.\nYou will learn to check code against them.',
                    eyebrow_text='03 · THE SHIFT'))
 
 S.append(content('03 · THE SHIFT', 'Three questions, all semester', [
@@ -245,7 +261,7 @@ S.append(content('03 · THE SHIFT', 'Three questions, all semester', [
     '',
     '- Here is code that runs. **What does it print?**',
     '- Here is code that is wrong. **Where?**',
-    '- Here is a spec and some code. **Does the code meet it?**',
+    '- Here is a spec — a sentence about what it must do — and some code. **Does the code meet it?**',
     '',
     '{muted:None of them ask you to write a program from a blank file. That comes later, '
     'and by then you will be able to tell whether what you wrote is right.}',
@@ -259,7 +275,7 @@ S.append(content('03 · YOUR LAPTOP', 'Open the slides on your laptop', [
     '',
     '- {orange:' + SITE + '/week02/}',
     '- Press {mono:Run}, or {mono:ctrl+enter}.',
-    '- Backtick ({mono:`}) opens a console on any slide.',
+    '- The {mono:`} key (top left, under Esc) opens a console — a box for one line of Python at a time.',
     '',
     '{muted:Your answers are saved in the browser, so a reload does not lose them.}',
 ], notes='Put the URL on the board and leave it there. First Run downloads ~12 MB, so it '
@@ -306,7 +322,7 @@ S.append(exercise('04 · ONE-LINER 01', 'Does the box work?', [
 
 S.append(exercise('04 · ONE-LINER 02', 'Ask Python what it is', [
     '{mono:type(x)} tells you what kind of thing {mono:x} is. You will use it all '
-    'semester to check what an agent actually handed you.',
+    'semester to check what an AI assistant actually handed you.',
     '',
     'Predict the three lines, then add a fourth for an {bold:empty list}.',
 ], code='print(type(3))\n'
@@ -369,7 +385,7 @@ S.append(exercise('04 · ONE-LINER 05', 'Put a value inside a sentence', [
          'thing they will ask an agent for, so recognising it matters more than recalling '
          'the syntax.'))
 
-S.append(content('04 · TYPES', 'That is the syntax, and it is over', [
+S.append(content('04 · TYPES', 'That is the grammar, and it is over', [
     'Five lines, five minutes, and you can now read most of what you will be handed.',
     '',
     'What is left is not more syntax. It is {orange:noticing when the type is not the '
@@ -458,11 +474,12 @@ S.append(two_col('05 · READING', 'Read it out loud', [
     'Reading code is a skill you practise, not a thing you know.',
     '',
     '- Start at the **bottom**: what does it print?',
-    '- Then the loops: what is {mono:w}, what is {mono:h}, which one moves faster?',
-    '- Only then the two conditions.',
+    '- Then the loops, the lines that repeat: what is {mono:w}, what is {mono:h}, '
+    'which changes faster?',
+    '- Only then the two conditions, the yes/no tests.',
     '',
-    'Say the types as you go. "A list of columns. Each column is a list. Each cell is a '
-    'pair of booleans."',
+    'Say the types as you go: "a list of columns; each column a list; each cell '
+    'a pair of yes/no values."',
 ], [
     'for w in range(size):        # columns',
     '    for h in range(size):    # rows, top down',
@@ -510,8 +527,9 @@ S.append(content('05 · THE LINE THAT FORBIDS IT', 'A cap never sits under a dra
     '**above**. So a cap is only drawn under an empty cell, and the picture can be checked: find '
     'a cap under a bar and the code is wrong.',
     '',
-    '{orange:That is a specification.} A sentence about the output that is either true or false, '
-    'and a program that draws progressively has to carry state to keep it true.',
+    '{orange:That is a specification.} A sentence about the output that is either true or false. '
+    'To keep it true, the program has to remember one thing from the cell before — that is what '
+    '{mono:last_square_empty} is for.',
 ], bg=INK, body_size=32, notes='The 2025 question, answered. "Draw progressively and ensure this '
                                 'condition" means: keep one boolean from the previous cell. Every '
                                 'generative rule they write this semester has a sentence like this in '
@@ -531,8 +549,8 @@ S.append(exercise('05 · FIND THE FAULT', 'Half the picture is solid', [
          'is that the picture told them something was wrong before the code did.'))
 
 S.append(exercise('05 · MEET THE SPEC', 'Does this still meet the spec?', [
-    'Someone tidied the code: the state is now set right after the bar is decided. It runs, and '
-    'the picture looks about right.',
+    'Someone tidied the code: {mono:last_square_empty} is now set right after the bar is decided. '
+    'It runs, and the picture looks about right.',
     '',
     'The spec: {bold:a cap never sits under a drawn cell.} Run it — the check reads the grid. '
     'Then fix it.',
@@ -585,26 +603,26 @@ S.append(question('multiple_choice', 'What is the output of 0.1 + 0.1 + 0.1 == 0
                         'against a tolerance.'))
 
 S.append(cards('06 · SURPRISES', 'The four that actually bite', [
-    ('01 · NUMBERS', 'Floats are not decimals',
-     '{mono:0.1+0.1+0.1 != 0.3}. Compare a difference against a tolerance, never with =='),
-    ('02 · ALIASING', 'Two names, one list',
-     'Immutable — int, float, bool, str, tuple — copies on assignment. Mutable — list, '
-     'dict, set — copies the reference. Change one name, the other changes.'),
-    ('03 · TRUTHINESS', 'Empty is False',
-     '{mono:[]}, {mono:""}, {mono:0} and {mono:None} are all falsy. {mono:if not problem:} '
-     'in the flow loop from week 1 relies on it. {mono:if rows:} and {mono:if rows is not '
-     'None:} are different questions.'),
+    ('01 · NUMBERS', 'Decimals are not exact',
+     'To a computer {mono:0.1+0.1+0.1} is not {mono:0.3}. Ask “close enough?”, never “equal?”, '
+     'when numbers have a decimal point.'),
+    ('02 · TWO NAMES', 'One list, two names',
+     '{mono:b = a} does not copy a list. Both names point at the same list: change one, the '
+     'other changes. Numbers and text are copied; lists and dicts are shared.'),
+    ('03 · EMPTY', 'Empty counts as no',
+     'An empty list {mono:[]}, empty text {mono:""}, {mono:0} and {mono:None} all count as '
+     '{mono:False} in an {mono:if}. Handy, and a trap.'),
     ('04 · INDENTATION', 'The shape is the logic',
-     '**Four** spaces, and Python does {bold:not} return the last statement — a function '
-     'with no {mono:return} gives you {mono:None}.'),
+     'The spaces at the start of a line say what belongs inside a loop or a function. '
+     '**Four** of them. And a function with no {mono:return} gives back {mono:None} — nothing.'),
 ], notes='Card 4 is the one to slow down on: a function with no return gives None, and '
          'generated code forgets the return more often than anything else.'))
 
 S.append(exercise('06 · DRILL 01 · NUMBERS', 'Make the comparison true', [
-    'Floats are stored in binary, and 0.1 has no exact binary form — so the sum is '
+    'The computer stores 0.1 slightly wrong, so three of them add up to '
     '{mono:0.30000000000000004}.',
     '',
-    'Compare a **difference against a tolerance** instead.',
+    'Instead of “is it equal?”, ask **“is the difference tiny?”**',
 ], code='total = 0.1 + 0.1 + 0.1\n\n'
         '# change this line so it prints True\n'
         'print(total == 0.3)',
@@ -614,9 +632,9 @@ S.append(exercise('06 · DRILL 01 · NUMBERS', 'Make the comparison true', [
          'representation, not about maths. Ask what else in the course is a float — every '
          'coordinate, every tide height.'))
 
-S.append(exercise('06 · DRILL 02 · ALIASING', 'Stop the aliasing', [
+S.append(exercise('06 · DRILL 02 · TWO NAMES', 'Make b a real copy', [
     '{mono:b = a} does not copy the list. It gives the same list a second name, so '
-    'appending through one shows up in the other.',
+    'adding to {mono:b} also changes {mono:a}.',
     '',
     'Make {mono:a} print unchanged.',
 ], code='a = [1, 2, 3]\n'
@@ -645,15 +663,15 @@ S.append(exercise('06 · DRILL 03 · RETURN', 'It gives you None', [
 S.append(section('07', 'uv', 'One command, every dependency'))
 
 S.append(content('07 · UV', 'Why your code runs and theirs does not', [
-    'Your script needs Python, and a version of it, and every library it imports, and a '
-    'version of each of those. None of that is in the file. It is in **your machine**.',
+    'Your script needs Python, and every **library** it imports — code other people wrote, '
+    'like {mono:pygame}. None of that is in the file. It is on **your machine**.',
     '',
     'So it runs for you and breaks for the next person — a groupmate, a marker, you on a '
-    'lab PC next week. {orange:The code is fine. The environment was never written down.}',
+    'lab PC next week. {orange:The code is fine. What it needs was never written down.}',
     '',
-    '- {mono:uv run script.py} — runs it in its own environment, installing what it needs',
-    '- {mono:uv add pandas} — records the dependency where the next person will find it',
-    '- {mono:uv sync} — makes your machine match the file',
+    '- {mono:uv run script.py} — runs it, fetching what it needs first',
+    '- A {mono:# /// script} block at the top of the file — where a script says what it needs',
+    '- {mono:uv add pandas} — records a library for a whole project, so the next person gets it too',
 ], notes='Frame it as the group project and the marker: a repo that only runs on the laptop it '
          'was written on has not been handed in. uv writes the environment down in pyproject.toml '
          'and uv.lock, and "uv run" is the one command to say — it fetches an interpreter if there '
@@ -671,7 +689,7 @@ S.append(content('08 · WORKSHOP', 'The tutorial is in the repo', [
     'walkthrough is its README:',
     '',
     '- [github.com/sd5913/pfad · week02/README.md](https://github.com/sd5913/pfad/blob/2026/week02/README.md)',
-    '- {mono:git pull} in your clone brings it down; {mono:uv run schotter.py} is the first thing it asks for.',
+    '- {mono:git pull} in your copy of the course repo brings it down; {mono:uv run schotter.py} is the first thing it asks for.',
     '- No clone, or a lab machine you have not used? Download and double-click '
     '[setup.bat](https://github.com/ait4x/v915-setup/releases/latest/download/setup.bat) — '
     'it installs the tools, clones the repo, fetches a Python and opens VS Code in the folder.',

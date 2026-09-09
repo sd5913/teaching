@@ -58,7 +58,7 @@ SOLUTIONS = {
     # 06 · surprises
     'make-the-comparison-true':
         'total = 0.1 + 0.1 + 0.1\n\nprint(abs(total - 0.3) < 1e-9)',
-    'stop-the-aliasing':
+    'make-b-a-real-copy':
         'a = [1, 2, 3]\nb = a.copy()\nb.append(4)\n\nprint(a)',
     'it-gives-you-none':
         'def double(x):\n    return x * 2\n\nprint(double(21))',

@@ -21,10 +21,14 @@ href  = "week01/"
 label = "Week 2 slides"
 href  = "week02/"
 
+[[nav]]
+label = "Words"
+href  = "glossary.html"
+
 # Markdown that reaches the public site. Anything in syllabus/ or lessons/ NOT listed
 # here still gets a .docx and an html copy, but only in the export/ artifact — which is
 # where the instructor run sheets belong.
-# [[publish]]
-# src   = "SD5913-syllabus-2026.md"
-# out   = "syllabus.html"
-# title = "SD5913 · Syllabus 2026/27"
+[[publish]]
+src   = "GLOSSARY.md"
+out   = "glossary.html"
+title = "SD5913 · Words we use"
