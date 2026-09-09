@@ -691,7 +691,7 @@ S.append(timeline('08 · WORKSHOP', 'Two hours', [
     ('0:10', 'Read first, run second', 'Schotter, Nake and a Schotter of cubes — in pygame, on your machine. Predict, run, change one knob.'),
     ('0:40', 'Tides', 'A tidal forecast for Hong Kong waters, drawn as rings. Somebody else\'s data, your rule.'),
     ('1:00', 'Find the fault', 'Four programs that run and are wrong. One of them is Nake.'),
-    ('1:25', 'Meet the spec', 'A brief and three candidates. Exactly one passes — say which, and why the others fail.'),
+    ('1:25', 'Meet the spec', 'Four sentences about a picture, three candidates side by side. Exactly one passes — say which, and point at what the others get wrong.'),
     ('1:45', 'Commit and push', '{mono:week02-answers.md} in your own repo, then the assignment check on your assignment repo.'),
 ], notes='The drills in the slides are 30 seconds each and prove the idea. The tutorial is '
          'where they do it on their own machine, in a repo, with uv — which is the thing '
