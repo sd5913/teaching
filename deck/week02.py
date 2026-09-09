@@ -73,21 +73,22 @@ S.append(agenda(EYE, [
 # Written against the first 25 assignment-1 repos on Canvas (checked 2026-09-09 with
 # ~/dev/sd5913/scripts/check_submissions.py). Counts only — no repo, name or username
 # from that check belongs in a public deck, and none is here.
-S.append(section('01', 'Loose ends', 'Assignment 1, the org, and one address'))
+S.append(section('01', 'Loose ends', 'One address, two files, until Sunday'))
 
-S.append(content('01 · ONE ADDRESS', 'pfad.ait4x.org is the way in', [
-    'You registered there in week 1. From now on it is the **front door of the course**: '
-    'once your assignment has been checked, that page turns into your links — the org '
-    'invitation, the course repo, the slides, the lab setup.',
+S.append(content('01 · ONE ADDRESS', 'pfad.ait4x.org has everything', [
+    'The slides, the course repo, the org and the lab setup are at the bottom of that page — '
+    '**no sign-in needed**. Bookmark it; it is the one address to remember.',
     '',
-    '- The **org invitation** comes by email {bold:after} your repo is verified. It '
-    '{orange:expires after seven days} — accept it when it arrives.',
-    '- Verified means one thing: {bold:the repo you handed in is on the account you registered.}',
+    '- Sign in and you get a **dashboard**: what Canvas received for each assignment, and '
+    'whether that repo is on the account you registered. {orange:A mismatch is flagged '
+    'there, with what to do about it.}',
+    '- The **org invitation** goes to accounts whose submission matches. It comes by email '
+    'and {bold:expires after seven days} — accept it when it arrives.',
     '- Not registered? Do it now, from the account you push with.',
-], notes='The registry is the hub from this week: verified students see the links there, '
-         'nobody else does. No invitation goes out before a repo has been checked, so '
-         '"I never got the email" means "your repo has not been verified yet" — check '
-         'the account first. Being in the org is still not push access.'))
+], notes='Put the address on the board. The links are public; the dashboard is per student '
+         'and shows the Canvas URL against the registered login. "I never got the invitation" '
+         'usually means the repo is on a different account than the one they registered — the '
+         'dashboard says so. Being in the org is still not push access.'))
 
 S.append(two_col('01 · ASSIGNMENT 1', 'A finished repo is two files', [
     '**README.md** is the essay. 500–1000 words, headings, links that work, '
@@ -137,8 +138,8 @@ S.append(content('01 · UNTIL SUNDAY', 'You can still fix it', [
     '- Essay done, no {mono:PROCESS.md}? Add it — top level, that exact name.',
     '- Everything in one commit? Too late to undo, not too late to add: every edit this '
     'week is a commit with a message.',
-    '- Pushed from an account other than the one you registered? Fix the registration '
-    'at {mono:pfad.ait4x.org}, or push from the right one.',
+    '- Pushed from an account other than the one you registered? Your dashboard at '
+    '{mono:pfad.ait4x.org} flags it — fix the registration, or resubmit the right URL.',
 ], bg=INK, notes='The point of showing the first 25 is that there are four days left. The '
                  'check runs again after the deadline; what it finds then is what gets marked.'))
 
