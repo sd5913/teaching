@@ -670,6 +670,22 @@ S.append(statement('A repo that does not say what it needs\nis not finished.',
 # ───────────────────────── 8 · workshop ─────────────────────────
 S.append(section('08', 'Workshop', 'Predict, break, fix'))
 
+S.append(content('08 · WORKSHOP', 'The tutorial is in the repo', [
+    'Everything for the next two hours is one folder in the course repo, and the '
+    'walkthrough is its README:',
+    '',
+    '- [github.com/sd5913/pfad · week02/README.md](https://github.com/sd5913/pfad/blob/2026/week02/README.md)',
+    '- {mono:git pull} in your clone brings it down; {mono:uv run schotter.py} is the first thing it asks for.',
+    '- No clone, or a lab machine you have not used? Download and double-click '
+    '[setup.bat](https://github.com/ait4x/v915-setup/releases/latest/download/setup.bat) — '
+    'it installs the tools, clones the repo, fetches a Python and opens VS Code in the folder.',
+    '',
+    '{muted:The drills you just did are the short version. The README is the long one, on your machine, with real windows.}',
+], notes='Put the README link on the board next to the slides URL. setup.bat does the whole '
+         'chain on a fresh machine — tools, clone into Documents\\pfad, Python, VS Code open in '
+         'the repo — so a student who missed week 1 is running schotter.py in five minutes. '
+         'Signout.bat at the end, as always.'))
+
 S.append(timeline('08 · WORKSHOP', 'Two hours', [
     ('0:00', 'uv run, and nothing else', f'{{mono:git pull}} in your clone of {REPO}, then {{mono:uv run schotter.py}}'),
     ('0:10', 'Read first, run second', 'Schotter, Nake and a Schotter of cubes — in pygame, on your machine. Predict, run, change one knob.'),
