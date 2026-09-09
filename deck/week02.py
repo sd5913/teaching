@@ -405,16 +405,16 @@ for w in range(size):
         cap = (random.randint(0, size) > 0.2 * size
                and last_square_empty)
         grid[w].append((bar, cap))
-        if bar or cap:
-            last_square_empty = False
-        else:
-            last_square_empty = True
-
-for h in range(size):
-    for w in range(size):
-        print("|" if grid[w][h][0] else " ", end="")
-        print("¯" if grid[w][h][1] else " ", end="")
-    print()'''
+        last_square_empty = not (bar or cap)
+svg = f'<svg viewBox="0 0 {size} {size}" stroke="black"'
+svg += ' stroke-width=".1">'
+for w in range(size):
+    for h in range(size):
+        if grid[w][h][0]:
+            svg += f'<path d="M{w} {h}v1"/>'
+        if grid[w][h][1]:
+            svg += f'<path d="M{w} {h}h1"/>'
+print(svg + '</svg>')'''
 
 NAKE_JS = '''let seed = 1966, hProb = 0.2;
 const n = 30;
@@ -472,10 +472,7 @@ S.append(two_col('05 · READING', 'Read it out loud', [
     '               > 0.2 * size',
     '               and last_square_empty)',
     '        grid[w].append((bar, cap))',
-    '        if bar or cap:',
-    '            last_square_empty = False',
-    '        else:',
-    '            last_square_empty = True',
+    '        last_square_empty = not (bar or cap)',
 ], right_size=22, notes='The two conditions, and the state carried between cells. Ask what '
                         'last_square_empty was last set by: the cell above, because h is the inner loop. '
                         'That single fact is the next four slides.'))
@@ -488,13 +485,15 @@ S.append(question('multiple_choice', 'Where will the picture be dense?',
                         'far from it almost never. Do not run it yet — predict first, then the next slide.'))
 
 S.append(exercise('05 · READ IT', 'Run the rule', [
-    'This is the whole program. Press Run and compare the picture with your prediction.',
+    'The first half decides; the second half draws, by printing an SVG. '
+    '{mono:M w h v1} is “go to the cell, draw down one”; {mono:h1} draws across.',
     '',
-    'Run it again. What changes, and what never does?',
+    'Press Run and compare with your prediction. Run it again: what changes, '
+    'and what never does?',
 ], code=NAKE, hint='predict, then run · run twice',
    notes='What changes: every bar and cap. What never does: the dense diagonal, and one more thing '
-         'they have to find on the next slide. The output pane scrolls; the console (›_) shows it '
-         'taller. First Run on this deck downloads Pyodide if they skipped section 04.'))
+         'they have to find on the next slide. First Run on this deck downloads Pyodide if they '
+         'skipped section 04.'))
 
 S.append(question('short_answer', 'Which combination never occurs?',
                   hint='Two marks that are never found together, and the line that forbids it.',
@@ -541,10 +540,7 @@ S.append(exercise('05 · MEET THE SPEC', 'Does this still meet the spec?', [
         '        cap = (random.randint(0, size) > 0.2 * size\n'
         '               and last_square_empty)\n'
         '        grid[w].append((bar, cap))\n'
-        '        if bar or cap:\n'
-        '            last_square_empty = False\n'
-        '        else:\n'
-        '            last_square_empty = True\n',
+        '        last_square_empty = not (bar or cap)\n',
         '        last_square_empty = not bar\n'
         '        cap = (random.randint(0, size) > 0.2 * size\n'
         '               and last_square_empty)\n'
