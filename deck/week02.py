@@ -159,6 +159,17 @@ S.append(content('01 · UNTIL SUNDAY', 'You can still fix it', [
 ], bg=INK, notes='The point of showing the first 25 is that there are four days left. The '
                  'check runs again after the deadline; what it finds then is what gets marked.'))
 
+S.append(cards('01 · FOUR WORDS', 'Four git words, in the terminal or in VS Code', [
+    ('status', 'What changed?', ['{mono:git status}', '', 'VS Code: the **Changes** list in the Source Control panel {mono:(Ctrl+Shift+G)}.', '', 'Costs nothing. Run it until you can predict what it says.']),
+    ('add', 'Take the changes', ['{mono:git add .}', '', 'VS Code: the **+** next to a file. It moves to **Staged Changes**.', '', 'Nothing is saved yet. This is choosing what goes in.']),
+    ('commit', 'Save a snapshot, with a note', ['{mono:git commit -m "Cut the intro"}', '', 'VS Code: type the message, press **Commit**.', '', 'Still only on your computer. GitHub has not seen it.']),
+    ('push · pull', 'Send it up, bring it down', ['{mono:git pull} then {mono:git push}', '', 'VS Code: **Sync Changes** does both, in that order.', '', '**Pull** takes what GitHub has; **push** sends what you have. Edited on the website? Pull first, or the push is {orange:rejected}.']),
+], notes='A student wrote this week: "I am still struggling with pull and push in VS Code." '
+         'So say it once more, slowly, with the button names. The two things that catch '
+         'people: Commit does not push, and editing on github.com puts the laptop behind so '
+         'the next push is rejected until you pull. The tutorial README has the same table '
+         'and a four-minute VS Code video. Do it on the projector in VS Code, not the terminal.'))
+
 S.append(two_col('01 · CHECK IT', 'Ask a script whether it meets the spec', [
     'A **spec** is a list of what the thing must do. This program reads your repo and '
     'says whether it meets the spec. Run it **inside your assignment repo**.',
