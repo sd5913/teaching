@@ -13,7 +13,7 @@ Two GitHub Actions workflows run on every push to `main` (and on demand):
 | Workflow | What it makes | Where it goes |
 |---|---|---|
 | **Publish site** (`.github/workflows/site.yml`) | The html decks, a PDF of each without the ClassPoint buttons, the landing page. | GitHub Pages (Week 2: `/week02/`). |
-| **Build PowerPoints** (`.github/workflows/pptx.yml`) | `week02.pptx` (plain), `week02-classpoint.pptx` (ait4x master, animations, live ClassPoint buttons), the activity manifest, `.docx` of anything in `syllabus/` and `lessons/`, preview sheets. | The `sd5913-powerpoints` artifact of the run, kept 90 days. Not published. |
+| **Build PowerPoints** (`.github/workflows/pptx.yml`) | `week02.pptx` (plain), `week02-classpoint.pptx` (ait4x master, animations, live ClassPoint buttons), the activity manifest, `.docx` of anything in `syllabus/` and `lessons/`, preview sheets. | One artifact per deck, `sd5913-week02` and so on, plus `sd5913-documents` for the `.docx`, kept 90 days. A deck whose inputs did not change is restored from the Actions cache, not rebuilt. Not published. |
 
 ## Layout
 
@@ -48,7 +48,11 @@ the workflow rather than reaching the projector. Previews land in `export/previe
 
 ## Classroom checklist
 
-1. Download the PowerPoint from the latest *Build PowerPoints* run (Actions → Artifacts → `sd5913-powerpoints`).
+1. Download that week from the latest *Build PowerPoints* run (Actions → Artifacts → `sd5913-weekNN`), or from a terminal:
+   ```bash
+   gh run download -R sd5913/teaching -n sd5913-week02 \
+     $(gh run list -R sd5913/teaching -w "Build PowerPoints" -L1 --json databaseId -q '.[0].databaseId')
+   ```
 2. Install Inter and JetBrains Mono on the classroom PC — they ship inside the `deckgen` package (`python -c "import deckgen, pathlib; print(pathlib.Path(deckgen.__file__).parent / 'fonts')"`). Restart PowerPoint. Slide 1 should show *Inter Black* in the font box; Arial substitutes automatically if not.
 3. Open the deck with the ClassPoint add-in and fire one activity before class — a malformed tag fails silently.
 4. Import the roster as the saved class. Students join with the last four digits and the letter of their ID.

@@ -1,8 +1,14 @@
 name: Build PowerPoints
 
-# On every push to main (or by hand): build the plain and the ClassPoint PowerPoints,
-# the activity manifests, the .docx documents and the preview sheets, and keep them as
-# a workflow artifact. Nothing is published — download it from Actions → this run.
+# On every push to main (or by hand): one artifact per deck — the plain and the
+# ClassPoint PowerPoint, the activity manifest and the preview sheets — named
+# <course>-<deck> (sd5913-week02), plus <course>-documents for the .docx files.
+# A deck whose inputs have not changed since the last run is restored from the
+# Actions cache instead of being rebuilt, so a one-slide fix costs one build.
+#
+# Fetch one week from the latest run:
+#   gh run download -R sd5913/teaching -n sd5913-week02 \
+#     $(gh run list -R sd5913/teaching -w "Build PowerPoints" -L1 --json databaseId -q '.[0].databaseId')
 on:
   push:
     branches: [main]
@@ -12,7 +18,66 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  decks:
+    # the roster of decks stays in deckgen.toml; this job just reads it out
+    runs-on: ubuntu-latest
+    outputs:
+      decks: ${{ steps.list.outputs.decks }}
+      code: ${{ steps.list.outputs.code }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: list
+        run: |
+          python3 - >> "$GITHUB_OUTPUT" <<'PY'
+          import json, tomllib
+          course = tomllib.load(open('deckgen.toml', 'rb'))['course']
+          print('decks=' + json.dumps(course['decks']))
+          print('code=' + course['code'].lower())
+          PY
+
+  deck:
+    needs: decks
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        deck: ${{ fromJson(needs.decks.outputs.decks) }}
+    steps:
+      - uses: actions/checkout@v4
+      # The key is everything that can change this deck's PowerPoint: its source, its
+      # answer links, the shared figures and assets, the course config, the deckgen pin
+      # and the exercise solutions. Same key, same files — restore and upload.
+      - id: cache
+        uses: actions/cache@v4
+        with:
+          path: artifact
+          key: pptx-${{ matrix.deck }}-${{ hashFiles(format('deck/{0}.py', matrix.deck), format('deck/{0}-reports.json', matrix.deck), 'deck/figures.py', 'deck/assets/**', 'deckgen.toml', 'requirements.txt', 'tests/**') }}
+      - if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - if: steps.cache.outputs.cache-hit != 'true'
+        run: pip install -r requirements.txt
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: Every exercise starts unsolved and is solvable
+        run: python tests/exercises.test.py
+      - if: steps.cache.outputs.cache-hit != 'true'
+        name: Build ${{ matrix.deck }}
+        run: |
+          deckgen build --pptx ${{ matrix.deck }}
+          mkdir -p artifact
+          cp export/${{ matrix.deck }}.pptx export/${{ matrix.deck }}-classpoint.pptx \
+             export/${{ matrix.deck }}-activities.json export/preview/${{ matrix.deck }}-sheet-*.jpg artifact/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ needs.decks.outputs.code }}-${{ matrix.deck }}
+          path: artifact
+          retention-days: 90
+
+  documents:
+    needs: decks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,19 +87,10 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.txt
       - run: pip install -r requirements.txt
-      # the artifact is named in deckgen.toml, so the roster of courses stays in one file
-      - id: cfg
-        run: echo "artifact=$(python -c 'from deckgen.project import Project; print(Project.load().artifact)')" >> "$GITHUB_OUTPUT"
-      - name: Every exercise starts unsolved and is solvable
-        run: python tests/exercises.test.py
-      - name: Build PowerPoints, documents and previews
-        run: deckgen build --pptx
+      - name: Build the .docx documents
+        run: python -c "from deckgen import docs; docs.main(site=False, export=True)"
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.cfg.outputs.artifact }}
-          path: |
-            export/*.pptx
-            export/*.json
-            export/docs/
-            export/preview/*.jpg
+          name: ${{ needs.decks.outputs.code }}-documents
+          path: export/docs/
           retention-days: 90
