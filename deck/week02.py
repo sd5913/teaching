@@ -702,16 +702,17 @@ S.append(content('08 · WORKSHOP', 'The tutorial is in the repo', [
 
 S.append(timeline('08 · WORKSHOP', 'Two hours', [
     ('0:00', 'uv run, and nothing else', f'{{mono:git pull}} in your clone of {REPO}, then {{mono:uv run schotter.py}}'),
-    ('0:10', 'Read first, run second', 'Schotter, Nake and a Schotter of cubes — in pygame, on your machine. Predict, run, change one knob.'),
-    ('0:40', 'Tides', 'A tidal forecast for Hong Kong waters, drawn as rings. Somebody else\'s data, your rule.'),
-    ('1:00', 'Find the fault', 'Four programs that run and are wrong. One of them is Nake.'),
-    ('1:25', 'Meet the spec', 'Four sentences about a picture, three candidates side by side. Exactly one passes — say which, and point at what the others get wrong.'),
-    ('1:45', 'Commit and push', '{mono:week02-answers.md} in your own repo, then the assignment check on your assignment repo.'),
-], notes='The drills in the slides are 30 seconds each and prove the idea. The tutorial is '
-         'where they do it on their own machine, in a repo, with uv — which is the thing '
-         'that has to work in the exam and in assignment 2. Everything is in pfad/week02: '
-         'schotter.py, nake.py, schotter3d.py, tides/, faults/, spec/. The answer key is in '
-         'the admin workspace, not the repo.'))
+    ('0:10', 'Your assignment repo', 'The four git words, the check, then {mono:check.yml} into the repo so GitHub gives you the tick. URL on Canvas before you leave.'),
+    ('0:55', 'Read first, run second', 'Schotter, Nake and a Schotter of cubes — in pygame, on your machine. Predict, run, change one knob.'),
+    ('1:15', 'Tides', 'A tidal forecast for Hong Kong waters, drawn as rings. Somebody else\'s data, your rule.'),
+    ('1:30', 'Find the fault', 'Four programs that run and are wrong. One of them is Nake.'),
+    ('1:45', 'Meet the spec', 'Four sentences about a picture, three candidates side by side. Exactly one passes — say which.'),
+], notes='The first 45 minutes are the ones that matter: every student leaves with their '
+         'assignment repo on their machine, the workflow file in it, an Actions run, and the '
+         'URL on Canvas. The essay can stay a draft until Sunday; the repo cannot. Nothing is '
+         'committed from the reading exercises — they are done out loud with a neighbour. '
+         'Everything is in pfad/week02: schotter.py, nake.py, schotter3d.py, tides/, faults/, '
+         'spec/. The answer key is in the admin workspace, not the repo.'))
 
 S.append(content('08 · WORKSHOP', 'Name it properly while you are here', [
     'Assignment 2 is set next week and it lives in a repo with your name on it. '
@@ -725,10 +726,12 @@ S.append(content('08 · WORKSHOP', 'Name it properly while you are here', [
 ], notes='Carried from 2025 s76, which the deck review flags as worth keeping. Landing it '
          'in week 2 rather than week 3 means they name it before they start.'))
 
-S.append(question('image_upload', 'Push your answers, then screenshot the green tick.',
+S.append(question('image_upload', 'Push, then screenshot the Actions tab.',
+                  hint='Tick, cross, or the list — whatever GitHub shows. The URL goes on Canvas.',
                   notes='The upload is the attendance signal and the "it actually worked" '
-                        'signal in one. Anyone who cannot push is still stuck on week 1 — '
-                        'deal with them at the back of the room.'))
+                        'signal in one. A cross is fine today: it means the workflow runs and '
+                        'they know what is left. Anyone with an empty Actions tab or who cannot '
+                        'push is still stuck on week 1 — deal with them at the back of the room.'))
 
 S.append(end('See you next week',
              'Week 3: getting data, and making it look like something. Assignment 2 is set.',
