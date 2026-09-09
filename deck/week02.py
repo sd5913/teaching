@@ -257,13 +257,15 @@ S.append(activity('4 — TWO PAIRS', 4, 'Now it has to survive 16 pixels.', [
    notes='Four minutes in fours. The twist: it must work at 16 pixels — the favicon and '
          'the GitHub avatar. One person writes.'))
 
-S.append(question('short_answer', 'One person per group types. One line.',
-                  eyebrow_text='DESIGN THE MARK · CAPTURE · 2 MIN · SHORT ANSWER',
-                  hint='OBJECT — what survives at 16px — never: ___',
-                  example='e.g. “A grid with one tile falling out — the gap where the '
-                          'tile was — never: a gear.”',
-                  notes='ClassPoint short answer. Scribes only, one line per four — about '
-                        '28 lines, not 112. These go into a design tool on the projector.'))
+S.append(question('image_upload', 'One person per group: photograph the page.',
+                  eyebrow_text='DESIGN THE MARK · CAPTURE · 2 MIN · IMAGE UPLOAD',
+                  hint='Sketch + three lines on one page: OBJECT — survives at 16px — never: ___',
+                  example='e.g. a rough grid with one tile falling out, and under it: “the gap '
+                          'where the tile was — never: a gear.”',
+                  notes='ClassPoint image upload. Scribes only, one photo per four — about '
+                        '28 images, not 112. Sketch and the three lines on one page, so the '
+                        'photo carries both. Put a few up on the projector and read the lines '
+                        'aloud; the sketches are the point, the words are the brief.'))
 
 S.append(content('DESIGN THE MARK · WHAT JUST HAPPENED', 'That was a design brief.', [
     'Eight minutes, no software. The room now agrees on an object, what survives at '
