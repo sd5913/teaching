@@ -59,28 +59,88 @@ S.append(title(EYE, 'Reading code',
                'You will be handed code you did not write.'))
 
 S.append(agenda(EYE, [
-    'Loose ends from week 1',
+    'Assignment 1: two files, and until Sunday',
     'Design the mark — week 1 ran out of time',
     'Reading, not writing',
     'Six types, on your laptop',
     'Reading a rule: Nake, 1966',
-    'Five things that will surprise you',
+    'Four things that will surprise you',
     'uv: one command, every dependency',
     'Workshop — predict, break, fix',
 ]))
 
 # ───────────────────────── 1 · loose ends ─────────────────────────
-S.append(section('01', 'Loose ends', 'Where week 1 left off'))
+# Written against the first 25 assignment-1 repos on Canvas (checked 2026-09-09 with
+# ~/dev/sd5913/scripts/check_submissions.py). Counts only — no repo, name or username
+# from that check belongs in a public deck, and none is here.
+S.append(section('01', 'Loose ends', 'Assignment 1, the org, and one address'))
 
-S.append(content('01 · LOOSE ENDS', 'Three things from last week', [
-    '- The **org invitation** is in the email you signed up to GitHub with. '
-    'It {orange:expires after seven days} — accept it even if you do nothing else.',
-    '- Being in the org is {bold:not} push access. Assignment 1 lives on '
-    '**your own account**, which is why it does not matter yet.',
-    '- Not registered at {mono:pfad.ait4x.org}? Do it now. Nothing is marked until '
-    'your student ID and your GitHub username are the same row.',
-], notes='Ask for hands: who has NOT accepted. Expect a third of the room. Anyone whose '
-         'invitation expired — take the username, re-invite after class.'))
+S.append(content('01 · ONE ADDRESS', 'pfad.ait4x.org is the way in', [
+    'You registered there in week 1. From now on it is the **front door of the course**: '
+    'once your assignment has been checked, that page turns into your links — the org '
+    'invitation, the course repo, the slides, the lab setup.',
+    '',
+    '- The **org invitation** comes by email {bold:after} your repo is verified. It '
+    '{orange:expires after seven days} — accept it when it arrives.',
+    '- Verified means one thing: {bold:the repo you handed in is on the account you registered.}',
+    '- Not registered? Do it now, from the account you push with.',
+], notes='The registry is the hub from this week: verified students see the links there, '
+         'nobody else does. No invitation goes out before a repo has been checked, so '
+         '"I never got the email" means "your repo has not been verified yet" — check '
+         'the account first. Being in the org is still not push access.'))
+
+S.append(two_col('01 · ASSIGNMENT 1', 'A finished repo is two files', [
+    '**README.md** is the essay. 500–1000 words, headings, links that work, '
+    'a {bold:References} heading at the bottom with APA entries.',
+    '',
+    '**PROCESS.md** is how you used AI: the tools, one thing kept and why, one thing '
+    'rejected and why. {muted:“I used none” is a fine PROCESS.md, in one sentence.}',
+    '',
+    'Public, on **the account you registered**, with a history that shows the essay '
+    'was written: several commits, more than one day, messages that say what changed.',
+], [
+    'why-are-we-here/',
+    '├── README.md     the essay',
+    '└── PROCESS.md    how you used AI',
+    '',
+    '$ git log --oneline',
+    'e4f1c0a  Add references',
+    'b72d9e1  Cut 200 words from the middle',
+    '9c0a5d2  Second draft: one example',
+    '51ab3f8  First draft',
+    '0d3e7aa  Initial commit',
+], lang=None, right_size=26, left_size=30,
+   notes='Two files at the top level, those exact names. Everything else on the right is '
+         'what a history looks like when the essay was written rather than pasted: five '
+         'commits, three of them with a verb in them. The Schotter repo from the tutorial '
+         'is a different repo — it stays where it is.'))
+
+S.append(content('01 · THE FIRST 25', 'What has come in so far', [
+    'Of the first 25 repos on Canvas: **14 are essays**, 4 are essays missing one thing, '
+    'and **7 are not the assignment** — the Schotter repo from the tutorial, an empty '
+    'README, or the week 1 folder copied in, {mono:.DS_Store} included.',
+    '',
+    '- {muted:Not so good:} one commit called {mono:Initial commit}, or ten commits in twenty minutes',
+    '- {muted:Not so good:} a {mono:PROCESS.md} that is empty, in a subfolder, or says {mono:?}',
+    '- {muted:Not so good:} an outline with the {mono:[ write your example here ]} prompts still in it',
+    '- {orange:Good:} seventeen commits over four days, each saying what changed',
+    '- {orange:Good:} a {mono:PROCESS.md} that names the paragraph it threw away, and why',
+], notes='Patterns, not people — do not name anyone, and do not open a repo on the '
+         'projector. Everyone in the room can place themselves in one of the three groups, '
+         'and the next slide tells them what to do about it.'))
+
+S.append(content('01 · UNTIL SUNDAY', 'You can still fix it', [
+    'Deadline **Sunday 13 September, 23:59**. Nothing is marked before then, and the URL '
+    'on Canvas keeps working — push to the same repo and it is fixed.',
+    '',
+    '- Wrong repo? Make the right one and **resubmit the URL** on Canvas. Attempts are unlimited.',
+    '- Essay done, no {mono:PROCESS.md}? Add it — top level, that exact name.',
+    '- Everything in one commit? Too late to undo, not too late to add: every edit this '
+    'week is a commit with a message.',
+    '- Pushed from an account other than the one you registered? Fix the registration '
+    'at {mono:pfad.ait4x.org}, or push from the right one.',
+], bg=INK, notes='The point of showing the first 25 is that there are four days left. The '
+                 'check runs again after the deadline; what it finds then is what gets marked.'))
 
 S.append(question('short_answer', 'What broke for you last week?',
                   hint='One line. Git, the terminal, VS Code, the registry — anything.',
