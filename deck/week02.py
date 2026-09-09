@@ -199,6 +199,19 @@ S.append(two_col('01 · CHECK IT', 'Ask a script whether it meets the spec', [
          '"does the code meet the spec" question from section 03, pointed at their own '
          'work — and the green tick at the end of the workshop is this same workflow.'))
 
+S.append(cards('01 · WHO CHECKS THE CHECKER', 'The check has to allow the file that runs the check', [
+    ('the loop', 'A rule about itself', ['The check fails on any file that does not belong. The workflow that runs the check is a file in your repo.', '', 'So {mono:check.py} needs one line that says {mono:.github/} is allowed. A rule the checker needs only because the checker exists.']),
+    ('the catch', 'It cannot check that rule', ['Could it read {mono:check.yml} and confirm it calls the real check? Whoever wrote that file could write one that prints {mono:ok} and stops.', '', 'The tick would be green. From inside the repo, nothing can tell the difference.']),
+    ('1931 · 1984', 'Gödel, then Thompson', ['Gödel: a system rich enough to describe itself cannot prove its own consistency from inside.', '', 'Ken Thompson, **Reflections on Trusting Trust**: you cannot trust code you did not write yourself, because the tool that built it could lie.']),
+    ('so', 'Verification needs an outside', ['The tutors run the check from outside your repo. The tick is {orange:evidence, not proof}.', '', 'Same for every generated program this semester: a passing test says the code matched the test. **Who checked the test?**']),
+], notes='Two minutes, and only because someone will ask why the check allows a file the brief '
+         'never mentioned. The honest answer is the whole course: a checker cannot vouch for '
+         'itself, so verification always needs a second look from outside. The tutors run '
+         'check.py from outside the repo; in week 4 a peer reads yours. Do not lecture Gödel: '
+         'say "a system cannot prove its own consistency from inside" once and move on. If '
+         'someone asks what stops them faking check.yml: nothing, and it would be the first '
+         'thing a tutor sees.'))
+
 S.append(question('short_answer', 'What broke for you last week?',
                   hint='One line. Git, the terminal, VS Code, the registry — anything.',
                   notes='Two minutes, no more. Triage, not discussion. Read three out '
