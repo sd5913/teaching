@@ -671,14 +671,17 @@ S.append(statement('A repo that does not say what it needs\nis not finished.',
 S.append(section('08', 'Workshop', 'Predict, break, fix'))
 
 S.append(timeline('08 · WORKSHOP', 'Two hours', [
-    ('0:00', 'Pull week 2', f'{{mono:git pull}} in your clone of {REPO}'),
-    ('0:15', 'The rest of the drills', 'Same shape as the ones you just did, on your own machine with uv.'),
-    ('0:50', 'Find the fault', 'Four programs that run and are wrong. One of them is Nake.'),
-    ('1:20', 'Meet the spec', 'A brief and three candidate solutions. Which one is right?'),
-    ('1:45', 'Commit and push', 'Your answers, as a markdown file, in your own repo.'),
+    ('0:00', 'uv run, and nothing else', f'{{mono:git pull}} in your clone of {REPO}, then {{mono:uv run schotter.py}}'),
+    ('0:10', 'Read first, run second', 'Schotter, Nake and a Schotter of cubes — in pygame, on your machine. Predict, run, change one knob.'),
+    ('0:40', 'Tides', 'A tidal forecast for Hong Kong waters, drawn as rings. Somebody else\'s data, your rule.'),
+    ('1:00', 'Find the fault', 'Four programs that run and are wrong. One of them is Nake.'),
+    ('1:25', 'Meet the spec', 'A brief and three candidates. Exactly one passes — say which, and why the others fail.'),
+    ('1:45', 'Commit and push', '{mono:week02-answers.md} in your own repo, then the assignment check on your assignment repo.'),
 ], notes='The drills in the slides are 30 seconds each and prove the idea. The tutorial is '
          'where they do it on their own machine, in a repo, with uv — which is the thing '
-         'that has to work in the exam and in assignment 2.'))
+         'that has to work in the exam and in assignment 2. Everything is in pfad/week02: '
+         'schotter.py, nake.py, schotter3d.py, tides/, faults/, spec/. The answer key is in '
+         'the admin workspace, not the repo.'))
 
 S.append(content('08 · WORKSHOP', 'Name it properly while you are here', [
     'Assignment 2 is set next week and it lives in a repo with your name on it. '
