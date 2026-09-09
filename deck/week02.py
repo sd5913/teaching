@@ -142,6 +142,35 @@ S.append(content('01 · UNTIL SUNDAY', 'You can still fix it', [
 ], bg=INK, notes='The point of showing the first 25 is that there are four days left. The '
                  'check runs again after the deadline; what it finds then is what gets marked.'))
 
+S.append(two_col('01 · CHECK IT', 'Ask a script whether it meets the spec', [
+    'The whole course in one command: a spec, a repo, and a program that says whether '
+    'one meets the other. Run it **inside your assignment repo**.',
+    '',
+    'It checks what a script can check — two files, the word count, a References '
+    'heading, a {mono:PROCESS.md} that says something, a history over more than one '
+    'sitting. {muted:Whether the essay is good is still a person\'s call.}',
+    '',
+    'Copy {mono:assignments/check.yml} into your repo as {mono:.github/workflows/check.yml} '
+    'and GitHub runs it on every push: {orange:a green tick, or a red cross.}',
+], [
+    '$ uv run https://raw.githubusercontent.com/',
+    '        sd5913/pfad/2026/assignments/check.py',
+    '',
+    'Assignment 1 — why-are-we-here',
+    '',
+    '  ok    README.md: 820 words',
+    '  FAIL  README.md has no References heading',
+    '  FAIL  PROCESS.md is empty',
+    '  ok    12 commits over 3 days',
+    '  ok    just the files that belong',
+    '',
+    '2 thing(s) to fix. Push again when you have.',
+], lang=None, right_size=24, left_size=30,
+   notes='Do this live on the projector with the test account\'s repo: run the check, read '
+         'the list, fix one thing, push, and show the Actions tab turn green. It is the '
+         '"does the code meet the spec" question from section 03, pointed at their own '
+         'work — and the green tick at the end of the workshop is this same workflow.'))
+
 S.append(question('short_answer', 'What broke for you last week?',
                   hint='One line. Git, the terminal, VS Code, the registry — anything.',
                   notes='Two minutes, no more. Triage, not discussion. Read three out '
