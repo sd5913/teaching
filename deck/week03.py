@@ -815,6 +815,7 @@ S.append(content('07 · TWO PATHS · ONE EXAMPLE', 'What assignment 2 can look l
     '{mono:week03/currents.py} · {mono:--drift} lets 2,500 specks of water ride the arrows '
     'instead. {orange:One published file, one picture nobody could draw by hand.}',
 ], image='currents-2026-09-10.png', fit='contain', body_size=28,
+   caption='github.com/sd5913/tidal-streams — the finished repo · sd5913.github.io/tidal-streams — the page, live',
    notes='Play out/currents.gif and then out/currents-drift.gif from the repo on the projector — '
          'the pptx only has the still. The point to make: nothing new was needed. Three '
          'functions the room has already read today, a loop, and a map fetched once and cached '
@@ -856,7 +857,8 @@ S.append(two_col('07 · TWO PATHS · PUBLISHED', 'The page builds itself', [
          'a URL. The two lines to say out loud: the workflow runs the same command they ran, so '
          '"works on my laptop" means a file that is not in the repo; and site/ is output, so it '
          'is gitignored and rebuilt. The right column is the real file with the permissions and '
-         'names cut for the slide — the full one is in assignments/pages.yml. Settings → Pages → '
+         'names cut for the slide — the full one is in assignments/pages.yml, and it is running on '
+         'github.com/sd5913/tidal-streams, whose page is live. Settings → Pages → '
          'Source: GitHub Actions is the one click GitHub does not do for them.'))
 
 S.append(question('short_answer', 'Your phenomenon, and where its numbers come from.',
