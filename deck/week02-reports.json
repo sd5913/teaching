@@ -1,0 +1,40 @@
+[
+  {
+    "activity": "sa20260910020500802CRNK",
+    "question": "What broke for you last week?",
+    "type": "Short Answer",
+    "ran": "2026-09-10T02:05:00.802000Z",
+    "responses": 85
+  },
+  {
+    "activity": "iu20260910022705154FHFR",
+    "question": "One person per group: photograph the sketch.",
+    "type": "Image Upload",
+    "ran": "2026-09-10T02:27:05.154000Z",
+    "responses": 58
+  },
+  {
+    "activity": null,
+    "question": "Where will the picture be dense?",
+    "type": "Multiple Choice",
+    "withheld": "not reached — the class ran out of time at the mark"
+  },
+  {
+    "activity": null,
+    "question": "Which combination never occurs?",
+    "type": "Short Answer",
+    "withheld": "not reached — the class ran out of time at the mark"
+  },
+  {
+    "activity": null,
+    "question": "What is the output of 0.1 + 0.1 + 0.1 == 0.3 ?",
+    "type": "Multiple Choice",
+    "withheld": "not reached — the class ran out of time at the mark"
+  },
+  {
+    "activity": null,
+    "question": "Push, then screenshot the Actions tab.",
+    "type": "Image Upload",
+    "withheld": "not reached — the class ran out of time at the mark"
+  }
+]

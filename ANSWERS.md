@@ -15,3 +15,14 @@ Written by [classpoint.py](https://github.com/venetanji/classpoint.py)'s `weekly
 
 One further activity was run this week and is deliberately not linked: a poll on moving
 tutorial group. It is recorded in `deck/week01-reports.json` with a null id.
+
+## week02
+
+- [What broke for you last week?](https://app.classpoint.io/activity/sa20260910020500802CRNK) — 85 responses
+- [Design the mark: the brief in one line](https://app.classpoint.io/activity/sa20260910022118154DRFP) — 49 responses
+- [Design the mark: the sketch](https://app.classpoint.io/activity/iu20260910022705154FHFR) — 58 responses
+
+The brief was collected as a Short Answer launched from the "Now it has to survive 16
+pixels" slide, which has no button in the deck, so that link lives only here. The four
+question slides after the mark were not reached; they are recorded in
+`deck/week02-reports.json` with a null id.
