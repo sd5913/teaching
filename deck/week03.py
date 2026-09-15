@@ -822,6 +822,43 @@ S.append(content('07 · TWO PATHS · ONE EXAMPLE', 'What assignment 2 can look l
          'changed: instead of drawing the arrow, follow it. That is the whole difference '
          'between the two paths, and it is one line of code.'))
 
+S.append(two_col('07 · TWO PATHS · PUBLISHED', 'The page builds itself', [
+    'The same arrows once more, as a **web page**: {mono:currents_web.py} writes one HTML '
+    'file with {mono:folium}, and the browser does the drawing — pan, zoom, a play button.',
+    '',
+    'Open the file on your laptop. If it plays there, it plays anywhere.',
+    '',
+    'Then one workflow file from {mono:assignments/pages.yml}: on every push, GitHub '
+    'runs the {orange:same command you ran} and publishes the result at '
+    '{mono:you.github.io/your-repo}.',
+    '',
+    '{mono:site/} is never committed. It is made fresh from {mono:data/} every time.',
+], [
+    'on:',
+    '  push:',
+    '    branches: [main]',
+    '',
+    'jobs:',
+    '  build:',
+    '    steps:',
+    '      - uses: actions/checkout@v4',
+    '      - uses: astral-sh/setup-uv@v6',
+    '      - run: uv run currents_web.py',
+    '      - uses: actions/upload-pages-artifact@v3',
+    '        with: { path: site }',
+    '  deploy:',
+    '    needs: build',
+    '    steps:',
+    '      - uses: actions/deploy-pages@v4',
+], lang=None, right_size=24, left_size=28,
+   notes='Optional for assignment 2, and the first sight of the deployment spine the course '
+         'runs on from week 8: a script that makes a thing, a workflow that runs the script, '
+         'a URL. The two lines to say out loud: the workflow runs the same command they ran, so '
+         '"works on my laptop" means a file that is not in the repo; and site/ is output, so it '
+         'is gitignored and rebuilt. The right column is the real file with the permissions and '
+         'names cut for the slide — the full one is in assignments/pages.yml. Settings → Pages → '
+         'Source: GitHub Actions is the one click GitHub does not do for them.'))
+
 S.append(question('short_answer', 'Your phenomenon, and where its numbers come from.',
                   hint='One line. For example: rainfall · HKO daily extract · JSON.',
                   example='Not sure yet? Say the phenomenon on its own and we will find you a file.',
