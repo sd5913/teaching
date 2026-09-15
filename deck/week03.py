@@ -803,6 +803,25 @@ S.append(two_col('07 · TWO PATHS', 'Both of these are assignment 2', [
          'would get a poor mark, and saying that now is kinder than saying it in October. '
          'Point back at the word cloud from the first section while you say it.'))
 
+S.append(content('07 · TWO PATHS · ONE EXAMPLE', 'What assignment 2 can look like', [
+    'Week 2\'s current data with the two numbers the rings threw away put back: '
+    '**longitude and latitude**. Every arrow returns to its place in the sea; 24 quarter '
+    'hours become 24 frames.',
+    '',
+    '- {mono:to_xy} — the bearing into a vector, as on the clock',
+    '- {mono:to_pixel} — the round Earth onto the flat map tiles',
+    '- {mono:frame(i)} — one quarter hour into one picture',
+    '',
+    '{mono:week03/currents.py} · {mono:--drift} lets 2,500 specks of water ride the arrows '
+    'instead. {orange:One published file, one picture nobody could draw by hand.}',
+], image='currents-2026-09-10.png', fit='contain', body_size=28,
+   notes='Play out/currents.gif and then out/currents-drift.gif from the repo on the projector — '
+         'the pptx only has the still. The point to make: nothing new was needed. Three '
+         'functions the room has already read today, a loop, and a map fetched once and cached '
+         'in data/ like everything else. The drift version is the same numbers with the rule '
+         'changed: instead of drawing the arrow, follow it. That is the whole difference '
+         'between the two paths, and it is one line of code.'))
+
 S.append(question('short_answer', 'Your phenomenon, and where its numbers come from.',
                   hint='One line. For example: rainfall · HKO daily extract · JSON.',
                   example='Not sure yet? Say the phenomenon on its own and we will find you a file.',
@@ -836,7 +855,7 @@ S.append(timeline('08 · WORKSHOP', 'Two hours', [
     ('0:00', 'uv run tides.py', 'The year, cached to {mono:data/}, and today\'s 24 numbers as a text chart. D2 on the real file.'),
     ('0:15', 'One day, four ways', '{mono:plot_day.py}, {mono:tide_clock.py}, {mono:tide_month.py}, {mono:moon.py}. Predict, run, change one knob.'),
     ('0:40', 'Make it move', '{mono:animate.py} sweeps the clock and writes a GIF into {mono:out/}.'),
-    ('0:55', 'Three numbers', '{mono:earthquakes.py} — fetch, cache, trim, a map sized by magnitude.'),
+    ('0:55', 'Three numbers', '{mono:earthquakes.py} — a map sized by magnitude; {mono:currents.py} — week 2\'s arrows back on the map, moving.'),
     ('1:10', 'Same idea, messier', '{mono:typhoons.py} — an HTML table, wind against pressure.'),
     ('1:20', 'Your repo', 'New repo, the tree from the brief, your file cached, one plot, the check, the workflow, the URL on Canvas.'),
     ('1:50', 'Upload', 'Your plot to ClassPoint. Caption: phenomenon · source.'),
