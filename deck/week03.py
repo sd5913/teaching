@@ -618,7 +618,10 @@ S.append(exercise('05 · D6 · POLAR TO XY', 'Round, into flat', [
          'the way round and lands straight down the y axis, hour 12 is half way and lands on '
          'the negative x axis. If the room is quick, ask why the y of hour 6 is positive when '
          'it is drawn at the bottom — because screen y counts downwards, which is the one '
-         'thing that catches everyone. to_xy is the name the tutorial uses in tide_clock.py.'))
+         'thing that catches everyone. to_xy is the name the tutorial uses in tide_clock.py, '
+         'where the angle is written radians(90 - hour / 24 * 360) so midnight sits at the top '
+         'and the day runs clockwise, like a clock. Same transformation, one quarter turn; the '
+         'ROTATE knob in that file is the quarter turn made visible.'))
 
 S.append(content('05 · WEEK 2 WAS THIS', 'The rings you ran last week were this', [
     '{mono:tides.py} in week 2 drew twenty-four rings of tidal current. Every one of them:',
@@ -846,7 +849,7 @@ S.append(timeline('08 · WORKSHOP', 'Two hours', [
 
 S.append(question('image_upload', 'Upload your first plot.',
                   hint='Caption, 50 characters or fewer: phenomenon · source.',
-                  example='e.g. "tide at Quarry Bay · HKO hourly JSON"  (37 characters)',
+                  example='e.g. "tide at Quarry Bay · HKO hourly JSON"  (36 characters)',
                   notes='Attendance and the assignment kick-off in one. A plot of the tide '
                         'straight from the tutorial counts — the point is that everyone has '
                         'made a picture from a file today. ClassPoint truncates image captions '
