@@ -62,6 +62,49 @@ SOLUTIONS = {
         'a = [1, 2, 3]\nb = a.copy()\nb.append(4)\n\nprint(a)',
     'it-gives-you-none':
         'def double(x):\n    return x * 2\n\nprint(double(21))',
+    # week 03 · the same 24 numbers in every drill, so the solutions quote the deck's list
+    'once-for-each-number': lambda mod: (
+        mod.HEIGHTS + '\n\n'
+        'for hour, height in enumerate(heights, start=1):\n'
+        '    if height < 1.1:\n'
+        '        print(hour, height)'),
+    'it-prints-none-twenty-four-times': lambda mod: (
+        'def bar(height):\n'
+        '    return "#" * round(height * 10)\n\n'
+        + mod.HEIGHTS + '\n\n'
+        'for hour, height in enumerate(heights, start=1):\n'
+        '    print(f"{hour:2} {bar(height)}")'),
+    'when-is-high-water': lambda mod: (
+        mod.HEIGHTS + '\n\n'
+        'def high_tide(heights):\n'
+        '    best_hour = 0\n'
+        '    best = 0\n'
+        '    for hour, height in enumerate(heights, start=1):\n'
+        '        if height > best:\n'
+        '            best = height\n'
+        '            best_hour = hour\n'
+        '    return best_hour\n\n'
+        'print(high_tide(heights))'),
+    'the-quotes-are-still-there': lambda mod: (
+        [e for s in mod.DECK['slides'] for e in s.els
+         if e.kind == 'exercise' and e.eid == 'the-quotes-are-still-there'][0].code
+        .replace('print(d["data"][1][8])', 'print(float(d["data"][1][8]) + 1)')),
+    'predict-the-three-points':
+        'shape = [(0, 0), (100, 0), (50, 80)]\n\n'
+        'def move(p, dx, dy):\n'
+        '    return (p[0] + dx, p[1] + dy)\n\n'
+        '# move every point 10 across and 20 down\n'
+        'print([move(p, 10, 20) for p in shape])',
+    'round-into-flat':
+        'import math\n\n'
+        'def to_xy(hour, height):\n'
+        '    angle = hour / 24 * 2 * math.pi\n'
+        '    r = height * 100\n'
+        '    return (round(r * math.cos(angle), 2),\n'
+        '            round(r * math.sin(angle), 2))\n\n'
+        '# hour 6 is 1.14 m, hour 12 is 1.35 m\n'
+        'print(to_xy(6, 1.14))\n'
+        'print(to_xy(12, 1.35))',
 }
 
 

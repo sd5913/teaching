@@ -53,6 +53,30 @@ a slide is not here, ask — it will be added.
 | **indentation** | The spaces at the start of a line. In Python they say what belongs inside a loop, a condition, a function. Four spaces. |
 | **state** | Something a program remembers from one step to the next. `last_square_empty` is state. |
 | **random** | A number the program picks by chance. The same **seed** gives the same random numbers again. |
+| **tuple** | A short list you do not change, written with round brackets: `(hour, height)`. A coordinate is one. |
+| **enumerate** | Loop over a list and get the position as well as the value: `for hour, height in enumerate(heights, start=1):`. |
+| **comprehension** | A loop written on one line that collects the answers: `[move(p, 10, 20) for p in shape]`. |
+
+## Data and pictures
+
+| Word | What it means |
+|---|---|
+| **data** | Numbers somebody measured and published. The tide at Quarry Bay, every earthquake of the last month. |
+| **JSON** | A common file format for data: lists and dicts, written out as text. Every number in it is text until you say `float()`. |
+| **CSV** | A file of rows and columns, separated by commas. Opens in Excel, reads in three lines of Python. |
+| **API** (endpoint) | An address you fetch data from instead of a web page. `data.weather.gov.hk/...?station=QUB` is one. |
+| **parse** | Turn a file of text into lists and numbers your program can use. |
+| **cache** | Fetch once, save the raw reply into `data/`, then read the saved file. Your script then runs with no internet, and the repo still works when the address moves. |
+| **scrape** | Take numbers off a web page that was not meant to be read by a program. A page is a tree; BeautifulSoup walks it. |
+| **User-Agent** | The line your script uses to say who it is when it fetches something. Say who you are, and do not fetch in a loop. |
+| **plot** | Draw numbers as a picture. **matplotlib** is the library we use for it. |
+| **axis** | One direction of a picture, and what it means: hour across, metres up. An unlabelled axis is a picture nobody can read. |
+| **vector** | A list of numbers where each position means something: `(hour, height)`, `(lng, lat)`, `(knot, deg)`. Swap them and the picture is nonsense. |
+| **transformation** | A rule that turns one vector into another: `move`, `scale`, `rotate`, or hour-and-height into angle-and-radius. A chart type is a transformation. |
+| **matrix** | A small table of numbers that *is* a transformation. Matplotlib, CSS and p5.js all call it `transform`. |
+| **polar** | Saying where a point is with an angle and a distance instead of x and y. `to_xy` converts one to the other. |
+| **projection** | The transformation that puts a round world on a flat page. Longitude across, latitude up is the cheapest one. |
+| **frame** | One picture of an animation. An animation is a function of which frame it is: `def frame(i)`. |
 
 ## Checking work
 
