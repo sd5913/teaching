@@ -814,7 +814,7 @@ S.append(content('07 · TWO PATHS · ONE EXAMPLE', 'What assignment 2 can look l
     '',
     '{mono:week03/currents.py} · {mono:--drift} lets 2,500 specks of water ride the arrows '
     'instead. {orange:One published file, one picture nobody could draw by hand.}',
-], image='currents-2026-09-10.png', fit='contain', body_size=28,
+], image='currents-2026-09-14.png', fit='contain', body_size=28,
    caption='github.com/sd5913/tidal-streams — the finished repo · sd5913.github.io/tidal-streams — the page, live',
    notes='Play out/currents.webp and then out/currents-drift.webp from the repo on the projector — '
          'the pptx only has the still. The point to make: nothing new was needed. Three '
