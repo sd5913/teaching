@@ -804,19 +804,19 @@ S.append(two_col('07 · TWO PATHS', 'Both of these are assignment 2', [
          'Point back at the word cloud from the first section while you say it.'))
 
 S.append(content('07 · TWO PATHS · ONE EXAMPLE', 'What assignment 2 can look like', [
-    'Week 2\'s current data with the two numbers the rings threw away put back: '
-    '**longitude and latitude**. Every arrow returns to its place in the sea; 24 quarter '
-    'hours become 24 frames.',
+    'Week 2\'s current data, five days of it, with the two numbers the rings threw away '
+    'put back: **longitude and latitude**. Every arrow returns to its place in the sea; '
+    '120 hours become 120 frames, ten tides in ten seconds.',
     '',
     '- {mono:to_xy} — the bearing into a vector, as on the clock',
     '- {mono:to_pixel} — the round Earth onto the flat map tiles',
-    '- {mono:frame(i)} — one quarter hour into one picture',
+    '- {mono:frame(i)} — one hour into one picture',
     '',
     '{mono:week03/currents.py} · {mono:--drift} lets 2,500 specks of water ride the arrows '
     'instead. {orange:One published file, one picture nobody could draw by hand.}',
 ], image='currents-2026-09-10.png', fit='contain', body_size=28,
    caption='github.com/sd5913/tidal-streams — the finished repo · sd5913.github.io/tidal-streams — the page, live',
-   notes='Play out/currents.gif and then out/currents-drift.gif from the repo on the projector — '
+   notes='Play out/currents.webp and then out/currents-drift.webp from the repo on the projector — '
          'the pptx only has the still. The point to make: nothing new was needed. Three '
          'functions the room has already read today, a loop, and a map fetched once and cached '
          'in data/ like everything else. The drift version is the same numbers with the rule '
