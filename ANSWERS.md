@@ -24,5 +24,5 @@ tutorial group. It is recorded in `deck/week01-reports.json` with a null id.
 
 The brief was collected as a Short Answer launched from the "Now it has to survive 16
 pixels" slide, which has no button in the deck, so that link lives only here. The four
-question slides after the mark were not reached; they are recorded in
+question slides after the mark were not run; they are recorded in
 `deck/week02-reports.json` with a null id.

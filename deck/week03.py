@@ -25,13 +25,8 @@ Sources this is built from:
                                transformations) and s63 (the two paths); both are here,
                                rewritten, and nothing else from it is.
 
-Week 2 ran out of time at slide 18. Nothing after it was delivered — not the six types,
-not the Nake reading, not uv. So this deck says again, once each and in passing, the
-three facts the room needs and did not get: square brackets look up a list and a dict
-the same way (week 2 s28), a function with no `return` hands back None (s46), and a
-scraped number is text until you say float() (s27). It does not re-teach them, and it
-does not port the Nake section — that stays in the week 2 deck, which still runs in the
-browser.
+Week 2 was delivered in full; only the four ClassPoint activities after the mark
+were not run. uv was mentioned once, so the tutorial and the reference page carry it.
 
 Deliberately NOT here:
 
@@ -165,21 +160,22 @@ S.append(content('01 · ASSIGNMENT 1', 'It closed on Sunday', [
          'not proof — week 2 s11. Anyone who has still not submitted a URL on Canvas: see '
          'me at the break, not now. Assignment 2 is set in four slides and it matters more.'))
 
-S.append(content('01 · WEEK 02', 'We stopped halfway. The rest is still there.', [
-    'Week 2 ran to the mark at the design brief. The second half — the six types, '
-    'reading the Nake rule, the four surprises, uv — was never delivered out loud.',
+S.append(content('01 · WEEK 02', 'Last week, if you want it again', [
+    'Week 2 is **all in the browser**: [' + SITE + '/week02/](https://' + SITE + '/week02/). '
+    'Every drill still runs, still checks itself, still keeps your answer.',
     '',
-    '- It is **all in the browser**: {orange:' + SITE + '/week02/}. Every drill still '
-    'runs, still checks itself, still keeps your answer.',
-    '- The tutorial {mono:week02/README.md} is the long version, with the faults and '
-    'the spec exercise.',
+    '- The tutorial [week02/README.md](https://' + REPO + '/blob/2026/week02/README.md) is the '
+    'long version: the faults and the spec exercise.',
+    '- {mono:uv} got one mention. It runs everything in today\'s tutorial, and '
+    '[reference/uv.md](https://' + REPO + '/blob/2026/reference/uv.md) is the ten minutes on what it does.',
     '',
-    'Today needs two facts from it, and they are on the slides when they are needed. '
-    '{muted:You are not behind.}',
-], notes='One minute. Do not summarise the second half — pointing at it is the whole slide. '
-         'The two facts this deck repeats on the way past: a function with no return hands '
-         'back None (week 2 s46), and square brackets look up a list and a dict the same '
-         'way (s28). Both are said once, inside a drill that needs them.'))
+    '{muted:Two facts from last week come back today, on the slides where they are needed.}',
+], notes='One minute. Week 2 was delivered in full; only the activities after the mark were '
+         'not run, so nothing is owed and nobody is behind. Point, do not summarise. uv is the '
+         'one thing said once that matters today: the tutorial opens with it and the reference '
+         'page carries it. The two facts this deck repeats on the way past: a function with no '
+         'return hands back None (week 2 s46), and square brackets look up a list and a dict '
+         'the same way (s28).'))
 
 S.append(question('word_cloud', 'Name a natural phenomenon.',
                   hint='One or two words. Tide, rain, wind, moon, birds, earthquakes. '
@@ -481,7 +477,7 @@ S.append(content('04 · JSON', 'A dict of lists of lists, and one way in', [
     'Three brackets, three steps, and you are at one number. '
     '{muted:Which is not yet a number — look at the quotes.}',
 ], body_size=30,
-   notes='Week 2 s28, which was never delivered: one slide, said once. Do not teach indexing '
+   notes='Week 2 s28 again: one slide, said once. Do not teach indexing '
          'again after this. The row number 259 is worth a beat — it is 31+28+31+30+31+30+31+31+16, '
          'i.e. the day of the year minus one, and the tutorial computes it rather than typing '
          'it. The quotes are the next slide and the whole point.'))
@@ -922,7 +918,8 @@ S.append(content('08 · WORKSHOP', 'The tutorial is in the repo', [
     'walkthrough is its README:',
     '',
     '- [' + REPO + ' · week03/README.md](https://github.com/sd5913/pfad/blob/2026/week03/README.md)',
-    '- {mono:git pull} brings it down; {mono:uv run tides.py} is the first thing it asks for.',
+    '- {mono:git pull} brings it down; {mono:uv run tides.py} is the first thing it asks for. '
+    'What {mono:uv run} does: [reference/uv.md](https://' + REPO + '/blob/2026/reference/uv.md).',
     '- No clone, or a lab machine you have not used? Download and double-click '
     '[setup.bat](https://github.com/ait4x/v915-setup/releases/latest/download/setup.bat).',
     '',
