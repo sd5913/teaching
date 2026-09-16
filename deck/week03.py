@@ -192,7 +192,7 @@ S.append(question('word_cloud', 'Name a natural phenomenon.',
 
 # ───────────────────────── 2 · assignment 2 ─────────────────────────
 S.append(image_full('marks-2026-09-10.jpg', '01 · LOOSE ENDS · THE MARK',
-                    '56 marks. Two at a time, pick the better one: pfad.ait4x.org/vote',
+                    '56 marks. Two at a time, pick the better one: [pfad.ait4x.org/vote](https://pfad.ait4x.org/vote)',
                     fit='contain',
                     notes='Thirty seconds. Week 2\'s "photograph the sketch" got 58 uploads, 56 of them '
                           'marks — most of them made with a model or a pixel editor rather than '
@@ -233,8 +233,9 @@ S.append(two_col('02 · ASSIGNMENT 2', 'What a finished repo looks like', [
     '**README.md** the phenomenon, the picture. **PROCESS.md** the tools. '
     '**data/** the raw file, so it runs offline. **out/** the picture.',
     '',
-    '{orange:Start from the template:} {mono:sd5913/assignment-2-template} → Use this template. '
-    '{mono:pfad/reference/files.md} is the ten-minute version.',
+    '{orange:Start from the template:} [sd5913/assignment-2-template → Use this template]'
+    '(https://github.com/sd5913/assignment-2-template/generate). '
+    '[pfad/reference/files.md](https://github.com/sd5913/pfad/blob/2026/reference/files.md) is the ten-minute version.',
 ], [
     'tidal-clock/',
     '├── .git/             the history. never open it',
@@ -857,7 +858,7 @@ S.append(content('07 · TWO PATHS · ONE EXAMPLE', 'What assignment 2 can look l
     '{mono:week03/currents.py} · {mono:--drift} lets 2,500 specks of water ride the arrows '
     'instead. {orange:One published file, one picture nobody could draw by hand.}',
 ], image='currents-2026-09-14.png', fit='contain', body_size=28,
-   caption='github.com/sd5913/tidal-streams — the finished repo · sd5913.github.io/tidal-streams — the page, live',
+   caption='[github.com/sd5913/tidal-streams](https://github.com/sd5913/tidal-streams) — the finished repo · [sd5913.github.io/tidal-streams](https://sd5913.github.io/tidal-streams/) — the page, live',
    notes='Play out/currents.webp and then out/currents-drift.webp from the repo on the projector — '
          'the pptx only has the still. The point to make: nothing new was needed. Three '
          'functions the room has already read today, a loop, and a map fetched once and cached '
