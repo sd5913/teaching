@@ -220,6 +220,9 @@ S.append(two_col('02 · ASSIGNMENT 2', 'What a finished repo looks like', [
     'run a year from now, with no internet.',
     '',
     '**out/** — the picture, so the README can show it.',
+    '',
+    '{orange:Start from the template:} {mono:sd5913/assignment-2-template} → Use this template. '
+    'The tree, the check, and a fetch/plot pair that run before you touch them.',
 ], [
     'tidal-clock/',
     '├── README.md      the phenomenon, the',
@@ -235,8 +238,10 @@ S.append(two_col('02 · ASSIGNMENT 2', 'What a finished repo looks like', [
    notes='The tree on the right is the whole brief in ten lines; leave it up. data/ is the '
          'part that is new and the part people skip: fetch once, save the reply, parse the '
          'saved file. A repo that fetches on every run is a repo that stops working the day '
-         'the endpoint moves — and one of ours did, in 2023. The check grows an '
-         '--assignment 2 mode this week; it is in the tutorial.'))
+         'the endpoint moves — and one of ours did, in 2023. The template (new for this '
+         'assignment) ships the tree, the check workflow and a fetch/plot pair on the '
+         'Observatory\'s daily temperature, so the first push already gets a red cross with '
+         'the list of what is left to do.'))
 
 S.append(content('02 · ASSIGNMENT 2', 'Name it properly, before you start', [
     'We said this in week 2 and it applies from today: the repo name is the first thing '
@@ -896,7 +901,7 @@ S.append(timeline('08 · WORKSHOP', 'Two hours', [
     ('0:40', 'Make it move', '{mono:animate.py} sweeps the clock and writes a GIF into {mono:out/}.'),
     ('0:55', 'Three numbers', '{mono:earthquakes.py} — a map sized by magnitude; {mono:currents.py} — week 2\'s arrows back on the map, moving.'),
     ('1:10', 'Same idea, messier', '{mono:typhoons.py} — an HTML table, wind against pressure.'),
-    ('1:20', 'Your repo', 'New repo, the tree from the brief, your file cached, one plot, the check, the workflow, the URL on Canvas.'),
+    ('1:20', 'Your repo', 'Use the template, cache your file, one plot, the check, the URL on Canvas.'),
     ('1:50', 'Swap screens', 'Your plot on your screen, your neighbour\'s on theirs. One sentence each: what does it hide?'),
 ], notes='The blocks that must happen are 0:00 and 1:20. Everything between them is a menu — '
          'a group that is flying can skip to their own data at 0:40 and a group that is stuck '
