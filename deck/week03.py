@@ -938,6 +938,7 @@ S.append(timeline('08 · WORKSHOP', 'Two hours', [
     ('1:10', 'Same idea, messier', '{mono:typhoons.py} — an HTML table, wind against pressure.'),
     ('1:20', 'Your repo', 'Use the template, cache your file, one plot, the check, the URL on Canvas.'),
     ('1:50', 'Swap screens', 'Your plot on your screen, your neighbour\'s on theirs. One sentence each: what does it hide?'),
+    ('1:55', 'Next week', 'Read [teaching PR #3](https://github.com/sd5913/teaching/pull/3). React or comment: what do you want more of?'),
 ], notes='The blocks that must happen are 0:00 and 1:20. Everything between them is a menu — '
          'a group that is flying can skip to their own data at 0:40 and a group that is stuck '
          'on git should be at 1:20 the whole time. moon.py is the one worth insisting on: it '
