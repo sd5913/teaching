@@ -211,37 +211,61 @@ S.append(cards('02 · ASSIGNMENT 2', 'Numbers about a natural phenomenon, and a 
          'public file behind it, it is the wrong phenomenon for this assignment.'))
 
 S.append(two_col('02 · ASSIGNMENT 2', 'What a finished repo looks like', [
-    '**README.md** — the phenomenon, the source as a link that works, the picture '
-    'embedded, how to run it.',
+    'A folder is a list of names. A path is an address: {mono:tidal-clock/data/tides.json}. '
+    '{mono:.} is here, {mono:..} is the folder above.',
     '',
-    '**PROCESS.md** — the tools, one thing kept, one thing rejected and why.',
+    'Names that start with a dot are hidden by Finder and Explorer — not by git, not by '
+    'VS Code. Every repo you make has three.',
     '',
-    '**data/** — the raw file you fetched, committed. That is what makes the repo still '
-    'run a year from now, with no internet.',
-    '',
-    '**out/** — the picture, so the README can show it.',
+    '**README.md** the phenomenon, the picture. **PROCESS.md** the tools. '
+    '**data/** the raw file, so it runs offline. **out/** the picture.',
     '',
     '{orange:Start from the template:} {mono:sd5913/assignment-2-template} → Use this template. '
-    'The tree, the check, and a fetch/plot pair that run before you touch them.',
+    '{mono:pfad/reference/files.md} is the ten-minute version.',
 ], [
     'tidal-clock/',
-    '├── README.md      the phenomenon, the',
-    '│                  source, the picture',
-    '├── PROCESS.md     how you used AI',
-    '├── tide_clock.py  with a # /// script',
-    '│                  block at the top',
-    '├── data/',
-    '│   └── tides-QUB-2026.json',
-    '└── out/',
-    '    └── tide-clock.png',
-], lang=None, right_size=26, left_size=28,
-   notes='The tree on the right is the whole brief in ten lines; leave it up. data/ is the '
-         'part that is new and the part people skip: fetch once, save the reply, parse the '
-         'saved file. A repo that fetches on every run is a repo that stops working the day '
-         'the endpoint moves — and one of ours did, in 2023. The template (new for this '
-         'assignment) ships the tree, the check workflow and a fetch/plot pair on the '
-         'Observatory\'s daily temperature, so the first push already gets a red cross with '
-         'the list of what is left to do.'))
+    '├── .git/             the history. never open it',
+    '├── .github/',
+    '│   └── workflows/',
+    '│       └── check.yml what GitHub runs',
+    '├── .gitignore        never committed: site/',
+    '├── README.md',
+    '├── PROCESS.md',
+    '├── fetch.py          HERE / "data" / FILE',
+    '├── plot.py',
+    '├── data/             the raw file',
+    '└── out/              the picture',
+], lang=None, right_size=22, left_size=26,
+   notes='The tree on the right is the template as ls -a shows it; leave it up. New this '
+         'year: the three dot names, said out loud, because Finder and Explorer hide them and '
+         'nobody in this room grew up with a file system — phones do not have one. .git is the '
+         'history; .github/workflows is the exact address GitHub looks at (week 2\'s empty '
+         'Actions tabs were this); .gitignore is the list of what never gets committed. data/ '
+         'is still the part people skip: fetch once, save the reply, parse the saved file. '
+         'The template ships all of it, so the first push already gets a red cross with the '
+         'list of what is left to do. reference/files.md in pfad is the ten-minute version for later.'))
+
+S.append(exercise('02 · DRILL · A PATH', 'Predict the path', [
+    'Every script in the tutorial starts like this: {mono:HERE} is the folder the script is in. '
+    '{mono:/} joins two paths; {mono:.parent} is {mono:..} in code; {mono:.name} is the last piece.',
+    '',
+    '**Predict the three lines.** Then fix {mono:DATA}: the raw file is in {mono:data/} '
+    '**beside** {mono:out/}, not inside it.',
+], code='from pathlib import Path\n\n'
+        'HERE = Path("/Users/mia/tidal-clock")\n'
+        'OUT = HERE / "out"\n'
+        'DATA = OUT / "data" / "tides.json"   # wrong\n\n'
+        'print(HERE.parent)\n'
+        'print(DATA)\n'
+        'print(DATA.name)',
+   expect='/Users/mia\n/Users/mia/tidal-clock/data/tides.json\ntides.json',
+   hint='OUT.parent is the folder above out/ — or start from HERE.',
+   notes='Two minutes. Ask the first line out loud: HERE.parent is /Users/mia, the folder '
+         'above — that is cd .. in code. As given, the second line prints '
+         '/Users/mia/tidal-clock/out/data/tides.json: a perfectly real-looking address for '
+         'a file that does not exist, which is exactly how "no such file" happens on Sunday '
+         'night. Either fix passes — OUT.parent / "data" or HERE / "data". Windows people: '
+         'their real HERE starts with C:\\ and Python still joins with /.'))
 
 S.append(content('02 · ASSIGNMENT 2', 'Name it properly, before you start', [
     'We said this in week 2 and it applies from today: the repo name is the first thing '

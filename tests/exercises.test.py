@@ -62,7 +62,13 @@ SOLUTIONS = {
         'a = [1, 2, 3]\nb = a.copy()\nb.append(4)\n\nprint(a)',
     'it-gives-you-none':
         'def double(x):\n    return x * 2\n\nprint(double(21))',
-    # week 03 · the same 24 numbers in every drill, so the solutions quote the deck's list
+    # week 03 · a path drill, then the same 24 numbers in every drill (the solutions quote the deck's list)
+    'predict-the-path':
+        'from pathlib import Path\n\n'
+        'HERE = Path("/Users/mia/tidal-clock")\n'
+        'OUT = HERE / "out"\n'
+        'DATA = OUT.parent / "data" / "tides.json"\n\n'
+        'print(HERE.parent)\nprint(DATA)\nprint(DATA.name)',
     'once-for-each-number': lambda mod: (
         mod.HEIGHTS + '\n\n'
         'for hour, height in enumerate(heights, start=1):\n'
