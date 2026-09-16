@@ -403,7 +403,7 @@ S.append(content('03 · A FUNCTION', 'A rule with a name', [
     '{mono:def bar(height):} — something goes **in**, something comes **out**.',
     '',
     '- The name in the brackets is a name for whatever you hand it. It exists only inside.',
-    '- {orange:No {mono:return}, nothing comes out.} Python hands back {mono:None}, '
+    '- {orange:No} {mono:return}{orange:, nothing comes out.} Python hands back {mono:None}, '
     'silently, and your picture is empty for a reason you cannot see.',
     '- Four spaces of indentation say which lines are inside the function.',
     '',
