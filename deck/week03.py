@@ -134,7 +134,7 @@ S.append(content('SD5913 · WEEK 03 · WORDS', 'Words you will hear today', [
     '- **frame** — one picture of an animation. **library** — code somebody else wrote, '
     'that draws for you.',
     '',
-    '{muted:Every word from the slides, in plain language: ' + SITE + '/glossary.html}',
+    '{muted:Every word from the slides, in plain language:} [' + SITE + '/glossary.html](https://' + SITE + '/glossary.html)',
 ], body_size=30, notes='One minute, pointing, not reading. Six of these ten are new this '
                        'week and all six are in the glossary before the class. The one to '
                        'say out loud is transformation: it is the spine of the middle hour '
@@ -525,7 +525,7 @@ S.append(cards('04 · FOUR RULES', 'Four rules for taking somebody else\'s numbe
      'Wikipedia is one.'),
     ('rot', 'Watch the line rot',
      'The tidal-stream endpoint behind week 2\'s rings moved in 2023 — '
-     '{mono:fetch_tides.py} says so in a comment. A cached file outlives the URL it came from.'),
+     '[fetch_tides.py](https://github.com/sd5913/pfad/blob/2026/week02/tides/fetch_tides.py) says so in a comment. A cached file outlives the URL it came from.'),
     ('polite', 'Be polite',
      'A {mono:User-Agent} that says who you are and what for. One request, not a loop of '
      'them. You are a guest on somebody else\'s server.'),
@@ -663,7 +663,7 @@ S.append(exercise('05 · D6 · POLAR TO XY', 'Round, into flat', [
          'ROTATE knob in that file is the quarter turn made visible.'))
 
 S.append(content('05 · WEEK 2 WAS THIS', 'The rings you ran last week were this', [
-    '{mono:tides.py} in week 2 drew twenty-four rings of tidal current. Every one of them:',
+    '[tides.py](https://github.com/sd5913/pfad/blob/2026/week02/tides/tides.py) in week 2 drew twenty-four rings of tidal current. Every one of them:',
     '',
     '- a circle — {mono:to_xy} in a loop, 200 times round',
     '- {mono:scale} — ring {mono:n} drawn at {mono:(n + 1) / 24} of full size',
@@ -851,7 +851,7 @@ S.append(content('07 · TWO PATHS · ONE EXAMPLE', 'What assignment 2 can look l
     '- {mono:to_pixel} — the round Earth onto the flat map tiles',
     '- {mono:frame(i)} — one hour into one picture',
     '',
-    '{mono:week03/currents.py} · {mono:--drift} lets 2,500 specks of water ride the arrows '
+    '[week03/currents.py](https://github.com/sd5913/pfad/blob/2026/week03/currents.py) · {mono:--drift} lets 2,500 specks of water ride the arrows '
     'instead. {orange:One published file, one picture nobody could draw by hand.}',
 ], image='currents-2026-09-14.png', fit='contain', body_size=28,
    caption='[github.com/sd5913/tidal-streams](https://github.com/sd5913/tidal-streams) — the finished repo · [sd5913.github.io/tidal-streams](https://sd5913.github.io/tidal-streams/) — the page, live',
@@ -863,12 +863,12 @@ S.append(content('07 · TWO PATHS · ONE EXAMPLE', 'What assignment 2 can look l
          'between the two paths, and it is one line of code.'))
 
 S.append(two_col('07 · TWO PATHS · PUBLISHED', 'The page builds itself', [
-    'The same arrows once more, as a **web page**: {mono:currents_web.py} writes one HTML '
+    'The same arrows once more, as a **web page**: [currents_web.py](https://github.com/sd5913/pfad/blob/2026/week03/currents_web.py) writes one HTML '
     'file with {mono:folium}, and the browser does the drawing — pan, zoom, a play button.',
     '',
     'Open the file on your laptop. If it plays there, it plays anywhere.',
     '',
-    'Then one workflow file from {mono:assignments/pages.yml}: on every push, GitHub '
+    'Then one workflow file from [assignments/pages.yml](https://github.com/sd5913/pfad/blob/2026/assignments/pages.yml): on every push, GitHub '
     'runs the {orange:same command you ran} and publishes the result at '
     '{mono:you.github.io/your-repo}.',
     '',
@@ -932,10 +932,10 @@ S.append(content('08 · WORKSHOP', 'The tutorial is in the repo', [
 
 S.append(timeline('08 · WORKSHOP', 'Two hours', [
     ('0:00', 'uv run tides.py', 'The year, cached to {mono:data/}, and today\'s 24 numbers as a text chart. D2 on the real file.'),
-    ('0:15', 'One day, four ways', '{mono:plot_day.py}, {mono:tide_clock.py}, {mono:tide_month.py}, {mono:moon.py}. Predict, run, change one knob.'),
-    ('0:40', 'Make it move', '{mono:animate.py} sweeps the clock and writes a GIF into {mono:out/}.'),
-    ('0:55', 'Three numbers', '{mono:earthquakes.py} — a map sized by magnitude; {mono:currents.py} — week 2\'s arrows back on the map, moving.'),
-    ('1:10', 'Same idea, messier', '{mono:typhoons.py} — an HTML table, wind against pressure.'),
+    ('0:15', 'One day, four ways', '[plot_day.py](https://github.com/sd5913/pfad/blob/2026/week03/plot_day.py), [tide_clock.py](https://github.com/sd5913/pfad/blob/2026/week03/tide_clock.py), [tide_month.py](https://github.com/sd5913/pfad/blob/2026/week03/tide_month.py), [moon.py](https://github.com/sd5913/pfad/blob/2026/week03/moon.py). Predict, run, change one knob.'),
+    ('0:40', 'Make it move', '[animate.py](https://github.com/sd5913/pfad/blob/2026/week03/animate.py) sweeps the clock and writes a GIF into {mono:out/}.'),
+    ('0:55', 'Three numbers', '[earthquakes.py](https://github.com/sd5913/pfad/blob/2026/week03/earthquakes.py) — a map sized by magnitude; [currents.py](https://github.com/sd5913/pfad/blob/2026/week03/currents.py) — week 2\'s arrows back on the map, moving.'),
+    ('1:10', 'Same idea, messier', '[typhoons.py](https://github.com/sd5913/pfad/blob/2026/week03/typhoons.py) — an HTML table, wind against pressure.'),
     ('1:20', 'Your repo', 'Use the template, cache your file, one plot, the check, the URL on Canvas.'),
     ('1:50', 'Swap screens', 'Your plot on your screen, your neighbour\'s on theirs. One sentence each: what does it hide?'),
     ('1:55', 'Next week', 'Read [teaching PR #3](https://github.com/sd5913/teaching/pull/3). React or comment: what do you want more of?'),
@@ -950,7 +950,7 @@ S.append(timeline('08 · WORKSHOP', 'Two hours', [
 
 S.append(end('See you next week',
              'Week 4: interfaces. Assignment 2 is due Sunday 4 October.',
-             SITE))
+             '[' + SITE + '](https://' + SITE + '/)'))
 
 # Links each question slide to the answers the room gave. Written after the class by
 # classpoint.py's weekly.py, and a no-op until that file exists.
