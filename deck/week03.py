@@ -10,7 +10,7 @@ Sources this is built from:
                                tutorial folder pfad/week03/, written 2026-09-15. The
                                names it fixes are load-bearing and appear in both:
                                tides.py, bar, moon_age, to_xy, move, scale, rotate,
-                               data/, out/, and the five ClassPoint activities in order.
+                               data/, out/, and the four ClassPoint activities in order.
   deck/assets/data/tides-QUB-2026.json — the Hong Kong Observatory's hourly tide table
                                for Quarry Bay, 2026, verbatim (fields, then 365 rows of
                                month, day and 24 heights as strings). Row 259 is
@@ -897,23 +897,15 @@ S.append(timeline('08 · WORKSHOP', 'Two hours', [
     ('0:55', 'Three numbers', '{mono:earthquakes.py} — a map sized by magnitude; {mono:currents.py} — week 2\'s arrows back on the map, moving.'),
     ('1:10', 'Same idea, messier', '{mono:typhoons.py} — an HTML table, wind against pressure.'),
     ('1:20', 'Your repo', 'New repo, the tree from the brief, your file cached, one plot, the check, the workflow, the URL on Canvas.'),
-    ('1:50', 'Upload', 'Your plot to ClassPoint. Caption: phenomenon · source.'),
+    ('1:50', 'Swap screens', 'Your plot on your screen, your neighbour\'s on theirs. One sentence each: what does it hide?'),
 ], notes='The blocks that must happen are 0:00 and 1:20. Everything between them is a menu — '
          'a group that is flying can skip to their own data at 0:40 and a group that is stuck '
          'on git should be at 1:20 the whole time. moon.py is the one worth insisting on: it '
          'is the only script where the picture disagrees with the model, and that '
          'conversation is the point of the week. Every file has its knobs at the top and '
-         'writes to out/ as well as showing a window.'))
-
-S.append(question('image_upload', 'Upload your first plot.',
-                  hint='Caption, 50 characters or fewer: phenomenon · source.',
-                  example='e.g. "tide at Quarry Bay · HKO hourly JSON"  (36 characters)',
-                  notes='Attendance and the assignment kick-off in one. A plot of the tide '
-                        'straight from the tutorial counts — the point is that everyone has '
-                        'made a picture from a file today. ClassPoint truncates image captions '
-                        'at exactly 50 characters (measured on SD2112 week 1: nine of sixty '
-                        'stopped mid-word), so the limit is real, not a house rule. Put a '
-                        'dozen on the projector at 1:55 and read the captions, not the names.'))
+         'writes to out/ as well as showing a window. No ClassPoint in the tutorial: the room '
+         'is run without the presenter login, so the record of the day is the URL on Canvas, '
+         'and the plots come to the week 4 lecture as its opening image upload.'))
 
 S.append(end('See you next week',
              'Week 4: interfaces. Assignment 2 is due Sunday 4 October.',
