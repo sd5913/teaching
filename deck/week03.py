@@ -55,7 +55,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import figures as F                                   # noqa: E402
 from deckgen import attach_reports, INK               # noqa: E402
-from deckgen.layouts import (title, agenda, section, statement, content, cards,   # noqa: E402
+from deckgen.layouts import (title, agenda, section, statement, content, cards, image_full,   # noqa: E402
                              question, two_col, timeline, exercise, figure_slide,
                              code_panel, code_slide, live, end)
 
@@ -191,6 +191,19 @@ S.append(question('word_cloud', 'Name a natural phenomenon.',
                         'are published. That question is the assignment.'))
 
 # ───────────────────────── 2 · assignment 2 ─────────────────────────
+S.append(image_full('marks-2026-09-10.jpg', '01 · LOOSE ENDS · THE MARK',
+                    '56 marks. Two at a time, pick the better one: pfad.ait4x.org/vote',
+                    fit='contain',
+                    notes='Thirty seconds. Week 2\'s "photograph the sketch" got 58 uploads, 56 of them '
+                          'marks — most of them made with a model or a pixel editor rather than '
+                          'drawn, which is its own conversation for week 4. Nobody can pick one out '
+                          'of fifty-six, so nobody has to: the vote page shows two at a time and you '
+                          'click the better one. Bradley-Terry ranks them from everyone\'s pairs. Ask '
+                          'them to do ten pairs on their phones right now, then keep going during '
+                          'the week; week 4 opens with the top ten and a play with image generation '
+                          'on the shortlist. That page is also the week 4 example: two pictures, one '
+                          'click, one row in a database.'))
+
 S.append(cards('02 · ASSIGNMENT 2', 'Numbers about a natural phenomenon, and a picture', [
     ('obtain', 'From a file somebody publishes',
      'JSON, CSV or an HTML page. Somebody already did the measuring — the Observatory, '
