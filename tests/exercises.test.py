@@ -95,6 +95,16 @@ SOLUTIONS = {
         [e for s in mod.DECK['slides'] for e in s.els
          if e.kind == 'exercise' and e.eid == 'the-quotes-are-still-there'][0].code
         .replace('print(d["data"][1][8])', 'print(float(d["data"][1][8]) + 1)')),
+    'which-angles-come-back':
+        'angle = 120\n\n'
+        'for step in range(6):\n'
+        '    print(angle)\n'
+        '    angle = angle * 2 % 360   # double it, stay on the circle',
+    'which-c-come-back':
+        'c = -1\nz = 0\n\n'
+        'for step in range(6):\n'
+        '    print(z)\n'
+        '    z = z * z + c   # square it, add c',
     'predict-the-three-points':
         'shape = [(0, 0), (100, 0), (50, 80)]\n\n'
         'def move(p, dx, dy):\n'
