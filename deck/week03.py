@@ -180,19 +180,9 @@ S.append(content('01 · WEEK 02', 'Last week, if you want it again', [
          'return hands back None (week 2 s46), and square brackets look up a list and a dict '
          'the same way (s28).'))
 
-S.append(question('word_cloud', 'Name a natural phenomenon.',
-                  hint='One or two words. Tide, rain, wind, moon, birds, earthquakes. '
-                       'Traffic is not one.',
-                  notes='Ninety seconds. This is the seed of assignment 2 and we come back '
-                        'to the cloud in section 07, so leave it up while the brief is on '
-                        'the next slide. Expect tide, rain, typhoon, earthquake, and one '
-                        'person who says traffic — take it, then ask whether the numbers '
-                        'are published. That question is the assignment.'))
-
-# ───────────────────────── 2 · assignment 2 ─────────────────────────
 S.append(image_full('marks-2026-09-10.jpg', '01 · LOOSE ENDS · THE MARK',
-                    '56 marks. Two at a time, pick the better one: [pfad.ait4x.org/vote](https://pfad.ait4x.org/vote)',
-                    fit='contain',
+                    '56 marks. Two at a time, pick the better one: [pfad.ait4x.org/vote](https://pfad.ait4x.org/vote) — the picture is the link too.',
+                    fit='contain', url='https://pfad.ait4x.org/vote',
                     notes='Thirty seconds. Week 2\'s "photograph the sketch" got 58 uploads, 56 of them '
                           'marks — most of them made with a model or a pixel editor rather than '
                           'drawn, which is its own conversation for week 4. Nobody can pick one out '
@@ -203,6 +193,17 @@ S.append(image_full('marks-2026-09-10.jpg', '01 · LOOSE ENDS · THE MARK',
                           'on the shortlist. That page is also the week 4 example: two pictures, one '
                           'click, one row in a database.'))
 
+
+S.append(question('word_cloud', 'Name a natural phenomenon.',
+                  hint='One or two words. Tide, rain, wind, moon, birds, earthquakes. '
+                       'Traffic is not one.',
+                  notes='Ninety seconds. This is the seed of assignment 2 and we come back '
+                        'to the cloud in section 08, so leave it up while the brief is on '
+                        'the next slide. Expect tide, rain, typhoon, earthquake, and one '
+                        'person who says traffic — take it, then ask whether the numbers '
+                        'are published. That question is the assignment.'))
+
+# ───────────────────────── 2 · assignment 2 ─────────────────────────
 S.append(cards('02 · ASSIGNMENT 2', 'Numbers about a natural phenomenon, and a picture', [
     ('obtain', 'From a file somebody publishes',
      'JSON, CSV or an HTML page. Somebody already did the measuring — the Observatory, '
