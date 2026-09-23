@@ -144,7 +144,7 @@ S.append(code_panel('02 · THE EXACT CODE', 'The selector reaches the chart', [
     '    index=range(1, 25),',
     ')',
     'st.line_chart(chart)',
-], caption='The same lines are in pfad/week04/app.py.',
+], caption='Source: [week04/app.py](https://github.com/sd5913/pfad/blob/week04-interfaces-tdd/week04/app.py)',
     notes='Trace values rather than syntax: the selector returns an integer; select_day '
           'returns a dictionary; record["heights"] is a list of 24 floats; the DataFrame '
           'gives those floats an hour index; Streamlit draws them.'))
@@ -176,7 +176,7 @@ S.append(code_panel('03 · POLLING', 'A loop checks repeatedly', [
     '    events = check_for_events()',
     '    update_state(events)',
     '    draw_frame()',
-], caption='A game loop checks, updates and draws again.',
+], caption='Pseudocode: a game loop checks, updates and draws again.',
     notes='At 60 frames per second, each cycle has about 16.7 ms. The loop is a useful '
           'pattern for continuous motion. If one update takes too long, input and drawing '
           'both arrive late.'))
@@ -185,7 +185,7 @@ S.append(code_panel('03 · THE BROWSER EVENT LOOP', 'The browser waits, then han
     '    event = wait_for_next_event()',
     '    run_callback(event)',
     '    update_the_page()',
-], caption='A simplified picture: wait · respond · draw · wait again.',
+], caption='Pseudocode: wait · respond · draw · wait again.',
     notes='This is pseudocode, not browser source code. The browser keeps an event loop alive '
           'while the page is open. It waits when there is nothing to do, then handles queued '
           'events and lets the page update. It is not a tight loop constantly checking the mouse. '
@@ -212,6 +212,8 @@ S.append(two_col('03 · WEEK 01 REVISITED', 'The semester loop', [
     '',
     'Now the loop has a technical meaning. It checks a condition, updates values and '
     'decides what happens next.',
+    '',
+    '[Week 1 source](https://github.com/sd5913/teaching/blob/week04/deck/week01.py)',
 ], [
     'while semester() == 1:',
     '    problem = current_problem()',
@@ -248,7 +250,7 @@ S.append(code_panel('04 · THE CLIENT', 'Ask for one month', [
     ')',
     'response.raise_for_status()',
     'rows = response.json()',
-], caption='Exact extract from pfad/week04/app.py.',
+], caption='Source: [week04/app.py](https://github.com/sd5913/pfad/blob/week04-interfaces-tdd/week04/app.py)',
     notes='Requests turns params into ?month=9. raise_for_status stops on an HTTP error. '
           'response.json turns the response body into Python lists and dictionaries.'))
 S.append(code_panel('04 · THE SERVICE', 'Return the matching rows', [
@@ -259,7 +261,7 @@ S.append(code_panel('04 · THE SERVICE', 'Return the matching rows', [
     '    return select_month(load_rows(), month)',
     '',
     'Default = asgi.entrypoint(app)',
-], caption='GET /tides?month=9 returns September records.',
+], caption='Source: [week04/api.py](https://github.com/sd5913/pfad/blob/week04-interfaces-tdd/week04/api.py)',
     notes='These are the exact route and Worker adapter in pfad/week04/api.py. Month is '
           'required and must be from 1 to 12. Cloudflare receives the request; the ASGI '
           'adapter passes it to FastAPI; FastAPI returns JSON and documents the endpoint.'))
@@ -283,7 +285,8 @@ S.append(content('04 · ONE RECORD', 'The response already has the chart values'
 S.append(exercise('04 · LIVE DATA · PYTHON IN THE BROWSER',
                   'Ask the deployed API for September', [
     'Run one Python request in the browser. Read the number of daily records, the first day, '
-    'and its first four heights.',
+    'and its first four heights. The endpoint code is in '
+    '[week04/api.py](https://github.com/sd5913/pfad/blob/week04-interfaces-tdd/week04/api.py).',
 ], code='import json\nfrom pyodide.http import open_url\n\n'
         'url = (\n'
         '    "https://sd5913-week04-tides.venetanji.workers.dev"\n'
@@ -315,7 +318,7 @@ S.append(code_panel('05 · RED · WRITE THE TEST FIRST', 'One file checks the AP
     '    assert (first["month"], first["day"]) == (9, 1)',
     '    assert len(first["heights"]) == 24',
     '    assert isinstance(first["heights"][0], float)',
-], caption='test_api.py (excerpt) · run it before adding /tides: watch it fail.',
+], caption='[week04/tdd/test_api.py](https://github.com/sd5913/pfad/blob/week04-interfaces-tdd/week04/tdd/test_api.py) · run first: watch it fail.',
     notes='This single Python file asks for September and checks status, the first date and '
           'the 24 numeric heights. It uses only the standard library. Run it against the local '
           'Worker while developing; before /tides exists, the request fails.'))
@@ -324,7 +327,7 @@ S.append(code_panel('05 · GREEN · ADD THE ROUTE', 'Return the data in that for
     'def tides(month: int):',
     '    rows = load_rows()',
     '    return [row for row in rows if row["month"] == month]',
-], caption='Run the same test_api.py again: it should pass.',
+], caption='Source: [week04/api.py](https://github.com/sd5913/pfad/blob/week04-interfaces-tdd/week04/api.py) · rerun [test_api.py](https://github.com/sd5913/pfad/blob/week04-interfaces-tdd/week04/tdd/test_api.py).',
     notes='This small example shows the feature under test: return one month as a list of '
           'records, each with month, day and 24 heights. The real Worker uses a little more '
           'code to parse the committed source and validate the month. Keep the lesson on the '
@@ -373,6 +376,8 @@ S.append(two_col('06 · ASSIGNMENT 2 · TEMPLATE CLINIC', 'What does the check t
     'Run the same check locally from your repo:',
     '',
     'uv run https://raw.githubusercontent.com/sd5913/pfad/2026/assignments/check.py --assignment 2',
+    '',
+    '[View assignments/check.py in GitHub](https://github.com/sd5913/pfad/blob/2026/assignments/check.py)',
 ], [
     'It checks:',
     '• README: 150+ words and shows your picture',
