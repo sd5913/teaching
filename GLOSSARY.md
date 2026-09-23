@@ -97,9 +97,12 @@ a slide is not here, ask — it will be added.
 | **FastAPI** | A Python library for building web services with endpoints. |
 | **session state** | Values Streamlit keeps available across reruns in one browser session. |
 | **test** | A repeatable check of whether code meets one stated expectation. |
+| **assertion** | A statement in a test that must be true, such as `response.status == 200`. |
+| **red test** | A test that fails because the feature it describes is not implemented yet. |
+| **green test** | A test that passes after the code implements the expected behavior. |
 | **fixture** | Small, known input used by a test so the result is predictable. |
 | **unit test** | A test of one small piece of code, separated from the network and other outside systems. |
-| **test-driven development** (TDD) | Write a test for the expected behavior, see it fail, implement the rule, then keep the test passing. |
+| **test-driven development** (TDD) | Write one test first, see it fail, add the code, then run it again and see it pass. |
 | **GitHub Actions** | GitHub's service for running a workflow when an event such as a push happens. |
 | **workflow** | A YAML file that tells GitHub Actions what event starts a job and which steps to run. |
 | **workflow_dispatch** | A GitHub Actions event that lets someone start a workflow manually. |

@@ -8,7 +8,7 @@ pure transformation and tests are the files in sd5913/pfad/week04.
 """
 from pathlib import Path
 
-from deckgen import attach_reports
+from deckgen import Image, T, attach_reports
 from deckgen.layouts import (title, agenda, content, cards, section, statement,
                              question, two_col, code_panel, exercise, timeline, image_full,
                              end)
@@ -17,6 +17,22 @@ COURSE = 'SD5913'
 SITE = 'sd5913.github.io/teaching'
 EYE = 'SD5913 · WEEK 04'
 S = []
+
+
+def finalist_gallery(eyebrow_text, title_text, items, notes=''):
+    """Three submitted marks in a labelled, equal-width row."""
+    s = content(eyebrow_text, title_text, [], notes=notes)
+    s.els = s.els[:2]  # keep the eyebrow and title; replace the empty body
+    gap = 48
+    col_w = (1680 - gap * 2) // 3
+    for i, (mark, path, stats) in enumerate(items):
+        x = 120 + i * (col_w + gap)
+        s.els += [
+            Image(x, 340, col_w, 330, path, 'contain'),
+            T(x, 680, col_w, 48, f'Mark {mark}', 'xbold', 34, '#000B1C', align='c'),
+            T(x, 738, col_w, 112, stats, 'body', 27, '#5C6470', lh=1.35, align='c'),
+        ]
+    return s
 
 # 00 · Landing and the work from last week
 S.append(title(EYE, 'Interfaces', 'One control, one clear response.'))
@@ -34,23 +50,38 @@ S.append(question('image_upload', 'Upload your first plot.',
                         'minute to upload. Show two or three responses and ask one question: '
                         'what could a viewer choose that would change this picture? Carry '
                         'their answers into the working app on slide 6.'))
-S.append(content('SD5913 · THE MARK', 'The class vote: three finalists', [
-    '**1 · Mark 38** — score 4.04 · 28 wins / 5 losses · 33 comparisons',
-    '**2 · Mark 04** — score 3.40 · 27 wins / 6 losses · 33 comparisons',
-    '**3 · Mark 18** — score 3.01 · 26 wins / 7 losses · 33 comparisons',
-    '',
-    'Now choose the one mark that should represent the course.',
-], images=['mark-38.jpeg', 'mark-04.jpg', 'mark-18.png'], body_size=30,
-                         notes='These are the current Bradley–Terry standings from the registry. '
-                         'The next slide is the final class vote; collect one response per '
-                         'student and announce the result. The three images are the submitted '
-                         'marks associated with the finalist numbers.'))
-S.append(question('multiple_choice', 'Final vote: which mark is the SD5913 mark?',
+S.append(finalist_gallery('SD5913 · THE MARK', 'The class vote: three finalists', [
+    ('38', 'mark-38.jpeg', 'Score 4.04\n28 wins · 5 losses · 33 comparisons'),
+    ('04', 'mark-04.jpg', 'Score 3.40\n27 wins · 6 losses · 33 comparisons'),
+    ('18', 'mark-18.png', 'Score 3.01\n26 wins · 7 losses · 33 comparisons'),
+], notes='These are the current Bradley–Terry standings from the registry. '
+         'The next slide is the final class vote; collect one response per '
+         'student and announce the result.'))
+vote = question('multiple_choice', 'Which mark should represent SD5913?',
                   choices=['A — Mark 38', 'B — Mark 04', 'C — Mark 18'],
                   eyebrow_text='THE FINAL THREE',
                   notes='This is the deciding ClassPoint poll. Each student gets one vote. '
-                        'The option with the most votes wins. If tied, the higher Bradley–Terry '
-                        'rank wins (38, then 04, then 18), so the result is always decisive.'))
+                  'The option with the most votes wins. If tied, the higher Bradley–Terry '
+                  'rank wins (38, then 04, then 18), so the result is always decisive.',
+                  size=64)
+vote.els[1].y = 190
+vote.els[1].h = 100
+gallery = []
+for i, (letter, mark, path) in enumerate([
+    ('A', '38', 'mark-38.jpeg'), ('B', '04', 'mark-04.jpg'), ('C', '18', 'mark-18.png'),
+]):
+    gap = 48
+    col_w = (1680 - gap * 2) // 3
+    x = 120 + i * (col_w + gap)
+    gallery += [
+        Image(x, 312, col_w, 290, path, 'contain'),
+        T(x, 610, col_w, 48, letter, 'xbold', 38, '#000B1C', align='c'),
+    ]
+vote.els[2:2] = gallery
+for i, y in enumerate((686, 762, 838)):
+    for el in vote.els[2 + len(gallery) + i * 3:2 + len(gallery) + (i + 1) * 3]:
+        el.y = y
+S.append(vote)
 S.append(content('SD5913 · WEEK 04 · WORDS', 'Four words for one interaction', [
     '- **interface** — the part of a program a person can see and use.',
     '- **input** — information or an action a person gives the program.',
