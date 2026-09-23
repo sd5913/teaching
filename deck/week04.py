@@ -379,24 +379,23 @@ S.append(content('05 · THE LOOP', 'Keep the feedback small', [
                          'introduction. The students can return to those ideas after they have '
                          'experienced one red failure and one green pass.'))
 
-# 06 · Four workshop milestones rather than eight tiny columns
-S.append(section('06', 'Workshop', 'Run it, trace it, test it, change it'))
+# 06 · Workshop: demos, adaptation, assignment time
+S.append(section('06', 'Workshop', 'Try the demos, adapt an idea, then work on your assignment'))
 S.append(content('06 · BEFORE YOU START', 'The tutorial is one continuous path', [
-    'Keep the Streamlit page open while you trace its local file, selectors and chart.',
+    'Use the first hour to try all the demo code: Streamlit with the local file, the browser/API '
+    'request, the event-loop examples and the red-to-green API test.',
     '',
-    'The completed code lives in {mono:week04/}. The separate API test comes first in the '
-    'explanation; the route that makes it pass is already in the finished Worker.',
+    'Then adapt one idea to your own project. Use the final half-hour to work on Assignment 2.',
     '',
     '[github.com/sd5913/pfad/tree/2026/week04](https://github.com/sd5913/pfad/tree/2026/week04)',
-], notes='Open the README and use its commands. The branch link resolves after the PR merges; '
-         'during class it is on 2026. Students should work from the repository root.'))
+], notes='Open the README and use its commands for the demos. The branch link resolves after '
+         'the PR merges; during class it is on 2026. Students should work from the repository root.'))
 S.append(timeline('06 · WORKSHOP', 'Two hours', [
-    ('0:00', 'Run the interaction', 'Start Streamlit. Change the day and watch the chart.'),
-    ('0:30', 'Trace one choice', 'Follow day from the widget, through select_day, to the 24 heights.'),
-    ('1:00', 'Test the API', 'Write one test. Watch it fail. Add the route. Run it green.'),
-    ('1:30', 'Explain the result', 'Pair up: run the API test and explain what one assertion checks.'),
-], notes='Four blocks remain readable from the back of the room and match the README headings. '
-         'The Python Worker is traced rather than built from scratch.'))
+    ('0:00–1:00', 'Try every demo', 'Run the local-file Streamlit app, browser/API request, event-loop examples and red-to-green test. Change a value and inspect what happens.'),
+    ('1:00–1:30', 'Adapt what you learned', 'Bring one idea into your own project: add a useful control, respond to an event, show data or write a small check.'),
+    ('1:30–2:00', 'Work on Assignment 2', 'Last chance to ask tutors about your submission. Use the rest for your question, data, plot, README and PROCESS.md.'),
+], notes='The first hour is for trying every demo in the lesson. Students then adapt one idea '
+         'to their own work before spending the final half-hour on Assignment 2.'))
 S.append(content('06 · ASSIGNMENT 2', 'Keep the data picture moving', [
     'Assignment 2 is due **Sunday 4 October, 23:59**.',
     '',
@@ -428,7 +427,7 @@ S.append(two_col('06 · ASSIGNMENT 2 · TEMPLATE CLINIC', 'What does the check t
          'you what to fix; push again to rerun it. Ask students to distinguish mechanical '
          'checks from the human question: does the picture reveal something about the data?'))
 S.append(end('One control, one clear response',
-             'Next week: sound, microphones and live transcription.',
+             'No class on 1 October · Assignment 2 due 4 October.',
              '[' + SITE + '](https://' + SITE + '/)'))
 
 attach_reports(S, Path(__file__).resolve().parent / 'week04-reports.json')
