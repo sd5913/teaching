@@ -251,10 +251,10 @@ S.append(exercise('04 · LIVE DATA · PYTHON IN THE BROWSER',
         'print("first:", first["month"], first["day"])\n'
         'print(first["heights"][:4])',
     eid='ask-the-deployed-api', rows=9,
-    notes='This is a live request through Pyodide in the browser. The API must return '
-          'Access-Control-Allow-Origin for https://sd5913.github.io. If the browser blocks '
-          'it, the service has not picked up the CORS change yet. Do not rerun repeatedly: '
-          'this is one request for a month of committed data.'))
+    notes='This is a live request through Pyodide in the browser. The API allows the published '
+          'teaching site and the local preview at http://127.0.0.1:8000. If the browser blocks '
+          'it, check the page origin and deployed CORS response. Do not rerun repeatedly: this '
+          'is one request for a month of committed data.'))
 S.append(question('multiple_choice', 'What crosses from the service to the client?',
                   choices=['The finished chart', 'JSON records', 'The mouse click', 'The PowerPoint'],
                   eyebrow_text='04 · CLIENT AND SERVICE',
