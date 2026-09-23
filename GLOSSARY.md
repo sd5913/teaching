@@ -89,10 +89,17 @@ a slide is not here, ask — it will be added.
 | **callback** | A function the program runs when an event happens. |
 | **client** | A program that asks a service for information or an action. A browser can be a client. |
 | **server** | A program that receives requests and sends responses. |
-| **request** | A message a client sends to a server, asking for data or an action. |
+| **frontend** | The part of an app a person uses. It can be a Streamlit page or HTML and JavaScript in a browser. |
+| **backend** | The part that handles requests and data. The Week 4 FastAPI service runs on a Cloudflare Worker. |
+| **HTTP** | The web protocol clients use to send requests and receive responses. |
+| **request** | A message a client sends to a server, asking for data or an action. An HTTP request can include a method, path and query. |
 | **response** | What a program sends or shows after an input. In a web request, it is the reply the server sends. |
+| **API** | A set of rules and endpoints one program offers for another program to use. |
 | **endpoint** | An address and method a web service responds to, such as `GET /tides`. |
+| **origin** | A web page's scheme, host and port, such as `https://sd5913.github.io`; the page path is not part of it. |
 | **JSON** (web response) | A text format commonly used to send structured data between a service and a client. |
+| **CORS** | A browser rule: a server lists which other origins may read its response. It does not sign a user in or make an API private. |
+| **static site** | HTML, CSS and JavaScript files served to the browser; the site itself does not run Python on each request. GitHub Pages can host one. |
 | **Streamlit** | A Python library for building small web apps; changing a widget reruns the script. |
 | **FastAPI** | A Python library for building web services with endpoints. |
 | **session state** | Values Streamlit keeps available across reruns in one browser session. |
@@ -102,6 +109,8 @@ a slide is not here, ask — it will be added.
 | **green test** | A test that passes after the code implements the expected behavior. |
 | **fixture** | Small, known input used by a test so the result is predictable. |
 | **unit test** | A test of one small piece of code, separated from the network and other outside systems. |
+| **integration test** | A test that checks connected parts together, such as making an HTTP request to the real API and checking its response. |
+| **test case** | One example of an input and the result a test expects. |
 | **test-driven development** (TDD) | Write one test first, see it fail, add the code, then run it again and see it pass. |
 | **GitHub Actions** | GitHub's service for running a workflow when an event such as a push happens. |
 | **workflow** | A YAML file that tells GitHub Actions what event starts a job and which steps to run. |

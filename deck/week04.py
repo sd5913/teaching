@@ -231,14 +231,20 @@ S.append(question('multiple_choice', 'Which pattern best fits a browser button?'
                         'script. The user-facing action can look similar while the program '
                         'structure differs.'))
 
-# 04 · Client and service, using the deployed Python Worker
-S.append(section('04', 'Client and service', 'The interface asks a Python Worker for one month of data'))
-S.append(cards('04 · ONE REQUEST', 'The month crosses a boundary', [
-    ('client', 'Streamlit asks', 'Send the selected month to the service.'),
-    ('endpoint', 'GET /tides?month=9', 'The address and query identify the request.'),
-    ('response', 'JSON records', 'One record per September day comes back.'),
-], notes='Keep the vocabulary beside the running app. Streamlit is the person-facing '
-         'client. FastAPI runs as a Cloudflare Python Worker. JSON is the response format.'))
+# 04 · Frontends and a data backend
+S.append(section('04', 'Frontend and backend', 'Two different interfaces can ask the same data service'))
+S.append(cards('04 · HTTP · FRONTEND AND BACKEND', 'One API, two frontend choices', [
+    ('Streamlit · frontend', 'Python UI → requests.get()',
+     'This app asks the API. A Streamlit app could instead read local data directly.'),
+    ('HTML + JavaScript · frontend', 'Browser UI → fetch()',
+     'Publish static files. React with Recharts could turn the JSON heights into a chart.'),
+    ('FastAPI · backend', 'Cloudflare Worker → JSON',
+     'Receives GET /tides?month=9 and returns data. The Worker does not draw the chart.'),
+], notes='The frontend is what the person uses. It sends an HTTP request; the backend handles '
+         'the request and replies with JSON. The current Streamlit app uses the API, but '
+         'Streamlit could also load the file itself, which would skip the API. A static '
+         'HTML/JavaScript page can be hosted on GitHub Pages and ask the same API. The '
+         'published origin https://sd5913.github.io is already in the Worker CORS allowlist.'))
 S.append(code_panel('04 · THE CLIENT', 'Ask for one month', [
     'API = (',
     '    "https://sd5913-week04-tides.venetanji.workers.dev"',
@@ -253,6 +259,23 @@ S.append(code_panel('04 · THE CLIENT', 'Ask for one month', [
 ], caption='Source: [week04/app.py](https://github.com/sd5913/pfad/blob/2026/week04/app.py)',
     notes='Requests turns params into ?month=9. raise_for_status stops on an HTTP error. '
           'response.json turns the response body into Python lists and dictionaries.'))
+S.append(code_panel('04 · STATIC BROWSER UI', 'JavaScript can draw the same response', [
+    'const API = "https://sd5913-week04-tides.venetanji.workers.dev/tides";',
+    'const response = await fetch(API + "?month=9");',
+    'const rows = await response.json();',
+    'const data = rows[0].heights.map((height, hour) => ({',
+    '  hour: hour + 1, height',
+    '}));',
+    '<LineChart data={data}>',
+    '  <XAxis dataKey="hour" />',
+    '  <Line dataKey="height" />',
+    '</LineChart>',
+], caption='UI sketch: [Recharts](https://recharts.org/en-US/api/LineChart) renders the points; [GitHub Pages](https://docs.github.com/en/pages) can serve the static files.',
+    lang='js',
+    notes='This is the missing browser UI example, not another backend. The static page would '
+          'use fetch() to ask the Worker for JSON, then React and Recharts to render a chart. '
+          'Imports and the surrounding React component are omitted. GitHub Pages serves the '
+          'built HTML, CSS and JavaScript; it does not run the page code on the server.'))
 S.append(code_panel('04 · THE SERVICE', 'Return the matching rows', [
     'from workers import asgi',
     '',
@@ -272,6 +295,22 @@ S.append(cards('04 · PYTHON WORKER', 'Same FastAPI app, a different server', [
 ], notes='Locally, uvicorn can serve an ASGI app. On Cloudflare, workers.asgi supplies the '
          'server role. The route and the pure select_month rule do not change. Open '
          'pfad/wrangler.jsonc after this slide to show the main module and compatibility flag.'))
+S.append(code_panel('04 · CORS · BROWSER PERMISSION', 'Allow the static site to read JSON', [
+    'app.add_middleware(',
+    '    CORSMiddleware,',
+    '    allow_origins=[',
+    '        "https://sd5913.github.io",',
+    '        "http://localhost:8000",',
+    '        "http://127.0.0.1:8000",',
+    '    ],',
+    '    allow_methods=["GET"],',
+    '    allow_headers=[],',
+    ')',
+], caption='Already configured in [week04/api.py](https://github.com/sd5913/pfad/blob/2026/week04/api.py).',
+    notes='CORS is already enabled in the deployed Worker for the published GitHub Pages '
+          'origin and the local teaching-site preview. Browsers compare origins (scheme, '
+          'host and port), not page paths; the /teaching/week04/ path does not change the '
+          'origin. This list allows the static client to read GET responses from the API.'))
 S.append(content('04 · ONE RECORD', 'The response already has the chart values', [
     '{mono:month 9 · day 17 · 24 hourly heights}',
     '',
@@ -285,7 +324,7 @@ S.append(content('04 · ONE RECORD', 'The response already has the chart values'
 S.append(exercise('04 · LIVE DATA · PYTHON IN THE BROWSER',
                   'Ask the deployed API for September', [
     'Run one Python request in the browser. Read the number of daily records, the first day, '
-    'and its first four heights. The endpoint code is in '
+    'and its first four heights. This demonstrates an HTTP request, not the chart UI. The endpoint code is in '
     '[week04/api.py](https://github.com/sd5913/pfad/blob/2026/week04/api.py).',
 ], code='import json\nfrom pyodide.http import open_url\n\n'
         'url = (\n'
