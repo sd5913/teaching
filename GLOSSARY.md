@@ -101,7 +101,10 @@ a slide is not here, ask — it will be added.
 | **CORS** | A browser rule: a server lists which other origins may read its response. It does not sign a user in or make an API private. |
 | **static site** | HTML, CSS and JavaScript files served to the browser; the site itself does not run Python on each request. GitHub Pages can host one. |
 | **Streamlit** | A Python library for building small web apps; changing a widget reruns the script. |
-| **FastAPI** | A Python library for building web services with endpoints. |
+| **FastAPI** | A Python framework that connects HTTP endpoints to functions, validates inputs, and creates an interactive API docs page. |
+| **GET / POST** | HTTP methods: GET asks to read a resource; POST sends information for the service to process, such as an image prompt. |
+| **Base64** | A way to encode bytes as text. The image API can put a PNG into JSON this way; decode it to save the image. |
+| **API key** | A secret a program sends to identify itself to a service. Keep it in a server environment, outside browser code and Git. |
 | **session state** | Values Streamlit keeps available across reruns in one browser session. |
 | **test** | A repeatable check of whether code meets one stated expectation. |
 | **assertion** | A statement in a test that must be true, such as `response.status == 200`. |

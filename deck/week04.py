@@ -7,12 +7,16 @@ that day's 24 Quarry Bay tide heights. It contrasts a Streamlit app that reads
 a local data file with a static browser frontend that calls the FastAPI service.
 The endpoint, transformations and tests are in sd5913/pfad/week04.
 """
+import sys
 from pathlib import Path
 
-from deckgen import Image, T, attach_reports
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import week04_figures as F
+
+from deckgen import Image, T, PAPER, attach_reports
 from deckgen.layouts import (title, agenda, content, cards, section, statement,
                              question, two_col, code_panel, exercise, timeline, image_full,
-                             end)
+                             figure_slide, end)
 
 COURSE = 'SD5913'
 SITE = 'sd5913.github.io/teaching'
@@ -35,22 +39,31 @@ def finalist_gallery(eyebrow_text, title_text, items, notes=''):
         ]
     return s
 
+def annotated_code(eye, heading, explanation, lines, notes='', lang='py'):
+    """A short explanation beside a large, legible excerpt."""
+    return two_col(eye, heading, explanation, lines, notes=notes,
+                   left_size=34, right_size=32, lang=lang)
+
+
 # 00 · Landing and the work from last week
-S.append(title(EYE, 'Interfaces', 'One control, one clear response.'))
+cover = title(EYE, 'Interfaces', 'One control, one clear response.')
+cover.els.insert(0, Image(1080, 150, 720, 720, 'week04-easel-wave.png', 'contain'))
+cover.notes = 'The wave is an illustration generated through the Easel API. Return to it in section 04 to reveal the request and response.'
+S.append(cover)
 S.append(agenda(EYE, [
-    'The top three marks — choose the course winner',
-    'Your first plot becomes something a person can use',
+    'Your first plot, and the final vote for our mark',
+    'Turn a picture into something a person can use',
     'One action travels through a Streamlit app',
     'Waiting, polling and callbacks',
-    'A service, a test and a two-hour workshop',
-    'Assignment 2: read the template check',
+    'APIs: tide records and a generated image',
+    'One test, the workshop and Assignment 2',
 ]))
 S.append(question('image_upload', 'Upload your first plot.',
                   hint='Caption, 50 characters or fewer: phenomenon · source',
                   notes='Open with the plot made in the week 3 tutorial. Give students one '
                         'minute to upload. Show two or three responses and ask one question: '
                         'what could a viewer choose that would change this picture? Carry '
-                        'their answers into the working app on slide 6.'))
+                        'their answers into the working app in section 01.'))
 S.append(finalist_gallery('SD5913 · THE MARK', 'The class vote: three finalists', [
     ('38', 'mark-38.jpeg', 'Score 4.04\n28 wins · 5 losses · 33 comparisons'),
     ('04', 'mark-04.jpg', 'Score 3.40\n27 wins · 6 losses · 33 comparisons'),
@@ -106,19 +119,10 @@ S.append(statement('One control, one clear response.', eyebrow_text='01 · THE S
                    notes='The app has two selectors because a year needs a month before a day, '
                          'but the promise being tested is deliberately smaller: changing the '
                          'day changes the 24 values in the chart.'))
-S.append(two_col('01 · THE PROMISE', 'Describe one interaction', [
-    'A person should be able to say what happened without reading the code:',
-    '',
-    '“When I choose a day, the chart shows that day’s 24 hourly tide heights.”',
-    '',
-    'That sentence gives the interface and the test one shared target.',
-], [
-    'input     day selector',
-    'state     selected day',
-    'rule      find that record',
-    'response  draw 24 heights',
-], lang=None, notes='Read the sentence once. Every example after this should point back to '
-         'one of its four lines. This is also the first sentence in pfad/week04/README.md.'))
+S.append(statement('“When I choose a day, the chart shows that day’s 24 hourly tide heights.”',
+                   eyebrow_text='01 · THE PROMISE', size=88, bg=PAPER,
+                   notes='A testable promise, carried from the week 2 spec habit into the week 3 data. '
+                         'Ask students to name the input, state and response.'))
 S.append(question('multiple_choice', 'After someone chooses day 17, what is the state?',
                   choices=['The mouse click', '17', 'The 24 plotted heights', 'The JSON file'],
                   eyebrow_text='01 · INPUT, STATE, RESPONSE',
@@ -134,21 +138,23 @@ S.append(cards('02 · THE PATH', 'Three parts of the interaction', [
     ('response', 'The surface changes', 'The chart draws that record.'),
 ], notes='Use the exact same day on every slide. Do not switch back to a month example. '
          'The month narrows the local rows; the day is the interaction we are tracing.'))
-S.append(code_panel('02 · THE EXACT CODE', 'The selector reaches the chart', [
+S.append(annotated_code('02 · THE EXACT CODE', 'The value reaches the chart', [
+    '**17** — the selector returns a day.', '',
+    '**One record** — select_day finds it.', '',
+    '**24 heights** — the chart draws them.',
+], [
     'day = st.selectbox(',
-    '    "Day", [row["day"] for row in rows]',
+    '    "Day", [r["day"] for r in rows]',
     ')',
     'record = select_day(rows, day)',
-    '',
     'chart = pd.DataFrame(',
     '    {"Height (m)": record["heights"]},',
     '    index=range(1, 25),',
     ')',
     'st.line_chart(chart)',
-], caption='Source: [week04/app.py](https://github.com/sd5913/pfad/blob/2026/week04/app.py)',
-    notes='Trace values rather than syntax: the selector returns an integer; select_day '
-          'returns a dictionary; record["heights"] is a list of 24 floats; the DataFrame '
-          'gives those floats an hour index; Streamlit draws them.'))
+], notes='Excerpt from pfad/week04/app.py; row shortened to r to fit. '
+         'https://github.com/sd5913/pfad/blob/2026/week04/app.py '
+         'Trace the integer, dictionary and list. Imports and data loading omitted.'))
 S.append(content('02 · STREAMLIT', 'A changed widget reruns the script', [
     'When someone changes a selector, Streamlit runs the script again from top to bottom.',
     '',
@@ -172,35 +178,34 @@ S.append(two_col('03 · BLOCKING INPUT', 'One line waits', [
     'print("Hello", name)',
 ], notes='This is the durable idea from the 2025 deck. Ask what this execution path can do '
          'between the prompt appearing and the answer arriving: nothing.'))
-S.append(code_panel('03 · POLLING', 'A loop checks repeatedly', [
+S.append(annotated_code('03 · POLLING', 'Check, update, draw. Repeat.', [
+    'A loop checks input during each frame.', '',
+    'At **60 fps**, the whole cycle has about **16.7 ms**.', '',
+    'A slow update delays the next check and the next frame.',
+], [
     'while running:',
     '    events = check_for_events()',
     '    update_state(events)',
     '    draw_frame()',
-], caption='Pseudocode: a game loop checks, updates and draws again.',
-    notes='At 60 frames per second, each cycle has about 16.7 ms. The loop is a useful '
-          'pattern for continuous motion. If one update takes too long, input and drawing '
-          'both arrive late.'))
-S.append(code_panel('03 · THE BROWSER EVENT LOOP', 'The browser waits, then handles an event', [
-    'while page_is_open:',
-    '    event = wait_for_next_event()',
-    '    run_callback(event)',
-    '    update_the_page()',
-], caption='Pseudocode: wait · respond · draw · wait again.',
-    notes='This is pseudocode, not browser source code. The browser keeps an event loop alive '
-          'while the page is open. It waits when there is nothing to do, then handles queued '
-          'events and lets the page update. It is not a tight loop constantly checking the mouse. '
-          'A callback must finish quickly so the browser can keep handling events and drawing.'))
-S.append(code_panel('03 · CALLBACK', 'An event calls a response function', [
-    'button.on_click(update_chart)',
-    '',
+], notes='Pseudocode: a useful structure for continuous motion. These function names '
+    'describe jobs; they are not built-in Python functions.'))
+S.append(figure_slide('03 · THE BROWSER EVENT LOOP', 'An event becomes a visible change',
+    F.event_cycle(), notes='A conceptual sequence, not browser source code. Events queue; '
+    'callbacks run; rendering happens when the browser has an opportunity. A long callback '
+    'delays both the next event and the next paint.'))
+S.append(annotated_code('03 · CALLBACK', 'Connect an event to a function', [
+    '**Event:** the click.', '',
+    '**Callback:** update_chart.', '',
+    'The toolkit calls your function when the event arrives.',
+], [
     'def update_chart(event):',
     '    day = day_picker.value',
-    '    chart.show(select_day(rows, day))',
-], caption='Pseudocode: each toolkit names events differently.',
-    notes='Event: the click. Callback: update_chart. The browser or toolkit watches for '
-          'the event and calls the function. Say clearly that these method names are '
-          'pseudocode; the next slide compares the patterns.'))
+    '    record = select_day(rows, day)',
+    '    chart.show(record)',
+    '',
+    'button.on_click(update_chart)',
+], notes='Pseudocode: each toolkit names events differently. Define the function before '
+    'registering it. The diagram on the previous slide shows where this callback fits.'))
 S.append(cards('03 · THREE PATTERNS', 'Match the response to the program', [
     ('command line', 'Wait', 'Ask once, then continue.'),
     ('continuous picture', 'Poll', 'Check input during every frame.'),
@@ -234,95 +239,74 @@ S.append(question('multiple_choice', 'Which pattern best fits a browser button?'
 
 # 04 · Frontends and a data backend
 S.append(section('04', 'Frontend and backend', 'Two examples, two data paths'))
-S.append(cards('04 · TWO APP STRUCTURES', 'A local file or an HTTP service', [
-    ('Streamlit · one app', 'local JSON → chart',
-     'Reads the bundled file. Streamlit generates the page; no API request.'),
-    ('React + Recharts · frontend', 'browser fetch() → chart',
-     'A static page asks the FastAPI service for JSON, then draws the chart.'),
-    ('FastAPI · backend', 'HTTP request → JSON',
-     'The Worker reads the snapshot and returns records. It does not draw the chart.'),
-], notes='The first example is one Python app: it reads local JSON and Streamlit generates the '
-         'page. The second separates the browser frontend from the FastAPI backend: the static '
-         'page uses HTTP to request JSON, then React and Recharts display it. The published '
-         'origin https://sd5913.github.io is already in the Worker CORS allowlist.'))
-S.append(code_panel('04 · STREAMLIT · LOCAL FILE', 'Read JSON and build the page', [
-    'DATA_FILE = Path(__file__).resolve().with_name("tides-QUB-2026.json")',
-    'raw = json.loads(DATA_FILE.read_text(encoding="utf-8"))',
-    'all_rows = parse_rows(raw["data"])',
-    'month = st.selectbox("Month", range(1, 13))',
-    'rows = select_month(all_rows, month)',
-], caption='Source: [week04/app.py](https://github.com/sd5913/pfad/blob/2026/week04/app.py) · [local JSON file](https://github.com/sd5913/pfad/blob/2026/week04/tides-QUB-2026.json)',
-    notes='The UI uses the file in the same folder as app.py. It does not use requests, fetch, '
-          'or the Worker API. Streamlit runs the Python script and produces the browser page. '
-          'Imports are omitted; the existing selector-to-chart flow appears earlier in the deck.'))
-S.append(code_panel('04 · STATIC BROWSER UI', 'Fetch JSON, then draw the chart', [
-    'const API = "https://sd5913-week04-tides.venetanji.workers.dev/tides";',
-    'const response = await fetch(API + "?month=9");',
+S.append(figure_slide('04 · FRONTEND / BACKEND', 'Two places, one conversation',
+    F.frontend_backend(), notes='Frontend means the code providing the surface in the browser; '
+    'backend means the service running elsewhere. Trace the outward request and returning JSON. '
+    'Choosing a day can then use the month already downloaded. A browser app need not call '
+    'the server for every action. GitHub Pages hosts files; Cloudflare runs this service.'))
+S.append(figure_slide('04 · STREAMLIT · ONE PYTHON APP', 'Streamlit connects the two sides for you',
+    F.streamlit_path(), notes='The earlier app reads the bundled file. It does not call our '
+    '/tides API, but browser and Streamlit process still communicate over the network. '
+    'When running locally, browser and server happen to be on the same laptop.'))
+S.append(annotated_code('04 · FRONTEND · JAVASCRIPT', 'Ask, read, then draw', [
+    '**Ask** for September records.', '',
+    '**Read** the JSON reply.', '',
+    '**Draw** one day in the browser.',
+], [
+    'const response = await fetch(',
+    '  API + "/tides?month=9"',
+    ');',
     'const rows = await response.json();',
-    'const data = rows[0].heights.map((height, hour) => ({',
-    '  hour: hour + 1, height',
-    '}));',
-    '<LineChart data={data}>',
-    '  <XAxis dataKey="hour" />',
-    '  <Line dataKey="height" />',
-    '</LineChart>',
-], caption='UI sketch: [Recharts](https://recharts.org/en-US/api/LineChart) renders the points; [GitHub Pages](https://docs.github.com/en/pages) can serve the static files.',
-    lang='js',
-    notes='This is the frontend for the separate FastAPI example. The static page uses fetch() '
-          'to ask the Worker for JSON, then React and Recharts render the chart. Imports and '
-          'the surrounding React component are omitted. GitHub Pages serves the built HTML, '
-          'CSS and JavaScript; it does not run the page code on the server.'))
-S.append(code_panel('04 · THE SERVICE', 'Return the matching rows', [
-    'from workers import asgi',
+    'const record = rows[0];',
     '',
+    'drawChart(record.heights);',
+], lang='js', notes='Teaching excerpt. API is the deployed Worker origin; drawChart is a '
+    'placeholder for the frontend chart function, not a browser built-in. This shows day 1. '
+    'A day selector can choose another record from rows. await yields while the request runs; '
+    'the browser can handle other work. A complete app also checks response.ok and handles errors.'))
+S.append(annotated_code('04 · MEET FASTAPI', 'A Python function, available at a URL', [
+    '**FastAPI** is a Python framework for building HTTP APIs.', '',
+    'Connect a URL to a function. Return a dictionary or list as JSON.', '',
+    'It also builds an interactive **/docs** page. [Try our tide API](https://sd5913-week04-tides.venetanji.workers.dev/docs).',
+], [
+    'from fastapi import FastAPI',
+    '',
+    'app = FastAPI()',
+    '',
+    '@app.get("/hello")',
+    'def hello():',
+    '    return {"message": "Hello"}',
+], notes='Introduce the framework before the tide endpoint. GET /hello calls hello(). '
+    'FastAPI serialises the dictionary as JSON. This minimal example is complete as main.py. '
+    'Run with uv run --with "fastapi[standard]" fastapi dev main.py; open '
+    'http://127.0.0.1:8000/docs. Official reference: https://fastapi.tiangolo.com/tutorial/first-steps/'))
+S.append(annotated_code('04 · BACKEND · PYTHON', 'Return the matching records', [
+    '**GET /tides?month=9**', '',
+    'FastAPI reads month as an integer from 1 to 12.', '',
+    'Our function selects the records. FastAPI sends them as JSON.',
+], [
     '@app.get("/tides")',
-    'def tides(month: int = Query(ge=1, le=12)):',
-    '    return select_month(load_rows(), month)',
-    '',
-    'Default = asgi.entrypoint(app)',
-], caption='Source: [week04/api.py](https://github.com/sd5913/pfad/blob/2026/week04/api.py)',
-    notes='These are the exact route and Worker adapter in pfad/week04/api.py. Month is '
-          'required and must be from 1 to 12. Cloudflare receives the request; the ASGI '
-          'adapter passes it to FastAPI; FastAPI returns JSON and documents the endpoint.'))
-S.append(cards('04 · PYTHON WORKER', 'Same FastAPI app, a different server', [
-    ('code', 'FastAPI route', 'The Python function still defines the endpoint.'),
-    ('adapter', 'ASGI entrypoint', 'Cloudflare connects a Worker request to the app.'),
-    ('runtime', 'Pyodide at the edge', 'Python runs in WebAssembly inside a Worker isolate.'),
-], notes='Locally, uvicorn can serve an ASGI app. On Cloudflare, workers.asgi supplies the '
-         'server role. The route and the pure select_month rule do not change. Open '
-         'pfad/wrangler.jsonc after this slide to show the main module and compatibility flag.'))
-S.append(code_panel('04 · CORS · BROWSER PERMISSION', 'Allow the static site to read JSON', [
-    'app.add_middleware(',
-    '    CORSMiddleware,',
-    '    allow_origins=[',
-    '        "https://sd5913.github.io",',
-    '        "http://localhost:8000",',
-    '        "http://127.0.0.1:8000",',
-    '    ],',
-    '    allow_methods=["GET"],',
-    '    allow_headers=[],',
-    ')',
-], caption='Already configured in [week04/api.py](https://github.com/sd5913/pfad/blob/2026/week04/api.py).',
-    notes='CORS is already enabled in the deployed Worker for the published GitHub Pages '
-          'origin and the local teaching-site preview. Browsers compare origins (scheme, '
-          'host and port), not page paths; the /teaching/week04/ path does not change the '
-          'origin. This list allows the static client to read GET responses from the API.'))
-S.append(content('04 · ONE RECORD', 'The response already has the chart values', [
-    '{mono:month 9 · day 17 · 24 hourly heights}',
-    '',
-    'The FastAPI service returns data rather than a chart. The browser client chooses one '
-    'daily record and decides how to draw its 24 heights. The Streamlit example reads the '
-    'same data shape from its local file.',
-    '',
-    '[Open the live FastAPI docs](https://sd5913-week04-tides.venetanji.workers.dev/docs) '
-    'and try month 9.',
-], body_size=30, notes='The record shape matches transform.parse_rows exactly. The ellipsis is '
-                         'display shorthand; the real response contains all 24 floats.'))
+    'def tides(',
+    '    month: int = Query(ge=1, le=12)',
+    '):',
+    '    return select_month(',
+    '        load_rows(), month',
+    '    )',
+], notes='The route from https://github.com/sd5913/pfad/blob/2026/week04/api.py, '
+    'line-wrapped for projection. Imports and app setup omitted. Cloudflare runs it via '
+    'workers.asgi.entrypoint(app); keep the adapter detail in the source walkthrough. '
+    'A missing or invalid month gets a validation error rather than a successful data reply.'))
+S.append(cards('04 · CONNECT THE TWO', 'Three things to check', [
+    ('address', 'The right endpoint', 'The frontend asks the Worker URL for /tides?month=9.'),
+    ('browser permission', 'The allowed origin', 'CORS lets the teaching site read the API response.'),
+    ('response', 'The expected shape', 'Each record has a month, a day and 24 heights.'),
+], notes='Open https://sd5913-week04-tides.venetanji.workers.dev/docs and try month 9. '
+    'CORS is already configured in api.py for https://sd5913.github.io and local port 8000. '
+    'An origin is scheme + host + port, without /teaching/. CORS is a browser reading rule, '
+    'not authentication. Keep configuration code for troubleshooting, not a slide of middleware.'))
 S.append(exercise('04 · LIVE DATA · PYTHON IN THE BROWSER',
                   'Ask the deployed API for September', [
-    'Run one Python request in the browser. Read the number of daily records, the first day, '
-    'and its first four heights. This demonstrates an HTTP request, not the chart UI. The endpoint code is in '
-    '[week04/api.py](https://github.com/sd5913/pfad/blob/2026/week04/api.py).',
+    'Run the request. Find **how many days**, **which first date**, and **four heights** in the reply.',
 ], code='import json\nfrom pyodide.http import open_url\n\n'
         'url = (\n'
         '    "https://sd5913-week04-tides.venetanji.workers.dev"\n'
@@ -337,7 +321,37 @@ S.append(exercise('04 · LIVE DATA · PYTHON IN THE BROWSER',
           'teaching site and the local preview at http://127.0.0.1:8000. If the browser blocks '
           'it, check the page origin and deployed CORS response. Do not rerun repeatedly: this '
           'is one request for a month of committed data.'))
-S.append(question('multiple_choice', 'What crosses from the service to the client?',
+S.append(content('04 · AN API CAN MAKE SOMETHING', 'This image came back from an API', [
+    'A prompt went out. Image data came back.', '',
+    '**Prompt:** “Editorial paper sculpture of a tidal wave becoming a flowing ribbon…”', '',
+    'Easel · Qwen Image 2.1 · ComfyUI',
+], image='week04-easel-wave.png', fit='contain', body_size=32,
+    caption='Generated illustration · not measured tide data',
+    notes='Made for this deck using the Easel images endpoint. The exact prompt and parameters '
+    'are committed beside the PNG, and scripts/easel_example.py reproduces the request. '
+    'This is an illustration: its wave shape is not derived from the Quarry Bay measurements.'))
+S.append(figure_slide('04 · THE SAME REQUEST / RESPONSE PATTERN', 'A prompt goes in. An image comes back.',
+    F.image_service(), notes='We used an authenticated POST to https://easel.ait4x.org/v1/images/generations. '
+    'The response format requested is b64_json; the script decodes it and saves a PNG. '
+    'An image API extends what a program can do, just as the tide API supplies data. '
+    'A public frontend should call your own backend, which holds the secret key.'))
+S.append(annotated_code('04 · READ THE IMAGE REQUEST', 'Describe the job in JSON', [
+    '**POST** sends a job to the service.', '',
+    '**model** chooses the generator. **prompt** describes the image.', '',
+    'The script keeps **EASEL_KEY** in its environment.',
+], [
+    '{',
+    '  "model": "qwen-image-2.1",',
+    '  "prompt": "Editorial paper ...",',
+    '  "size": "1024x1024",',
+    '  "n": 1,',
+    '  "response_format": "b64_json"',
+    '}',
+], lang=None, notes='Prompt abbreviated for the slide. Full runnable standard-library example: '
+    'scripts/easel_example.py. Authentication is an Authorization: Bearer header, not part of '
+    'this JSON. Never place the key in browser source or a public repo. Generation takes time: '
+    'show a working state while waiting, then show the result or a useful error.'))
+S.append(question('multiple_choice', 'In the tide app, what does the service send back?',
                   choices=['The finished chart', 'JSON records', 'The mouse click', 'The PowerPoint'],
                   eyebrow_text='04 · CLIENT AND SERVICE',
                   notes='B — JSON records. The client draws the chart. This distinction is '
@@ -368,16 +382,13 @@ S.append(code_panel('05 · GREEN · ADD THE ROUTE', 'Return the data in that for
           'records, each with month, day and 24 heights. The real Worker uses a little more '
           'code to parse the committed source and validate the month. Keep the lesson on the '
           'feedback loop: test fails, add the route, test passes.'))
-S.append(content('05 · THE LOOP', 'Keep the feedback small', [
-    '1. Add one test for one visible promise.',
-    '2. Run it and see the failure.',
-    '3. Add the smallest code that makes it pass.',
-    '4. Run the same test again.',
-    '',
-    'That is enough for today: one Python file checks the API response and its data format.',
-], body_size=34, notes='No extra cases, refactoring step, workflow YAML or test taxonomy in this '
-                         'introduction. The students can return to those ideas after they have '
-                         'experienced one red failure and one green pass.'))
+S.append(timeline('05 · THE LOOP', 'One promise, four steps', [
+    ('01', 'Write the test', 'Say what response would convince you.'),
+    ('02', 'See it fail', 'Read the failure: does it point to the missing feature?'),
+    ('03', 'Add the route', 'Implement the smallest change that meets the promise.'),
+    ('04', 'Run it again', 'The same test now passes.'),
+], notes='Run against a local Worker where the feature is initially missing. A network failure '
+    'alone does not show a missing implementation. The deployed completed API should already pass.'))
 
 # 06 · Workshop: demos, adaptation, assignment time
 S.append(section('06', 'Workshop', 'Try the demos, adapt an idea, then work on your assignment'))
@@ -405,27 +416,17 @@ S.append(content('06 · ASSIGNMENT 2', 'Keep the data picture moving', [
     '{muted:Every control should help someone see or ask something.}',
 ], notes='This is a reminder rather than a new brief. The deadline and requirements remain '
     'those in assignments/02-data-visualisation.md.'))
-S.append(two_col('06 · ASSIGNMENT 2 · TEMPLATE CLINIC', 'What does the check tell you?', [
-    'Start from **sd5913/assignment-2-template**. Its GitHub Action runs the Assignment 2 check on each push.',
-    '',
-    'Run the same check locally from your repo:',
-    '',
+S.append(cards('06 · ASSIGNMENT 2 · TEMPLATE CLINIC', 'Read the check in three groups', [
+    ('explain', 'README + process', '150+ words, the picture shown, and a meaningful PROCESS.md.'),
+    ('reproduce', 'Code + data', 'Python parses, dependencies declared, raw data and picture committed.'),
+    ('show progress', 'Commit history', 'At least three commits across two or more days.'),
+], notes='Use sd5913/assignment-2-template. Its GitHub Action runs the same assignment check '
+    'on every push. A green check confirms these conditions; a person still assesses the analysis.'))
+S.append(code_panel('06 · ASSIGNMENT 2 · RUN IT LOCALLY', 'The same check, on your laptop', [
     'uv run https://raw.githubusercontent.com/sd5913/pfad/2026/assignments/check.py --assignment 2',
-    '',
-    '[View assignments/check.py in GitHub](https://github.com/sd5913/pfad/blob/2026/assignments/check.py)',
-], [
-    'It checks:',
-    '• README: 150+ words and shows your picture',
-    '• PROCESS.md: present and meaningful',
-    '• Python parses; dependencies are declared',
-    '• raw data in data/; picture committed',
-    '• 3 commits across at least 2 days',
-    '',
-    'A green check confirms these conditions, not the quality of the analysis.',
-], lang=None, notes='Open the template repository and its .github/workflows/check.yml. '
-         'The workflow calls the same check.py script with --assignment 2. A red item tells '
-         'you what to fix; push again to rerun it. Ask students to distinguish mechanical '
-         'checks from the human question: does the picture reveal something about the data?'))
+], caption='Run from your assignment repo. Read the result, fix one item, then push again.',
+    lang=None, notes='Single-line command, so it can be copied on Windows or macOS. '
+    'Source: https://github.com/sd5913/pfad/blob/2026/assignments/check.py'))
 S.append(end('One control, one clear response',
              'No class on 1 October · Assignment 2 due 4 October.',
              '[' + SITE + '](https://' + SITE + '/)'))
