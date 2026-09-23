@@ -1,6 +1,6 @@
 """Generate the Week 4 illustration; EASEL_KEY must be set in the environment.
 
-Run from the repo root: python scripts/easel_example.py
+Run from the repo root: python scripts/image_api_example.py
 Uses only Python's standard library. Makes one image generation request.
 """
 import base64
@@ -38,7 +38,7 @@ def main():
         # A provider may return a download URL instead of encoded image bytes.
         with urlopen(item['url'], timeout=60) as response:
             image = response.read()
-    target = Path('deck/assets/week04-easel-wave.png')
+    target = Path('deck/assets/week04-image-api-wave.png')
     target.write_bytes(image)
     target.with_suffix('.json').write_text(json.dumps({
         'provider': 'https://easel.ait4x.org/v1',

@@ -75,7 +75,7 @@ def image_service():
     c = Canvas(1600, 500)
     box(c, 0, 70, 460, 280, 'CLIENT · OUR PYTHON SCRIPT', 'Describe an image',
         ['Send a prompt + model.', 'Keep the key on the server.'])
-    box(c, 1110, 70, 490, 280, 'SERVICE · EASEL', 'Generate an image',
+    box(c, 1110, 70, 490, 280, 'SERVICE · IMAGE API', 'Generate an image',
         ['Qwen Image 2.1', 'ComfyUI runs the workflow.'], VIOLET)
     arrow(c, 490, 170, 1080, 'POST /v1/images/generations')
     arrow(c, 1080, 295, 490, 'JSON containing image data', TEAL)

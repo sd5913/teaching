@@ -47,8 +47,8 @@ def annotated_code(eye, heading, explanation, lines, notes='', lang='py'):
 
 # 00 · Landing and the work from last week
 cover = title(EYE, 'Interfaces', 'One control, one clear response.')
-cover.els.insert(0, Image(1080, 150, 720, 720, 'week04-easel-wave.png', 'contain'))
-cover.notes = 'The wave is an illustration generated through the Easel API. Return to it in section 04 to reveal the request and response.'
+cover.els.insert(0, Image(1080, 150, 720, 720, 'week04-image-api-wave.png', 'contain'))
+cover.notes = 'The wave is an illustration generated through an image API. Return to it in section 04 to reveal the request and response.'
 S.append(cover)
 S.append(agenda(EYE, [
     'Your first plot, and the final vote for our mark',
@@ -80,6 +80,8 @@ vote = question('multiple_choice', 'Which mark should represent SD5913?',
                   size=64)
 vote.els[1].y = 190
 vote.els[1].h = 100
+# Keep the question and ClassPoint choice metadata; draw the choices under the images.
+vote.els = vote.els[:2]
 gallery = []
 for i, (letter, mark, path) in enumerate([
     ('A', '38', 'mark-38.jpeg'), ('B', '04', 'mark-04.jpg'), ('C', '18', 'mark-18.png'),
@@ -88,13 +90,10 @@ for i, (letter, mark, path) in enumerate([
     col_w = (1680 - gap * 2) // 3
     x = 120 + i * (col_w + gap)
     gallery += [
-        Image(x, 312, col_w, 290, path, 'contain'),
-        T(x, 610, col_w, 48, letter, 'xbold', 38, '#000B1C', align='c'),
+        Image(x, 340, col_w, 360, path, 'contain'),
+        T(x, 730, col_w, 64, f'{letter} — Mark {mark}', 'xbold', 38, '#000B1C', align='c'),
     ]
-vote.els[2:2] = gallery
-for i, y in enumerate((686, 762, 838)):
-    for el in vote.els[2 + len(gallery) + i * 3:2 + len(gallery) + (i + 1) * 3]:
-        el.y = y
+vote.els.extend(gallery)
 S.append(vote)
 S.append(content('SD5913 · WEEK 04 · WORDS', 'Four words for one interaction', [
     '- **interface** — the part of a program a person can see and use.',
@@ -324,21 +323,21 @@ S.append(exercise('04 · LIVE DATA · PYTHON IN THE BROWSER',
 S.append(content('04 · AN API CAN MAKE SOMETHING', 'This image came back from an API', [
     'A prompt went out. Image data came back.', '',
     '**Prompt:** “Editorial paper sculpture of a tidal wave becoming a flowing ribbon…”', '',
-    'Easel · Qwen Image 2.1 · ComfyUI',
-], image='week04-easel-wave.png', fit='contain', body_size=32,
+    'Qwen Image 2.1 · ComfyUI',
+], image='week04-image-api-wave.png', fit='contain', body_size=32,
     caption='Generated illustration · not measured tide data',
-    notes='Made for this deck using the Easel images endpoint. The exact prompt and parameters '
-    'are committed beside the PNG, and scripts/easel_example.py reproduces the request. '
+    notes='Made for this deck using an image generation endpoint. The exact prompt and parameters '
+    'are committed beside the PNG, and scripts/image_api_example.py reproduces the request. '
     'This is an illustration: its wave shape is not derived from the Quarry Bay measurements.'))
 S.append(figure_slide('04 · THE SAME REQUEST / RESPONSE PATTERN', 'A prompt goes in. An image comes back.',
-    F.image_service(), notes='We used an authenticated POST to https://easel.ait4x.org/v1/images/generations. '
+    F.image_service(), notes='We used an authenticated POST to /v1/images/generations. '
     'The response format requested is b64_json; the script decodes it and saves a PNG. '
     'An image API extends what a program can do, just as the tide API supplies data. '
     'A public frontend should call your own backend, which holds the secret key.'))
 S.append(annotated_code('04 · READ THE IMAGE REQUEST', 'Describe the job in JSON', [
     '**POST** sends a job to the service.', '',
     '**model** chooses the generator. **prompt** describes the image.', '',
-    'The script keeps **EASEL_KEY** in its environment.',
+    'The script reads the **API key** from its environment.',
 ], [
     '{',
     '  "model": "qwen-image-2.1",',
@@ -348,7 +347,7 @@ S.append(annotated_code('04 · READ THE IMAGE REQUEST', 'Describe the job in JSO
     '  "response_format": "b64_json"',
     '}',
 ], lang=None, notes='Prompt abbreviated for the slide. Full runnable standard-library example: '
-    'scripts/easel_example.py. Authentication is an Authorization: Bearer header, not part of '
+    'scripts/image_api_example.py. Authentication is an Authorization: Bearer header, not part of '
     'this JSON. Never place the key in browser source or a public repo. Generation takes time: '
     'show a working state while waiting, then show the result or a useful error.'))
 S.append(question('multiple_choice', 'In the tide app, what does the service send back?',
