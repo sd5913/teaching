@@ -90,7 +90,7 @@ a slide is not here, ask — it will be added.
 | **client** | A program that asks a service for information or an action. A browser can be a client. |
 | **server** | A program that receives requests and sends responses. |
 | **request** | A message a client sends to a server, asking for data or an action. |
-| **response** | The reply a server sends to a request, often with a status and data. |
+| **response** | What a program sends or shows after an input. In a web request, it is the reply the server sends. |
 | **endpoint** | An address and method a web service responds to, such as `GET /tides`. |
 | **JSON** (web response) | A text format commonly used to send structured data between a service and a client. |
 | **Streamlit** | A Python library for building small web apps; changing a widget reruns the script. |
