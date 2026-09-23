@@ -211,6 +211,30 @@ S.append(question('multiple_choice', 'What crosses from the service to the clien
 
 # 05 · Test the pure rule that connects the choice to the record
 S.append(section('05', 'Test the promise', 'A tiny fixture checks the rule without a browser or network'))
+S.append(cards('05 · TDD · THE LOOP', 'Red, green, refactor', [
+    ('red', 'Describe one behavior', 'Write a small test and see it fail for the expected reason.'),
+    ('green', 'Make it pass', 'Write the smallest clear implementation that satisfies the test.'),
+    ('refactor', 'Improve the design', 'Clean up names or structure while every test stays green.'),
+], notes='TDD is a short feedback loop, not a demand to predict an entire program. Red proves '
+         'the test can detect the missing behavior. Green establishes the behavior. Refactor '
+         'improves the code with the passing test as a safety net.'))
+S.append(two_col('05 · TDD · WHY', 'What does test-first change?', [
+    'Before coding, you must state the next observable behavior precisely.',
+    '',
+    'Small steps make failures easier to explain and mistakes easier to locate.',
+    '',
+    'The tests become executable examples of the promises the code already keeps.',
+], [
+    'TDD is most useful when:',
+    '',
+    '• the rule can be isolated',
+    '• examples are easy to write',
+    '• the expected result is clear',
+    '',
+    'Use a separate check for layout, network access and other outside systems.',
+], lang=None, notes='Keep the claim proportionate: TDD helps shape testable rules and provides fast '
+                    'feedback. It does not replace trying the interface. In this example we '
+                    'extract select_day so its promise can be checked without Streamlit or FastAPI.'))
 S.append(content('05 · FROM PROMISE TO TEST', 'The interface depends on one small rule', [
     'The visible promise says that choosing a day shows that day’s heights.',
     '',
