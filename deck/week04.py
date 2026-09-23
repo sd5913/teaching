@@ -40,9 +40,11 @@ S.append(content('SD5913 · THE MARK', 'The class vote: three finalists', [
     '**3 · Mark 18** — score 3.01 · 26 wins / 7 losses · 33 comparisons',
     '',
     'Now choose the one mark that should represent the course.',
-], body_size=30, notes='These are the current Bradley–Terry standings from the registry. '
+], images=['mark-38.jpeg', 'mark-04.jpg', 'mark-18.png'], body_size=30,
+                         notes='These are the current Bradley–Terry standings from the registry. '
                          'The next slide is the final class vote; collect one response per '
-                         'student and announce the result.'))
+                         'student and announce the result. The three images are the submitted '
+                         'marks associated with the finalist numbers.'))
 S.append(question('multiple_choice', 'Final vote: which mark is the SD5913 mark?',
                   choices=['A — Mark 38', 'B — Mark 04', 'C — Mark 18'],
                   eyebrow_text='THE FINAL THREE',
@@ -147,6 +149,16 @@ S.append(code_panel('03 · POLLING', 'A loop checks repeatedly', [
     notes='At 60 frames per second, each cycle has about 16.7 ms. The loop is a useful '
           'pattern for continuous motion. If one update takes too long, input and drawing '
           'both arrive late.'))
+S.append(code_panel('03 · THE BROWSER EVENT LOOP', 'The browser waits, then handles an event', [
+    'while page_is_open:',
+    '    event = wait_for_next_event()',
+    '    run_callback(event)',
+    '    update_the_page()',
+], caption='A simplified picture: wait · respond · draw · wait again.',
+    notes='This is pseudocode, not browser source code. The browser keeps an event loop alive '
+          'while the page is open. It waits when there is nothing to do, then handles queued '
+          'events and lets the page update. It is not a tight loop constantly checking the mouse. '
+          'A callback must finish quickly so the browser can keep handling events and drawing.'))
 S.append(code_panel('03 · CALLBACK', 'An event calls a response function', [
     'button.on_click(update_chart)',
     '',
@@ -261,116 +273,49 @@ S.append(question('multiple_choice', 'What crosses from the service to the clien
                   notes='B — JSON records. The client draws the chart. This distinction is '
                         'the reason app.py can change the surface without changing api.py.'))
 
-# 05 · Test the pure rule that connects the choice to the record
-S.append(section('05', 'Test the promise', 'A tiny fixture checks the rule without a browser or network'))
-S.append(cards('05 · TDD · THE LOOP', 'Red, green, refactor', [
-    ('red', 'Describe one behavior', 'Write a small test and see it fail for the expected reason.'),
-    ('green', 'Make it pass', 'Write the smallest clear implementation that satisfies the test.'),
-    ('refactor', 'Improve the design', 'Clean up names or structure while every test stays green.'),
-], notes='TDD is a short feedback loop, not a demand to predict an entire program. Red proves '
-         'the test can detect the missing behavior. Green establishes the behavior. Refactor '
-         'improves the code with the passing test as a safety net.'))
-S.append(two_col('05 · TDD · WHY', 'What does test-first change?', [
-    'Before coding, you must state the next observable behavior precisely.',
+# 05 · One test-first loop, against the API students have just seen
+S.append(section('05', 'Test the API', 'One file. One feature. Red, then green.'))
+S.append(code_panel('05 · RED · WRITE THE TEST FIRST', 'One file checks the API', [
+    'def test_september_tides():',
+    '    with urlopen(API) as response:',
+    '        assert response.status == 200',
+    '        rows = load(response)',
+    '    first = rows[0]',
+    '    assert (first["month"], first["day"]) == (9, 1)',
+    '    assert len(first["heights"]) == 24',
+    '    assert isinstance(first["heights"][0], float)',
+], caption='test_api.py (excerpt) · run it before adding /tides: watch it fail.',
+    notes='This single Python file asks for September and checks status, the first date and '
+          'the 24 numeric heights. It uses only the standard library. Run it against the local '
+          'Worker while developing; before /tides exists, the request fails.'))
+S.append(code_panel('05 · GREEN · ADD THE ROUTE', 'Return the data in that format', [
+    '@app.get("/tides")',
+    'def tides(month: int):',
+    '    rows = load_rows()',
+    '    return [row for row in rows if row["month"] == month]',
+], caption='Run the same test_api.py again: it should pass.',
+    notes='This small example shows the feature under test: return one month as a list of '
+          'records, each with month, day and 24 heights. The real Worker uses a little more '
+          'code to parse the committed source and validate the month. Keep the lesson on the '
+          'feedback loop: test fails, add the route, test passes.'))
+S.append(content('05 · THE LOOP', 'Keep the feedback small', [
+    '1. Add one test for one visible promise.',
+    '2. Run it and see the failure.',
+    '3. Add the smallest code that makes it pass.',
+    '4. Run the same test again.',
     '',
-    'Small steps make failures easier to explain and mistakes easier to locate.',
-    '',
-    'The tests become executable examples of the promises the code already keeps.',
-], [
-    'TDD is most useful when:',
-    '',
-    '• the rule can be isolated',
-    '• examples are easy to write',
-    '• the expected result is clear',
-    '',
-    'Use a separate check for layout, network access and other outside systems.',
-], lang=None, notes='Keep the claim proportionate: TDD helps shape testable rules and provides fast '
-                    'feedback. It does not replace trying the interface. In this example we '
-                    'extract select_day so its promise can be checked without Streamlit or FastAPI.'))
-S.append(content('05 · FROM PROMISE TO TEST', 'The interface depends on one small rule', [
-    'The visible promise says that choosing a day shows that day’s heights.',
-    '',
-    'The smallest rule underneath it is {mono:select_day(rows, day)}. Give it two known '
-    'records and check that it returns the matching one.',
-    '',
-    '{orange:The test supplies its own rows. It does not open the app or contact the API.}',
-], notes='Connect this to Week 2’s question: what should the code do, and what evidence '
-         'would convince you? The fixture is small enough to inspect by eye.'))
-S.append(code_panel('05 · TEST FIRST · RED', 'The expected record comes first', [
-    'from transform import select_day',
-    '',
-    'def test_select_day_returns_the_matching_record():',
-    '    rows = [',
-    '        {"month": 9, "day": 17},',
-    '        {"month": 9, "day": 18},',
-    '    ]',
-    '    assert select_day(rows, 17) == rows[0]',
-], caption='Run week04/tdd/test_transform.py while select_day is still a stub.',
-    notes='This is exactly the unfinished exercise in pfad/week04/tdd. See the failure for '
-          'the right reason before writing the rule. Read the assertion aloud as a sentence.'))
-S.append(question('multiple_choice', 'What should select_day(rows, 18) return?',
-                  choices=['rows[0]', 'rows[1]', '18', 'Both rows'],
-                  eyebrow_text='05 · READ THE TEST',
-                  notes='B — rows[1]. Ask what a missing day should return before revealing '
-                        'the implementation: this version returns None.'))
-S.append(code_panel('05 · IMPLEMENT · GREEN', 'The smallest matching rule', [
-    'def select_day(rows, day):',
-    '    return next(',
-    '        (row for row in rows if row["day"] == day),',
-    '        None,',
-    '    )',
-], caption='The same function is used by app.py and the completed tests.',
-    notes='next returns the first matching row. None is the result when the generator has '
-          'no match. Run the test green, add the missing-day case, then refactor only while '
-          'both expectations stay green.'))
-S.append(cards('05 · TEST THE BOUNDARY', 'Keep outside systems out of the unit test', [
-    ('known input', 'Fixture', 'Two records written beside the test.'),
-    ('our rule', 'Unit test', 'Check which record select_day returns.'),
-    ('outside system', 'Separate check', 'Fetch or refresh data elsewhere.'),
-], notes='The unit test should answer the same way on every machine. The network refresh '
-         'has its own validation and can fail without making the selection rule uncertain.'))
-S.append(code_panel('05 · ON EVERY PUSH', 'GitHub repeats the completed tests', [
-    'on: [push, pull_request]',
-    'jobs:',
-    '  test:',
-    '    runs-on: ubuntu-latest',
-    '    steps:',
-    '      - uses: actions/checkout@v4',
-    '      - run: uv run --with pytest python -m pytest week04/tests',
-], caption='.github/workflows/week04-tests.yml (excerpt)',
-    notes='The event starts a job, GitHub checks out the repository, then runs the tests. '
-          'The complete workflow also pins Python and sets up uv.'))
-S.append(content('05 · OPTIONAL REFRESH', 'Fresh data is a separate operation', [
-    'The maintainer workflow runs manually:',
-    '',
-    '1. Fetch a new 2026 snapshot.',
-    '2. Check all 365 dates, 26 fields and numeric heights.',
-    '3. Run the offline fixture tests.',
-    '4. Update the Week 03 source and the Worker snapshot.',
-    '5. Commit only when every check passes.',
-    '',
-    '{muted:The full workflow is in pfad/.github/workflows/refresh-tides.yml.}',
-], body_size=30, notes='This replaces the unreadable full YAML slide. The refresh is optional '
-                         'reading after the core workshop. The validator now rejects missing '
-                         'or duplicated dates, not merely the wrong number of rows.'))
-S.append(content('05 · A GREEN TICK', 'Read the check as evidence', [
-    'A green run means these expectations passed on this version of the repository.',
-    '',
-    '- Does the test describe the interaction you intended?',
-    '- Does it check a missing day as well as a matching day?',
-    '- Does the data validator check the dates and the values?',
-    '',
-    'Read the test and its result together.',
-], notes='A green tick is useful evidence, but an agent can write a test that agrees with '
-         'its own bug. Compare the assertion with the promise and a known example.'))
+    'That is enough for today: one Python file checks the API response and its data format.',
+], body_size=34, notes='No extra cases, refactoring step, workflow YAML or test taxonomy in this '
+                         'introduction. The students can return to those ideas after they have '
+                         'experienced one red failure and one green pass.'))
 
 # 06 · Four workshop milestones rather than eight tiny columns
 S.append(section('06', 'Workshop', 'Run it, trace it, test it, change it'))
 S.append(content('06 · BEFORE YOU START', 'The tutorial is one continuous path', [
     'Keep the Streamlit page open while you trace its request to the deployed Worker.',
     '',
-    'The completed code lives in {mono:week04/}. The deliberately unfinished test-first '
-    'version lives in {mono:week04/tdd/}.',
+    'The completed code lives in {mono:week04/}. The test comes first in the explanation; '
+    'the route that makes it pass is already in the finished Worker.',
     '',
     '[github.com/sd5913/pfad/tree/2026/week04](https://github.com/sd5913/pfad/tree/2026/week04)',
 ], notes='Open the README and use its commands. The branch link resolves after the PR merges; '
@@ -378,10 +323,10 @@ S.append(content('06 · BEFORE YOU START', 'The tutorial is one continuous path'
 S.append(timeline('06 · WORKSHOP', 'Two hours', [
     ('0:00', 'Run the interaction', 'Start Streamlit. Change the day and watch the chart.'),
     ('0:30', 'Trace one choice', 'Follow day from the widget, through select_day, to the 24 heights.'),
-    ('1:00', 'Test the rule', 'Run red. Implement select_day. Run green. Add the missing-day case.'),
-    ('1:30', 'Change and explain', 'Add one visible behavior, test its rule, then swap with a partner.'),
+    ('1:00', 'Test the API', 'Write one test. Watch it fail. Add the route. Run it green.'),
+    ('1:30', 'Explain the result', 'Pair up: run the API test and explain what one assertion checks.'),
 ], notes='Four blocks remain readable from the back of the room and match the README headings. '
-         'The Python Worker is traced rather than built from scratch. The refresh workflow is optional.'))
+         'The Python Worker is traced rather than built from scratch.'))
 S.append(content('06 · ASSIGNMENT 2', 'Keep the data picture moving', [
     'Assignment 2 is due **Sunday 4 October, 23:59**.',
     '',
