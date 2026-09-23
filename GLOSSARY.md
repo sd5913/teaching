@@ -78,6 +78,32 @@ a slide is not here, ask — it will be added.
 | **projection** | The transformation that puts a round world on a flat page. Longitude across, latitude up is the cheapest one. |
 | **frame** | One picture of an animation. An animation is a function of which frame it is: `def frame(i)`. |
 
+## Interfaces and web apps
+
+| Word | What it means |
+|---|---|
+| **interface** | The part of a program a person can see and use. |
+| **input** | Information or an action a person gives the program. |
+| **state** | Something a program remembers between actions, such as a selected month or current count. |
+| **event** | Something that happens, such as a click, key press, or completed request. |
+| **callback** | A function the program runs when an event happens. |
+| **client** | A program that asks a service for information or an action. A browser can be a client. |
+| **server** | A program that receives requests and sends responses. |
+| **request** | A message a client sends to a server, asking for data or an action. |
+| **response** | The reply a server sends to a request, often with a status and data. |
+| **endpoint** | An address and method a web service responds to, such as `GET /tides`. |
+| **JSON** (web response) | A text format commonly used to send structured data between a service and a client. |
+| **Streamlit** | A Python library for building small web apps; changing a widget reruns the script. |
+| **FastAPI** | A Python library for building web services with endpoints. |
+| **session state** | Values Streamlit keeps available across reruns in one browser session. |
+| **test** | A repeatable check of whether code meets one stated expectation. |
+| **fixture** | Small, known input used by a test so the result is predictable. |
+| **unit test** | A test of one small piece of code, separated from the network and other outside systems. |
+| **test-driven development** (TDD) | Write a test for the expected behavior, see it fail, implement the rule, then keep the test passing. |
+| **GitHub Actions** | GitHub's service for running a workflow when an event such as a push happens. |
+| **workflow** | A YAML file that tells GitHub Actions what event starts a job and which steps to run. |
+| **workflow_dispatch** | A GitHub Actions event that lets someone start a workflow manually. |
+
 ## Checking work
 
 | Word | What it means |
