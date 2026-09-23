@@ -169,15 +169,20 @@ S.append(question('multiple_choice', 'Which pattern best fits a browser button?'
                         'script. The user-facing action can look similar while the program '
                         'structure differs.'))
 
-# 04 · Client and service, using only the runnable endpoint
-S.append(section('04', 'Client and service', 'The interface asks another program for one month of data'))
+# 04 · Client and service, using the deployed Python Worker
+S.append(section('04', 'Client and service', 'The interface asks a Python Worker for one month of data'))
 S.append(cards('04 · ONE REQUEST', 'The month crosses a boundary', [
     ('client', 'Streamlit asks', 'Send the selected month to the service.'),
     ('endpoint', 'GET /tides?month=9', 'The address and query identify the request.'),
     ('response', 'JSON records', 'One record per September day comes back.'),
 ], notes='Keep the vocabulary beside the running app. Streamlit is the person-facing '
-         'client. FastAPI is the service. JSON is the response format.'))
+         'client. FastAPI runs as a Cloudflare Python Worker. JSON is the response format.'))
 S.append(code_panel('04 · THE CLIENT', 'Ask for one month', [
+    'API = (',
+    '    "https://sd5913-week04-tides.venetanji.workers.dev"',
+    '    "/tides"',
+    ')',
+    '',
     'response = requests.get(',
     '    API, params={"month": month}, timeout=10',
     ')',
@@ -187,20 +192,32 @@ S.append(code_panel('04 · THE CLIENT', 'Ask for one month', [
     notes='Requests turns params into ?month=9. raise_for_status stops on an HTTP error. '
           'response.json turns the response body into Python lists and dictionaries.'))
 S.append(code_panel('04 · THE SERVICE', 'Return the matching rows', [
+    'from workers import asgi',
+    '',
     '@app.get("/tides")',
     'def tides(month: int = Query(ge=1, le=12)):',
     '    return select_month(load_rows(), month)',
+    '',
+    'Default = asgi.entrypoint(app)',
 ], caption='GET /tides?month=9 returns September records.',
-    notes='This is the complete endpoint in pfad/week04/api.py. Month is required and must '
-          'be from 1 to 12. FastAPI turns the returned list into JSON and documents the '
-          'endpoint at /docs. Do not show a bare GET /tides as a valid request.'))
+    notes='These are the exact route and Worker adapter in pfad/week04/api.py. Month is '
+          'required and must be from 1 to 12. Cloudflare receives the request; the ASGI '
+          'adapter passes it to FastAPI; FastAPI returns JSON and documents the endpoint.'))
+S.append(cards('04 · PYTHON WORKER', 'Same FastAPI app, a different server', [
+    ('code', 'FastAPI route', 'The Python function still defines the endpoint.'),
+    ('adapter', 'ASGI entrypoint', 'Cloudflare connects a Worker request to the app.'),
+    ('runtime', 'Pyodide at the edge', 'Python runs in WebAssembly inside a Worker isolate.'),
+], notes='Locally, uvicorn can serve an ASGI app. On Cloudflare, workers.asgi supplies the '
+         'server role. The route and the pure select_month rule do not change. Open '
+         'pfad/wrangler.jsonc after this slide to show the main module and compatibility flag.'))
 S.append(content('04 · ONE RECORD', 'The response already has the chart values', [
     '{mono:{"month": 9, "day": 17, "heights": [2.19, 2.09, ..., 1.09]}}',
     '',
     'The service returns data rather than a chart. The client chooses one daily record and '
     'decides how to draw its 24 heights.',
     '',
-    '{muted:Open http://127.0.0.1:8000/docs during the tutorial and try month 9.}',
+    '[Open the live FastAPI docs](https://sd5913-week04-tides.venetanji.workers.dev/docs) '
+    'and try month 9.',
 ], body_size=30, notes='The record shape matches transform.parse_rows exactly. The ellipsis is '
                          'display shorthand; the real response contains all 24 floats.'))
 S.append(question('multiple_choice', 'What crosses from the service to the client?',
@@ -294,7 +311,8 @@ S.append(content('05 · OPTIONAL REFRESH', 'Fresh data is a separate operation',
     '1. Fetch a new 2026 snapshot.',
     '2. Check all 365 dates, 26 fields and numeric heights.',
     '3. Run the offline fixture tests.',
-    '4. Commit only when every check passes.',
+    '4. Update the Week 03 source and the Worker snapshot.',
+    '5. Commit only when every check passes.',
     '',
     '{muted:The full workflow is in pfad/.github/workflows/refresh-tides.yml.}',
 ], body_size=30, notes='This replaces the unreadable full YAML slide. The refresh is optional '
@@ -314,7 +332,7 @@ S.append(content('05 · A GREEN TICK', 'Read the check as evidence', [
 # 06 · Four workshop milestones rather than eight tiny columns
 S.append(section('06', 'Workshop', 'Run it, trace it, test it, change it'))
 S.append(content('06 · BEFORE YOU START', 'The tutorial is one continuous path', [
-    'Keep the Streamlit page and FastAPI process running while you trace the request.',
+    'Keep the Streamlit page open while you trace its request to the deployed Worker.',
     '',
     'The completed code lives in {mono:week04/}. The deliberately unfinished test-first '
     'version lives in {mono:week04/tdd/}.',
@@ -323,12 +341,12 @@ S.append(content('06 · BEFORE YOU START', 'The tutorial is one continuous path'
 ], notes='Open the README and use its commands. The branch link resolves after the PR merges; '
          'during class it is on 2026. Students should work from the repository root.'))
 S.append(timeline('06 · WORKSHOP', 'Two hours', [
-    ('0:00', 'Run the interaction', 'Start both programs. Change the day and watch the chart.'),
+    ('0:00', 'Run the interaction', 'Start Streamlit. Change the day and watch the chart.'),
     ('0:30', 'Trace one choice', 'Follow day from the widget, through select_day, to the 24 heights.'),
     ('1:00', 'Test the rule', 'Run red. Implement select_day. Run green. Add the missing-day case.'),
     ('1:30', 'Change and explain', 'Add one visible behavior, test its rule, then swap with a partner.'),
 ], notes='Four blocks remain readable from the back of the room and match the README headings. '
-         'FastAPI is traced rather than built from scratch. The refresh workflow is optional.'))
+         'The Python Worker is traced rather than built from scratch. The refresh workflow is optional.'))
 S.append(content('06 · ASSIGNMENT 2', 'Keep the data picture moving', [
     'Assignment 2 is due **Sunday 4 October, 23:59**.',
     '',
