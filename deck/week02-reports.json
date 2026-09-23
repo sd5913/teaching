@@ -17,24 +17,24 @@
     "activity": null,
     "question": "Where will the picture be dense?",
     "type": "Multiple Choice",
-    "withheld": "not reached — the class ran out of time at the mark"
+    "withheld": "not run — the slides were delivered, the activity was not opened"
   },
   {
     "activity": null,
     "question": "Which combination never occurs?",
     "type": "Short Answer",
-    "withheld": "not reached — the class ran out of time at the mark"
+    "withheld": "not run — the slides were delivered, the activity was not opened"
   },
   {
     "activity": null,
     "question": "What is the output of 0.1 + 0.1 + 0.1 == 0.3 ?",
     "type": "Multiple Choice",
-    "withheld": "not reached — the class ran out of time at the mark"
+    "withheld": "not run — the slides were delivered, the activity was not opened"
   },
   {
     "activity": null,
     "question": "Push, then screenshot the Actions tab.",
     "type": "Image Upload",
-    "withheld": "not reached — the class ran out of time at the mark"
+    "withheld": "not run — the slides were delivered, the activity was not opened"
   }
 ]

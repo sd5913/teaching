@@ -79,7 +79,7 @@ S.append(content('SD5913 · WEEK 02 · WORDS', 'Words you will hear today', [
     '- **spec** — a sentence about what the program must do, that is either true or false.',
     '- **bug** — code that runs, and does the wrong thing.',
     '',
-    '{muted:Every word from the slides, in plain language: ' + SITE + '/glossary.html — ask if one is missing.}',
+    '{muted:Every word from the slides, in plain language:} [' + SITE + '/glossary.html](https://' + SITE + '/glossary.html) {muted:— ask if one is missing.}',
 ], body_size=30, notes='One minute. Do not read it out — point at it, say the glossary link is on the '
                        'site and stays there all semester, and move on. Non-native speakers and '
                        'non-programmers are the majority of the room; the words are the first wall.'))
@@ -155,7 +155,7 @@ S.append(content('01 · UNTIL SUNDAY', 'You can still fix it', [
     '- Everything in one commit? Too late to undo, not too late to add: every edit this '
     'week is a commit with a message.',
     '- Repo on a different account from the one you registered? Your page at '
-    '{mono:pfad.ait4x.org} tells you. Fix the registration, or submit the right URL.',
+    '[pfad.ait4x.org](https://pfad.ait4x.org) tells you. Fix the registration, or submit the right URL.',
 ], bg=INK, notes='The point of showing the first 25 is that there are four days left. The '
                  'check runs again after the deadline; what it finds then is what gets marked.'))
 
@@ -178,7 +178,7 @@ S.append(two_col('01 · CHECK IT', 'Ask a script whether it meets the spec', [
     'heading, a {mono:PROCESS.md} that says something, commits on more than one day. '
     '{muted:Whether the essay is good is still a person\'s call.}',
     '',
-    'Copy {mono:assignments/check.yml} into your repo as {mono:.github/workflows/check.yml} '
+    'Copy [assignments/check.yml](https://github.com/sd5913/pfad/blob/2026/assignments/check.yml) into your repo as {mono:.github/workflows/check.yml} '
     'and GitHub runs it on every push: {orange:a green tick, or a red cross.}',
 ], [
     '$ uv run https://raw.githubusercontent.com/',
@@ -200,7 +200,7 @@ S.append(two_col('01 · CHECK IT', 'Ask a script whether it meets the spec', [
          'work — and the green tick at the end of the workshop is this same workflow.'))
 
 S.append(cards('01 · WHO CHECKS THE CHECKER', 'The check has to allow the file that runs the check', [
-    ('the loop', 'A rule about itself', ['The check fails on any file that does not belong. The workflow that runs the check is a file in your repo.', '', 'So {mono:check.py} needs one line that says {mono:.github/} is allowed. A rule the checker needs only because the checker exists.']),
+    ('the loop', 'A rule about itself', ['The check fails on any file that does not belong. The workflow that runs the check is a file in your repo.', '', 'So [check.py](https://github.com/sd5913/pfad/blob/2026/assignments/check.py) needs one line that says {mono:.github/} is allowed. A rule the checker needs only because the checker exists.']),
     ('the catch', 'It cannot check that rule', ['Could it read {mono:check.yml} and confirm it calls the real check? Whoever wrote that file could write one that prints {mono:ok} and stops.', '', 'The tick would be green. From inside the repo, nothing can tell the difference.']),
     ('1931 · 1984', 'Gödel, then Thompson', ['Gödel: a system rich enough to describe itself cannot prove its own consistency from inside.', '', 'Ken Thompson, **Reflections on Trusting Trust**: you cannot trust code you did not write yourself, because the tool that built it could lie.']),
     ('so', 'Verification needs an outside', ['The tutors run the check from outside your repo. The tick is {orange:evidence, not proof}.', '', 'Same for every generated program this semester: a passing test says the code matched the test. **Who checked the test?**']),
@@ -303,7 +303,7 @@ S.append(content('03 · YOUR LAPTOP', 'Open the slides on your laptop', [
     'Everything from here has a box you can type in. **The Python runs in your browser** — '
     'nothing to install, nothing to hand in.',
     '',
-    '- {orange:' + SITE + '/week02/}',
+    '- [' + SITE + '/week02/](https://' + SITE + '/week02/)',
     '- Press {mono:Run}, or {mono:ctrl+enter}.',
     '- The {mono:`} key (top left, under Esc) opens a console — a box for one line of Python at a time.',
     '',
@@ -731,7 +731,7 @@ S.append(content('08 · WORKSHOP', 'The tutorial is in the repo', [
          'Signout.bat at the end, as always.'))
 
 S.append(timeline('08 · WORKSHOP', 'Two hours', [
-    ('0:00', 'uv run, and nothing else', f'{{mono:git pull}} in your clone of {REPO}, then {{mono:uv run schotter.py}}'),
+    ('0:00', 'uv run, and nothing else', f'{{mono:git pull}} in your clone of [{REPO}](https://{REPO}), then {{mono:uv run schotter.py}}'),
     ('0:10', 'Your assignment repo', 'The four git words, the check, then {mono:check.yml} into the repo so GitHub gives you the tick. URL on Canvas before you leave.'),
     ('0:55', 'Read first, run second', 'Schotter, Nake and a Schotter of cubes — in pygame, on your machine. Predict, run, change one knob.'),
     ('1:15', 'Tides', 'A tidal forecast for Hong Kong waters, drawn as rings. Somebody else\'s data, your rule.'),
@@ -765,7 +765,7 @@ S.append(question('image_upload', 'Push, then screenshot the Actions tab.',
 
 S.append(end('See you next week',
              'Week 3: getting data, and making it look like something. Assignment 2 is set.',
-             SITE))
+             '[' + SITE + '](https://' + SITE + '/)'))
 
 # Links each question slide to the answers the room gave. Written after the class by
 # classpoint.py's weekly.py, and a no-op until that file exists.

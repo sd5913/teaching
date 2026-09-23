@@ -25,13 +25,8 @@ Sources this is built from:
                                transformations) and s63 (the two paths); both are here,
                                rewritten, and nothing else from it is.
 
-Week 2 ran out of time at slide 18. Nothing after it was delivered — not the six types,
-not the Nake reading, not uv. So this deck says again, once each and in passing, the
-three facts the room needs and did not get: square brackets look up a list and a dict
-the same way (week 2 s28), a function with no `return` hands back None (s46), and a
-scraped number is text until you say float() (s27). It does not re-teach them, and it
-does not port the Nake section — that stays in the week 2 deck, which still runs in the
-browser.
+Week 2 was delivered in full; only the four ClassPoint activities after the mark
+were not run. uv was mentioned once, so the tutorial and the reference page carry it.
 
 Deliberately NOT here:
 
@@ -57,7 +52,7 @@ import figures as F                                   # noqa: E402
 from deckgen import attach_reports, INK               # noqa: E402
 from deckgen.layouts import (title, agenda, section, statement, content, cards, image_full,   # noqa: E402
                              question, two_col, timeline, exercise, figure_slide,
-                             code_panel, code_slide, live, end)
+                             code_panel, code_slide, sketch_slide, live, end)
 
 COURSE = 'SD5913'
 SITE = 'sd5913.github.io/teaching'
@@ -122,6 +117,7 @@ S.append(agenda(EYE, [
     'Twenty-four numbers — a loop and a function',
     'Where the numbers come from',
     'Dimensions, vectors, transformations',
+    'Simple rules, complex results: double, square, add c',
     'Plotting: the same numbers, five ways',
     'Two paths — designer, artist',
     'Workshop — your repo, your first picture',
@@ -138,8 +134,10 @@ S.append(content('SD5913 · WEEK 03 · WORDS', 'Words you will hear today', [
     '{mono:(hour, height)}. **transformation** — a rule that turns one vector into another.',
     '- **frame** — one picture of an animation. **library** — code somebody else wrote, '
     'that draws for you.',
+    '- **iterate** — run the rule again on its own result. **chaos** — a rule that '
+    'doubles every error, so a tenth of a degree becomes the whole circle.',
     '',
-    '{muted:Every word from the slides, in plain language: ' + SITE + '/glossary.html}',
+    '{muted:Every word from the slides, in plain language:} [' + SITE + '/glossary.html](https://' + SITE + '/glossary.html)',
 ], body_size=30, notes='One minute, pointing, not reading. Six of these ten are new this '
                        'week and all six are in the glossary before the class. The one to '
                        'say out loud is transformation: it is the spine of the middle hour '
@@ -165,35 +163,26 @@ S.append(content('01 · ASSIGNMENT 1', 'It closed on Sunday', [
          'not proof — week 2 s11. Anyone who has still not submitted a URL on Canvas: see '
          'me at the break, not now. Assignment 2 is set in four slides and it matters more.'))
 
-S.append(content('01 · WEEK 02', 'We stopped halfway. The rest is still there.', [
-    'Week 2 ran to the mark at the design brief. The second half — the six types, '
-    'reading the Nake rule, the four surprises, uv — was never delivered out loud.',
+S.append(content('01 · WEEK 02', 'Last week, if you want it again', [
+    'Week 2 is **all in the browser**: [' + SITE + '/week02/](https://' + SITE + '/week02/). '
+    'Every drill still runs, still checks itself, still keeps your answer.',
     '',
-    '- It is **all in the browser**: {orange:' + SITE + '/week02/}. Every drill still '
-    'runs, still checks itself, still keeps your answer.',
-    '- The tutorial {mono:week02/README.md} is the long version, with the faults and '
-    'the spec exercise.',
+    '- The tutorial [week02/README.md](https://' + REPO + '/blob/2026/week02/README.md) is the '
+    'long version: the faults and the spec exercise.',
+    '- {mono:uv} got one mention. It runs everything in today\'s tutorial, and '
+    '[reference/uv.md](https://' + REPO + '/blob/2026/reference/uv.md) is the ten minutes on what it does.',
     '',
-    'Today needs two facts from it, and they are on the slides when they are needed. '
-    '{muted:You are not behind.}',
-], notes='One minute. Do not summarise the second half — pointing at it is the whole slide. '
-         'The two facts this deck repeats on the way past: a function with no return hands '
-         'back None (week 2 s46), and square brackets look up a list and a dict the same '
-         'way (s28). Both are said once, inside a drill that needs them.'))
+    '{muted:Two facts from last week come back today, on the slides where they are needed.}',
+], notes='One minute. Week 2 was delivered in full; only the activities after the mark were '
+         'not run, so nothing is owed and nobody is behind. Point, do not summarise. uv is the '
+         'one thing said once that matters today: the tutorial opens with it and the reference '
+         'page carries it. The two facts this deck repeats on the way past: a function with no '
+         'return hands back None (week 2 s46), and square brackets look up a list and a dict '
+         'the same way (s28).'))
 
-S.append(question('word_cloud', 'Name a natural phenomenon.',
-                  hint='One or two words. Tide, rain, wind, moon, birds, earthquakes. '
-                       'Traffic is not one.',
-                  notes='Ninety seconds. This is the seed of assignment 2 and we come back '
-                        'to the cloud in section 07, so leave it up while the brief is on '
-                        'the next slide. Expect tide, rain, typhoon, earthquake, and one '
-                        'person who says traffic — take it, then ask whether the numbers '
-                        'are published. That question is the assignment.'))
-
-# ───────────────────────── 2 · assignment 2 ─────────────────────────
 S.append(image_full('marks-2026-09-10.jpg', '01 · LOOSE ENDS · THE MARK',
-                    '56 marks. Two at a time, pick the better one: pfad.ait4x.org/vote',
-                    fit='contain',
+                    '56 marks. Two at a time, pick the better one: [pfad.ait4x.org/vote](https://pfad.ait4x.org/vote) — the picture is the link too.',
+                    fit='contain', url='https://pfad.ait4x.org/vote',
                     notes='Thirty seconds. Week 2\'s "photograph the sketch" got 58 uploads, 56 of them '
                           'marks — most of them made with a model or a pixel editor rather than '
                           'drawn, which is its own conversation for week 4. Nobody can pick one out '
@@ -204,6 +193,17 @@ S.append(image_full('marks-2026-09-10.jpg', '01 · LOOSE ENDS · THE MARK',
                           'on the shortlist. That page is also the week 4 example: two pictures, one '
                           'click, one row in a database.'))
 
+
+S.append(question('word_cloud', 'Name a natural phenomenon.',
+                  hint='One or two words. Tide, rain, wind, moon, birds, earthquakes. '
+                       'Traffic is not one.',
+                  notes='Ninety seconds. This is the seed of assignment 2 and we come back '
+                        'to the cloud in section 08, so leave it up while the brief is on '
+                        'the next slide. Expect tide, rain, typhoon, earthquake, and one '
+                        'person who says traffic — take it, then ask whether the numbers '
+                        'are published. That question is the assignment.'))
+
+# ───────────────────────── 2 · assignment 2 ─────────────────────────
 S.append(cards('02 · ASSIGNMENT 2', 'Numbers about a natural phenomenon, and a picture', [
     ('obtain', 'From a file somebody publishes',
      'JSON, CSV or an HTML page. Somebody already did the measuring — the Observatory, '
@@ -233,8 +233,9 @@ S.append(two_col('02 · ASSIGNMENT 2', 'What a finished repo looks like', [
     '**README.md** the phenomenon, the picture. **PROCESS.md** the tools. '
     '**data/** the raw file, so it runs offline. **out/** the picture.',
     '',
-    '{orange:Start from the template:} {mono:sd5913/assignment-2-template} → Use this template. '
-    '{mono:pfad/reference/files.md} is the ten-minute version.',
+    '{orange:Start from the template:} [sd5913/assignment-2-template → Use this template]'
+    '(https://github.com/sd5913/assignment-2-template/generate). '
+    '[pfad/reference/files.md](https://github.com/sd5913/pfad/blob/2026/reference/files.md) is the ten-minute version.',
 ], [
     'tidal-clock/',
     '├── .git/             the history. never open it',
@@ -402,7 +403,7 @@ S.append(content('03 · A FUNCTION', 'A rule with a name', [
     '{mono:def bar(height):} — something goes **in**, something comes **out**.',
     '',
     '- The name in the brackets is a name for whatever you hand it. It exists only inside.',
-    '- {orange:No {mono:return}, nothing comes out.} Python hands back {mono:None}, '
+    '- {orange:No} {mono:return}{orange:, nothing comes out.} Python hands back {mono:None}, '
     'silently, and your picture is empty for a reason you cannot see.',
     '- Four spaces of indentation say which lines are inside the function.',
     '',
@@ -480,7 +481,7 @@ S.append(content('04 · JSON', 'A dict of lists of lists, and one way in', [
     'Three brackets, three steps, and you are at one number. '
     '{muted:Which is not yet a number — look at the quotes.}',
 ], body_size=30,
-   notes='Week 2 s28, which was never delivered: one slide, said once. Do not teach indexing '
+   notes='Week 2 s28 again: one slide, said once. Do not teach indexing '
          'again after this. The row number 259 is worth a beat — it is 31+28+31+30+31+30+31+31+16, '
          'i.e. the day of the year minus one, and the tutorial computes it rather than typing '
          'it. The quotes are the next slide and the whole point.'))
@@ -528,7 +529,7 @@ S.append(cards('04 · FOUR RULES', 'Four rules for taking somebody else\'s numbe
      'Wikipedia is one.'),
     ('rot', 'Watch the line rot',
      'The tidal-stream endpoint behind week 2\'s rings moved in 2023 — '
-     '{mono:fetch_tides.py} says so in a comment. A cached file outlives the URL it came from.'),
+     '[fetch_tides.py](https://github.com/sd5913/pfad/blob/2026/week02/tides/fetch_tides.py) says so in a comment. A cached file outlives the URL it came from.'),
     ('polite', 'Be polite',
      'A {mono:User-Agent} that says who you are and what for. One request, not a loop of '
      'them. You are a guest on somebody else\'s server.'),
@@ -666,7 +667,7 @@ S.append(exercise('05 · D6 · POLAR TO XY', 'Round, into flat', [
          'ROTATE knob in that file is the quarter turn made visible.'))
 
 S.append(content('05 · WEEK 2 WAS THIS', 'The rings you ran last week were this', [
-    '{mono:tides.py} in week 2 drew twenty-four rings of tidal current. Every one of them:',
+    '[tides.py](https://github.com/sd5913/pfad/blob/2026/week02/tides/tides.py) in week 2 drew twenty-four rings of tidal current. Every one of them:',
     '',
     '- a circle — {mono:to_xy} in a loop, 200 times round',
     '- {mono:scale} — ring {mono:n} drawn at {mono:(n + 1) / 24} of full size',
@@ -682,10 +683,263 @@ S.append(content('05 · WEEK 2 WAS THIS', 'The rings you ran last week were this
          'code all along. Put tides.svg on the projector from the repo if the wifi holds: '
          'github.com/sd5913/pfad/blob/2026/week02/tides/tides.svg.'))
 
-# ───────────────────────── 6 · plotting ─────────────────────────
-S.append(section('06', 'Plotting', 'The library runs the loop; you still choose the axes'))
+# ───────── 6 · simple rules, complex results — 2025 s39–51, back as live sketches ─────────
+# Three p5.js sketches run in the html deck (the pptx and the PDF show the stills in
+# deck/assets/sketches/); the two drills are Python, like every other drill this term.
 
-S.append(code_slide('06 · MATPLOTLIB', 'Eight lines, and the loop is gone',
+DOUBLE_JS = '''let start, steps;
+function setup() {
+  createCanvas(600, 600); noLoop();
+  start = createSlider(0, 360, 100, 0.1, 'start');
+  steps = createSlider(1, 60, 12, 1, 'steps');
+}
+function dot(a) {                 // an angle, as a point
+  return [300 + 250 * cos(radians(a)),
+          300 - 250 * sin(radians(a))];
+}
+function draw() {
+  background(255); stroke(0); noFill();
+  circle(300, 300, 500);
+  let a = start.value();
+  for (let i = 0; i < steps.value(); i++) {
+    let b = (a * 2) % 360;        // the rule
+    let [x1, y1] = dot(a), [x2, y2] = dot(b);
+    stroke(214, 89, 29); line(x1, y1, x2, y2);
+    fill(0); circle(x1, y1, 9);
+    if (i < 8) text(nf(a, 1, 1), x1 + 8, y1 - 8);
+    a = b;
+  }
+}'''
+
+# One more step every second, until someone touches a slider.
+DOUBLE_EXTRA = '''let touched = false;
+document.addEventListener('pointerdown', function (e) { if (e.target && e.target.type === 'range') touched = true; });
+if (window._dblTimer) clearInterval(window._dblTimer);
+window._dblTimer = setInterval(function () {
+  if (touched || !steps) return;
+  steps.value(steps.value() % 60 + 1);
+  steps.elt.dispatchEvent(new Event('input'));
+}, 900);'''
+
+JULIA_JS = '''let cr, ci;
+function setup() {
+  createCanvas(600, 600); noLoop(); pixelDensity(1);
+  cr = createSlider(-1.5, 0.5, 0, 0.01, 'c, real');
+  ci = createSlider(-1, 1, 0, 0.01, 'c, imaginary');
+}
+function stays(x, y, a, b) {      // 30 times: square, add c
+  for (let i = 0; i < 30; i++) {
+    [x, y] = [x * x - y * y + a, 2 * x * y + b];
+    if (x * x + y * y > 4) return false;   // it left
+  }
+  return true;
+}
+function draw() {
+  let a = cr.value(), b = ci.value();
+  loadPixels();
+  for (let py = 0; py < 600; py++)
+    for (let px = 0; px < 600; px++) {
+      let x = (px - 300) / 150, y = (300 - py) / 150;
+      let v = stays(x, y, a, b) ? 0 : 255;
+      let k = 4 * (py * 600 + px);
+      pixels[k] = pixels[k + 1] = pixels[k + 2] = v;
+      pixels[k + 3] = 255;
+    }
+  updatePixels();
+}'''
+
+JULIA_COLOUR_JS = '''let cr, ci;
+function setup() {
+  createCanvas(600, 600); noLoop(); pixelDensity(1);
+  cr = createSlider(-1.5, 0.5, -0.4, 0.01, 'c, real');
+  ci = createSlider(-1, 1, 0.6, 0.01, 'c, imaginary');
+}
+function gone(x, y, a, b) {       // steps before it leaves
+  for (let i = 0; i < 30; i++) {
+    [x, y] = [x * x - y * y + a, 2 * x * y + b];
+    if (x * x + y * y > 4) return i;
+  }
+  return 30;                      // never: it is in the set
+}
+function draw() {
+  let a = cr.value(), b = ci.value(); loadPixels();
+  for (let py = 0; py < 600; py++)
+    for (let px = 0; px < 600; px++) {
+      let n = gone((px - 300) / 150, (300 - py) / 150, a, b);
+      let k = 4 * (py * 600 + px), v = n == 30 ? 0 : 60 + n * 6;
+      pixels[k] = v * 1.1; pixels[k + 1] = v * 0.75;   // black,
+      pixels[k + 2] = v * 0.4; pixels[k + 3] = 255;    // to orange
+    }
+  updatePixels();
+}'''
+
+# Not on a code panel: the page's ↗ shows it. Left: the c-plane, 0 iterated 40 times for
+# every c. Right: the Julia set of the c under the mouse, 2 px blocks so a move redraws fast.
+MANDEL_JS = '''let re = -0.4, im = 0.6, map, pal = [];
+function gone(x, y, a, b, n) {         // steps before it leaves, or n
+  for (let i = 0; i < n; i++) {
+    [x, y] = [x * x - y * y + a, 2 * x * y + b];
+    if (x * x + y * y > 4) return i;
+  }
+  return n;
+}
+function setup() {
+  createCanvas(1200, 600); noLoop(); pixelDensity(1);
+  for (let n = 0; n <= 40; n++) {           // black, to orange
+    let v = n == 40 ? 0 : 60 + n * 4.5;
+    pal[n] = [min(255, v * 1.1), v * 0.75, v * 0.4];
+  }
+  map = createImage(600, 600); map.loadPixels();   // every c, once
+  for (let py = 0; py < 600; py++)
+    for (let px = 0; px < 600; px++) {
+      let n = gone(0, 0, (px - 450) / 200, (300 - py) / 200, 40);
+      let k = 4 * (py * 600 + px);
+      [map.pixels[k], map.pixels[k + 1], map.pixels[k + 2]] = pal[n];
+      map.pixels[k + 3] = 255;
+    }
+  map.updatePixels();
+}
+function draw() {
+  image(map, 0, 0);
+  loadPixels();                                    // the Julia set of c
+  for (let py = 0; py < 600; py += 2)
+    for (let px = 600; px < 1200; px += 2) {
+      let n = gone((px - 900) / 150, (300 - py) / 150, re, im, 30);
+      let [r, g, b] = pal[n == 30 ? 40 : Math.round(n * 4 / 3)];
+      for (let dy = 0; dy < 2; dy++)
+        for (let dx = 0; dx < 2; dx++) {
+          let k = 4 * ((py + dy) * 1200 + px + dx);
+          pixels[k] = r; pixels[k + 1] = g; pixels[k + 2] = b; pixels[k + 3] = 255;
+        }
+    }
+  updatePixels();
+  stroke(0); strokeWeight(2); fill(255);
+  circle(450 + re * 200, 300 - im * 200, 12);      // this c, on the map
+  noStroke(); fill(0); rect(600, 0, 600, 36); fill(255); textSize(20);
+  text('c = ' + nf(re, 1, 2) + (im < 0 ? ' - ' : ' + ') + nf(abs(im), 1, 2) + ' i', 616, 25);
+}
+function mouseMoved() {
+  if (mouseX >= 0 && mouseX < 600 && mouseY >= 0 && mouseY < 600) {
+    re = (mouseX - 450) / 200; im = (300 - mouseY) / 200; redraw();
+  }
+}
+function mouseDragged() { mouseMoved(); }'''
+
+S.append(section('06', 'Simple rules, complex results',
+                 'Double an angle. Square a point. Add c.',
+                 notes='Fifteen minutes, and the only stretch of the day with no data in it. '
+                       'The point is the one the artist path of assignment 2 needs: a rule of '
+                       'one line, run on its own result, makes a picture nobody could draw by '
+                       'hand. Back from the 2025 deck (s39–51), as three sketches you can '
+                       'drag instead of five slides of algebra.'))
+
+S.append(code_slide('06 · DOUBLE THE ANGLE', 'Take an angle. Double it. Again.', DOUBLE_JS,
+                    caption='Double the angle, back onto the circle, again. 120: two points forever. '
+                            '90: stuck at 0 after three. 100: a seven-point star. 100.1: the same '
+                            'star for eight steps, then anywhere.',
+                    code_size=19,
+                    sketch=live('double-angle', DOUBLE_JS, 600, 600,
+                                hint='it steps on its own · drag start', extra=DOUBLE_EXTRA),
+                    notes='JavaScript on the slide because the browser is, and the shape is the '
+                          'loop from D1: once per step, one rule at the end. Let it step on its '
+                          'own for ten seconds, then drag start to 120 (two points), 90 (three, '
+                          'then stuck at 0), 100 (a seven-point star). Then 100.1 and steps to 60: '
+                          'the same star for eight steps, then it comes apart. Say the word: '
+                          'chaos is not randomness, it is a rule that doubles every error. That '
+                          'is also why a weather forecast is worth nothing past ten days. The '
+                          'drill next is the same rule in Python.'))
+
+S.append(exercise('06 · D7 · DOUBLE IT', 'Which angles come back?', [
+    'A circle is 360 degrees; {mono:%} keeps a doubled angle on it.',
+    '',
+    '**Say the six numbers before you run it.** Then fill in the blank.',
+    '',
+    'Now start at 90. Then 100. Then 100.1 — how many steps before it stops looking like 100?',
+], code='angle = 120\n\n'
+        'for step in range(6):\n'
+        '    print(angle)\n'
+        '    angle = ___   # double it, stay on the circle',
+   expect='120\n240\n120\n240\n120\n240',
+   hint='angle * 2 % 360',
+   notes='Two minutes. 120 and 240 for ever: periodic. 90: 180, 0, 0, 0 — it falls onto a '
+         'fixed point. 100: seven values round and round. 100.1 matches 100 to the first '
+         'decimal for eight steps and is nowhere near it by twelve: the doubling doubles the '
+         'error too, and that is the whole of chaos in five lines. If someone asks: every '
+         'whole number of degrees comes back eventually; it is the fractions of a degree that '
+         'never settle. Do not go further than that.'))
+
+S.append(code_slide('06 · SQUARE, THEN ADD c', 'Every point on the plane, thirty times', JULIA_JS,
+                    caption='Squaring doubles the angle and squares the length: the x·x − y·y line. '
+                            'c = 0 is a disc. Drag c: −1 pinches it into beads; −0.4 + 0.6i (the '
+                            'still) grows arms; further out, dust.',
+                    code_size=18,
+                    sketch=live('julia', JULIA_JS, 600, 600, hint='drag c · the disc bends'),
+                    notes='The doubling of the angle, now for every point of the plane at once, '
+                          'and with a length: squaring a point doubles its angle and squares its '
+                          'distance from 0. That is the one line with x·x − y·y in it, and it is '
+                          'all the complex numbers this course needs. With c = 0 the room can '
+                          'predict the picture: inside the circle shrinks to 0 (black), outside '
+                          'leaves (white). Then drag c, real to −1, slowly: the disc pinches into '
+                          'a string of beads, each a point that comes back every two steps. Then '
+                          'imaginary to 0.6, real to −0.4: arms. Then real to 0.4: dust, because '
+                          'now even 0 leaves. The set of points that stay is a Julia set, and the '
+                          'code is nine lines longer than the drill. The still in the pptx is '
+                          'c = −0.4 + 0.6i; the html deck starts at 0.'))
+
+S.append(code_slide('06 · ADD COLOURS', 'How fast a point leaves is a colour', JULIA_COLOUR_JS,
+                    caption='Same rule; gone() counts the steps before a point leaves, and the count '
+                            'is a colour: black for never, brighter the longer it stayed. The '
+                            'outside now shows how close it came.',
+                    code_size=18,
+                    sketch=live('julia-colour', JULIA_COLOUR_JS, 600, 600, hint='drag c · try −0.8 + 0.16i'),
+                    notes='Two changes from the previous slide, point at each: stays became gone '
+                          'and returns a count instead of true or false; the pixel takes a shade '
+                          'from its count, black for never, orange for nearly. Everything in '
+                          'the picture that is not black is the outside, coloured by patience. '
+                          'This is the picture the 2025 deck showed as a matplotlib image; now it '
+                          'is thirty lines they can read, and every number in it is a knob. Drag '
+                          'c to −0.8 + 0.16i for the one on every poster.'))
+
+S.append(exercise('06 · D8 · ADD c', 'Which c come back?', [
+    'Python has {mono:i} built in: {mono:1j}. {mono:1j * 1j} is {mono:-1}, and '
+    '{mono:z * z + c} works whether c is {mono:-1} or {mono:1j}.',
+    '',
+    '**Say the six values for c = -1 before you run it.** Then fill in the blank.',
+    '',
+    'Now c = 1. Then -2, 0.25, 1j. Which settle, which come back, which leave?',
+], code='c = -1\nz = 0\n\n'
+        'for step in range(6):\n'
+        '    print(z)\n'
+        '    z = ___   # square it, add c',
+   expect='0\n-1\n0\n-1\n0\n-1',
+   hint='z * z + c',
+   notes='Two minutes. c = −1: 0, −1, 0, −1 — comes back every two steps. c = 1: 0, 1, 2, 5, '
+         '26, 677 — leaves. c = −2: 0, −2, 2, 2, 2 — settles. c = 0.25: creeps towards 0.5 and '
+         'never leaves, the edge. c = 1j: 0, 1j, (−1+1j), −1j, (−1+1j), −1j — comes back, and '
+         'Python printed a complex number without being asked. The question on the next slide '
+         'is this drill for every c at once.'))
+
+S.append(sketch_slide('06 · MANDELBROT', 'Every c on the left is a picture on the right.',
+                      live('mandelbrot', MANDEL_JS, 1200, 600, hint='move the mouse over the left picture'),
+                      body=['Left: the drill for every c at once — start at 0, square, add c, forty times. '
+                            'Black if it comes back, coloured by how fast it leaves. That is the Mandelbrot set. '
+                            'Right: the Julia set of the c under your mouse. Inside the black it is one piece; '
+                            'outside, it is dust.'],
+                      caption='Mandelbrot, 1980, on an IBM at Yorktown Heights: the first picture of this set was a '
+                              'line printer\'s asterisks. Every point of it is a whole picture; the rule is one line.',
+                      notes='The payoff. Move the mouse along the real axis from −2 to 0.3 and watch the '
+                            'right side: dust, beads, the disc, arms, dust again. Then into the top bulb '
+                            '(around −0.1 + 0.75i): three arms, because points there come back every '
+                            'three steps. The black on the left is D8 answered for every c; the picture '
+                            'on the right is the slider slide for that c. Say it once, plainly: a rule of '
+                            'one line, a loop, and a picture no hand could draw. Assignment 2\'s artist '
+                            'path can be this: numbers from the sea as the c, or as the colours. Then '
+                            'back to the tide: plotting.'))
+
+# ───────────────────────── 7 · plotting ─────────────────────────
+S.append(section('07', 'Plotting', 'The library runs the loop; you still choose the axes'))
+
+S.append(code_slide('07 · MATPLOTLIB', 'Eight lines, and the loop is gone',
                     'import json\n'
                     'import matplotlib.pyplot as plt\n\n'
                     'd = json.load(open("data/tides-QUB-2026.json"))\n'
@@ -707,7 +961,7 @@ S.append(code_slide('06 · MATPLOTLIB', 'Eight lines, and the loop is gone',
                           'unlabelled axis is the single commonest failure in assignment 2, '
                           'and it costs marks under Picture.'))
 
-S.append(figure_slide('06 · FIVE WAYS', 'The same numbers, five ways', F.tide_ways(),
+S.append(figure_slide('07 · FIVE WAYS', 'The same numbers, five ways', F.tide_ways(),
                       caption='a line · bars · the clock · thirty days overlaid · '
                               'September as a grid, one row per day, one cell per hour',
                       notes='The slide of the day — give it three minutes and make the room '
@@ -723,14 +977,14 @@ S.append(figure_slide('06 · FIVE WAYS', 'The same numbers, five ways', F.tide_w
 S.append(question('multiple_choice', 'When are the tides biggest?',
                   choices=['New and full moon', 'Half moon', 'The same all month',
                            'When it rains'],
-                  eyebrow_text='06 · THE MOON · MULTIPLE CHOICE',
+                  eyebrow_text='07 · THE MOON · MULTIPLE CHOICE',
                   notes='A — new and full moon, when the Sun and the Moon pull in line and '
                         'their bulges add. Ask BEFORE the next slide: this is a prediction, '
                         'and the next slide is the data that judges it. Most rooms get this '
                         'right and are still surprised by how badly the model fits, which is '
                         'the point.'))
 
-S.append(code_slide('06 · THE MOON', 'Five lines of astronomy',
+S.append(code_slide('07 · THE MOON', 'Five lines of astronomy',
                     'from datetime import date\n'
                     'from tides import load_year\n\n'
                     'NEW_MOON = date(2000, 1, 6)     # a known new moon\n\n'
@@ -759,7 +1013,7 @@ S.append(code_slide('06 · THE MOON', 'Five lines of astronomy',
                           'is worth a beat: tides.py is a file they wrote, imported like any '
                           'library.'))
 
-S.append(content('06 · THREE NUMBERS', 'Three numbers a point, and the map draws itself', [
+S.append(content('07 · THREE NUMBERS', 'Three numbers a point, and the map draws itself', [
     'Every earthquake of the last month: {mono:(lng, lat, magnitude)}.',
     '',
     '- Two numbers become **position** — longitude across, latitude up. That is the '
@@ -776,7 +1030,7 @@ S.append(content('06 · THREE NUMBERS', 'Three numbers a point, and the map draw
          'have not looked at yet. The file is data/earthquakes-2026-09.csv in the tutorial, '
          'and earthquakes.py plays the month back day by day.'))
 
-S.append(content('06 · A FRAME IS A FUNCTION OF TIME', 'Animation is a loop with a picture in it', [
+S.append(content('07 · A FRAME IS A FUNCTION OF TIME', 'Animation is a loop with a picture in it', [
     'One more number, one more dimension: {mono:i}, which frame it is.',
     '',
     '{mono:def frame(i):} draws the first {mono:i} hours — nothing else changes. '
@@ -794,7 +1048,7 @@ S.append(content('06 · A FRAME IS A FUNCTION OF TIME', 'Animation is a loop wit
          'same idea in three languages this term and it is one idea. The next slide is the '
          'Python that makes the GIF.'))
 
-S.append(code_panel('06 · MAKE IT MOVE', 'Ten lines, and it is a GIF', [
+S.append(code_panel('07 · MAKE IT MOVE', 'Ten lines, and it is a GIF', [
     'from matplotlib.animation import FuncAnimation',
     '',
     'fig, ax = plt.subplots()',
@@ -812,8 +1066,8 @@ S.append(code_panel('06 · MAKE IT MOVE', 'Ten lines, and it is a GIF', [
          'the line people forget, and the symptom is a picture that gets steadily more solid. '
          'They run this in the workshop at 0:40.'))
 
-# ───────────────────────── 7 · two paths ─────────────────────────
-S.append(two_col('07 · TWO PATHS', 'Both of these are assignment 2', [
+# ───────────────────────── 8 · two paths ─────────────────────────
+S.append(two_col('08 · TWO PATHS', 'Both of these are assignment 2', [
     '**The designer.** Pick the chart the dimensions ask for. Label the axes. '
     'One message per picture.',
     '',
@@ -845,7 +1099,7 @@ S.append(two_col('07 · TWO PATHS', 'Both of these are assignment 2', [
          'would get a poor mark, and saying that now is kinder than saying it in October. '
          'Point back at the word cloud from the first section while you say it.'))
 
-S.append(content('07 · TWO PATHS · ONE EXAMPLE', 'What assignment 2 can look like', [
+S.append(content('08 · TWO PATHS · ONE EXAMPLE', 'What assignment 2 can look like', [
     'Week 2\'s current data, five days of it, with the two numbers the rings threw away '
     'put back: **longitude and latitude**. Every arrow returns to its place in the sea; '
     '120 hours become 120 frames, ten tides in ten seconds.',
@@ -854,10 +1108,10 @@ S.append(content('07 · TWO PATHS · ONE EXAMPLE', 'What assignment 2 can look l
     '- {mono:to_pixel} — the round Earth onto the flat map tiles',
     '- {mono:frame(i)} — one hour into one picture',
     '',
-    '{mono:week03/currents.py} · {mono:--drift} lets 2,500 specks of water ride the arrows '
+    '[week03/currents.py](https://github.com/sd5913/pfad/blob/2026/week03/currents.py) · {mono:--drift} lets 2,500 specks of water ride the arrows '
     'instead. {orange:One published file, one picture nobody could draw by hand.}',
 ], image='currents-2026-09-14.png', fit='contain', body_size=28,
-   caption='github.com/sd5913/tidal-streams — the finished repo · sd5913.github.io/tidal-streams — the page, live',
+   caption='[github.com/sd5913/tidal-streams](https://github.com/sd5913/tidal-streams) — the finished repo · [sd5913.github.io/tidal-streams](https://sd5913.github.io/tidal-streams/) — the page, live',
    notes='Play out/currents.webp and then out/currents-drift.webp from the repo on the projector — '
          'the pptx only has the still. The point to make: nothing new was needed. Three '
          'functions the room has already read today, a loop, and a map fetched once and cached '
@@ -865,13 +1119,13 @@ S.append(content('07 · TWO PATHS · ONE EXAMPLE', 'What assignment 2 can look l
          'changed: instead of drawing the arrow, follow it. That is the whole difference '
          'between the two paths, and it is one line of code.'))
 
-S.append(two_col('07 · TWO PATHS · PUBLISHED', 'The page builds itself', [
-    'The same arrows once more, as a **web page**: {mono:currents_web.py} writes one HTML '
+S.append(two_col('08 · TWO PATHS · PUBLISHED', 'The page builds itself', [
+    'The same arrows once more, as a **web page**: [currents_web.py](https://github.com/sd5913/pfad/blob/2026/week03/currents_web.py) writes one HTML '
     'file with {mono:folium}, and the browser does the drawing — pan, zoom, a play button.',
     '',
     'Open the file on your laptop. If it plays there, it plays anywhere.',
     '',
-    'Then one workflow file from {mono:assignments/pages.yml}: on every push, GitHub '
+    'Then one workflow file from [assignments/pages.yml](https://github.com/sd5913/pfad/blob/2026/assignments/pages.yml): on every push, GitHub '
     'runs the {orange:same command you ran} and publishes the result at '
     '{mono:you.github.io/your-repo}.',
     '',
@@ -913,15 +1167,16 @@ S.append(question('short_answer', 'Your phenomenon, and where its numbers come f
                         'cheaper to solve now than on 3 October. Answers come back to this '
                         'slide as a link after class.'))
 
-# ───────────────────────── 8 · workshop ─────────────────────────
-S.append(section('08', 'Workshop', 'Your numbers, your repo, your first picture'))
+# ───────────────────────── 9 · workshop ─────────────────────────
+S.append(section('09', 'Workshop', 'Your numbers, your repo, your first picture'))
 
-S.append(content('08 · WORKSHOP', 'The tutorial is in the repo', [
+S.append(content('09 · WORKSHOP', 'The tutorial is in the repo', [
     'Everything for the next two hours is one folder in the course repo, and the '
     'walkthrough is its README:',
     '',
     '- [' + REPO + ' · week03/README.md](https://github.com/sd5913/pfad/blob/2026/week03/README.md)',
-    '- {mono:git pull} brings it down; {mono:uv run tides.py} is the first thing it asks for.',
+    '- {mono:git pull} brings it down; {mono:uv run tides.py} is the first thing it asks for. '
+    'What {mono:uv run} does: [reference/uv.md](https://' + REPO + '/blob/2026/reference/uv.md).',
     '- No clone, or a lab machine you have not used? Download and double-click '
     '[setup.bat](https://github.com/ait4x/v915-setup/releases/latest/download/setup.bat).',
     '',
@@ -932,14 +1187,15 @@ S.append(content('08 · WORKSHOP', 'The tutorial is in the repo', [
          'exactly when the room stalls, and every script in week03 reads data/ first. '
          'Anybody who cannot pull is still stuck on week 1 — deal with them at the back.'))
 
-S.append(timeline('08 · WORKSHOP', 'Two hours', [
+S.append(timeline('09 · WORKSHOP', 'Two hours', [
     ('0:00', 'uv run tides.py', 'The year, cached to {mono:data/}, and today\'s 24 numbers as a text chart. D2 on the real file.'),
-    ('0:15', 'One day, four ways', '{mono:plot_day.py}, {mono:tide_clock.py}, {mono:tide_month.py}, {mono:moon.py}. Predict, run, change one knob.'),
-    ('0:40', 'Make it move', '{mono:animate.py} sweeps the clock and writes a GIF into {mono:out/}.'),
-    ('0:55', 'Three numbers', '{mono:earthquakes.py} — a map sized by magnitude; {mono:currents.py} — week 2\'s arrows back on the map, moving.'),
-    ('1:10', 'Same idea, messier', '{mono:typhoons.py} — an HTML table, wind against pressure.'),
+    ('0:15', 'One day, four ways', '[plot_day.py](https://github.com/sd5913/pfad/blob/2026/week03/plot_day.py), [tide_clock.py](https://github.com/sd5913/pfad/blob/2026/week03/tide_clock.py), [tide_month.py](https://github.com/sd5913/pfad/blob/2026/week03/tide_month.py), [moon.py](https://github.com/sd5913/pfad/blob/2026/week03/moon.py). Predict, run, change one knob.'),
+    ('0:40', 'Make it move', '[animate.py](https://github.com/sd5913/pfad/blob/2026/week03/animate.py) sweeps the clock and writes a GIF into {mono:out/}.'),
+    ('0:55', 'Three numbers', '[earthquakes.py](https://github.com/sd5913/pfad/blob/2026/week03/earthquakes.py) — a map sized by magnitude; [currents.py](https://github.com/sd5913/pfad/blob/2026/week03/currents.py) — week 2\'s arrows back on the map, moving.'),
+    ('1:10', 'Same idea, messier', '[typhoons.py](https://github.com/sd5913/pfad/blob/2026/week03/typhoons.py) — an HTML table, wind against pressure.'),
     ('1:20', 'Your repo', 'Use the template, cache your file, one plot, the check, the URL on Canvas.'),
     ('1:50', 'Swap screens', 'Your plot on your screen, your neighbour\'s on theirs. One sentence each: what does it hide?'),
+    ('1:55', 'Next week', 'Read [teaching PR #3](https://github.com/sd5913/teaching/pull/3). React or comment: what do you want more of?'),
 ], notes='The blocks that must happen are 0:00 and 1:20. Everything between them is a menu — '
          'a group that is flying can skip to their own data at 0:40 and a group that is stuck '
          'on git should be at 1:20 the whole time. moon.py is the one worth insisting on: it '
@@ -951,7 +1207,7 @@ S.append(timeline('08 · WORKSHOP', 'Two hours', [
 
 S.append(end('See you next week',
              'Week 4: interfaces. Assignment 2 is due Sunday 4 October.',
-             SITE))
+             '[' + SITE + '](https://' + SITE + '/)'))
 
 # Links each question slide to the answers the room gave. Written after the class by
 # classpoint.py's weekly.py, and a no-op until that file exists.
