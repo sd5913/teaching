@@ -10,7 +10,7 @@ from pathlib import Path
 
 from deckgen import attach_reports
 from deckgen.layouts import (title, agenda, content, cards, section, statement,
-                             question, two_col, code_panel, timeline, image_full,
+                             question, two_col, code_panel, exercise, timeline, image_full,
                              end)
 
 COURSE = 'SD5913'
@@ -21,10 +21,12 @@ S = []
 # 00 · Landing and the work from last week
 S.append(title(EYE, 'Interfaces', 'One control, one clear response.'))
 S.append(agenda(EYE, [
+    'The top three marks — choose the course winner',
     'Your first plot becomes something a person can use',
     'One action travels through a Streamlit app',
     'Waiting, polling and callbacks',
     'A service, a test and a two-hour workshop',
+    'Assignment 2: read the template check',
 ]))
 S.append(question('image_upload', 'Upload your first plot.',
                   hint='Caption, 50 characters or fewer: phenomenon · source',
@@ -32,6 +34,21 @@ S.append(question('image_upload', 'Upload your first plot.',
                         'minute to upload. Show two or three responses and ask one question: '
                         'what could a viewer choose that would change this picture? Carry '
                         'their answers into the working app on slide 6.'))
+S.append(content('SD5913 · THE MARK', 'The class vote: three finalists', [
+    '**1 · Mark 38** — score 4.04 · 28 wins / 5 losses · 33 comparisons',
+    '**2 · Mark 04** — score 3.40 · 27 wins / 6 losses · 33 comparisons',
+    '**3 · Mark 18** — score 3.01 · 26 wins / 7 losses · 33 comparisons',
+    '',
+    'Now choose the one mark that should represent the course.',
+], body_size=30, notes='These are the current Bradley–Terry standings from the registry. '
+                         'The next slide is the final class vote; collect one response per '
+                         'student and announce the result.'))
+S.append(question('multiple_choice', 'Final vote: which mark is the SD5913 mark?',
+                  choices=['A — Mark 38', 'B — Mark 04', 'C — Mark 18'],
+                  eyebrow_text='THE FINAL THREE',
+                  notes='This is the deciding ClassPoint poll. Each student gets one vote. '
+                        'The option with the most votes wins. If tied, the higher Bradley–Terry '
+                        'rank wins (38, then 04, then 18), so the result is always decisive.'))
 S.append(content('SD5913 · WEEK 04 · WORDS', 'Four words for one interaction', [
     '- **interface** — the part of a program a person can see and use.',
     '- **input** — information or an action a person gives the program.',
@@ -211,7 +228,7 @@ S.append(cards('04 · PYTHON WORKER', 'Same FastAPI app, a different server', [
          'server role. The route and the pure select_month rule do not change. Open '
          'pfad/wrangler.jsonc after this slide to show the main module and compatibility flag.'))
 S.append(content('04 · ONE RECORD', 'The response already has the chart values', [
-    '{mono:{"month": 9, "day": 17, "heights": [2.19, 2.09, ..., 1.09]}}',
+    '{mono:month 9 · day 17 · 24 hourly heights}',
     '',
     'The service returns data rather than a chart. The client chooses one daily record and '
     'decides how to draw its 24 heights.',
@@ -220,6 +237,24 @@ S.append(content('04 · ONE RECORD', 'The response already has the chart values'
     'and try month 9.',
 ], body_size=30, notes='The record shape matches transform.parse_rows exactly. The ellipsis is '
                          'display shorthand; the real response contains all 24 floats.'))
+S.append(exercise('04 · LIVE DATA · PYTHON IN THE BROWSER',
+                  'Ask the deployed API for September', [
+    'Run one Python request in the browser. Read the number of daily records, the first day, '
+    'and its first four heights.',
+], code='import json\nfrom pyodide.http import open_url\n\n'
+        'url = (\n'
+        '    "https://sd5913-week04-tides.venetanji.workers.dev"\n'
+        '    "/tides?month=9"\n'
+        ')\nresponse = open_url(url)\nrows = json.loads(response.read())\n\n'
+        'first = rows[0]\n'
+        'print(len(rows), "daily records")\n'
+        'print("first:", first["month"], first["day"])\n'
+        'print(first["heights"][:4])',
+    eid='ask-the-deployed-api', rows=9,
+    notes='This is a live request through Pyodide in the browser. The API must return '
+          'Access-Control-Allow-Origin for https://sd5913.github.io. If the browser blocks '
+          'it, the service has not picked up the CORS change yet. Do not rerun repeatedly: '
+          'this is one request for a month of committed data.'))
 S.append(question('multiple_choice', 'What crosses from the service to the client?',
                   choices=['The finished chart', 'JSON records', 'The mouse click', 'The PowerPoint'],
                   eyebrow_text='04 · CLIENT AND SERVICE',
@@ -295,16 +330,16 @@ S.append(cards('05 · TEST THE BOUNDARY', 'Keep outside systems out of the unit 
 ], notes='The unit test should answer the same way on every machine. The network refresh '
          'has its own validation and can fail without making the selection rule uncertain.'))
 S.append(code_panel('05 · ON EVERY PUSH', 'GitHub repeats the completed tests', [
-    'on:',
-    '  push:',
-    '    branches: [2026]',
-    '  pull_request:',
-    '    branches: [2026]',
-    '',
-    '- run: uv run --with pytest python -m pytest week04/tests',
-], caption='.github/workflows/week04-tests.yml',
-    notes='The event starts a job; the job runs the same completed test command as the '
-          'tutorial. Keep the detailed checkout and setup steps in the linked workflow.'))
+    'on: [push, pull_request]',
+    'jobs:',
+    '  test:',
+    '    runs-on: ubuntu-latest',
+    '    steps:',
+    '      - uses: actions/checkout@v4',
+    '      - run: uv run --with pytest python -m pytest week04/tests',
+], caption='.github/workflows/week04-tests.yml (excerpt)',
+    notes='The event starts a job, GitHub checks out the repository, then runs the tests. '
+          'The complete workflow also pins Python and sets up uv.'))
 S.append(content('05 · OPTIONAL REFRESH', 'Fresh data is a separate operation', [
     'The maintainer workflow runs manually:',
     '',
@@ -355,7 +390,26 @@ S.append(content('06 · ASSIGNMENT 2', 'Keep the data picture moving', [
     '',
     '{muted:Every control should help someone see or ask something.}',
 ], notes='This is a reminder rather than a new brief. The deadline and requirements remain '
-         'those in assignments/02-data-visualisation.md.'))
+    'those in assignments/02-data-visualisation.md.'))
+S.append(two_col('06 · ASSIGNMENT 2 · TEMPLATE CLINIC', 'What does the check tell you?', [
+    'Start from **sd5913/assignment-2-template**. Its GitHub Action runs the Assignment 2 check on each push.',
+    '',
+    'Run the same check locally from your repo:',
+    '',
+    'uv run https://raw.githubusercontent.com/sd5913/pfad/2026/assignments/check.py --assignment 2',
+], [
+    'It checks:',
+    '• README: 150+ words and shows your picture',
+    '• PROCESS.md: present and meaningful',
+    '• Python parses; dependencies are declared',
+    '• raw data in data/; picture committed',
+    '• 3 commits across at least 2 days',
+    '',
+    'A green check confirms these conditions, not the quality of the analysis.',
+], lang=None, notes='Open the template repository and its .github/workflows/check.yml. '
+         'The workflow calls the same check.py script with --assignment 2. A red item tells '
+         'you what to fix; push again to rerun it. Ask students to distinguish mechanical '
+         'checks from the human question: does the picture reveal something about the data?'))
 S.append(end('One control, one clear response',
              'Next week: sound, microphones and live transcription.',
              '[' + SITE + '](https://' + SITE + '/)'))
