@@ -3,8 +3,9 @@ SD5913 · Week 04 — Interfaces: one control, one clear response.
 
 The deck keeps the useful 2025 sequence from blocking input to polling and
 callbacks, but makes one runnable 2026 example the spine: choose a day and see
-that day's 24 Quarry Bay tide heights. The Streamlit client, FastAPI endpoint,
-pure transformation and tests are the files in sd5913/pfad/week04.
+that day's 24 Quarry Bay tide heights. It contrasts a Streamlit app that reads
+a local data file with a static browser frontend that calls the FastAPI service.
+The endpoint, transformations and tests are in sd5913/pfad/week04.
 """
 from pathlib import Path
 
@@ -132,7 +133,7 @@ S.append(cards('02 · THE PATH', 'Three parts of the interaction', [
     ('state', 'The app keeps the value', 'The current run sees day = 17.'),
     ('response', 'The surface changes', 'The chart draws that record.'),
 ], notes='Use the exact same day on every slide. Do not switch back to a month example. '
-         'The month narrows the server response; the day is the interaction we are tracing.'))
+         'The month narrows the local rows; the day is the interaction we are tracing.'))
 S.append(code_panel('02 · THE EXACT CODE', 'The selector reaches the chart', [
     'day = st.selectbox(',
     '    "Day", [row["day"] for row in rows]',
@@ -232,34 +233,29 @@ S.append(question('multiple_choice', 'Which pattern best fits a browser button?'
                         'structure differs.'))
 
 # 04 · Frontends and a data backend
-S.append(section('04', 'Frontend and backend', 'Two different interfaces can ask the same data service'))
-S.append(cards('04 · HTTP · FRONTEND AND BACKEND', 'One API, two frontend choices', [
-    ('Streamlit · frontend', 'Python UI → requests.get()',
-     'This app asks the API. A Streamlit app could instead read local data directly.'),
-    ('HTML + JavaScript · frontend', 'Browser UI → fetch()',
-     'Publish static files. React with Recharts could turn the JSON heights into a chart.'),
-    ('FastAPI · backend', 'Cloudflare Worker → JSON',
-     'Receives GET /tides?month=9 and returns data. The Worker does not draw the chart.'),
-], notes='The frontend is what the person uses. It sends an HTTP request; the backend handles '
-         'the request and replies with JSON. The current Streamlit app uses the API, but '
-         'Streamlit could also load the file itself, which would skip the API. A static '
-         'HTML/JavaScript page can be hosted on GitHub Pages and ask the same API. The '
-         'published origin https://sd5913.github.io is already in the Worker CORS allowlist.'))
-S.append(code_panel('04 · THE CLIENT', 'Ask for one month', [
-    'API = (',
-    '    "https://sd5913-week04-tides.venetanji.workers.dev"',
-    '    "/tides"',
-    ')',
-    '',
-    'response = requests.get(',
-    '    API, params={"month": month}, timeout=10',
-    ')',
-    'response.raise_for_status()',
-    'rows = response.json()',
-], caption='Source: [week04/app.py](https://github.com/sd5913/pfad/blob/2026/week04/app.py)',
-    notes='Requests turns params into ?month=9. raise_for_status stops on an HTTP error. '
-          'response.json turns the response body into Python lists and dictionaries.'))
-S.append(code_panel('04 · STATIC BROWSER UI', 'JavaScript can draw the same response', [
+S.append(section('04', 'Frontend and backend', 'Two examples, two data paths'))
+S.append(cards('04 · TWO APP STRUCTURES', 'A local file or an HTTP service', [
+    ('Streamlit · one app', 'local JSON → chart',
+     'Reads the bundled file. Streamlit generates the page; no API request.'),
+    ('React + Recharts · frontend', 'browser fetch() → chart',
+     'A static page asks the FastAPI service for JSON, then draws the chart.'),
+    ('FastAPI · backend', 'HTTP request → JSON',
+     'The Worker reads the snapshot and returns records. It does not draw the chart.'),
+], notes='The first example is one Python app: it reads local JSON and Streamlit generates the '
+         'page. The second separates the browser frontend from the FastAPI backend: the static '
+         'page uses HTTP to request JSON, then React and Recharts display it. The published '
+         'origin https://sd5913.github.io is already in the Worker CORS allowlist.'))
+S.append(code_panel('04 · STREAMLIT · LOCAL FILE', 'Read JSON and build the page', [
+    'DATA_FILE = Path(__file__).resolve().with_name("tides-QUB-2026.json")',
+    'raw = json.loads(DATA_FILE.read_text(encoding="utf-8"))',
+    'all_rows = parse_rows(raw["data"])',
+    'month = st.selectbox("Month", range(1, 13))',
+    'rows = select_month(all_rows, month)',
+], caption='Source: [week04/app.py](https://github.com/sd5913/pfad/blob/2026/week04/app.py) · [local JSON file](https://github.com/sd5913/pfad/blob/2026/week04/tides-QUB-2026.json)',
+    notes='The UI uses the file in the same folder as app.py. It does not use requests, fetch, '
+          'or the Worker API. Streamlit runs the Python script and produces the browser page. '
+          'Imports are omitted; the existing selector-to-chart flow appears earlier in the deck.'))
+S.append(code_panel('04 · STATIC BROWSER UI', 'Fetch JSON, then draw the chart', [
     'const API = "https://sd5913-week04-tides.venetanji.workers.dev/tides";',
     'const response = await fetch(API + "?month=9");',
     'const rows = await response.json();',
@@ -272,10 +268,10 @@ S.append(code_panel('04 · STATIC BROWSER UI', 'JavaScript can draw the same res
     '</LineChart>',
 ], caption='UI sketch: [Recharts](https://recharts.org/en-US/api/LineChart) renders the points; [GitHub Pages](https://docs.github.com/en/pages) can serve the static files.',
     lang='js',
-    notes='This is the missing browser UI example, not another backend. The static page would '
-          'use fetch() to ask the Worker for JSON, then React and Recharts to render a chart. '
-          'Imports and the surrounding React component are omitted. GitHub Pages serves the '
-          'built HTML, CSS and JavaScript; it does not run the page code on the server.'))
+    notes='This is the frontend for the separate FastAPI example. The static page uses fetch() '
+          'to ask the Worker for JSON, then React and Recharts render the chart. Imports and '
+          'the surrounding React component are omitted. GitHub Pages serves the built HTML, '
+          'CSS and JavaScript; it does not run the page code on the server.'))
 S.append(code_panel('04 · THE SERVICE', 'Return the matching rows', [
     'from workers import asgi',
     '',
@@ -314,8 +310,9 @@ S.append(code_panel('04 · CORS · BROWSER PERMISSION', 'Allow the static site t
 S.append(content('04 · ONE RECORD', 'The response already has the chart values', [
     '{mono:month 9 · day 17 · 24 hourly heights}',
     '',
-    'The service returns data rather than a chart. The client chooses one daily record and '
-    'decides how to draw its 24 heights.',
+    'The FastAPI service returns data rather than a chart. The browser client chooses one '
+    'daily record and decides how to draw its 24 heights. The Streamlit example reads the '
+    'same data shape from its local file.',
     '',
     '[Open the live FastAPI docs](https://sd5913-week04-tides.venetanji.workers.dev/docs) '
     'and try month 9.',
@@ -344,7 +341,7 @@ S.append(question('multiple_choice', 'What crosses from the service to the clien
                   choices=['The finished chart', 'JSON records', 'The mouse click', 'The PowerPoint'],
                   eyebrow_text='04 · CLIENT AND SERVICE',
                   notes='B — JSON records. The client draws the chart. This distinction is '
-                        'the reason app.py can change the surface without changing api.py.'))
+                        'why the static browser UI can change without changing api.py.'))
 
 # 05 · One test-first loop, against the API students have just seen
 S.append(section('05', 'Test the API', 'One file. One feature. Red, then green.'))
@@ -385,10 +382,10 @@ S.append(content('05 · THE LOOP', 'Keep the feedback small', [
 # 06 · Four workshop milestones rather than eight tiny columns
 S.append(section('06', 'Workshop', 'Run it, trace it, test it, change it'))
 S.append(content('06 · BEFORE YOU START', 'The tutorial is one continuous path', [
-    'Keep the Streamlit page open while you trace its request to the deployed Worker.',
+    'Keep the Streamlit page open while you trace its local file, selectors and chart.',
     '',
-    'The completed code lives in {mono:week04/}. The test comes first in the explanation; '
-    'the route that makes it pass is already in the finished Worker.',
+    'The completed code lives in {mono:week04/}. The separate API test comes first in the '
+    'explanation; the route that makes it pass is already in the finished Worker.',
     '',
     '[github.com/sd5913/pfad/tree/2026/week04](https://github.com/sd5913/pfad/tree/2026/week04)',
 ], notes='Open the README and use its commands. The branch link resolves after the PR merges; '
