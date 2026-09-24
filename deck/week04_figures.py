@@ -1,83 +1,83 @@
-"""Week 4 diagrams, drawn as SVG for the web and PNG for PowerPoint."""
+"""Diagrams fill a 1600 × 720 surface; short labels stay large on a projector."""
 from deckgen.figures import Canvas, INK, ORANGE, MUTED, TEAL, VIOLET
 
 PAPER = '#FAF8F4'
 
 
-def label(c, x, y, text, size=26, color=INK):
-    c.text(x, y, text, size=size, color=color, mono=False)
+def label(c, x, y, text, size=42, color=INK, anchor='start'):
+    c.text(x, y, text, size=size, color=color, mono=False, anchor=anchor)
 
 
-def box(c, x, y, w, h, tag, title, lines, accent=TEAL):
+def node(c, x, y, tag, title, lines, accent=TEAL, w=620, h=510):
     c.rect(x, y, w, h, fill=PAPER)
-    c.rect(x, y, 7, h, fill=accent)
-    label(c, x + 28, y + 42, tag, 20, MUTED)
-    label(c, x + 28, y + 90, title, 34)
+    c.rect(x, y, 10, h, fill=accent)
+    label(c, x + 36, y + 65, tag, 32, MUTED)
+    label(c, x + 36, y + 155, title, 58)
     for i, line in enumerate(lines):
-        label(c, x + 28, y + 139 + i * 35, line)
+        label(c, x + 36, y + 255 + i * 70, line)
 
 
-def arrow(c, x1, y, x2, text, color=ORANGE):
+def arrow(c, x1, y, x2, text='', color=ORANGE):
     direction = 1 if x2 > x1 else -1
-    c.line(x1, y, x2, y, color=color, width=4)
-    c.poly([(x2, y), (x2 - direction * 13, y - 8),
-            (x2 - direction * 13, y + 8)], fill=color)
-    c.text((x1 + x2) / 2, y - 18, text, size=24, color=INK,
-           mono=False, anchor='middle')
+    c.line(x1, y, x2, y, color=color, width=7)
+    c.poly([(x2, y), (x2 - direction * 22, y - 14),
+            (x2 - direction * 22, y + 14)], fill=color)
+    if text:
+        label(c, (x1 + x2) / 2, y - 30, text, 40, anchor='middle')
 
 
-def frontend_backend():
-    c = Canvas(1600, 550)
-    box(c, 0, 110, 465, 315, 'FRONTEND · IN THE BROWSER', 'Choose and draw',
-        ['The person chooses a month.', 'JavaScript asks for records.', 'The chart uses the reply.'])
-    box(c, 1110, 110, 490, 315, 'BACKEND · ON THE SERVER', 'Read and return',
-        ['FastAPI checks the request.', 'Python selects the records.', 'The saved JSON supplies data.'], VIOLET)
-    arrow(c, 490, 215, 1080, 'GET /tides?month=9')
-    arrow(c, 1080, 345, 490, '200 OK + JSON records', TEAL)
-    label(c, 0, 510, 'GitHub Pages delivers the frontend files.', 25, MUTED)
-    label(c, 935, 510, 'Cloudflare runs this Python backend.', 25, MUTED)
-    return c.finish('week04-frontend-backend')
+def frontend_request():
+    c = Canvas(1600, 720)
+    label(c, 800, 75, '/tides?month=9', 52, anchor='middle')
+    node(c, 0, 150, 'BROWSER', 'Frontend', ['Choose September', 'Ask for records'])
+    node(c, 980, 150, 'SERVER', 'Backend', ['Validate month', 'Read saved data'], VIOLET)
+    arrow(c, 650, 420, 950, 'GET')
+    return c.finish('week04-frontend-request')
+
+
+def backend_response():
+    c = Canvas(1600, 720)
+    label(c, 800, 75, '200 OK · 30 daily records', 52, anchor='middle')
+    node(c, 0, 150, 'BROWSER', 'Frontend', ['Choose a day', 'Draw 24 heights'])
+    node(c, 980, 150, 'SERVER', 'Backend', ['September records', 'Return JSON'], VIOLET)
+    arrow(c, 950, 420, 650, 'JSON', TEAL)
+    return c.finish('week04-backend-response')
 
 
 def streamlit_path():
-    c = Canvas(1600, 550)
-    box(c, 0, 130, 420, 260, 'BROWSER', 'Choose day 17',
-        ['A widget sends a value.', 'The page shows the chart.'])
-    box(c, 785, 80, 815, 380, 'PYTHON PROCESS · YOUR LAPTOP OR A SERVER',
-        'Streamlit reruns app.py', ['Read the local JSON file.',
-        'Select the day’s 24 heights.', 'Build the updated chart.'], VIOLET)
-    arrow(c, 445, 210, 755, 'widget value')
-    arrow(c, 755, 350, 445, 'page update', TEAL)
-    label(c, 0, 525, 'There is still a browser and a server. You write one Python app; no separate /tides API.', 27, MUTED)
+    c = Canvas(1600, 720)
+    node(c, 0, 80, 'BROWSER', 'The page', ['Choose day 17', 'See its chart'])
+    node(c, 980, 80, 'PYTHON PROCESS', 'Streamlit', ['Read local JSON', 'Select 24 heights'], VIOLET)
+    arrow(c, 650, 315, 950, 'day = 17')
+    arrow(c, 950, 485, 650, 'chart', TEAL)
+    label(c, 800, 690, 'A changed widget reruns app.py', 46, anchor='middle')
     return c.finish('week04-streamlit-path')
 
 
 def event_cycle():
-    c = Canvas(1600, 550)
+    c = Canvas(1600, 720)
     for x, tag, title, lines, color in [
-        (0, '01 · EVENT', 'A person clicks', ['The browser queues', 'the event.'], TEAL),
-        (580, '02 · CALLBACK', 'Your function runs', ['Read the selected day.', 'Update the chart data.'], ORANGE),
-        (1160, '03 · RENDER', 'The page updates', ['The browser gets', 'a chance to draw.'], VIOLET),
+        (0, '01 · EVENT', 'Click', ['Choose day 17'], TEAL),
+        (590, '02 · CALLBACK', 'Respond', ['Update the data'], ORANGE),
+        (1180, '03 · RENDER', 'Draw', ['Show the chart'], VIOLET),
     ]:
-        box(c, x, 80, 440, 280, tag, title, lines, color)
-    arrow(c, 465, 225, 550, '')
-    arrow(c, 1045, 225, 1130, '')
-    c.line(1380, 390, 1380, 455, color=TEAL)
-    c.line(1380, 455, 220, 455, color=TEAL)
-    c.line(220, 455, 220, 390, color=TEAL)
-    c.poly([(220, 378), (212, 392), (228, 392)], fill=TEAL)
-    c.rect(515, 428, 570, 58, fill='#FFFFFF')
-    label(c, 555, 465, 'Ready for the next event', 30)
+        node(c, x, 80, tag, title, lines, color, w=420, h=430)
+    arrow(c, 450, 300, 560)
+    arrow(c, 1040, 300, 1150)
+    c.line(1390, 545, 1390, 650, color=TEAL, width=7)
+    c.line(1390, 650, 210, 650, color=TEAL, width=7)
+    c.line(210, 650, 210, 545, color=TEAL, width=7)
+    c.poly([(210, 525), (196, 549), (224, 549)], fill=TEAL)
+    c.rect(430, 607, 740, 80, fill='#FFFFFF')
+    label(c, 800, 665, 'Ready for the next event', 46, anchor='middle')
     return c.finish('week04-event-cycle')
 
 
 def image_service():
-    c = Canvas(1600, 500)
-    box(c, 0, 70, 460, 280, 'CLIENT · OUR PYTHON SCRIPT', 'Describe an image',
-        ['Send a prompt + model.', 'Keep the key on the server.'])
-    box(c, 1110, 70, 490, 280, 'SERVICE · IMAGE API', 'Generate an image',
-        ['Qwen Image 2.1', 'ComfyUI runs the workflow.'], VIOLET)
-    arrow(c, 490, 170, 1080, 'POST /v1/images/generations')
-    arrow(c, 1080, 295, 490, 'JSON containing image data', TEAL)
-    label(c, 0, 440, 'Decode the reply → save a PNG → place it in these slides.', 34)
+    c = Canvas(1600, 720)
+    node(c, 0, 80, 'CLIENT', 'Our script', ['Send a prompt', 'Save the image'])
+    node(c, 980, 80, 'SERVER', 'Image API', ['Run the model', 'Return image data'], VIOLET)
+    arrow(c, 650, 315, 950, 'POST')
+    arrow(c, 950, 485, 650, 'image data', TEAL)
+    label(c, 800, 690, 'Prompt → generation → image', 46, anchor='middle')
     return c.finish('week04-image-service')
