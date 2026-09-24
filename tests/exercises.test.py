@@ -121,6 +121,8 @@ SOLUTIONS = {
         '# hour 6 is 1.14 m, hour 12 is 1.35 m\n'
         'print(to_xy(6, 1.14))\n'
         'print(to_xy(12, 1.35))',
+    # week 04 · live output depends on the deployed API
+    'ask-the-deployed-api': None,
 }
 
 

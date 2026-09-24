@@ -78,6 +78,47 @@ a slide is not here, ask — it will be added.
 | **projection** | The transformation that puts a round world on a flat page. Longitude across, latitude up is the cheapest one. |
 | **frame** | One picture of an animation. An animation is a function of which frame it is: `def frame(i)`. |
 
+## Interfaces and web apps
+
+| Word | What it means |
+|---|---|
+| **interface** | The part of a program a person can see and use. |
+| **input** | Information or an action a person gives the program. |
+| **state** | Something a program remembers between actions, such as a selected month or current count. |
+| **event** | Something that happens, such as a click, key press, or completed request. |
+| **callback** | A function the program runs when an event happens. |
+| **client** | A program that asks a service for information or an action. A browser can be a client. |
+| **server** | A program that receives requests and sends responses. |
+| **frontend** | The part of an app a person uses. It can be a Streamlit page or HTML and JavaScript in a browser. |
+| **backend** | The part that handles requests and data. The Week 4 FastAPI service runs on a Cloudflare Worker. |
+| **HTTP** | The web protocol clients use to send requests and receive responses. |
+| **request** | A message a client sends to a server, asking for data or an action. An HTTP request can include a method, path and query. |
+| **response** | What a program sends or shows after an input. In a web request, it is the reply the server sends. |
+| **API** | A set of rules and endpoints one program offers for another program to use. |
+| **endpoint** | An address and method a web service responds to, such as `GET /tides`. |
+| **origin** | A web page's scheme, host and port, such as `https://sd5913.github.io`; the page path is not part of it. |
+| **JSON** (web response) | A text format commonly used to send structured data between a service and a client. |
+| **CORS** | A browser rule: a server lists which other origins may read its response. It does not sign a user in or make an API private. |
+| **static site** | HTML, CSS and JavaScript files served to the browser; the site itself does not run Python on each request. GitHub Pages can host one. |
+| **Streamlit** | A Python library for building small web apps; changing a widget reruns the script. |
+| **FastAPI** | A Python framework that connects HTTP endpoints to functions, validates inputs, and creates an interactive API docs page. |
+| **GET / POST** | HTTP methods: GET asks to read a resource; POST sends information for the service to process, such as an image prompt. |
+| **Base64** | A way to encode bytes as text. The image API can put a PNG into JSON this way; decode it to save the image. |
+| **API key** | A secret a program sends to identify itself to a service. Keep it in a server environment, outside browser code and Git. |
+| **session state** | Values Streamlit keeps available across reruns in one browser session. |
+| **test** | A repeatable check of whether code meets one stated expectation. |
+| **assertion** | A statement in a test that must be true, such as `response.status == 200`. |
+| **red test** | A test that fails because the feature it describes is not implemented yet. |
+| **green test** | A test that passes after the code implements the expected behavior. |
+| **fixture** | Small, known input used by a test so the result is predictable. |
+| **unit test** | A test of one small piece of code, separated from the network and other outside systems. |
+| **integration test** | A test that checks connected parts together, such as making an HTTP request to the real API and checking its response. |
+| **test case** | One example of an input and the result a test expects. |
+| **test-driven development** (TDD) | Write one test first, see it fail, add the code, then run it again and see it pass. |
+| **GitHub Actions** | GitHub's service for running a workflow when an event such as a push happens. |
+| **workflow** | A YAML file that tells GitHub Actions what event starts a job and which steps to run. |
+| **workflow_dispatch** | A GitHub Actions event that lets someone start a workflow manually. |
+
 ## Checking work
 
 | Word | What it means |

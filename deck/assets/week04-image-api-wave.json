@@ -1,0 +1,11 @@
+{
+  "provider": "https://easel.ait4x.org/v1",
+  "request": {
+    "model": "qwen-image-2.1",
+    "prompt": "Editorial paper sculpture of a tidal wave becoming a flowing ribbon, layered warm ivory paper, deep navy and muted teal with one vivid orange accent. A small orange sphere floats above the crest. Minimal gallery still life, tactile cut paper edges, soft studio shadows, warm off-white background. Confident sculptural composition filling a square frame, generous negative space. No text, no letters, no charts, no logos. Art school exhibition quality.",
+    "size": "1024x1024",
+    "n": 1,
+    "response_format": "b64_json"
+  },
+  "purpose": "Generated illustration; not a visualisation of measured tide data."
+}
