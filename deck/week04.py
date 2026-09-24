@@ -45,6 +45,17 @@ def annotated_code(eye, heading, explanation, lines, notes='', lang='py'):
                    left_size=34, right_size=32, lang=lang)
 
 
+def project_intro(eye, heading, body, references, notes=''):
+    slide = two_col(eye, heading, body, references, notes=notes,
+                    right_font='body', right_size=30, left_size=34, lang=None)
+    for index, paragraph in enumerate(slide.els[-1].paras):
+        if index % 2 == 0:
+            paragraph.before = 28 if index else 0
+            for run in paragraph.runs:
+                run.font = 'semibold'
+    return slide
+
+
 # 00 · Landing and the work from last week
 cover = title(EYE, 'Interfaces', 'One control, one clear response.')
 cover.els.insert(0, Image(1080, 150, 720, 720, 'week04-image-api-wave.png', 'contain'))
@@ -131,6 +142,29 @@ S.append(question('multiple_choice', 'After someone chooses day 17, what is the 
 
 # 02 · Trace the exact Streamlit code
 S.append(section('02', 'One action through the app', 'The selector supplies a value; the chart uses one record'))
+S.append(project_intro('02 · MEET STREAMLIT', 'Streamlit: a surface in Python', [
+    'An **open-source framework** for turning Python scripts into interactive data apps.',
+    '',
+    'Add controls, use their values, and show charts or tables.',
+    '',
+    '**Today:** a month selector, a day selector, and a tide chart.',
+], [
+    '{orange:PROJECT}  [streamlit.io](https://streamlit.io/)',
+    'What it makes, with examples to explore.',
+    '',
+    '{orange:SOURCE}  [github.com/streamlit/streamlit](https://github.com/streamlit/streamlit)',
+    'The code, issues, and release history.',
+    '',
+    '[Basic concepts](https://docs.streamlit.io/get-started/fundamentals/main-concepts)',
+    'Understand widgets and script reruns.',
+    '',
+    '[API reference](https://docs.streamlit.io/develop/api-reference)',
+    'Find selectors, charts, and worked examples.',
+], notes='One minute. Open the homepage and point to a small data app. Explain that we '
+    'write Python while Streamlit supplies the browser controls and page. Connect this '
+    'to the working tide app already shown. Basic concepts explains the rerun model; '
+    'the API reference is where students look up st.selectbox and st.line_chart. '
+    'The GitHub repository is the project source, not an extra installation step.'))
 S.append(cards('02 · THE PATH', 'Three parts of the interaction', [
     ('input', 'A person chooses', 'The day selector supplies 17.'),
     ('state', 'The app keeps the value', 'The current run sees day = 17.'),
@@ -263,9 +297,32 @@ S.append(annotated_code('04 · FRONTEND · JAVASCRIPT', 'Ask, read, then draw', 
     'placeholder for the frontend chart function, not a browser built-in. This shows day 1. '
     'A day selector can choose another record from rows. await yields while the request runs; '
     'the browser can handle other work. A complete app also checks response.ok and handles errors.'))
-S.append(annotated_code('04 · MEET FASTAPI', 'A Python function, available at a URL', [
-    '**FastAPI** is a Python framework for building HTTP APIs.', '',
-    'Connect a URL to a function. Return a dictionary or list as JSON.', '',
+S.append(project_intro('04 · MEET FASTAPI', 'FastAPI: a service in Python', [
+    'An **open-source framework** for building HTTP APIs in Python.',
+    '',
+    'Connect a URL to a function, validate inputs, and return structured data.',
+    '',
+    '**Today:** ask for a month and receive its tide records as JSON.',
+], [
+    '{orange:PROJECT}  [fastapi.tiangolo.com](https://fastapi.tiangolo.com/)',
+    'The framework and its documentation.',
+    '',
+    '{orange:SOURCE}  [github.com/fastapi/fastapi](https://github.com/fastapi/fastapi)',
+    'The code, issues, and release history.',
+    '',
+    '[First steps](https://fastapi.tiangolo.com/tutorial/first-steps/)',
+    'Create a route and explore the /docs page.',
+    '',
+    '[Query parameters and validation](https://fastapi.tiangolo.com/tutorial/query-params-str-validations/)',
+    'Read values from a URL and check them.',
+], notes='One minute. Introduce FastAPI as the framework behind our backend. The project '
+    'homepage leads into the tutorial; GitHub holds the implementation and issues. Open '
+    'First steps to show how a route becomes an interactive docs page. The validation '
+    'reference explains Query; in our tide route it limits month to 1 through 12. '
+    'Then return to the minimal /hello example on the next slide.'))
+S.append(annotated_code('04 · YOUR FIRST ROUTE', 'A Python function, available at a URL', [
+    '**GET /hello** calls hello().', '',
+    'The function returns a dictionary. FastAPI sends it as JSON.', '',
     'It also builds an interactive **/docs** page. [Try our tide API](https://sd5913-week04-tides.venetanji.workers.dev/docs).',
 ], [
     'from fastapi import FastAPI',
