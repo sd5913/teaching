@@ -190,3 +190,49 @@ def latent_diffusion(name='week05-latent-diffusion', w=1600, h=520):
     c.text(w / 2, 466, 'The prompt guides denoising; the decoder turns the final latent into pixels.',
            23, ink, anchor='middle')
     return c.finish(name)
+
+
+def controlnet_canny(name='week05-controlnet-canny', w=1500, h=500):
+    """Show an edge map as an extra structural condition for generation."""
+    c = Canvas(w, h, bg=PAPER)
+    teal = '#246E70'
+    orange = '#E87835'
+    ink = '#000B1C'
+    box_y, box_h, box_w, gap = 205, 140, 280, 65
+    labels = [
+        ('source image', 'input photograph'),
+        ('Canny edges', 'a structural guide'),
+        ('ControlNet', 'extra conditioning'),
+        ('new image', 'appearance varies'),
+    ]
+    for i, (heading, detail) in enumerate(labels):
+        x = 30 + i * (box_w + gap)
+        fill = '#FFF1E7' if i == 2 else '#FFFFFF'
+        c.rect(x, box_y, box_w, box_h, fill=fill, stroke=teal, width=3)
+        c.text(x + box_w / 2, box_y + 58, heading, 24, ink,
+               anchor='middle', mono=True, weight=700)
+        c.text(x + box_w / 2, box_y + 103, detail, 20, teal, anchor='middle')
+        if i < len(labels) - 1:
+            ax = x + box_w + 8
+            c.line(ax, box_y + box_h / 2, ax + gap - 18, box_y + box_h / 2,
+                   orange, 4)
+            c.line(ax + gap - 38, box_y + box_h / 2 - 12,
+                   ax + gap - 18, box_y + box_h / 2, orange, 4)
+            c.line(ax + gap - 38, box_y + box_h / 2 + 12,
+                   ax + gap - 18, box_y + box_h / 2, orange, 4)
+
+    prompt_x = 720
+    c.rect(prompt_x, 25, box_w, 105, fill='#E8F0EF', stroke=teal, width=3)
+    c.text(prompt_x + box_w / 2, 65, 'text prompt', 24, ink,
+           anchor='middle', mono=True, weight=700)
+    c.text(prompt_x + box_w / 2, 101, 'describes appearance', 20, teal,
+           anchor='middle')
+    cx = prompt_x + box_w / 2
+    c.line(cx, 130, cx, 185, orange, 4)
+    c.line(cx - 12, 165, cx, 185, orange, 4)
+    c.line(cx + 12, 165, cx, 185, orange, 4)
+    c.text(w / 2, 430, 'Edges guide structure; the prompt guides appearance.',
+           24, ink, anchor='middle')
+    c.text(w / 2, 468, 'The output is a new candidate, not a pixel-perfect copy.',
+           21, teal, anchor='middle')
+    return c.finish(name)

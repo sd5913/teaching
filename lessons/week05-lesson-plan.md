@@ -17,11 +17,13 @@ By the end of class, students can:
 
 - describe a conventional RGB image as rows, columns and channel values, and explain what
   a pixel lookup addresses;
-- make or change a small image in code and explain how a loop or random rule affects it;
+- make or change a small NumPy image, pass it to Pillow, and explain how its shape,
+  dtype and mode describe the values;
+- generate random pixels in code and explain how a random rule affects the image;
 - describe raw video as ordered frames with a time axis, while distinguishing this model
-  from a compressed video file;
-- contrast GAN, VAE and diffusion at a high level, and identify CLIP as an alignment model
-  rather than an image generator;
+  from a compressed video file, and distinguish a webcam transform from generated video;
+- contrast GAN, VAE and diffusion at a high level, and identify LCM and ControlNet as
+  variations on the generation pipeline; identify CLIP as alignment rather than generation;
 - describe the request, wait and response in an image API exercise;
 - sketch one project-specific interaction as an action, system response and feedback.
 
@@ -36,12 +38,13 @@ depend on the chosen representation.
   machine. Keep credentials out of the deck and any student-facing files.
 - Prepare one saved API result as a fallback. Generation latency or service availability
   should not consume the interaction exercise.
-- If showing a local Stable Diffusion/LCM checkpoint in ComfyUI, rehearse it on the actual
-  device. Treat it as an instructor demonstration only; do not require student installation
-  or promise that the 2025 scripts run on every machine.
-- Do not use the 2025 webcam-stream example as if it generated video. This lesson explains
-  the frame/time representation; a generative-video demo is optional and only if a tested
-  service is available.
+- The archived examples depend on older Diffusers/PyTorch model setups. If showing
+  Stable Diffusion, LCM or ControlNet in ComfyUI, rehearse that exact workflow and checkpoint
+  on the teaching device. Treat it as an instructor demonstration; do not require student
+  installation or promise that the archive's dependencies run on every laptop.
+- If showing `st_video_stream.py`, preflight camera access. It flips a live webcam frame; it
+  is a frame-processing example, not generated video. A generated-video demo is optional and
+  only if a tested service is available.
 - Pull the student repository's current `2026` branch. Assignment 3 is listed as
   interactive experience, with its brief/date still TBC in the course README.
 
@@ -50,13 +53,13 @@ depend on the chosen representation.
 | Time | Segment | Instructor move / student action |
 |---|---|---|
 | 0:00–0:10 | API recall | Revisit last week's request/response pattern; ask what the client sends and what comes back. |
-| 0:10–0:25 | Image representation | Read row, column and RGB channel axes. Have students locate one pixel before showing its colour. |
-| 0:25–0:40 | Pixels in code | Predict the effect of changing one list position, then make a tiny RGB image and inspect it. |
-| 0:40–0:50 | Noise and rules | Generate random grayscale values with loops; distinguish an algorithmic image from a learned output. |
-| 0:50–1:00 | Video as frames | Compare three ordered frames. Add the time/frame-rate idea and note that real files are compressed. |
-| 1:00–1:25 | GAN, VAE and diffusion | Use the three-family comparison and one latent-diffusion diagram. Clarify what CLIP does not do. |
-| 1:25–1:35 | Model size and location | Discuss storage, memory, resolution and latency. Show a local model only if it is ready. |
-| 1:35–1:50 | Easel image study | Generate a first result, make one intentional input change, then compare and annotate the outputs. |
+| 0:10–0:23 | Image representation | Read row, column and RGB channel axes. Have students locate one pixel before showing its colour. |
+| 0:23–0:38 | NumPy and Pillow | Predict a pixel edit, then compare array shape/dtype with Pillow size/mode. |
+| 0:38–0:48 | Random pixels | Generate an RGB noise image in code; distinguish an algorithmic image from a learned output. |
+| 0:48–0:57 | Video as frames | Compare ordered frames and frame rate. Distinguish compressed files from a live webcam callback. |
+| 0:57–1:25 | Image-model paths | Relate GAN/VAE/diffusion; then add Stable Diffusion, few-step LCM and Canny-conditioned ControlNet. Mark GAN/CLIP material as supplemental. |
+| 1:25–1:35 | Size and settings | Discuss historical model/VRAM estimates, steps, guidance, seed, resolution and service vs local run. |
+| 1:35–1:50 | Easel image study | Generate a first result, make one intentional change the client exposes, then compare and annotate. |
 | 1:50–2:00 | Interaction seed | In pairs, storyboard one project-specific action, system response and feedback. Take one rough idea forward. |
 
 The API study is exploratory rather than a controlled model comparison: only call it
@@ -71,7 +74,15 @@ interaction seed is a warm-up, not a new submission requirement.
   path. A VAE component is not synonymous with a diffusion model.
 - **Diffusion:** a model learns a denoising process. Latent-diffusion systems operate on a
   compressed representation and decode the final latent back into pixels; implementations
-  and objectives vary.
+  and objectives vary. The archived Stable Diffusion 1.5 example uses a text encoder, U-Net
+  denoiser and VAE; treat that as one specific pipeline.
+- **LCM:** the archive's Latent Consistency Model example pairs a compatible checkpoint and
+  scheduler with four inference steps, compared with twenty in its Stable Diffusion example.
+  Fewer steps aim to reduce wait time; they do not guarantee the same image quality or make
+  the examples a controlled comparison.
+- **ControlNet:** the archive converts an image to Canny edges and supplies them as an extra
+  structural condition. This can guide broad structure; it does not promise a pixel-perfect
+  copy and requires a compatible model/workflow.
 - The live Easel/ComfyUI model may use a different objective (for example, flow matching).
   Check the selected model and version; do not label every text-to-image pipeline as the
   classic noise-prediction diagram.
@@ -79,6 +90,9 @@ interaction seed is a warm-up, not a new submission requirement.
   itself, an image generator.
 - **Model size:** checkpoint size is one cost. Resolution, precision, batch size, pipeline
   components, memory and inference steps also affect whether and how quickly a model runs.
+- The 2025 notebook's approximate 2–5 GB model files and 4–6 GB VRAM for a 512 × 512
+  Stable Diffusion example are historical and model-specific estimates, not current hardware
+  guarantees. Treat CPU/GPU fallback, half precision and storage as preflight topics.
 
 ## Project interaction seed
 
@@ -95,15 +109,22 @@ deadline until the Assignment 3 brief is confirmed.
 
 ## Sources and adaptation notes
 
-- SD5913 2025 archive, `week05/`: `1_random_image.py`, `2_gen_image.py`, `3_gen_image_lcm.py`,
-  `week05_notebook.ipynb` — retain the pixel-array/noise-to-model progression, but do not
-  inherit the old environment assumptions as current student setup.
+- The SD5913 2025 archive is a notebook and code examples, not an exported slide deck. No
+  Week 5 PDF/PPTX was present in the mounted SD5913 repositories, so this draft adapts the
+  archived teaching sequence rather than claiming to reproduce 2025 slides:
+  [`week05_notebook.ipynb`](https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb),
+  [`1_random_image.py`](https://github.com/sd5913/pfad/blob/2025/week05/1_random_image.py),
+  [`2_gen_image.py`](https://github.com/sd5913/pfad/blob/2025/week05/2_gen_image.py),
+  [`3_gen_image_lcm.py`](https://github.com/sd5913/pfad/blob/2025/week05/3_gen_image_lcm.py),
+  [`4_controlnet_canny.py`](https://github.com/sd5913/pfad/blob/2025/week05/4_controlnet_canny.py),
+  and [`st_video_stream.py`](https://github.com/sd5913/pfad/blob/2025/week05/st_video_stream.py).
+  Retain the pixel-array/noise-to-model progression without inheriting old environment
+  assumptions as current student setup.
 - SD2112 Week 5 source deck at
   [`deck/week05.py`](https://github.com/venetanji/sd2112-teaching/blob/main/deck/week05.py):
-  adapt the GAN diagram/sample-grid sequence (2025 PDF pp. 45–47), CLIP pairing diagrams
-  (pp. 48–50), VAE (p. 53), and latent-diffusion workflow (p. 54) for this course's
-  image-data progression. Keep SD2112 project examples and assignment claims out of SD5913
-  materials.
+  use the GAN/VAE/CLIP visuals as supplemental model concepts, not as SD5913 2025 content.
+  The cited source file contains notes about an older slide PDF, but no PDF export is stored
+  in that repository. Keep SD2112 project examples and assignment claims out of SD5913.
 - SD5913 Week 4, `week04/README.md` and `teaching/deck/week04.py`: reuse the API
   request/response vocabulary students have just seen.
 

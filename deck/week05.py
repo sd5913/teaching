@@ -25,7 +25,7 @@ S.append(agenda(EYE, [
     'Read an image as numbers with named axes',
     'Build a small image and a field of noise in code',
     'Add time: video is ordered frames, not one magic object',
-    'Compare GANs, VAEs and diffusion without a progress ladder',
+    'Compare GAN, VAE, diffusion, LCM and ControlNet ideas',
     'Use a generation API, then sketch one project interaction',
 ]))
 S.append(question('multiple_choice', 'What crosses an image-generation API?',
@@ -85,31 +85,48 @@ S.append(content('01 · HOW MUCH DATA?', 'Dimensions and representation matter',
 ], notes='The byte count assumes uncompressed 8-bit channels. A PNG/JPEG file is encoded and '
     'will usually have a different size. Dimensions, channels, bit depth, and compression are '
     'different properties; do not call them all image resolution.'))
+S.append(two_col('01 · ARRAY + PIL', 'A library gives the values a mode', [
+    'NumPy shape: (height, width, channels). A uint8 channel holds 0–255.',
+    '',
+    'Pillow modes describe how to interpret values: RGB, L (grayscale), or RGBA.',
+    '',
+    'Array order and Pillow size order differ: (H, W, C) vs (W, H).',
+], [
+    'import numpy as np',
+    'from PIL import Image',
+    'pixels = np.zeros((100, 100, 3), dtype=np.uint8)',
+    'pixels[:50, :50] = [255, 0, 0]',
+    'image = Image.fromarray(pixels)',
+    'gray = image.convert("L")',
+    'print(pixels.shape, pixels.dtype)',
+    'print(image.size, image.mode, gray.mode)',
+], notes='Adapted from the SD5913 2025 Week 5 notebook. It constructs a 100 by 100 RGB '
+    'array in (height, width, channels) order, then uses Pillow to interpret and convert it. '
+    'The archive labels Pillow modes RGB, L and RGBA. Source: '
+    'https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb.'))
 
 # 02 · Generate values before asking a learned model for them.
 S.append(section('02', 'Make an image in code', 'Choose a rule, then inspect the marks it produces'))
 S.append(two_col('02 · RANDOM PIXELS', 'Noise is a starting material', [
-    'Each pixel gets one random grey value.',
-    'A loop applies the same rule to every position.',
-    'The result is unpredictable in detail, but the range and dimensions are chosen.',
+    'Each pixel gets three random 8-bit channel values.',
+    'The shape is (height, width, RGB channels); the dtype fixes the value range.',
+    'The result is unpredictable in detail, but the dimensions and range are chosen.',
     '',
-    '**Task:** display the nested list with the week 3 plotting tools.',
+    '**Task:** change one dimension or value range; predict what changes.',
 ], [
-    'import random',
+    'import numpy as np',
+    'from PIL import Image',
     'import matplotlib.pyplot as plt',
-    'pixels = []',
-    'for y in range(64):',
-    '    row = []',
-    '    for x in range(64):',
-    '        grey = random.randint(0, 255)',
-    '        row.append([grey, grey, grey])',
-    '    pixels.append(row)',
-    'plt.imshow(pixels, interpolation="nearest")',
+    'pixels = np.random.randint(0, 256, (64, 64, 3), dtype=np.uint8)',
+    'image = Image.fromarray(pixels)',
+    'plt.imshow(image)',
     'plt.show()',
-], notes='After making the list, pass it to matplotlib.pyplot.imshow to see the image. '
-   'Explain that random noise is an algorithmic '
+], notes='Adapted from the SD5913 2025 `1_random_image.py` example and notebook. Explain '
+   'that random noise is an algorithmic '
    'image: the person chose the dimensions, range, colour rule and random process. It is not a '
-   'learned image model. Seed random only if demonstrating repeatable output.'))
+   'learned image model. The original example uses NumPy, Pillow and a 512 by 512 RGB array; '
+   'this smaller version is chosen for projection. Source: '
+   'https://github.com/sd5913/pfad/blob/2025/week05/1_random_image.py.'))
 S.append(cards('02 · FROM NOISE TO FORM', 'An image is a field we can transform', [
     ('sample', 'Choose values', 'Random numbers, a formula, or measured data.'),
     ('map', 'Apply a rule', 'Use position, neighbours, or time to change each value.'),
@@ -125,13 +142,19 @@ S.append(figure_slide('03 · THREE FRAMES', 'The same object, a different positi
                       notes='These are three drawn frames, not generated video. At a fixed frame '
                       'rate, the frame index maps to time. Raw uncompressed frames can be described '
                       'with axes (frames, height, width, channels); actual video files use codecs '
-                      'and often store changes between frames instead of this literal array.'))
+                      'and often store changes between frames instead of this literal array. The '
+                      '2025 archive also has a webcam callback that flips incoming frames; that '
+                      'is live video input and frame processing, not video generation. If shown, '
+                      'preflight camera permissions. Source: '
+                      'https://github.com/sd5913/pfad/blob/2025/week05/st_video_stream.py.'))
 S.append(two_col('03 · IMAGE VS VIDEO', 'Time is another axis of change', [
     '**One RGB image:** height x width x channels.',
     '',
     '**A raw frame sequence:** frames x height x width x channels.',
     '',
     'Playback speed and the order of frames shape the motion we perceive.',
+    '',
+    'A webcam callback transforms incoming frames; it does not synthesize a clip.',
 ], [
     'frame 0 -> time 0',
     'frame 1 -> time 1 / fps',
@@ -151,49 +174,89 @@ S.append(cards('04 · THREE FAMILIES', 'GAN, VAE, diffusion', [
 ], notes='These are conceptual sketches, not a ranking. GANs use an adversarial training '
     'game. VAEs learn an encoder/decoder and a structured latent space. Diffusion models train '
     'a denoising process; implementations and objectives vary. A VAE is a representation and '
-    'decoder component in some pipelines, not a synonym for diffusion. Adapt the accessible '
-    'Week 5 model diagrams from the SD2112 teaching materials; do not transplant its examples '
-    'or claim every modern model follows one exact recipe. Source: '
+    'decoder component in some pipelines, not a synonym for diffusion. GAN and CLIP diagrams '
+    'are supplemental SD2112 material, not part of the SD5913 2025 Week 5 notebook. Do not '
+    'transplant SD2112 project examples or claim every modern model follows one exact recipe. '
+    'Source: '
     'https://github.com/venetanji/sd2112-teaching/blob/main/deck/week05.py.'))
 S.append(figure_slide('04 · GAN · ADVERSARIAL TRAINING',
                       'One learns to make. One learns to catch.', F.gan_adversaries(),
                       notes='Walk from random latent input to generator to candidate image; the '
                       'discriminator also sees real training examples and supplies a learning '
                       'signal. This is a simplified schematic, not a literal network graph or '
-                      'a claim that every GAN is unconditional. Adapted from the 2025 SD2112 Week '
-                      '5 generator/discriminator diagram and sample grids, PDF pp. 45-46. Source '
-                      'deck notes: https://github.com/venetanji/sd2112-teaching/blob/main/deck/week05.py.'))
+                      'a claim that every GAN is unconditional. This is supplemental SD2112 '
+                      'material; the SD5913 2025 Week 5 archive focuses on image arrays and '
+                      'diffusion, not GANs. Source: '
+                      'https://github.com/venetanji/sd2112-teaching/blob/main/deck/week05.py.'))
 S.append(figure_slide('04 · VAE · ENCODER AND DECODER',
                       'Compress the image, then reconstruct it.', F.vae_path(),
                       notes='The latent is a compact learned representation; a VAE decoder maps '
                       'it back to image values. A variational encoder models a distribution, but '
                       'this teaching sketch omits its mean, variance and sampling details. A VAE '
                       'can support generation from a sampled latent, but it is not the same process '
-                      'as latent diffusion. Adapted from the 2025 SD2112 Week 5 VAE diagram, PDF '
-                      'p. 53. Source deck notes: '
+                      'as latent diffusion. This diagram is supplemental SD2112 teaching material; '
+                      'the SD5913 2025 notebook introduces the VAE as one component of Stable '
+                      'Diffusion. Source: '
                       'https://github.com/venetanji/sd2112-teaching/blob/main/deck/week05.py.'))
 S.append(figure_slide('04 · ONE LATENT-DIFFUSION PATH',
                       'From prompt and noise to pixels', F.latent_diffusion(),
                       notes='A common latent diffusion pipeline: an encoder represents the prompt; '
-                      'a denoiser iteratively refines a noisy latent under that conditioning; a VAE '
-                      'decoder maps the final latent back to pixels. Not all diffusion models use '
-                      'the same architecture, latent space or training objective.'))
+                      'a U-Net denoiser iteratively refines a noisy latent under that conditioning; '
+                      'a VAE decoder maps the final latent back to pixels. This diagram follows the '
+                      'SD1.5 pipeline described in the SD5913 2025 notebook. Not all diffusion '
+                      'models use the same architecture, latent space or training objective. Source: '
+                      'https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb.'))
+S.append(content('04 · LATENT CONSISTENCY (LCM)', 'A compatible model can generate in fewer steps', [
+    'The 2025 examples contrast Stable Diffusion at 20 inference steps with an LCM pipeline at 4 inference steps.'
+    '',
+    'LCM uses a model and scheduler designed for few-step sampling; changing the step count alone is not the same thing.',
+    '',
+    'Fewer steps can reduce wait time. Compare the image too: speed is not a quality guarantee.',
+], notes='Adapted from the SD5913 2025 `2_gen_image.py` and `3_gen_image_lcm.py` examples. '
+    'The standard and LCM examples use different model/scheduler combinations, so their outputs '
+    'are not a controlled quality comparison. Explain that few-step sampling depends on a '
+    'compatible model and scheduler. Sources: '
+    'https://github.com/sd5913/pfad/blob/2025/week05/2_gen_image.py ; '
+    'https://github.com/sd5913/pfad/blob/2025/week05/3_gen_image_lcm.py.'))
+S.append(figure_slide('04 · CONTROLNET + CANNY EDGES',
+                      'Use an edge map as a structural guide.', F.controlnet_canny(),
+                      notes='The 2025 archive demonstrates Canny edge detection as an additional '
+                      'ControlNet condition. Canny extracts an edge map from an input image; the '
+                      'prompt still describes appearance, while the condition can guide broad '
+                      'structure. It does not guarantee a pixel-perfect copy. Keep this as an '
+                      'instructor explanation unless the selected Easel or ComfyUI workflow has '
+                      'the matching control model preflighted. Source: '
+                      'https://github.com/sd5913/pfad/blob/2025/week05/4_controlnet_canny.py.'))
 S.append(statement('CLIP aligns representations. It does not generate the image.',
                    eyebrow_text='04 · DO NOT CONFUSE THE COMPONENTS', size=64,
                    notes='CLIP learns a shared embedding space for text and images, useful for '
                    'matching or ranking them. A text-to-image pipeline may use a text encoder or '
                    'other conditioning component, but CLIP by itself is not the image generator. '
-                   'This distinction is a carry-over from the SD2112 theory sequence and its '
-                   'caption/image pairing diagrams (2025 PDF pp. 48-50): '
+                   'This distinction is supplemental SD2112 material, not a topic in the SD5913 '
+                   '2025 Week 5 notebook. The SD2112 source file refers to an older slide PDF, '
+                   'but no PDF export is stored in that repository. Use the available source file: '
                    'https://github.com/venetanji/sd2112-teaching/blob/main/deck/week05.py.'))
 S.append(cards('04 · WHERE DOES IT RUN?', 'A model has a size and a cost', [
-    ('download', 'Weights on disk', 'The model files must fit the device or be available to a service.'),
-    ('inference', 'Memory and compute', 'Resolution, precision, batch size and pipeline parts also affect memory and speed.'),
+    ('download', 'Weights on disk', 'The 2025 notebook estimates 2–5 GB for its model files; check the selected model.'),
+    ('inference', 'Memory and compute', 'Its 4–6 GB VRAM estimate is for 512 x 512 Stable Diffusion, not a guarantee.'),
     ('service', 'Remote API', 'A service hides local setup; the request, wait, response and access rules still matter.'),
 ], notes='Model size is not the only runtime cost. A smaller checkpoint may still need more '
     'memory at a larger resolution; hosted APIs move computation elsewhere but do not make it '
-    'free or instantaneous. Avoid promising a particular local speed before preflighting the '
-    'classroom hardware.'))
+    'free or instantaneous. The 2025 notebook lists approximate 2–5 GB model files and 4–6 GB '
+    'VRAM for its 512 x 512 Stable Diffusion example. Treat those as dated, model-specific '
+    'estimates, not current hardware requirements. The archive also discusses CPU fallback, '
+    'half precision and smaller resolutions. Source: '
+    'https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb.'))
+S.append(cards('04 · GENERATION SETTINGS', 'Every control changes the experiment', [
+    ('steps', 'Denoising updates', 'The archive compares different step counts; more steps can take longer.'),
+    ('guidance', 'Prompt influence', 'Guidance scale affects conditioning; its effect depends on the model.'),
+    ('seed', 'Starting randomness', 'A fixed seed can help repeat a run when the other settings also match.'),
+    ('resolution', 'Pixel dimensions', 'Larger outputs usually cost more memory and compute.'),
+], notes='The 2025 notebook explores inference step counts, guidance scale and seeds. These '
+    'are not universal quality sliders, and an API may hide or rename them. Keep the Easel '
+    'exercise to one control that the installed client actually exposes. Sources: '
+    'https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb ; '
+    'https://github.com/sd5913/pfad/blob/2025/week05/2_gen_image.py.'))
 
 # 05 · Turn the Week 4 request/response idea into an image exercise.
 S.append(section('05', 'Generate and inspect', 'A prompt is an input; the image is a response'))
@@ -221,13 +284,13 @@ S.append(timeline('05 · GUIDED API EXERCISE', 'Make a small comparison, not a m
 S.append(content('05 · OPTIONAL INSTRUCTOR DEMO', 'ComfyUI / local model: useful, not required', [
     'If ComfyUI has a local checkpoint ready, compare its setup, latency and output with the API.',
     '',
-    'The 2025 Stable Diffusion and LCM scripts are references, not a guarantee that every laptop can run them.',
+    'The 2025 Stable Diffusion, LCM and ControlNet scripts are references, not a guarantee that every laptop can run them.',
     '',
     '{muted:If the model is not ready, keep the lesson moving with the API result and a prepared screenshot.}',
 ], notes='Do not ask students to install PyTorch, download a checkpoint or create API credentials '
     'as a condition of completing the exercise. Rehearse the local pipeline on the actual demo '
     'machine. CPU execution may be slow and half-precision GPU settings do not transfer safely '
-    'to every device. The current notebook should explain fallback, not promise a live run.'))
+    'to every device. This draft should explain fallback, not promise a live run.'))
 
 # 06 · A low-stakes bridge toward the interactive experience project.
 S.append(section('06', 'From image to interaction', 'Start with what someone can do'))
