@@ -200,7 +200,9 @@ S.append(section('05', 'Generate and inspect', 'A prompt is an input; the image 
 S.append(content('05 · THE API LOOP', 'The service returns media, not meaning', [
     'The client sends a prompt and model options to the image service.',
     '',
-    'The service returns image data. The client waits, displays it and lets a person inspect it.',
+    'The service returns image data or a reference to it, depending on the endpoint.',
+    '',
+    'The client waits, fetches if needed, displays the result and lets a person inspect it.',
     '',
     'Try one intentional change at a time: prompt, size, or model. Save the input beside the output.',
 ], notes='Reuse the Week 4 image API request/response idea. The exact Easel client steps and '
