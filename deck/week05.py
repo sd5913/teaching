@@ -207,7 +207,7 @@ S.append(figure_slide('04 · ONE LATENT-DIFFUSION PATH',
                       'models use the same architecture, latent space or training objective. Source: '
                       'https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb.'))
 S.append(content('04 · LATENT CONSISTENCY (LCM)', 'A compatible model can generate in fewer steps', [
-    'The 2025 examples contrast Stable Diffusion at 20 inference steps with an LCM pipeline at 4 inference steps.'
+    'The 2025 examples contrast Stable Diffusion at 20 inference steps with an LCM pipeline at 4 inference steps.',
     '',
     'LCM uses a model and scheduler designed for few-step sampling; changing the step count alone is not the same thing.',
     '',
