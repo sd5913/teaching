@@ -228,11 +228,12 @@ S.append(figure_slide('04 · U-NET · TRAINING AND GENERATION',
                       'Learn to remove noise; then use that skill.', F.diffusion_training(),
                       notes='Based on the 2025 Week 5 PDF pp. 41-42. The archived p. 41 slide is '
                       'titled “U-Net Training” but depicts both forward noising and reverse '
-                      'sampling. This original diagram separates the training signal (known '
-                      'noise is added, then predicted) from generation (start at noise and apply '
-                      'the learned denoiser repeatedly). It is a simplified noise-prediction '
-                      'example; latent diffusion applies the process in a compressed space, and '
-                      'not every current model uses this exact objective. The p. 42 U-Net image '
+                      'sampling. This original diagram shows latent diffusion: encode each '
+                      'training image to z0 before adding noise; the U-Net learns to predict '
+                      'that noise. Generation starts at zT, applies the learned denoiser '
+                      'repeatedly, then decodes the clean latent to pixels. It is a simplified '
+                      'noise-prediction example; not every current model uses this exact '
+                      'objective. The p. 42 U-Net image '
                       'is an architecture sketch; it omits conditioning details.',
                       caption='Code: [week05_notebook.ipynb](https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb)'))
 S.append(figure_slide('04 · VAE · ENCODER AND DECODER',

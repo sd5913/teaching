@@ -89,8 +89,9 @@ interaction seed is a warm-up, not a new submission requirement.
 - **GAN:** a generator proposes samples while a discriminator learns to distinguish
   generated samples from training examples. Keep this as a brief supplemental comparison;
   GANs do not appear in the 2025 SD5913 Week 5 slide PDF.
-- **Diffusion and U-Net:** training adds known noise at a timestep and teaches a denoiser to
-  predict it. Generation starts with noise and applies the learned denoiser repeatedly.
+- **Diffusion and U-Net:** for latent diffusion, first encode each training image to `z0`,
+  then add noise at a timestep and teach a denoiser to predict it. Generation starts at latent
+  noise `zT`, applies the learned denoiser repeatedly, then decodes the clean latent to pixels.
   The 2025 PDF p. 41 is titled “U-Net Training” but combines forward noising and reverse
   sampling; keep those processes distinct. Its p. 42 U-Net drawing is an architecture sketch,
   not a complete Stable Diffusion denoiser.

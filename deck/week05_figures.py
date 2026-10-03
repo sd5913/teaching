@@ -141,7 +141,7 @@ def clip_alignment(name='week05-clip-alignment', w=1500, h=500):
 
 
 def diffusion_training(name='week05-diffusion-training', w=1500, h=560):
-    """Separate learning to denoise from using a denoiser to generate."""
+    """Separate latent-space denoiser training from latent-space generation."""
     c = Canvas(w, h, bg=PAPER)
     teal = '#246E70'
     orange = '#E87835'
@@ -151,9 +151,9 @@ def diffusion_training(name='week05-diffusion-training', w=1500, h=560):
 
     c.text(40, 52, 'TRAIN', 25, teal, weight=700)
     training = [
-        ('sample x0', 'clean training data'),
+        ('encode image', 'VAE encoder -> z0'),
         ('add noise', 'at timestep t'),
-        ('sample xt', 'noisy input'),
+        ('sample zt', 'noisy latent'),
         ('U-Net', 'predicts noise'),
         ('compare', 'predicted vs target'),
     ]
@@ -170,13 +170,13 @@ def diffusion_training(name='week05-diffusion-training', w=1500, h=560):
         c.line(end - 18, 149, end, 137, orange, 4)
 
     c.text(w / 2, 260,
-           'Training supplies the known noise; the model learns what to remove.',
+           'Latent training: encode each image to z0, then predict the noise added to it.',
            21, ink, anchor='middle', mono=False)
     c.text(40, 320, 'GENERATE', 25, teal, weight=700)
     generation = [
-        ('random noise xT', 'starting point'),
+        ('random noise zT', 'starting latent'),
         ('U-Net x N', 'prompt-guided steps'),
-        ('clean latent', 'final representation'),
+        ('clean latent z0', 'final representation'),
         ('VAE decoder', 'latent to pixels'),
         ('RGB image', 'visible result'),
     ]

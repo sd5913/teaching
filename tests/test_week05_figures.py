@@ -23,6 +23,13 @@ class Week05FigureTests(unittest.TestCase):
         self.assertIn('U-Net', svg)
         self.assertIn('noise', svg)
 
+    def test_diffusion_diagram_shows_latent_encoding_before_training_noise(self):
+        svg = self.render('diffusion_training')
+        self.assertIn('VAE encoder -> z0', svg)
+        self.assertIn('sample zt', svg)
+        self.assertIn('noisy latent', svg)
+        self.assertIn('random noise zT', svg)
+
     def test_clip_diagram_shows_two_encoders_and_similarity(self):
         svg = self.render('clip_alignment')
         self.assertIn('Text encoder', svg)
