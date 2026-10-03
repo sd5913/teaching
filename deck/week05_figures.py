@@ -72,44 +72,129 @@ def frame_sequence(name='week05-frame-sequence', w=1500, h=460):
     return c.finish(name)
 
 
-def gan_adversaries(name='week05-gan-adversaries', w=1500, h=500):
-    """Contrast real examples and generated samples at a discriminator."""
+def clip_alignment(name='week05-clip-alignment', w=1500, h=500):
+    """Show CLIP matching text and images in a shared representation space."""
     c = Canvas(w, h, bg=PAPER)
     teal = '#246E70'
     orange = '#E87835'
     ink = '#000B1C'
-    boxes = [
-        (35, 65, 280, 'training examples', 'real images'),
-        (35, 310, 280, 'random latent', 'new starting values'),
-        (405, 310, 280, 'generator', 'makes a sample'),
-        (775, 310, 280, 'generated sample', 'candidate image'),
-        (775, 65, 280, 'discriminator', 'compares examples'),
-        (1145, 65, 300, 'real / generated?', 'a training signal'),
-    ]
-    for x, y, width, heading, detail in boxes:
-        c.rect(x, y, width, 125, fill='#FFFFFF', stroke=teal, width=3)
-        c.text(x + width / 2, y + 52, heading, 22, ink,
-               anchor='middle', mono=True, weight=700)
-        c.text(x + width / 2, y + 88, detail, 20, teal, anchor='middle')
 
-    # Real and generated samples are both presented to the discriminator.
-    c.line(315, 127, 760, 127, orange, 4)
-    c.line(740, 115, 760, 127, orange, 4)
-    c.line(740, 139, 760, 127, orange, 4)
-    c.line(1055, 127, 1125, 127, orange, 4)
-    c.line(1105, 115, 1125, 127, orange, 4)
-    c.line(1105, 139, 1125, 127, orange, 4)
-    c.line(315, 372, 390, 372, orange, 4)
-    c.line(370, 360, 390, 372, orange, 4)
-    c.line(370, 384, 390, 372, orange, 4)
-    c.line(685, 372, 760, 372, orange, 4)
-    c.line(740, 360, 760, 372, orange, 4)
-    c.line(740, 384, 760, 372, orange, 4)
-    c.line(915, 310, 915, 190, orange, 4)
-    c.line(903, 210, 915, 190, orange, 4)
-    c.line(927, 210, 915, 190, orange, 4)
-    c.text(w / 2, 475, 'Both networks learn from the competition; neither is a human art judge.',
-           23, ink, anchor='middle')
+    boxes = [
+        (35, 100, 215, 100, 'text prompts', 'captions'),
+        (310, 100, 250, 100, 'Text encoder', 'text vectors'),
+        (35, 285, 215, 100, 'images', 'visual examples'),
+        (310, 285, 250, 100, 'Image encoder', 'image vectors'),
+    ]
+    for x, y, bw, bh, heading, detail in boxes:
+        c.rect(x, y, bw, bh, fill='#FFFFFF', stroke=teal, width=3)
+        c.text(x + bw / 2, y + 43, heading, 22, ink,
+               anchor='middle', mono=True, weight=700)
+        c.text(x + bw / 2, y + 76, detail, 18, teal,
+               anchor='middle', mono=False)
+
+    # Both encoded inputs feed a matrix of relative text-image similarity scores.
+    c.line(250, 150, 292, 150, orange, 4)
+    c.line(273, 138, 292, 150, orange, 4)
+    c.line(273, 162, 292, 150, orange, 4)
+    c.line(250, 335, 292, 335, orange, 4)
+    c.line(273, 323, 292, 335, orange, 4)
+    c.line(273, 347, 292, 335, orange, 4)
+
+    grid_x, grid_y, cell_w, cell_h = 850, 145, 92, 68
+    c.text(grid_x + 138, 80, 'TEXT EMBEDDINGS', 19, teal,
+           anchor='middle', weight=700)
+    c.text(665, 416, 'IMAGE EMBEDDINGS', 17, teal,
+           anchor='middle', weight=700)
+    c.line(560, 150, 730, 150, orange, 4)
+    c.line(730, 150, 730, 110, orange, 4)
+    c.line(730, 110, 965, 110, orange, 4)
+    c.line(953, 122, 965, 110, orange, 4)
+    c.line(977, 122, 965, 110, orange, 4)
+    c.line(560, 335, 800, 335, orange, 4)
+    c.line(800, 335, 800, 250, orange, 4)
+    c.line(800, 250, 850, 250, orange, 4)
+    c.line(830, 238, 850, 250, orange, 4)
+    c.line(830, 262, 850, 250, orange, 4)
+
+    for row in range(3):
+        for col in range(3):
+            x = grid_x + col * cell_w
+            y = grid_y + row * cell_h
+            fill = '#DCEBE5' if row == col else '#F0E6D7'
+            label = 'high' if row == col else 'lower'
+            c.rect(x, y, cell_w - 6, cell_h - 6, fill=fill,
+                   stroke='#FFFFFF', width=2)
+            c.text(x + (cell_w - 6) / 2, y + 39, label, 16, ink,
+                   anchor='middle', mono=False, weight=700)
+        c.text(grid_x + row * cell_w + (cell_w - 6) / 2, 132,
+               f'T{row + 1}', 18, ink, anchor='middle', mono=True)
+
+    c.rect(1170, 170, 270, 150, fill='#FFF1E7', stroke=teal, width=3)
+    c.text(1305, 224, 'rank pairs', 24, ink, anchor='middle', weight=700)
+    c.text(1305, 265, 'higher score = closer match', 17, teal,
+           anchor='middle', mono=False)
+    c.text(988, 375, 'similarity scores', 17, teal,
+           anchor='middle', mono=False)
+    c.text(w / 2, 455, 'CLIP scores image-text pairs; it is not a generator.',
+           23, ink, anchor='middle', mono=False)
+    return c.finish(name)
+
+
+def diffusion_training(name='week05-diffusion-training', w=1500, h=560):
+    """Separate learning to denoise from using a denoiser to generate."""
+    c = Canvas(w, h, bg=PAPER)
+    teal = '#246E70'
+    orange = '#E87835'
+    ink = '#000B1C'
+    x_positions = (40, 330, 620, 910, 1200)
+    box_w, box_h = 220, 118
+
+    c.text(40, 52, 'TRAIN', 25, teal, weight=700)
+    training = [
+        ('sample x0', 'clean training data'),
+        ('add noise', 'at timestep t'),
+        ('sample xt', 'noisy input'),
+        ('U-Net', 'predicts noise'),
+        ('compare', 'predicted vs target'),
+    ]
+    for x, (heading, detail) in zip(x_positions, training):
+        c.rect(x, 78, box_w, box_h, fill='#FFFFFF', stroke=teal, width=3)
+        c.text(x + box_w / 2, 123, heading, 21, ink,
+               anchor='middle', mono=True, weight=700)
+        c.text(x + box_w / 2, 158, detail, 17, teal,
+               anchor='middle', mono=False)
+    for x in x_positions[:-1]:
+        start, end = x + box_w + 6, x + 276
+        c.line(start, 137, end, 137, orange, 4)
+        c.line(end - 18, 125, end, 137, orange, 4)
+        c.line(end - 18, 149, end, 137, orange, 4)
+
+    c.text(w / 2, 260,
+           'Training supplies the known noise; the model learns what to remove.',
+           21, ink, anchor='middle', mono=False)
+    c.text(40, 320, 'GENERATE', 25, teal, weight=700)
+    generation = [
+        ('random noise xT', 'starting point'),
+        ('U-Net x N', 'prompt-guided steps'),
+        ('clean latent', 'final representation'),
+        ('VAE decoder', 'latent to pixels'),
+        ('RGB image', 'visible result'),
+    ]
+    for x, (heading, detail) in zip(x_positions, generation):
+        c.rect(x, 346, box_w, box_h, fill='#FFFFFF', stroke=teal, width=3)
+        c.text(x + box_w / 2, 391, heading, 20, ink,
+               anchor='middle', mono=True, weight=700)
+        c.text(x + box_w / 2, 426, detail, 17, teal,
+               anchor='middle', mono=False)
+    for x in x_positions[:-1]:
+        start, end = x + box_w + 6, x + 276
+        c.line(start, 405, end, 405, orange, 4)
+        c.line(end - 18, 393, end, 405, orange, 4)
+        c.line(end - 18, 417, end, 405, orange, 4)
+
+    c.text(w / 2, 515,
+           'In latent diffusion, denoising happens in a compressed representation.',
+           20, ink, anchor='middle', mono=False)
     return c.finish(name)
 
 
@@ -157,8 +242,8 @@ def latent_diffusion(name='week05-latent-diffusion', w=1600, h=520):
     ink = '#000B1C'
     box_y, box_h, box_w, gap = 245, 145, 260, 54
     labels = [
-        ('latent noise', 'noisy start'),
-        ('denoiser x N', 'refine over steps'),
+        ('latent noise', 'random starting point'),
+        ('U-Net x N', 'predict noise each step'),
         ('clean latent', 'compact representation'),
         ('VAE decoder', 'map latent to pixels'),
         ('image', 'visible RGB output'),
@@ -179,12 +264,10 @@ def latent_diffusion(name='week05-latent-diffusion', w=1600, h=520):
             c.line(ax + gap - 38, box_y + box_h / 2 + 12,
                    ax + gap - 18, box_y + box_h / 2, orange, 4)
 
-    c.rect(390, 50, 410, 105, fill='#FFF1E7', stroke=orange, width=3)
-    c.text(595, 93, 'text encoder', 27, ink, anchor='middle', mono=True, weight=700)
-    c.text(595, 129, 'prompt -> text representation', 20, teal, anchor='middle')
-    c.line(595, 155, 595, 195, orange, 4)
-    c.line(595, 195, 464, 195, orange, 4)
-    c.line(464, 195, 464, 235, orange, 4)
+    c.rect(334, 50, 260, 105, fill='#FFF1E7', stroke=orange, width=3)
+    c.text(464, 93, 'text encoder', 25, ink, anchor='middle', mono=True, weight=700)
+    c.text(464, 129, 'prompt representation', 18, teal, anchor='middle')
+    c.line(464, 155, 464, 235, orange, 4)
     c.line(452, 216, 464, 235, orange, 4)
     c.line(476, 216, 464, 235, orange, 4)
     c.text(w / 2, 466, 'The prompt guides denoising; the decoder turns the final latent into pixels.',

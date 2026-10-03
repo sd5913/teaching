@@ -21,13 +21,19 @@ cover.notes = ('Move from the Week 4 API example to the data a picture contains,
                'what changes when time joins the image axes. Keep this as a bridge from '
                'code students can read to models they will inspect, not a product launch.')
 S.append(cover)
-S.append(agenda(EYE, [
+agenda_slide = agenda(EYE, [
     'Read an image as numbers with named axes',
     'Build a small image and a field of noise in code',
-    'Add time: video is ordered frames, not one magic object',
-    'Compare GAN, VAE, diffusion, LCM and ControlNet ideas',
+    'Add time: video is an ordered sequence of frames',
+    'Trace one text-to-image path: CLIP, U-Net and VAE',
     'Use a generation API, then sketch one project interaction',
-]))
+])
+agenda_slide.notes = ('The 2025 Week 5 deck begins with recap, input, APIs and classes before '
+                      'its image section (PDF pp. 1-31). This 2026 lesson assumes last week’s '
+                      'API work and keeps the agreed image/video sequence. GAN is a brief '
+                      'supplemental comparison; LCM and ControlNet are optional code examples, '
+                      'not topics in the 2025 slide deck.')
+S.append(agenda_slide)
 S.append(question('multiple_choice', 'What crosses an image-generation API?',
                   choices=['A finished chart', 'A request in; image data out',
                            'A mouse click only', 'A video camera feed'],
@@ -85,12 +91,10 @@ S.append(content('01 · HOW MUCH DATA?', 'Dimensions and representation matter',
 ], notes='The byte count assumes uncompressed 8-bit channels. A PNG/JPEG file is encoded and '
     'will usually have a different size. Dimensions, channels, bit depth, and compression are '
     'different properties; do not call them all image resolution.'))
-S.append(two_col('01 · ARRAY + PIL', 'A library gives the values a mode', [
-    'NumPy shape: (height, width, channels). A uint8 channel holds 0–255.',
-    '',
-    'Pillow modes describe how to interpret values: RGB, L (grayscale), or RGBA.',
-    '',
-    'Array order and Pillow size order differ: (H, W, C) vs (W, H).',
+S.append(two_col('01 · NUMPY + PILLOW + OPENCV', 'Each library sees the same pixels differently', [
+    'Array shape is (H, W, C); Pillow size is (W, H).',
+    'Pillow modes include RGB, L and RGBA. OpenCV transforms images/video; camera frames may be BGR.',
+    '[2025 Week 5 notebook](https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb)',
 ], [
     'import numpy as np',
     'from PIL import Image',
@@ -100,33 +104,38 @@ S.append(two_col('01 · ARRAY + PIL', 'A library gives the values a mode', [
     'gray = image.convert("L")',
     'print(pixels.shape, pixels.dtype)',
     'print(image.size, image.mode, gray.mode)',
-], notes='Adapted from the SD5913 2025 Week 5 notebook. It constructs a 100 by 100 RGB '
-    'array in (height, width, channels) order, then uses Pillow to interpret and convert it. '
-    'The archive labels Pillow modes RGB, L and RGBA. Source: '
-    'https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb.'))
+], notes='Adapted from cells 2-6 of the SD5913 2025 Week 5 notebook. It constructs a 100 by '
+    '100 RGB array in (height, width, channels) order, then uses Pillow to interpret and '
+    'convert it. The 2025 Week 5 PDF p. 37 lists NumPy, PIL and OpenCV; this small code '
+    'example needs only NumPy and Pillow. OpenCV is included here as a related tool, not a '
+    'student installation requirement. The active 2026 pfad branch has no Week 5 examples yet; '
+    'the link intentionally points to the frozen 2025 branch.'))
 
 # 02 · Generate values before asking a learned model for them.
 S.append(section('02', 'Make an image in code', 'Choose a rule, then inspect the marks it produces'))
 S.append(two_col('02 · RANDOM PIXELS', 'Noise is a starting material', [
-    'Each pixel gets three random 8-bit channel values.',
-    'The shape is (height, width, RGB channels); the dtype fixes the value range.',
-    'The result is unpredictable in detail, but the dimensions and range are chosen.',
-    '',
-    '**Task:** change one dimension or value range; predict what changes.',
+    'A 512 x 512 RGB array; each channel is uint8.',
+    '`high=256` is exclusive: values run from 0 through 255.',
+    '**Try:** change one dimension and predict what changes.',
+    '[2025 source: 1_random_image.py](https://github.com/sd5913/pfad/blob/2025/week05/1_random_image.py)',
 ], [
     'import numpy as np',
     'from PIL import Image',
-    'import matplotlib.pyplot as plt',
-    'pixels = np.random.randint(0, 256, (64, 64, 3), dtype=np.uint8)',
-    'image = Image.fromarray(pixels)',
-    'plt.imshow(image)',
-    'plt.show()',
-], notes='Adapted from the SD5913 2025 `1_random_image.py` example and notebook. Explain '
-   'that random noise is an algorithmic '
-   'image: the person chose the dimensions, range, colour rule and random process. It is not a '
-   'learned image model. The original example uses NumPy, Pillow and a 512 by 512 RGB array; '
-   'this smaller version is chosen for projection. Source: '
-   'https://github.com/sd5913/pfad/blob/2025/week05/1_random_image.py.'))
+    'img_dimensions = {',
+    '    "low": 0, "high": 256,',
+    '    "size": (512, 512, 3),',
+    '    "dtype": np.uint8,',
+    '}',
+    'data = np.random.randint(',
+    '    **img_dimensions',
+    ')',
+    'Image.fromarray(data).show()',
+], notes='Adapted from the SD5913 2025 `1_random_image.py` example. `high=256` is exclusive, '
+   'so the generated values are 0-255; the array contains (height, width, RGB channels). '
+   'Download the linked file and run it with `uv run --with numpy --with pillow 1_random_image.py`; '
+   'do not install the full 2025 week05 requirements for this example, as they include Diffusers '
+   'and webcam dependencies. `Image.show()` opens the platform image viewer; in a notebook, use '
+   '`display(Image.fromarray(data))`.'))
 S.append(cards('02 · FROM NOISE TO FORM', 'An image is a field we can transform', [
     ('sample', 'Choose values', 'Random numbers, a formula, or measured data.'),
     ('map', 'Apply a rule', 'Use position, neighbours, or time to change each value.'),
@@ -143,9 +152,9 @@ S.append(figure_slide('03 · THREE FRAMES', 'The same object, a different positi
                       'rate, the frame index maps to time. Raw uncompressed frames can be described '
                       'with axes (frames, height, width, channels); actual video files use codecs '
                       'and often store changes between frames instead of this literal array. The '
-                      '2025 archive also has a webcam callback that flips incoming frames; that '
-                      'is live video input and frame processing, not video generation. If shown, '
-                      'preflight camera permissions. Source: '
+                      '2025 pfad code also has a webcam callback that flips incoming frames; that '
+                      'is live input processing, not video generation. If shown, preflight camera '
+                      'permissions. Source: '
                       'https://github.com/sd5913/pfad/blob/2025/week05/st_video_stream.py.'))
 S.append(two_col('03 · IMAGE VS VIDEO', 'Time is another axis of change', [
     '**One RGB image:** height x width x channels.',
@@ -164,6 +173,32 @@ S.append(two_col('03 · IMAGE VS VIDEO', 'Time is another axis of change', [
 ], notes='Keep the distinction between the raw-frame mental model and a compressed video '
     'file. A webcam feed, a sequence of hand-drawn frames and a model-generated clip are '
     'different ways to obtain frames; they are not the same technique.'))
+S.append(two_col('03 · LIVE FRAME CALLBACK', 'Transform a frame; return a frame', [
+    'This callback runs once for each incoming camera frame.',
+    '',
+    'The slice reverses the row order. It changes the frame; it does not generate new content.',
+    '',
+    'Some video APIs use BGR channel order rather than RGB.',
+    '',
+    '[2025 source: st_video_stream.py](https://github.com/sd5913/pfad/blob/2025/week05/st_video_stream.py)',
+], [
+    'import av',
+    '',
+    'def video_frame_callback(frame):',
+    '    img = frame.to_ndarray(',
+    '        format="bgr24"',
+    '    )',
+    '    flipped = img[::-1, :, :]',
+    '    return av.VideoFrame.from_ndarray(',
+    '        flipped, format="bgr24"',
+    '    )',
+], notes='This runnable excerpt follows the 2025 source file. To try it from a local copy, '
+    'use `uv run --with streamlit --with streamlit-webrtc --with av streamlit run '
+    'st_video_stream.py` and preflight camera access. Do not install the complete 2025 week05 '
+    'requirements for this small demo. The 2025 course plan lists OpenCV for image/video '
+    'processing in Week 6, but the archived Week 6 slide deck is titled “Audio streams” and '
+    'does not contain that lesson. This is a 2026 extension grounded in archived code, not a '
+    'claim about the Week 6 PDF.'))
 
 # 04 · A compact map of learned image-generation ideas.
 S.append(section('04', 'Learned image models', 'Different training ideas, different jobs'))
@@ -174,68 +209,81 @@ S.append(cards('04 · THREE FAMILIES', 'GAN, VAE, diffusion', [
 ], notes='These are conceptual sketches, not a ranking. GANs use an adversarial training '
     'game. VAEs learn an encoder/decoder and a structured latent space. Diffusion models train '
     'a denoising process; implementations and objectives vary. A VAE is a representation and '
-    'decoder component in some pipelines, not a synonym for diffusion. GAN and CLIP diagrams '
-    'are supplemental SD2112 material, not part of the SD5913 2025 Week 5 notebook. Do not '
-    'transplant SD2112 project examples or claim every modern model follows one exact recipe. '
-    'Source: '
+    'decoder component in some pipelines, not a synonym for diffusion. The 2025 SD5913 Week 5 '
+    'PDF focuses on diffusion, CLIP, U-Net and VAE (pp. 38-44), not GANs. Keep GAN as a short '
+    'supplemental comparison rather than the spine of this lesson. Do not transplant SD2112 '
+    'project examples or claim every modern model follows one exact recipe. Supplemental '
+    'concept source: '
     'https://github.com/venetanji/sd2112-teaching/blob/main/deck/week05.py.'))
-S.append(figure_slide('04 · GAN · ADVERSARIAL TRAINING',
-                      'One learns to make. One learns to catch.', F.gan_adversaries(),
-                      notes='Walk from random latent input to generator to candidate image; the '
-                      'discriminator also sees real training examples and supplies a learning '
-                      'signal. This is a simplified schematic, not a literal network graph or '
-                      'a claim that every GAN is unconditional. This is supplemental SD2112 '
-                      'material; the SD5913 2025 Week 5 archive focuses on image arrays and '
-                      'diffusion, not GANs. Source: '
-                      'https://github.com/venetanji/sd2112-teaching/blob/main/deck/week05.py.'))
+S.append(figure_slide('04 · CLIP · IMAGE/TEXT ALIGNMENT',
+                      'Compare representations; do not generate an image.', F.clip_alignment(),
+                      notes='The 2025 Week 5 PDF p. 39 says CLIP can generate descriptions and '
+                      'visual representations, which is misleading. The p. 40 diagram shows '
+                      'separate text/image encoders and a similarity matrix. Teach CLIP as an '
+                      'alignment model for comparing or ranking pairs, not as a captioner or '
+                      'image generator. Code reference: '
+                      'https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb.',
+                      caption='Code: [week05_notebook.ipynb](https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb)'))
+S.append(figure_slide('04 · U-NET · TRAINING AND GENERATION',
+                      'Learn to remove noise; then use that skill.', F.diffusion_training(),
+                      notes='Based on the 2025 Week 5 PDF pp. 41-42. The archived p. 41 slide is '
+                      'titled “U-Net Training” but depicts both forward noising and reverse '
+                      'sampling. This original diagram separates the training signal (known '
+                      'noise is added, then predicted) from generation (start at noise and apply '
+                      'the learned denoiser repeatedly). It is a simplified noise-prediction '
+                      'example; latent diffusion applies the process in a compressed space, and '
+                      'not every current model uses this exact objective. The p. 42 U-Net image '
+                      'is an architecture sketch; it omits conditioning details.',
+                      caption='Code: [week05_notebook.ipynb](https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb)'))
 S.append(figure_slide('04 · VAE · ENCODER AND DECODER',
                       'Compress the image, then reconstruct it.', F.vae_path(),
                       notes='The latent is a compact learned representation; a VAE decoder maps '
                       'it back to image values. A variational encoder models a distribution, but '
                       'this teaching sketch omits its mean, variance and sampling details. A VAE '
                       'can support generation from a sampled latent, but it is not the same process '
-                      'as latent diffusion. This diagram is supplemental SD2112 teaching material; '
-                      'the SD5913 2025 notebook introduces the VAE as one component of Stable '
-                      'Diffusion. Source: '
-                      'https://github.com/venetanji/sd2112-teaching/blob/main/deck/week05.py.'))
+                      'as latent diffusion. This diagram follows the image -> encoder -> latent -> '
+                      'decoder -> reconstruction sequence in the SD5913 2025 Week 5 PDF p. 43. '
+                      'Notebook reference: '
+                      'https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb.',
+                      caption='Code: [week05_notebook.ipynb](https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb)'))
 S.append(figure_slide('04 · ONE LATENT-DIFFUSION PATH',
                       'From prompt and noise to pixels', F.latent_diffusion(),
                       notes='A common latent diffusion pipeline: an encoder represents the prompt; '
                       'a U-Net denoiser iteratively refines a noisy latent under that conditioning; '
                       'a VAE decoder maps the final latent back to pixels. This diagram follows the '
-                      'SD1.5 pipeline described in the SD5913 2025 notebook. Not all diffusion '
-                      'models use the same architecture, latent space or training objective. Source: '
-                      'https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb.'))
-S.append(content('04 · LATENT CONSISTENCY (LCM)', 'A compatible model can generate in fewer steps', [
+                      'SD1.5 pipeline in the SD5913 2025 Week 5 PDF p. 44. The source diagram uses '
+                      'a 64 x 64 latent and a 50-step loop as an illustration; this deck leaves '
+                      'those values generic. Not all diffusion models use the same architecture, '
+                      'latent space or objective. Code reference: '
+                      'https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb.',
+                      caption='Code: [week05_notebook.ipynb](https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb)'))
+S.append(content('04 · OPTIONAL CODE EXTRA · LCM', 'A compatible model can generate in fewer steps', [
     'The 2025 examples contrast Stable Diffusion at 20 inference steps with an LCM pipeline at 4 inference steps.',
     '',
     'LCM uses a model and scheduler designed for few-step sampling; changing the step count alone is not the same thing.',
     '',
     'Fewer steps can reduce wait time. Compare the image too: speed is not a quality guarantee.',
+    '',
+    '[2025 source: 3_gen_image_lcm.py](https://github.com/sd5913/pfad/blob/2025/week05/3_gen_image_lcm.py)',
 ], notes='Adapted from the SD5913 2025 `2_gen_image.py` and `3_gen_image_lcm.py` examples. '
     'The standard and LCM examples use different model/scheduler combinations, so their outputs '
     'are not a controlled quality comparison. Explain that few-step sampling depends on a '
-    'compatible model and scheduler. Sources: '
+    'compatible model and scheduler. This code-repository extra is not in the 2025 Week 5 PDF. '
+    'The archived `2_gen_image.py` selects CPU when CUDA is unavailable but passes float16 '
+    'unconditionally; test the exact device/model before any live demo. Sources: '
     'https://github.com/sd5913/pfad/blob/2025/week05/2_gen_image.py ; '
     'https://github.com/sd5913/pfad/blob/2025/week05/3_gen_image_lcm.py.'))
-S.append(figure_slide('04 · CONTROLNET + CANNY EDGES',
+S.append(figure_slide('04 · OPTIONAL CODE EXTRA · CONTROLNET',
                       'Use an edge map as a structural guide.', F.controlnet_canny(),
                       notes='The 2025 archive demonstrates Canny edge detection as an additional '
                       'ControlNet condition. Canny extracts an edge map from an input image; the '
                       'prompt still describes appearance, while the condition can guide broad '
-                      'structure. It does not guarantee a pixel-perfect copy. Keep this as an '
+                      'structure. It does not guarantee a pixel-perfect copy. This is a code '
+                      'example, not a topic in the 2025 Week 5 PDF. Keep it as an '
                       'instructor explanation unless the selected Easel or ComfyUI workflow has '
                       'the matching control model preflighted. Source: '
-                      'https://github.com/sd5913/pfad/blob/2025/week05/4_controlnet_canny.py.'))
-S.append(statement('CLIP aligns representations. It does not generate the image.',
-                   eyebrow_text='04 · DO NOT CONFUSE THE COMPONENTS', size=64,
-                   notes='CLIP learns a shared embedding space for text and images, useful for '
-                   'matching or ranking them. A text-to-image pipeline may use a text encoder or '
-                   'other conditioning component, but CLIP by itself is not the image generator. '
-                   'This distinction is supplemental SD2112 material, not a topic in the SD5913 '
-                   '2025 Week 5 notebook. The SD2112 source file refers to an older slide PDF, '
-                   'but no PDF export is stored in that repository. Use the available source file: '
-                   'https://github.com/venetanji/sd2112-teaching/blob/main/deck/week05.py.'))
+                      'https://github.com/sd5913/pfad/blob/2025/week05/4_controlnet_canny.py.',
+                      caption='2025 code: [4_controlnet_canny.py](https://github.com/sd5913/pfad/blob/2025/week05/4_controlnet_canny.py)'))
 S.append(cards('04 · WHERE DOES IT RUN?', 'A model has a size and a cost', [
     ('download', 'Weights on disk', 'The 2025 notebook estimates 2–5 GB for its model files; check the selected model.'),
     ('inference', 'Memory and compute', 'Its 4–6 GB VRAM estimate is for 512 x 512 Stable Diffusion, not a guarantee.'),
@@ -260,18 +308,35 @@ S.append(cards('04 · GENERATION SETTINGS', 'Every control changes the experimen
 
 # 05 · Turn the Week 4 request/response idea into an image exercise.
 S.append(section('05', 'Generate and inspect', 'A prompt is an input; the image is a response'))
-S.append(content('05 · THE API LOOP', 'The service returns media, not meaning', [
-    'The client sends a prompt and model options to the image service.',
+S.append(two_col('05 · THE API LOOP', 'The client asks; the service returns media', [
+    'Send a prompt and model options with a POST request.',
     '',
-    'The service returns image data or a reference to it, depending on the endpoint.',
+    'Keep credentials in an environment variable, not in the source or browser.',
     '',
-    'The client waits, fetches if needed, displays the result and lets a person inspect it.',
+    'The response may contain image bytes or a URL; the client displays the result.',
     '',
-    'Try one intentional change at a time: prompt, size, or model. Save the input beside the output.',
-], notes='Reuse the Week 4 image API request/response idea. The exact Easel client steps and '
-    'available model controls must be preflighted in the installed classroom client; keep keys '
-    'out of slides, student code and public repositories. Do not claim an image API returns '
-    'a particular binary format unless the selected endpoint shows it.'))
+    '[Complete, runnable Week 4 example](https://github.com/sd5913/teaching/blob/main/scripts/image_api_example.py)',
+], [
+    'URL = (',
+    '    "https://easel.ait4x.org/v1/images/generations"',
+    ')',
+    'token = os.environ["EASEL_KEY"]',
+    'headers = {',
+    '    "Authorization": "Bearer " + token,',
+    '    "Content-Type": "application/json",',
+    '}',
+    'request = Request(',
+    '    URL, data=json.dumps(PAYLOAD).encode(),',
+    '    headers=headers, method="POST",',
+    ')',
+], notes='The code is excerpted from the current teaching repo’s complete standard-library '
+    'example at `scripts/image_api_example.py`. It reads `EASEL_KEY` from the environment; '
+    'never put a key in a slide, browser bundle or public repository. The selected classroom '
+    'Easel client may expose a different interface, so preflight that exact workflow and do '
+    'not require students to create credentials. The full script writes to the Week 4 demo '
+    'asset path; do not run it from the shared repo unless intentionally regenerating that '
+    'asset. Its response handler supports base64 image data and a download URL.',
+    right_size=28))
 S.append(timeline('05 · GUIDED API EXERCISE', 'Make a small comparison, not a masterpiece', [
     ('01', 'State an intention', 'Choose a simple image idea you can describe in one sentence.'),
     ('02', 'Generate a first result', 'Use the classroom Easel client and note the model and settings shown.'),
