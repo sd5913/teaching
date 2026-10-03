@@ -22,11 +22,12 @@ cover.notes = ('Move from the Week 4 API example to the data a picture contains,
                'code students can read to models they will inspect, not a product launch.')
 S.append(cover)
 agenda_slide = agenda(EYE, [
-    'Read an image as numbers with named axes',
-    'Build a small image and a field of noise in code',
+    'Recall values, types, lists and positions',
+    'Build a grid, then read it as pixels',
+    'Make an image from a rule or random numbers',
     'Add time: video is an ordered sequence of frames',
-    'Trace one text-to-image path: CLIP, U-Net and VAE',
-    'Use a generation API, then sketch one project interaction',
+    'Compare learned image models and trace one generation path',
+    'Use an API or local model, then sketch one project interaction',
 ])
 agenda_slide.notes = ('The 2025 Week 5 deck begins with recap, input, APIs and classes before '
                       'its image section (PDF pp. 1-31). This 2026 lesson assumes last week’s '
@@ -34,13 +35,80 @@ agenda_slide.notes = ('The 2025 Week 5 deck begins with recap, input, APIs and c
                       'supplemental comparison; LCM and ControlNet are optional code examples, '
                       'not topics in the 2025 slide deck.')
 S.append(agenda_slide)
-S.append(question('multiple_choice', 'What crosses an image-generation API?',
-                  choices=['A finished chart', 'A request in; image data out',
-                           'A mouse click only', 'A video camera feed'],
-                  eyebrow_text='00 · RECALL THE API',
-                  notes='B. The client sends a request with a prompt and options; the service '
-                  'returns image data and metadata. The client decides how to display or save '
-                  'the result. This recalls Week 4 without repeating the API lesson.'))
+# 00 · Recall the values and structures students already use.
+S.append(section('00', 'Start with values', 'Build from Python you already know'))
+S.append(content('00 · QUICK RECALL', 'A value has a type', [
+    'An **int** counts: `3`.',
+    'A **float** can measure: `3.5`.',
+    'A **str** holds text: `"blue"`.',
+    'A **bool** is a yes/no value: `True` or `False`.',
+    '',
+    'A **list** keeps several values in order. The type tells Python how to interpret a value.',
+    '',
+    '[Course Python reference](https://github.com/sd5913/pfad/blob/2026/reference/python.md)',
+], notes='Pause before showing the next slide. Ask students to name the type and one operation '
+    'that makes sense for each value. Link back to the values and list operations collected in '
+    'the course Python reference: '
+    'https://github.com/sd5913/pfad/blob/2026/reference/python.md.'))
+S.append(two_col('00 · ONE VALUE, THEN A LIST', 'Position gives an ordered value a place', [
+    'A number can stand alone. A list gives several numbers an order.',
+    '',
+    'Python counts list positions from `0`.',
+    '',
+    '**Predict:** what is at position `2`?',
+], [
+    'brightness = 160',
+    'row = [20, 80, 160, 240]',
+    '',
+    'print(row[0])  # 20',
+    'print(row[2])  # 160',
+], notes='Brightness values are integers. The list is a one-dimensional row of sample values; '
+    'by itself it has an order but no second spatial axis. This reuses indexing before adding '
+    'the second dimension.'))
+S.append(two_col('00 · FROM ROW TO GRID', 'A list of rows gives each value a position', [
+    'Put rows inside an outer list and a value now has a row and a column.',
+    '',
+    'The same brightness value can be drawn as a dark or light square.',
+    '',
+    '**Read it:** `gray[1][0]` is row 1, column 0.',
+], [
+    'gray = [',
+    '    [20, 80, 160],',
+    '    [240, 160, 80],',
+    ']',
+    '',
+    'gray[1][0]  # 240',
+], notes='Introduce the outer list as rows and each inner list as columns. The values remain '
+    'ordinary integers and lists; the image interpretation comes from agreeing what each '
+    'position and value mean. This is the bridge from a one-dimensional Python list to a '
+    'two-dimensional grid.'))
+S.append(figure_slide('00 · FROM GRID TO VISIBLE VALUES',
+                      'A display maps each number to a shade.', F.grayscale_grid(),
+                      notes='First treat the diagram as a grayscale value grid: each position '
+                      'has one brightness value and a display maps lower values to darker marks. '
+                      'Then reveal that a colour pixel can hold several channel values. The image '
+                      'does not contain painted squares; this is a useful discrete model of '
+                      'sampled light.'))
+S.append(two_col('00 · ONE PIXEL, THREE VALUES', 'A colour pixel groups its channels', [
+    'One grayscale pixel stores one brightness value.',
+    '',
+    'An RGB pixel stores three channel values: red, green and blue.',
+    '',
+    'A grid of RGB pixels has row, column and channel positions.',
+], [
+    'gray_pixel = 160',
+    'rgb_pixel = [30, 90, 240]',
+    '',
+    '# red, green, blue',
+], notes='Name each axis before introducing a library: rows, columns, channels. For this RGB '
+    'example, the channel order is explicitly red, green, blue. Some libraries or formats use '
+    'another order; read the representation rather than assuming.'))
+S.append(statement('Numbers describe the picture. A renderer makes them visible.',
+                   eyebrow_text='00 · DATA → DISPLAY', size=72,
+                   notes='Separate the stored values from the rendering step. Python holds '
+                   'numbers; Pillow, a browser, a notebook or a display interprets them and '
+                   'produces visible light. The next slides name the dimensions and conventions '
+                   'that make that interpretation unambiguous.'))
 
 # 01 · What a digital image looks like to a program.
 S.append(section('01', 'Pixels are values', 'A display turns an ordered set of numbers into a picture'))
@@ -309,6 +377,13 @@ S.append(cards('04 · GENERATION SETTINGS', 'Every control changes the experimen
 
 # 05 · Turn the Week 4 request/response idea into an image exercise.
 S.append(section('05', 'Generate and inspect', 'A prompt is an input; the image is a response'))
+S.append(question('multiple_choice', 'What crosses an image-generation API?',
+                  choices=['A finished chart', 'A request in; image data out',
+                           'A mouse click only', 'A video camera feed'],
+                  eyebrow_text='05 · RECALL THE API',
+                  notes='B. The client sends a request with a prompt and options; the service '
+                  'returns image data and metadata. The client decides how to display or save '
+                  'the result. This recalls Week 4 immediately before the generation/API segment.'))
 S.append(two_col('05 · THE API LOOP', 'The client asks; the service returns media', [
     'Send a prompt and model options with a POST request.',
     '',

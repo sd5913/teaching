@@ -13,10 +13,18 @@ API exercise makes the request and response tangible; a short project sketch sta
 students thinking about the interactive experience assignment without inventing a due
 date or adding an assessed deliverable.
 
+Start more gently than the first draft: recall Python values and types, then use lists,
+indexes and nested rows to build a small numeric grid. Only after students can read that
+grid do we interpret its values as brightness or colour, and ask a renderer to make the
+data visible. The first exercise is therefore about code becoming numbers and numbers
+becoming a picture—not about installing an image library.
+
 By the end of class, students can:
 
 - describe a conventional RGB image as rows, columns and channel values, and explain what
   a pixel lookup addresses;
+- recall scalar Python types, read list positions from zero, and explain how a list of
+  rows gives image values spatial positions;
 - make or change a small NumPy image, pass it to Pillow, and explain how its shape,
   dtype and mode describe the values;
 - generate random pixels in code and explain the 8-bit value range and exclusive upper bound;
@@ -31,10 +39,12 @@ By the end of class, students can:
 Keep LCM and ControlNet as optional code-repository extensions, not core outcomes. The
 2025 slide deck does not cover GAN, LCM or ControlNet.
 
-Keep the mathematics visual. Use nested lists first so students can read the structure
-with Python they already know; mention array libraries as tools that package the same
-axes, not as a prerequisite. Clarify that channel order, value range and compression
-depend on the chosen representation.
+Keep the mathematics visual and incremental. Recall values and types, then one-dimensional
+lists, indexes, nested rows, grayscale values, and RGB channel groups. Let students predict
+which value occupies a position before introducing array shape or image libraries. Mention
+NumPy/Pillow as tools that package and render these same axes, not as prerequisites for
+understanding them. Clarify that channel order, value range and compression depend on the
+chosen representation.
 
 ## Before class
 
@@ -70,15 +80,18 @@ depend on the chosen representation.
 
 | Time | Segment | Instructor move / student action |
 |---|---|---|
-| 0:00–0:10 | API recall | Revisit last week's request/response pattern; ask what the client sends and what comes back. |
-| 0:10–0:23 | Image representation | Read row, column and RGB channel axes. Have students locate one pixel before showing its colour. |
-| 0:23–0:38 | NumPy and Pillow | Predict a pixel edit, then compare array shape/dtype with Pillow size/mode. |
-| 0:38–0:48 | Random pixels | Generate an RGB noise image in code; distinguish an algorithmic image from a learned output. |
-| 0:48–1:00 | Video as frames | Compare ordered frames and frame rate; read the archived live-frame callback. Distinguish processing from generation. |
-| 1:00–1:25 | Image-model paths | Compare GAN/VAE/diffusion briefly; trace CLIP, U-Net and VAE through one latent-diffusion path. LCM/ControlNet are optional extras. |
-| 1:25–1:33 | Size and settings | Discuss historical model/VRAM estimates, steps, guidance, seed, resolution and service vs local run. |
-| 1:33–1:50 | Easel image study | Generate a first result, make one intentional change the client exposes, then compare and annotate. |
-| 1:50–2:00 | Interaction seed | In pairs, storyboard one project-specific action, system response and feedback. Take one rough idea forward. |
+| 0:00–0:05 | Set the path | Today: Python values → a grid → visible pixels → generated images. |
+| 0:05–0:18 | Types and lists | Recall `int`, `float`, `str`, `bool`; read list positions from zero. |
+| 0:18–0:30 | Rows become a grid | Nest lists; locate a value by row and column. Let students predict before revealing. |
+| 0:30–0:43 | Values become pixels | Map numbers to grayscale, then group three channel values into RGB. |
+| 0:43–0:53 | Dimensions and tools | Compare nested lists with NumPy shape/dtype and Pillow size/mode. |
+| 0:53–1:00 | Random pixels | Generate an RGB noise image in code; distinguish a rule-based result from a learned output. |
+| 1:00–1:10 | Video as frames | Compare ordered frames and frame rate; read the archived live-frame callback. Distinguish processing from generation. |
+| 1:10–1:30 | Image-model paths | Compare GAN/VAE/diffusion briefly; trace CLIP, U-Net and VAE through one latent-diffusion path. LCM/ControlNet are optional extras. |
+| 1:30–1:35 | Size and settings | Discuss historical model/VRAM estimates, steps, guidance, seed, resolution and service vs local run. |
+| 1:35–1:38 | API recall | Revisit last week's request/response pattern; ask what the client sends and what comes back. |
+| 1:38–1:55 | Generate and compare | Begin with random pixels, request one image through the Easel client, then optionally compare with a preflighted local model. Change one input and annotate. |
+| 1:55–2:00 | Interaction seed | In pairs, name one project-specific action, system response and feedback. |
 
 The API study is exploratory rather than a controlled model comparison: only call it
 controlled if the client exposes a seed and the relevant settings are held fixed. The

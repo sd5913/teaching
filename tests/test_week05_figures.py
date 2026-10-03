@@ -30,6 +30,11 @@ class Week05FigureTests(unittest.TestCase):
         self.assertIn('noisy latent', svg)
         self.assertIn('random noise zT', svg)
 
+    def test_grayscale_grid_maps_sample_values_to_positions(self):
+        svg = self.render('grayscale_grid')
+        self.assertIn('one value at each row, column', svg)
+        self.assertIn('240', svg)
+
     def test_clip_diagram_shows_two_encoders_and_similarity(self):
         svg = self.render('clip_alignment')
         self.assertIn('Text encoder', svg)

@@ -46,6 +46,32 @@ def pixel_grid(name='week05-pixel-grid', w=940, h=520):
     return c.finish(name)
 
 
+def grayscale_grid(name='week05-grayscale-grid', w=940, h=520):
+    """Map a small grid of brightness values to visible grayscale cells."""
+    c = Canvas(w, h, bg=PAPER)
+    x0, y0, cw, ch = 235, 105, 220, 150
+    values = ((20, 80, 160), (240, 160, 80))
+    c.text(w / 2, 42, 'column', 25, TEAL, anchor='middle', weight=700)
+    c.text(80, 82, 'row', 22, TEAL, anchor='middle', weight=700)
+    for row, values_row in enumerate(values):
+        c.text(165, y0 + row * ch + ch / 2 + 8, str(row), 22, MUTED,
+               anchor='middle', mono=True)
+        for col, value in enumerate(values_row):
+            shade = value
+            fill = f'#{shade:02X}{shade:02X}{shade:02X}'
+            foreground = '#FFFFFF' if value < 128 else INK
+            x, y = x0 + col * cw, y0 + row * ch
+            c.rect(x, y, cw - 8, ch - 8, fill=fill, stroke='#FFFFFF', width=3)
+            c.text(x + (cw - 8) / 2, y + (ch - 8) / 2 + 8, str(value), 25,
+                   foreground, anchor='middle', mono=True, weight=700)
+            if row == 0:
+                c.text(x + (cw - 8) / 2, y0 - 15, str(col), 20, MUTED,
+                       anchor='middle', mono=True)
+    c.text(w / 2, 500, 'one value at each row, column -> one shade', 24, INK,
+           anchor='middle', mono=True)
+    return c.finish(name)
+
+
 def frame_sequence(name='week05-frame-sequence', w=1500, h=460):
     """Show a moving subject represented by ordered still frames."""
     c = Canvas(w, h, bg=PAPER)
