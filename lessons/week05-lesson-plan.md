@@ -28,8 +28,8 @@ By the end of class, students can:
 - make or change a small NumPy image, pass it to Pillow, and explain how its shape,
   dtype and mode describe the values;
 - generate random pixels in code and explain the 8-bit value range and exclusive upper bound;
-- describe raw video as ordered frames with a time axis, while distinguishing this model
-  from a compressed video file; read a live-frame callback and distinguish it from generated video;
+- describe a frame sequence as still images in an order, make a short animated GIF, and
+  distinguish this simple example from a compressed video file or live webcam processing;
 - contrast GAN, VAE and diffusion at a high level; trace one Stable Diffusion path and
   distinguish CLIP, U-Net and VAE roles;
 - describe the request, wait and response in an image API exercise, using the previous
@@ -54,10 +54,10 @@ chosen representation.
   should not consume the interaction exercise.
 - The active `pfad` `2026` branch has no Week 5 examples yet; linked student code examples
   below intentionally point to its frozen `2025` branch.
-- The procedural noise example needs only NumPy and Pillow. After downloading
-  [`1_random_image.py`](https://github.com/sd5913/pfad/blob/2025/week05/1_random_image.py),
-  run `uv run --with numpy --with pillow 1_random_image.py`; do not install the full 2025
-  Week 5 requirements for this small task.
+- The slides include complete scripts for a tiny RGB image, a random-noise image and a
+  three-frame animated GIF. Copy each code panel into its named Python file and run the
+  command printed beside it; these examples need only Pillow. The random-noise example
+  starts with Python's standard-library random module before introducing array libraries.
 - The current teaching repo's
   [`image_api_example.py`](https://github.com/sd5913/teaching/blob/main/scripts/image_api_example.py)
   is a runnable standard-library Easel request. It reads `EASEL_KEY` from the environment
@@ -68,11 +68,10 @@ chosen representation.
   on the teaching device. Treat it as an instructor demonstration; do not require student
   installation or promise that the archive's dependencies run on every laptop. In particular,
   the archived `2_gen_image.py` passes float16 even when selecting CPU; test the exact path.
-- If showing [`st_video_stream.py`](https://github.com/sd5913/pfad/blob/2025/week05/st_video_stream.py),
-  preflight camera access. It flips a live webcam frame; it is a frame-processing example,
-  not generated video. A local copy can be run with
-  `uv run --with streamlit --with streamlit-webrtc --with av streamlit run st_video_stream.py`.
-  Do not install the full archived requirements just for this demo.
+- The in-slide animation example writes `moving-dot.gif` from three generated still
+  frames, using Pillow only. The archived
+  [`st_video_stream.py`](https://github.com/sd5913/pfad/blob/2025/week05/st_video_stream.py)
+  is a separate optional webcam reference, not the class example.
 - Pull the student repository's current `2026` branch. Assignment 3 is listed as
   interactive experience, with its brief/date still TBC in the course README.
 
@@ -86,7 +85,7 @@ chosen representation.
 | 0:30–0:43 | Values become pixels | Map numbers to grayscale, then group three channel values into RGB. |
 | 0:43–0:53 | Dimensions and tools | Compare nested lists with NumPy shape/dtype and Pillow size/mode. |
 | 0:53–1:00 | Random pixels | Generate an RGB noise image in code; distinguish a rule-based result from a learned output. |
-| 1:00–1:10 | Video as frames | Compare ordered frames and frame rate; read the archived live-frame callback. Distinguish processing from generation. |
+| 1:00–1:10 | Frames into motion | Run the three-frame Pillow example; change the dot's positions and frame duration, then distinguish an animated GIF from a compressed video file. |
 | 1:10–1:30 | Image-model paths | Compare GAN/VAE/diffusion briefly; trace CLIP, U-Net and VAE through one latent-diffusion path. LCM/ControlNet are optional extras. |
 | 1:30–1:35 | Size and settings | Discuss historical model/VRAM estimates, steps, guidance, seed, resolution and service vs local run. |
 | 1:35–1:38 | API recall | Revisit last week's request/response pattern; ask what the client sends and what comes back. |
@@ -153,16 +152,15 @@ deadline until the Assignment 3 brief is confirmed.
   input, callbacks, APIs and classes; the final pages are historical environment/tutorial
   setup. This 2026 deck keeps the relevant image/model sequence without replaying Week 4 or
   copying old setup instructions.
-- **Runnable `pfad` examples:** the active `2026` branch has no Week 5 files yet, so these
-  links intentionally target the frozen `2025` branch:
+- **Runnable `pfad` references:** the active `2026` branch has no Week 5 files yet, so
+  these links intentionally target the frozen `2025` branch:
   [`1_random_image.py`](https://github.com/sd5913/pfad/blob/2025/week05/1_random_image.py)
-  is a small NumPy/Pillow script; run a downloaded copy with
-  `uv run --with numpy --with pillow 1_random_image.py`.
+  is a NumPy/Pillow noise example, and
   [`week05_notebook.ipynb`](https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb)
-  contains the pixel/mode examples and model notes.
+  contains pixel/mode examples and model notes. The archived
   [`st_video_stream.py`](https://github.com/sd5913/pfad/blob/2025/week05/st_video_stream.py)
-  flips each incoming webcam frame; it is live frame processing, not video generation.
-  The local Diffusers examples—[`2_gen_image.py`](https://github.com/sd5913/pfad/blob/2025/week05/2_gen_image.py),
+  processes live webcam frames; the in-class example instead builds a small Pillow GIF from
+  ordered stills. The local Diffusers examples—[`2_gen_image.py`](https://github.com/sd5913/pfad/blob/2025/week05/2_gen_image.py),
   [`3_gen_image_lcm.py`](https://github.com/sd5913/pfad/blob/2025/week05/3_gen_image_lcm.py)
   and [`4_controlnet_canny.py`](https://github.com/sd5913/pfad/blob/2025/week05/4_controlnet_canny.py)—
   are optional instructor references, not a student install requirement. The full archived
@@ -172,8 +170,9 @@ deadline until the Assignment 3 brief is confirmed.
   Week 6 as “Interactive Installations & Images/Video Streams” with OpenCV. The actual
   `SD5913 - PFAD - Week 6.pdf` is titled “Audio streams”; its image/diffusion material is
   pp. 12-21 and its audio sequence starts at p. 23. It has no OpenCV/video-processing lesson.
-  The current frames/callback material is therefore a 2026 extension grounded in the
-  `pfad` code, not a reproduction of that Week 6 slide deck.
+  The current code-generated frame sequence is therefore a 2026 extension, not a
+  reproduction of that Week 6 slide deck. The archived webcam callback remains a separate
+  optional code reference.
 - **2025 Week 12:** `SD5913 - PFAD - Week 12.pdf` pp. 53 and 59-65 covers ComfyUI/MCP and
   local installation. Keep that historical tutorial optional; do not copy its dated CUDA
   setup or its `0.0.0.0` network-listening instructions into student guidance.

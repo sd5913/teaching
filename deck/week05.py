@@ -5,6 +5,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import week05_figures as F
+from week05_examples import (API_EXAMPLE, FRAME_EXAMPLE, NOISE_EXAMPLE,
+                             TINY_PIXEL_EXAMPLE)
 from deckgen import attach_reports
 from deckgen.layouts import (agenda, cards, content, end, figure_slide,
                              question, section, statement, timeline, two_col, title)
@@ -38,10 +40,10 @@ S.append(agenda_slide)
 # 00 · Recall the values and structures students already use.
 S.append(section('00', 'Start with values', 'Build from Python you already know'))
 S.append(content('00 · QUICK RECALL', 'A value has a type', [
-    'An **int** counts: `3`.',
-    'A **float** can measure: `3.5`.',
-    'A **str** holds text: `"blue"`.',
-    'A **bool** is a yes/no value: `True` or `False`.',
+    'An **int** counts: 3.',
+    'A **float** can measure: 3.5.',
+    'A **str** holds text: "blue".',
+    'A **bool** is a yes/no value: True or False.',
     '',
     'A **list** keeps several values in order. The type tells Python how to interpret a value.',
     '',
@@ -53,9 +55,9 @@ S.append(content('00 · QUICK RECALL', 'A value has a type', [
 S.append(two_col('00 · ONE VALUE, THEN A LIST', 'Position gives an ordered value a place', [
     'A number can stand alone. A list gives several numbers an order.',
     '',
-    'Python counts list positions from `0`.',
+    'Python counts list positions from zero.',
     '',
-    '**Predict:** what is at position `2`?',
+    '**Predict:** what is at position two?',
 ], [
     'brightness = 160',
     'row = [20, 80, 160, 240]',
@@ -70,14 +72,14 @@ S.append(two_col('00 · FROM ROW TO GRID', 'A list of rows gives each value a po
     '',
     'The same brightness value can be drawn as a dark or light square.',
     '',
-    '**Read it:** `gray[1][0]` is row 1, column 0.',
+    '**Read it:** gray[1][0] is row 1, column 0.',
 ], [
     'gray = [',
     '    [20, 80, 160],',
     '    [240, 160, 80],',
     ']',
     '',
-    'gray[1][0]  # 240',
+    'print(gray[1][0])  # 240',
 ], notes='Introduce the outer list as rows and each inner list as columns. The values remain '
     'ordinary integers and lists; the image interpretation comes from agreeing what each '
     'position and value mean. This is the bridge from a one-dimensional Python list to a '
@@ -123,18 +125,16 @@ S.append(figure_slide('01 · SPATIAL AXES + COLOUR CHANNELS',
                       'describe an RGB image as (height, width, channels). Some APIs and libraries '
                       'use another channel order, so name the convention you are reading. The '
                       'highlighted pixel is [30, 90, 240] in RGB: little red, some green, more blue.'))
-S.append(two_col('01 · A TINY IMAGE', 'Nested lists make the axes visible', [
-    'The outer list holds rows. Each row holds pixels. Each pixel holds R, G and B.',
+S.append(two_col('01 · A TINY IMAGE', 'A small list becomes visible pixels', [
+    'Each row holds pixels; each pixel has red, green and blue values.',
     '',
-    'For this 2 x 2 image, the data has 2 rows, 2 columns and 3 channel values per pixel.',
-], [
-    'pixels = [',
-    '    [[255, 0, 0], [0, 255, 0]],',
-    '    [[0, 0, 255], [255, 255, 0]],',
-    ']',
-], notes='No array library is needed to see the structure. Python calls these lists; an '
-    'image library can turn the nested values into a displayed image. Say row/column before '
-    'saying x/y: image APIs often put height before width in an array shape.'))
+    'Run the complete script to enlarge a 2 x 2 image and save tiny-image.png.',
+    '',
+    'Run: uv run --with pillow python tiny_image.py',
+], TINY_PIXEL_EXAMPLE.splitlines(), notes='No array library is needed to see the structure. '
+    'This complete example uses Pillow to render four RGB tuples as a visible image. Python '
+    'calls these lists; an image library turns the nested values into a displayed image. Say '
+    'row/column before saying x/y: image APIs often put height before width in an array shape.'))
 S.append(two_col('01 · READ ONE PIXEL', 'Position first, channels second', [
     'pixels[0][1] is the top row, second column: green.',
     'pixels[1][0] is the bottom row, first column: blue.',
@@ -182,28 +182,16 @@ S.append(two_col('01 · NUMPY + PILLOW + OPENCV', 'Each library sees the same pi
 # 02 · Generate values before asking a learned model for them.
 S.append(section('02', 'Make an image in code', 'Choose a rule, then inspect the marks it produces'))
 S.append(two_col('02 · RANDOM PIXELS', 'Noise is a starting material', [
-    'A 512 x 512 RGB array; each channel is uint8.',
-    '`high=256` is exclusive: values run from 0 through 255.',
+    'Each pixel gets three chosen values, from 0 through 255.',
     '**Try:** change one dimension and predict what changes.',
+    'Run: uv run --with pillow python noise.py',
     '[2025 source: 1_random_image.py](https://github.com/sd5913/pfad/blob/2025/week05/1_random_image.py)',
-], [
-    'import numpy as np',
-    'from PIL import Image',
-    'img_dimensions = {',
-    '    "low": 0, "high": 256,',
-    '    "size": (512, 512, 3),',
-    '    "dtype": np.uint8,',
-    '}',
-    'data = np.random.randint(',
-    '    **img_dimensions',
-    ')',
-    'Image.fromarray(data).show()',
-], notes='Adapted from the SD5913 2025 `1_random_image.py` example. `high=256` is exclusive, '
-   'so the generated values are 0-255; the array contains (height, width, RGB channels). '
-   'Download the linked file and run it with `uv run --with numpy --with pillow 1_random_image.py`; '
-   'do not install the full 2025 week05 requirements for this example, as they include Diffusers '
-   'and webcam dependencies. `Image.show()` opens the platform image viewer; in a notebook, use '
-   '`display(Image.fromarray(data))`.'))
+], NOISE_EXAMPLE.splitlines(), notes='This complete 2026 example uses Python’s seeded random '
+   'generator and Pillow; no array library is needed. The output is an RGB image with three '
+   '8-bit channels. The 2025 source uses NumPy and a high bound of 256, which is exclusive, '
+   'so generated values are 0 through 255. Run a downloaded archive example with uv run '
+   '--with numpy --with pillow 1_random_image.py; its larger requirements also include model '
+   'and webcam packages.'))
 S.append(cards('02 · FROM NOISE TO FORM', 'An image is a field we can transform', [
     ('sample', 'Choose values', 'Random numbers, a formula, or measured data.'),
     ('map', 'Apply a rule', 'Use position, neighbours, or time to change each value.'),
@@ -219,54 +207,36 @@ S.append(figure_slide('03 · THREE FRAMES', 'The same object, a different positi
                       notes='These are three drawn frames, not generated video. At a fixed frame '
                       'rate, the frame index maps to time. Raw uncompressed frames can be described '
                       'with axes (frames, height, width, channels); actual video files use codecs '
-                      'and often store changes between frames instead of this literal array. The '
-                      '2025 pfad code also has a webcam callback that flips incoming frames; that '
-                      'is live input processing, not video generation. If shown, preflight camera '
-                      'permissions. Source: '
-                      'https://github.com/sd5913/pfad/blob/2025/week05/st_video_stream.py.'))
+                      'and often store changes between frames instead of this literal array.'))
 S.append(two_col('03 · IMAGE VS VIDEO', 'Time is another axis of change', [
     '**One RGB image:** height x width x channels.',
     '',
     '**A raw frame sequence:** frames x height x width x channels.',
     '',
-    'Playback speed and the order of frames shape the motion we perceive.',
+    'Playback speed and frame order shape the motion we perceive.',
     '',
-    'A webcam callback transforms incoming frames; it does not synthesize a clip.',
+    'A simple animation is a list of still images in order.',
 ], [
     'frame 0 -> time 0',
-    'frame 1 -> time 1 / fps',
-    'frame 2 -> time 2 / fps',
+    'frame 1 -> time 0.2 s',
+    'frame 2 -> time 0.4 s',
     '',
-    'same frame data + new order = different motion',
+    'same frames + new order = different motion',
 ], notes='Keep the distinction between the raw-frame mental model and a compressed video '
-    'file. A webcam feed, a sequence of hand-drawn frames and a model-generated clip are '
-    'different ways to obtain frames; they are not the same technique.'))
-S.append(two_col('03 · LIVE FRAME CALLBACK', 'Transform a frame; return a frame', [
-    'This callback runs once for each incoming camera frame.',
+    'file. A saved animation has an explicit frame order and duration; webcam processing is a '
+    'separate live-input example and is not used here.'))
+S.append(two_col('03 · A RUNNABLE EXAMPLE', 'Make three frames; save a short animation', [
+    'Each loop makes one complete still image.',
     '',
-    'The slice reverses the row order. It changes the frame; it does not generate new content.',
+    'The dot moves to a new position in each frame.',
     '',
-    'Some video APIs use BGR channel order rather than RGB.',
+    'Pillow saves the ordered frames as moving-dot.gif.',
     '',
-    '[2025 source: st_video_stream.py](https://github.com/sd5913/pfad/blob/2025/week05/st_video_stream.py)',
-], [
-    'import av',
-    '',
-    'def video_frame_callback(frame):',
-    '    img = frame.to_ndarray(',
-    '        format="bgr24"',
-    '    )',
-    '    flipped = img[::-1, :, :]',
-    '    return av.VideoFrame.from_ndarray(',
-    '        flipped, format="bgr24"',
-    '    )',
-], notes='This runnable excerpt follows the 2025 source file. To try it from a local copy, '
-    'use `uv run --with streamlit --with streamlit-webrtc --with av streamlit run '
-    'st_video_stream.py` and preflight camera access. Do not install the complete 2025 week05 '
-    'requirements for this small demo. The 2025 course plan lists OpenCV for image/video '
-    'processing in Week 6, but the archived Week 6 slide deck is titled “Audio streams” and '
-    'does not contain that lesson. This is a 2026 extension grounded in archived code, not a '
-    'claim about the Week 6 PDF.'))
+    'Run: uv run --with pillow python make_gif.py',
+], FRAME_EXAMPLE.splitlines(), notes='This complete 2026 example uses Pillow to create three '
+    'still frames and save them in order as a looping GIF. The GIF plays each frame for the '
+    'same duration; no webcam or video-processing library is needed.',
+    right_size=20))
 
 # 04 · A compact map of learned image-generation ideas.
 S.append(section('04', 'Learned image models', 'Different training ideas, different jobs'))
@@ -334,11 +304,11 @@ S.append(content('04 · OPTIONAL CODE EXTRA · LCM', 'A compatible model can gen
     'Fewer steps can reduce wait time. Compare the image too: speed is not a quality guarantee.',
     '',
     '[2025 source: 3_gen_image_lcm.py](https://github.com/sd5913/pfad/blob/2025/week05/3_gen_image_lcm.py)',
-], notes='Adapted from the SD5913 2025 `2_gen_image.py` and `3_gen_image_lcm.py` examples. '
+], notes='Adapted from the SD5913 2025 2_gen_image.py and 3_gen_image_lcm.py examples. '
     'The standard and LCM examples use different model/scheduler combinations, so their outputs '
     'are not a controlled quality comparison. Explain that few-step sampling depends on a '
     'compatible model and scheduler. This code-repository extra is not in the 2025 Week 5 PDF. '
-    'The archived `2_gen_image.py` selects CPU when CUDA is unavailable but passes float16 '
+    'The archived 2_gen_image.py selects CPU when CUDA is unavailable but passes float16 '
     'unconditionally; test the exact device/model before any live demo. Sources: '
     'https://github.com/sd5913/pfad/blob/2025/week05/2_gen_image.py ; '
     'https://github.com/sd5913/pfad/blob/2025/week05/3_gen_image_lcm.py.'))
@@ -385,34 +355,21 @@ S.append(question('multiple_choice', 'What crosses an image-generation API?',
                   'returns image data and metadata. The client decides how to display or save '
                   'the result. This recalls Week 4 immediately before the generation/API segment.'))
 S.append(two_col('05 · THE API LOOP', 'The client asks; the service returns media', [
-    'Send a prompt and model options with a POST request.',
+    'This complete example sends one request and saves the image response.',
     '',
-    'Keep credentials in an environment variable, not in the source or browser.',
+    'The key must already be set in EASEL_KEY. Never paste it into source code.',
     '',
-    'The response may contain image bytes or a URL; the client displays the result.',
+    'Run only when the teacher has enabled the API account:',
+    'uv run python request_image.py',
     '',
-    '[Complete, runnable Week 4 example](https://github.com/sd5913/teaching/blob/main/scripts/image_api_example.py)',
-], [
-    'URL = (',
-    '    "https://easel.ait4x.org/v1/images/generations"',
-    ')',
-    'token = os.environ["EASEL_KEY"]',
-    'headers = {',
-    '    "Authorization": "Bearer " + token,',
-    '    "Content-Type": "application/json",',
-    '}',
-    'request = Request(',
-    '    URL, data=json.dumps(PAYLOAD).encode(),',
-    '    headers=headers, method="POST",',
-    ')',
-], notes='The code is excerpted from the current teaching repo’s complete standard-library '
-    'example at `scripts/image_api_example.py`. It reads `EASEL_KEY` from the environment; '
-    'never put a key in a slide, browser bundle or public repository. The selected classroom '
-    'Easel client may expose a different interface, so preflight that exact workflow and do '
-    'not require students to create credentials. The full script writes to the Week 4 demo '
-    'asset path; do not run it from the shared repo unless intentionally regenerating that '
-    'asset. Its response handler supports base64 image data and a download URL.',
-    right_size=28))
+    '[Complete Week 4 example](https://github.com/sd5913/teaching/blob/main/scripts/image_api_example.py)',
+], API_EXAMPLE.splitlines(), notes='This complete slide example uses the Python standard library '
+    'and reads its key from the EASEL_KEY environment variable. It asks for a base64 image '
+    'response and saves api-image.png. The linked Week 4 script is also runnable, handles a '
+    'download URL fallback, and writes to the Week 4 demo asset path; do not run it from the '
+    'shared repo unless intentionally regenerating that asset. Do not require students to '
+    'create credentials. Preflight the exact classroom client and model.',
+    right_size=19))
 S.append(timeline('05 · GUIDED API EXERCISE', 'Make a small comparison, not a masterpiece', [
     ('01', 'State an intention', 'Choose a simple image idea you can describe in one sentence.'),
     ('02', 'Generate a first result', 'Use the classroom Easel client and note the model and settings shown.'),
