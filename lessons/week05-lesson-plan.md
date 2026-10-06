@@ -30,6 +30,8 @@ By the end of class, students can:
   dtype and mode describe the values;
 - generate random pixels in code and explain the 8-bit value range and exclusive upper bound;
 - edit a spatial colour rule in an in-slide Python drill and see its pixels change;
+- compare ASCII renderings of an introductory student mark at several text widths,
+  distinguishing character-grid resolution from genuine source-image detail;
 - describe a frame sequence as still images in an order, make a short animated GIF, and
   edit a browser animation; distinguish these from compressed video or live webcam processing;
 - contrast GAN, VAE and diffusion at a high level; trace one Stable Diffusion path and
@@ -38,6 +40,8 @@ By the end of class, students can:
 - describe the request, wait and response in an image API exercise, using the previous
   week's vocabulary; write a constrained prompt and judge the result against an
   observable requirement rather than assuming text specifies every pixel;
+- distinguish a text-only image-generation request from an image edit that uses a
+  source file, and detect invented glyphs or altered silhouettes in edit outputs;
 - sketch one project-specific interaction as an action, system response and feedback.
 
 Keep LCM and ControlNet as optional code-repository extensions, not core outcomes. The
@@ -69,6 +73,16 @@ chosen representation.
 - An editable p5.js sketch previews the same frame-index idea in the browser; it is
   JavaScript, not the Python/Pillow code that exports a GIF. A still substitutes for
   the live sketch in the PDF and PPTX.
+- Source marks 18 and 38 already live in the teaching assets and were part of the
+  introductions. Use the new Week 5 student tutorial to make local ASCII renderings
+  with `ascii-magic`, a ten-step resolution slider and a GIF. The in-slide slider
+  selects frames prepared from Python; it does not run the package in the browser.
+  The CRT edit used an earlier, denser 56-column ASCII image as input, which is
+  shown alongside it; it was not made from the slider's 36-column still. Keep the
+  draft CRT and wool edits labelled as experiments until Gio supplies final A/B art.
+  Inspect the exact input glyphs against the model-edited screen image: a model may
+  approximate the silhouette while inventing characters. Do not require a student
+  image-edit account or call, and do not set anyone's GitHub avatar for them.
 - The current teaching repo's
   [`image_api_example.py`](https://github.com/sd5913/teaching/blob/main/scripts/image_api_example.py)
   is a runnable standard-library Easel request. It reads `EASEL_KEY` from the environment
@@ -94,18 +108,26 @@ chosen representation.
 | 0:05–0:18 | Types and lists | Recall `int`, `float`, `str`, `bool`; read list positions from zero. |
 | 0:18–0:30 | Rows become a grid | Nest lists; predict a pixel, then correct the in-slide grayscale SVG. |
 | 0:30–0:43 | Values become pixels | Map numbers to grayscale, then group three channel values into RGB. |
-| 0:43–0:53 | Dimensions and tools | Compare nested lists with NumPy shape/dtype and Pillow size/mode. |
-| 0:53–1:00 | Random pixels | Read the local Pillow noise script; change the rule in the browser RGB grid. |
+| 0:43–0:53 | Tools and rules | Compare NumPy/Pillow representations, read the local noise script and change one rule in the browser RGB grid. |
+| 0:53–1:00 | Source marks → text | Recall the pixel yarn-ball and arrow-plus-underscore from introductions. Change text-column resolution on the ASCII slider; compare with the local `ascii-magic` code. |
 | 1:00–1:10 | Frames into motion | Run the Pillow GIF locally if prepared; edit positions or rate in the live p5 sketch. Distinguish a GIF from compressed video. |
-| 1:10–1:30 | Image-model paths | Contrast CLIP alignment with text conditioning; trace VAE sampling, known noise, training weight updates and fixed-weight generation. GAN/LCM/ControlNet are optional. |
-| 1:30–1:35 | Size and settings | Discuss historical model/VRAM estimates, steps, guidance, seed, resolution and service vs local run. |
-| 1:35–1:38 | API recall | Print and revise a JSON prompt request in the browser, without a credential or network call. |
-| 1:38–1:55 | Generate and compare | If preflighted, request one image through the instructor's Easel client. State an invariant, change one prompt attribute, and judge the output; local model optional. |
+| 1:10–1:27 | Image-model paths | Contrast CLIP alignment with text conditioning; trace VAE sampling, known noise, training weight updates and fixed-weight generation. GAN/LCM/ControlNet are optional. |
+| 1:27–1:31 | Size and settings | Discuss historical model/VRAM estimates and service vs local run. |
+| 1:31–1:35 | API recall | Print and revise a JSON prompt request in the browser, without a credential or network call. |
+| 1:35–1:50 | Generate and edit | If preflighted, request an image through Easel; compare the actual 56-column ASCII edit input with its draft CRT result, then the arrow-and-underscore source with its wool result. Check glyph fidelity and silhouette. |
+| 1:50–1:55 | Tutorial invitation | Point to the local Python script, resolution slider, animated GIF and optional student-chosen GitHub icon. |
 | 1:55–2:00 | Interaction seed | In pairs, name one project-specific action, system response and feedback. |
 
 The API study is exploratory rather than a controlled model comparison: only call it
 controlled if the client exposes a seed and the relevant settings are held fixed. The
 interaction seed is a warm-up, not a new submission requirement.
+
+The marks are not final A/B candidates yet. Mark 18 (yarn-ball) goes from pixels to
+ASCII characters and then an edited CRT setting; Mark 38 (separate arrow and
+underscore) goes from a digital grid to a wool interpretation. These are opposite
+material translations, not two definitive logo designs. Once the two final images
+arrive, replace the two draft assets without revising the teaching logic. The
+student's own icon is a personal, optional profile choice, never a course requirement.
 
 ## Model language to keep precise
 

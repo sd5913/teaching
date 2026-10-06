@@ -1,0 +1,28 @@
+[
+  {
+    "activity": "wc20260917015252135WFUJ",
+    "question": "Name a natural phenomenon.",
+    "type": "Word Cloud",
+    "ran": "2026-09-17T01:52:52.135000Z",
+    "responses": 82
+  },
+  {
+    "activity": "mc20260917022325609NYLK",
+    "question": "What type is d[\"data\"][259][2]?",
+    "type": "Multiple Choice",
+    "ran": "2026-09-17T02:23:25.609000Z",
+    "responses": 83
+  },
+  {
+    "activity": null,
+    "question": "When are the tides biggest?",
+    "type": "Multiple Choice",
+    "withheld": "no matching activity in the provided export"
+  },
+  {
+    "activity": null,
+    "question": "Your phenomenon, and where its numbers come from.",
+    "type": "Short Answer",
+    "withheld": "no matching activity in the provided export"
+  }
+]

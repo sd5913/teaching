@@ -1,4 +1,5 @@
 """SD5913 Week 5: images and video, from pixel values to model outputs."""
+import json
 import sys
 from pathlib import Path
 
@@ -255,6 +256,88 @@ S.append(exercise('02 · BROWSER PYTHON', 'Change the rule, change the image', [
    notes='Use the same x and y axes as the numeric grid; the colour rule is a '
          'transformation, not a learned image generator. This result can be compared '
          'with the local Pillow random-noise script immediately before it.'))
+S.append(content('02 · FROM THE INTRODUCTIONS', 'Two marks, two source images', [
+    'These came from the student mark collection: a pixel yarn-ball and a stepped '
+    'arrow with a separate underscore.',
+    '',
+    'What survives when either image has fewer pixels, or becomes characters instead?',
+    '',
+    '{muted:Source marks, not final A/B branding. The icon choice is still being refined.}',
+], images=['week05-mark18-display-crop.png', 'mark-38.jpeg'], body_size=29,
+   notes='Left: a display-only crop of Mark 18, yarn-ball and tail; the untouched '
+         'source is deck/assets/mark-18.png. Right: Mark 38, diagonal stepped arrow and '
+         'separate underscore. Both are already in the public teaching asset collection. '
+         'Do not attribute names or say either mark is the chosen course identity. '
+         'The later treatments are exploratory; Gio will supply two final images.'))
+
+ASCII_FRAMES = json.loads((Path(__file__).parent / 'week05_ascii_frames.json').read_text())['frames']
+ASCII_CODE = '''from ascii_magic import AsciiArt
+
+image = AsciiArt.from_image("out/source-crop.png")
+chars = "@%#*+=-:. "
+for n in range(12, 67, 6):
+    print(image.to_ascii(columns=n, char=chars))'''
+ASCII_JS = '''let columns, playing = true, direction = 1;
+
+function setup() {
+  createCanvas(640, 560);
+  columns = createSlider(12, 66, 36, 6, 'columns');
+  columns.elt.addEventListener('input', e => {
+    if (e.isTrusted) playing = false;
+  });
+  playing = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  frameRate(6);
+}
+
+function draw() {
+  if (playing && frameCount % 3 === 0) {
+    let next = columns.value() + direction * 6;
+    if (next > 66 || next < 12) {
+      direction *= -1;
+      next = columns.value() + direction * 6;
+    }
+    columns.value(next);
+    columns.elt.dispatchEvent(new Event('input'));
+  }
+  let frame = ASCII_FRAMES.find(f => f.columns === columns.value());
+  let rows = frame.text.split('\\n');
+  let ink = rows.filter(row => row.trim());
+  let left = Math.min(...ink.map(row => row.search(/\\S/)));
+  let right = Math.max(...ink.map(row => row.trimEnd().length));
+  rows = rows.slice(rows.findIndex(row => row.trim()),
+                    rows.findLastIndex(row => row.trim()) + 1)
+             .map(row => row.slice(left, right));
+  let size = min(54, 540 / (right - left) / 0.6, 430 / rows.length);
+  background('#FAF8F4');
+  fill('#000B1C');
+  textFont('monospace');
+  textSize(21);
+  text(frame.columns + ' columns / ' + rows.length + ' active rows', 24, 36);
+  textSize(size);
+  let x = (640 - (right - left) * size * 0.6) / 2;
+  let y0 = 86 + (380 - rows.length * size) / 2;
+  for (let y = 0; y < rows.length; y++) text(rows[y], x, y0 + y * size);
+  textSize(18);
+  text('click to pause / play', 24, 542);
+}
+
+function mousePressed() { playing = !playing; }
+function keyPressed() { if (key === 'p') playing = !playing; }'''
+# Frame data is computed by the linked Python tutorial; the sketch only selects frames.
+ASCII_EXTRA = 'const ASCII_FRAMES = ' + json.dumps(ASCII_FRAMES, ensure_ascii=True).replace('</', '<\\/') + ';'
+S.append(code_slide('02 · ASCII-MAGIC · ONE SOURCE', 'One mark, several text widths',
+    ASCII_CODE, sketch=live('logo-ascii-resolution', ASCII_JS, 640, 560,
+                            hint='slider chooses text width · click to pause/play',
+                            extra=ASCII_EXTRA), edit=False, lang='py',
+    caption='[Full Python script](https://github.com/sd5913/pfad/blob/draft/week05-logo-ascii/week05/logo_ascii.py) · uv run logo_ascii.py',
+    notes='The Python snippet runs locally, after the full student tutorial script has '
+          'written out/source-crop.png. The tutorial uses ascii-magic to make all seven '
+          'ASCII text frames and a GIF; the browser p5.js sketch selects the precomputed '
+          'text frames with a slider or plays them back. It does not execute ascii-magic '
+          'inside the browser. Narrow columns discard shape information; more columns '
+          'do not recreate detail absent from the source. The animation is a changing '
+          'representation, not generated video. Ten sizes use a fixed width ratio. Source: '
+          'https://github.com/sd5913/pfad/blob/draft/week05-logo-ascii/week05/logo_ascii.py.'))
 
 # 03 · Video adds a temporal index to the frame.
 S.append(section('03', 'Add time', 'A video can be inspected as frames in an order'))
@@ -508,6 +591,46 @@ S.append(timeline('05 · GUIDED API EXERCISE', 'Make a small comparison, not a m
     'If the client does not expose a seed, do not describe the comparison as controlled. The '
     'instructor demonstrates the API path and supervises the image exercise; use the static '
     'prepared example if the service is unavailable.'))
+S.append(content('05 · IMAGE EDIT · ASCII → CRT', 'Keep the input; change the scene', [
+    '**Left:** the 56-column ASCII image from an earlier, denser conversion of '
+    'the pixel yarn-ball. This PNG was the image-edit input.',
+    '',
+    '**Right:** a draft image edit places an approximation of it on a CRT screen.',
+    '',
+    '{muted:One image input + one editing instruction; not a text-only generation request.}',
+], images=['week05-mark18-ascii-edit-input.png', 'week05-mark18-crt-draft.png'],
+   body_size=28, notes='The 56-column input is size 6 from the earlier ten-size '
+    'ASCII study. It uses a denser character ramp than the classroom slider; '
+    'do not imply the 32-column slide still was used as this edit input. '
+    'The provisional CRT result invents glyphs and is not the final A/B choice. '
+    'Ask what was preserved and what changed in a service-mediated image edit.'))
+S.append(content('05 · IMAGE EDIT · DIGITAL → WOOL', 'Keep the shapes; change the material', [
+    '**Left:** the original grid mark has a stepped diagonal arrow and a '
+    'separate underscore.',
+    '',
+    '**Right:** a draft wool edit keeps two pieces, but pushes the arrow '
+    'toward a vertical shape. Is that still the same mark?',
+    '',
+    '{muted:Two experiments, not two approved logos. Final images are pending.}',
+], images=['mark-38.jpeg', 'week05-mark38-wool-draft.png'], body_size=28,
+   notes='The right is a provisional model edit of Mark 38; the original left '
+    'has a diagonal stepped arrow with a distinct underscore. The wool result '
+    'alters the silhouette, so students can critique its fidelity. These '
+    'source/edit comparisons are teaching experiments, not selected logos.'))
+S.append(content('05 · DO THE GLYPHS STILL MATCH?', 'Generated text is not guaranteed text', [
+    'Compare the actual 56-column ASCII input with the CRT edit. Are the characters '
+    'the same, in the same places?',
+    '',
+    'A prompt can ask for fidelity; it cannot guarantee spelling or exact alignment. '
+    'If a wordmark must be exact, composite the real text layer after generation.',
+    '',
+    '**Record:** input image, editing instruction, model/settings, result, and one '
+    'thing you would keep or reject.',
+], notes='These two student-mark experiments link the code-first and generative parts of '
+    'the lesson. The CRT edit demonstrates an important limitation of model text '
+    'rendering; compare it to the deterministic ASCII file before discussing '
+    'quality. A teacher may demonstrate a real image edit only after preflighting '
+    'the model and input-image controls; no student keys or paid calls required.'))
 S.append(content('05 · OPTIONAL INSTRUCTOR DEMO', 'ComfyUI / local model: useful, not required', [
     'If ComfyUI has a local checkpoint ready, compare its setup, latency and output with the API.',
     '',
@@ -521,6 +644,19 @@ S.append(content('05 · OPTIONAL INSTRUCTOR DEMO', 'ComfyUI / local model: usefu
 
 # 06 · A low-stakes bridge toward the interactive experience project.
 S.append(section('06', 'From image to interaction', 'Start with what someone can do'))
+S.append(content('06 · TUTORIAL · MAKE AN ICON', 'Your image, your choice', [
+    'Run the logo-to-ASCII script with your own image. Move the resolution slider '
+    'and play the generated sequence; where does the mark become recognisable?',
+    '',
+    'Export a square version and inspect it at avatar size. If you like it, '
+    'set your GitHub profile picture yourself; this is optional, not a submission.',
+    '',
+    '[Week 5 tutorial and runnable Python](https://github.com/sd5913/pfad/tree/draft/week05-logo-ascii/week05)',
+], notes='GitHub Settings -> Public profile -> Profile picture -> Upload a photo is '
+    'a student-controlled choice; do not alter student profiles or require anyone '
+    'to publish a class mark as their own avatar. The draft tutorial points to '
+    'the pfad PR branch pending lecturer review; update this link to 2026 '
+    'only after the student tutorial merges.'))
 S.append(content('06 · PROJECT SEED', 'Name one meaningful interaction', [
     'Who is the person using your project, and what are they trying to do?',
     '',
