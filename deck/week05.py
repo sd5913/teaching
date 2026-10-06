@@ -276,7 +276,8 @@ ASCII_CODE = '''from ascii_magic import AsciiArt
 image = AsciiArt.from_image("out/source-crop.png")
 chars = "@%#*+=-:. "
 for n in range(12, 67, 6):
-    print(image.to_ascii(columns=n, char=chars))'''
+    print(image.to_ascii(columns=n, char=chars,
+                         width_ratio=1.5))'''
 ASCII_JS = '''let columns, playing = true, direction = 1;
 
 function setup() {
@@ -307,16 +308,19 @@ function draw() {
   rows = rows.slice(rows.findIndex(row => row.trim()),
                     rows.findLastIndex(row => row.trim()) + 1)
              .map(row => row.slice(left, right));
-  let size = min(54, 540 / (right - left) / 0.6, 430 / rows.length);
+  textFont('monospace');
+  textSize(100);
+  let ratio = textWidth('M') / 100;
+  let size = min(54, 590 / ((right - left) * ratio), 435 / (rows.length * 1.25));
   background('#FAF8F4');
   fill('#000B1C');
-  textFont('monospace');
   textSize(21);
   text(frame.columns + ' columns / ' + rows.length + ' active rows', 24, 36);
   textSize(size);
-  let x = (640 - (right - left) * size * 0.6) / 2;
-  let y0 = 86 + (380 - rows.length * size) / 2;
-  for (let y = 0; y < rows.length; y++) text(rows[y], x, y0 + y * size);
+  let lineHeight = size * 1.25;
+  let x = (640 - (right - left) * textWidth('M')) / 2;
+  let y0 = 86 + (390 - rows.length * lineHeight) / 2 + size;
+  for (let y = 0; y < rows.length; y++) text(rows[y], x, y0 + y * lineHeight);
   textSize(18);
   text('click to pause / play', 24, 542);
 }
@@ -331,7 +335,7 @@ S.append(code_slide('02 · ASCII-MAGIC · ONE SOURCE', 'One mark, several text w
                             extra=ASCII_EXTRA), edit=False, lang='py',
     caption='[Full Python script](https://github.com/sd5913/pfad/blob/draft/week05-logo-ascii/week05/logo_ascii.py) · uv run logo_ascii.py',
     notes='The Python snippet runs locally, after the full student tutorial script has '
-          'written out/source-crop.png. The tutorial uses ascii-magic to make all seven '
+          'written out/source-crop.png. The tutorial uses ascii-magic to make ten '
           'ASCII text frames and a GIF; the browser p5.js sketch selects the precomputed '
           'text frames with a slider or plays them back. It does not execute ascii-magic '
           'inside the browser. Narrow columns discard shape information; more columns '

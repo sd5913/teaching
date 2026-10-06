@@ -32,6 +32,8 @@ class Week05LogoCaseTests(unittest.TestCase):
         self.assertIn('Two marks, two source images', titles)
         self.assertIn('Keep the input; change the scene', titles)
         self.assertIn('Keep the shapes; change the material', titles)
+        source = (ROOT / 'deck/week05.py').read_text()
+        self.assertIn("textWidth('M')", source)
         self.assertIn('Generated text is not guaranteed text', titles)
 
     def test_ascii_slider_and_python_are_separate_venues(self):
