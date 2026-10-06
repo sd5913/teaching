@@ -98,6 +98,14 @@ def frame_sequence(name='week05-frame-sequence', w=1500, h=460):
     return c.finish(name)
 
 
+def frame_preview(name='week05-frame-preview', w=640, h=360):
+    """Static first frame for the editable HTML sketch's PDF/PPTX fallback."""
+    c = Canvas(w, h, bg=PAPER)
+    c.circle(80, 180, 45, fill='#ED6D24')
+    c.text(24, 40, 'frame 0', 26, INK, mono=False)
+    return c.finish(name)
+
+
 def clip_alignment(name='week05-clip-alignment', w=1500, h=500):
     """Show CLIP matching text and images in a shared representation space."""
     c = Canvas(w, h, bg=PAPER)
@@ -181,7 +189,7 @@ def diffusion_training(name='week05-diffusion-training', w=1500, h=560):
         ('add noise', 'at timestep t'),
         ('sample zt', 'noisy latent'),
         ('U-Net', 'predicts noise'),
-        ('compare', 'predicted vs target'),
+        ('compare', 'update weights'),
     ]
     for x, (heading, detail) in zip(x_positions, training):
         c.rect(x, 78, box_w, box_h, fill='#FFFFFF', stroke=teal, width=3)
@@ -196,7 +204,7 @@ def diffusion_training(name='week05-diffusion-training', w=1500, h=560):
         c.line(end - 18, 149, end, 137, orange, 4)
 
     c.text(w / 2, 260,
-           'Latent training: encode each image to z0, then predict the noise added to it.',
+           'Training: known sampled noise is the target; its error updates model weights.',
            21, ink, anchor='middle', mono=False)
     c.text(40, 320, 'GENERATE', 25, teal, weight=700)
     generation = [
@@ -219,7 +227,7 @@ def diffusion_training(name='week05-diffusion-training', w=1500, h=560):
         c.line(end - 18, 417, end, 405, orange, 4)
 
     c.text(w / 2, 515,
-           'In latent diffusion, denoising happens in a compressed representation.',
+           'Generation: weights stay fixed while the noisy latent changes each step.',
            20, ink, anchor='middle', mono=False)
     return c.finish(name)
 
@@ -232,8 +240,8 @@ def vae_path(name='week05-vae-path', w=1500, h=430):
     ink = '#000B1C'
     labels = [
         ('image x', 'input pixels'),
-        ('encoder', 'compresses'),
-        ('latent z', 'compact code'),
+        ('encoder', 'mean + variance'),
+        ('sample z', 'compact latent'),
         ('decoder', 'reconstructs'),
         ('image x-hat', 'reconstruction'),
     ]
@@ -253,7 +261,7 @@ def vae_path(name='week05-vae-path', w=1500, h=430):
                    ax + gap - 18, box_y + box_h / 2, orange, 4)
             c.line(ax + gap - 38, box_y + box_h / 2 + 12,
                    ax + gap - 18, box_y + box_h / 2, orange, 4)
-    c.text(w / 2, 360, 'A VAE learns a useful latent representation and a path back to pixels.',
+    c.text(w / 2, 360, 'The encoder models a distribution; a sampled z gives an approximate reconstruction.',
            23, ink, anchor='middle')
     c.text(w / 2, 398, 'Sampling a latent can make a new image; this is not the same as diffusion.',
            21, teal, anchor='middle')
@@ -269,7 +277,7 @@ def latent_diffusion(name='week05-latent-diffusion', w=1600, h=520):
     box_y, box_h, box_w, gap = 245, 145, 260, 54
     labels = [
         ('latent noise', 'random starting point'),
-        ('U-Net x N', 'predict noise each step'),
+        ('U-Net x N', 'noise prediction'),
         ('clean latent', 'compact representation'),
         ('VAE decoder', 'map latent to pixels'),
         ('image', 'visible RGB output'),
@@ -290,12 +298,19 @@ def latent_diffusion(name='week05-latent-diffusion', w=1600, h=520):
             c.line(ax + gap - 38, box_y + box_h / 2 + 12,
                    ax + gap - 18, box_y + box_h / 2, orange, 4)
 
-    c.rect(334, 50, 260, 105, fill='#FFF1E7', stroke=orange, width=3)
-    c.text(464, 93, 'text encoder', 25, ink, anchor='middle', mono=True, weight=700)
-    c.text(464, 129, 'prompt representation', 18, teal, anchor='middle')
-    c.line(464, 155, 464, 235, orange, 4)
-    c.line(452, 216, 464, 235, orange, 4)
-    c.line(476, 216, 464, 235, orange, 4)
+    c.rect(30, 50, 245, 105, fill='#FFF1E7', stroke=orange, width=3)
+    c.text(152, 93, 'prompt', 25, ink, anchor='middle', mono=True, weight=700)
+    c.text(152, 129, 'words as input', 18, teal, anchor='middle')
+    c.rect(345, 50, 260, 105, fill='#FFF1E7', stroke=orange, width=3)
+    c.text(475, 93, 'text encoder', 25, ink, anchor='middle', mono=True, weight=700)
+    c.text(475, 129, 'text features', 18, teal, anchor='middle')
+    c.line(275, 102, 345, 102, orange, 4)
+    c.line(328, 90, 345, 102, orange, 4)
+    c.line(328, 114, 345, 102, orange, 4)
+    c.line(475, 155, 475, 235, orange, 4)
+    c.line(463, 218, 475, 235, orange, 4)
+    c.line(487, 218, 475, 235, orange, 4)
+    c.text(650, 190, 'conditioning', 18, teal, anchor='middle')
     c.text(w / 2, 466, 'The prompt guides denoising; the decoder turns the final latent into pixels.',
            23, ink, anchor='middle')
     return c.finish(name)

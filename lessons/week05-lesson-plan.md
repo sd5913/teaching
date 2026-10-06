@@ -16,8 +16,9 @@ date or adding an assessed deliverable.
 Start more gently than the first draft: recall Python values and types, then use lists,
 indexes and nested rows to build a small numeric grid. Only after students can read that
 grid do we interpret its values as brightness or colour, and ask a renderer to make the
-data visible. The first exercise is therefore about code becoming numbers and numbers
-becoming a picture—not about installing an image library.
+data visible. The first browser exercise renders a grayscale SVG directly from a
+Python grid: students predict a pixel, run the code, correct the shade mapping, and
+see the result on the HTML slide without installing an image library.
 
 By the end of class, students can:
 
@@ -28,12 +29,15 @@ By the end of class, students can:
 - make or change a small NumPy image, pass it to Pillow, and explain how its shape,
   dtype and mode describe the values;
 - generate random pixels in code and explain the 8-bit value range and exclusive upper bound;
+- edit a spatial colour rule in an in-slide Python drill and see its pixels change;
 - describe a frame sequence as still images in an order, make a short animated GIF, and
-  distinguish this simple example from a compressed video file or live webcam processing;
+  edit a browser animation; distinguish these from compressed video or live webcam processing;
 - contrast GAN, VAE and diffusion at a high level; trace one Stable Diffusion path and
-  distinguish CLIP, U-Net and VAE roles;
+  distinguish CLIP, text conditioning, U-Net and VAE roles, including weights versus
+  latents in training and generation;
 - describe the request, wait and response in an image API exercise, using the previous
-  week's request/response vocabulary;
+  week's vocabulary; write a constrained prompt and judge the result against an
+  observable requirement rather than assuming text specifies every pixel;
 - sketch one project-specific interaction as an action, system response and feedback.
 
 Keep LCM and ControlNet as optional code-repository extensions, not core outcomes. The
@@ -58,6 +62,13 @@ chosen representation.
   three-frame animated GIF. Copy each code panel into its named Python file and run the
   command printed beside it; these examples need only Pillow. The random-noise example
   starts with Python's standard-library random module before introducing array libraries.
+- In the HTML deck, three Python drills run via Pyodide: two print SVG images from
+  pixel values and one prints a JSON request without calling an API. The first Run
+  downloads the runtime; these need a connection initially but no image library,
+  account or key. Check the editor and image preview on the classroom device.
+- An editable p5.js sketch previews the same frame-index idea in the browser; it is
+  JavaScript, not the Python/Pillow code that exports a GIF. A still substitutes for
+  the live sketch in the PDF and PPTX.
 - The current teaching repo's
   [`image_api_example.py`](https://github.com/sd5913/teaching/blob/main/scripts/image_api_example.py)
   is a runnable standard-library Easel request. It reads `EASEL_KEY` from the environment
@@ -81,15 +92,15 @@ chosen representation.
 |---|---|---|
 | 0:00–0:05 | Set the path | Today: Python values → a grid → visible pixels → generated images. |
 | 0:05–0:18 | Types and lists | Recall `int`, `float`, `str`, `bool`; read list positions from zero. |
-| 0:18–0:30 | Rows become a grid | Nest lists; locate a value by row and column. Let students predict before revealing. |
+| 0:18–0:30 | Rows become a grid | Nest lists; predict a pixel, then correct the in-slide grayscale SVG. |
 | 0:30–0:43 | Values become pixels | Map numbers to grayscale, then group three channel values into RGB. |
 | 0:43–0:53 | Dimensions and tools | Compare nested lists with NumPy shape/dtype and Pillow size/mode. |
-| 0:53–1:00 | Random pixels | Generate an RGB noise image in code; distinguish a rule-based result from a learned output. |
-| 1:00–1:10 | Frames into motion | Run the three-frame Pillow example; change the dot's positions and frame duration, then distinguish an animated GIF from a compressed video file. |
-| 1:10–1:30 | Image-model paths | Compare GAN/VAE/diffusion briefly; trace CLIP, U-Net and VAE through one latent-diffusion path. LCM/ControlNet are optional extras. |
+| 0:53–1:00 | Random pixels | Read the local Pillow noise script; change the rule in the browser RGB grid. |
+| 1:00–1:10 | Frames into motion | Run the Pillow GIF locally if prepared; edit positions or rate in the live p5 sketch. Distinguish a GIF from compressed video. |
+| 1:10–1:30 | Image-model paths | Contrast CLIP alignment with text conditioning; trace VAE sampling, known noise, training weight updates and fixed-weight generation. GAN/LCM/ControlNet are optional. |
 | 1:30–1:35 | Size and settings | Discuss historical model/VRAM estimates, steps, guidance, seed, resolution and service vs local run. |
-| 1:35–1:38 | API recall | Revisit last week's request/response pattern; ask what the client sends and what comes back. |
-| 1:38–1:55 | Generate and compare | Begin with random pixels, request one image through the Easel client, then optionally compare with a preflighted local model. Change one input and annotate. |
+| 1:35–1:38 | API recall | Print and revise a JSON prompt request in the browser, without a credential or network call. |
+| 1:38–1:55 | Generate and compare | If preflighted, request one image through the instructor's Easel client. State an invariant, change one prompt attribute, and judge the output; local model optional. |
 | 1:55–2:00 | Interaction seed | In pairs, name one project-specific action, system response and feedback. |
 
 The API study is exploratory rather than a controlled model comparison: only call it
@@ -102,16 +113,19 @@ interaction seed is a warm-up, not a new submission requirement.
   generated samples from training examples. Keep this as a brief supplemental comparison;
   GANs do not appear in the 2025 SD5913 Week 5 slide PDF.
 - **Diffusion and U-Net:** for latent diffusion, first encode each training image to `z0`,
-  then add noise at a timestep and teach a denoiser to predict it. Generation starts at latent
-  noise `zT`, applies the learned denoiser repeatedly, then decodes the clean latent to pixels.
+  then add known sampled noise at timestep `t` and teach a denoiser to predict it.
+  Prediction error updates the **weights**. Generation starts at noise `zT`, holds
+  weights fixed and updates the **latent**, then decodes it to pixels.
   The 2025 PDF p. 41 is titled “U-Net Training” but combines forward noising and reverse
   sampling; keep those processes distinct. Its p. 42 U-Net drawing is an architecture sketch,
   not a complete Stable Diffusion denoiser.
 - **CLIP:** the 2025 PDF p. 39 overstates CLIP as generative. Page 40 shows separate text and
   image encoders and similarity scores: teach it as alignment for matching/ranking, not as
-  an image generator or captioner.
+  an image generator or captioner. A generative pipeline can use a text encoder to
+  condition the denoiser; CLIP's image encoder does not draw the output.
 - **VAE:** an encoder and decoder learn a compact latent representation and reconstruction
-  path. The 2025 PDF p. 43 shows image -> encoder -> latent -> decoder -> reconstruction.
+  path. The encoder estimates a distribution (mean and variance); a sampled latent
+  gives an approximate reconstruction. The 2025 PDF p. 43 sketches this path.
   A VAE component is not synonymous with a diffusion model.
 - **Latent diffusion:** the 2025 PDF p. 44 shows one text-conditioned path: text encoder,
   repeated U-Net denoising in latent space, then VAE decoding. Its 64 x 64 latent and 50-step

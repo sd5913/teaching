@@ -29,6 +29,8 @@ class Week05FigureTests(unittest.TestCase):
         self.assertIn('sample zt', svg)
         self.assertIn('noisy latent', svg)
         self.assertIn('random noise zT', svg)
+        self.assertIn('updates model weights', svg)
+        self.assertIn('weights stay fixed', svg)
 
     def test_grayscale_grid_maps_sample_values_to_positions(self):
         svg = self.render('grayscale_grid')
@@ -41,6 +43,12 @@ class Week05FigureTests(unittest.TestCase):
         self.assertIn('Image encoder', svg)
         self.assertIn('similarity', svg)
         self.assertIn('not a generator', svg)
+
+    def test_prompt_conditions_denoiser_and_vae_samples_latent(self):
+        self.assertIn('prompt', self.render('latent_diffusion'))
+        self.assertIn('conditioning', self.render('latent_diffusion'))
+        self.assertIn('mean + variance', self.render('vae_path'))
+        self.assertIn('sample z', self.render('vae_path'))
 
 
 if __name__ == '__main__':

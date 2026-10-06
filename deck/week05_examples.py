@@ -3,11 +3,11 @@
 TINY_PIXEL_EXAMPLE = '''from PIL import Image
 
 pixels = [
-    (255, 0, 0), (0, 255, 0),
-    (0, 0, 255), (255, 255, 0),
+    [(255, 0, 0), (0, 255, 0)],
+    [(0, 0, 255), (255, 255, 0)],
 ]
 image = Image.new("RGB", (2, 2))
-image.putdata(pixels)
+image.putdata([pixel for row in pixels for pixel in row])
 image.resize((120, 120), Image.Resampling.NEAREST).save("tiny-image.png")
 print("saved tiny-image.png")
 '''

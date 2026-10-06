@@ -8,8 +8,9 @@ import week05_figures as F
 from week05_examples import (API_EXAMPLE, FRAME_EXAMPLE, NOISE_EXAMPLE,
                              TINY_PIXEL_EXAMPLE)
 from deckgen import attach_reports
-from deckgen.layouts import (agenda, cards, content, end, figure_slide,
-                             question, section, statement, timeline, two_col, title)
+from deckgen.layouts import (agenda, cards, code_slide, content, end, exercise,
+                             figure_slide, live, question, section, statement,
+                             timeline, two_col, title)
 
 COURSE = 'SD5913'
 SITE = 'sd5913.github.io/teaching'
@@ -91,6 +92,31 @@ S.append(figure_slide('00 · FROM GRID TO VISIBLE VALUES',
                       'Then reveal that a colour pixel can hold several channel values. The image '
                       'does not contain painted squares; this is a useful discrete model of '
                       'sampled light.'))
+S.append(exercise('00 · BROWSER PYTHON', 'A value becomes a shade', [
+    'Open the HTML slides on your laptop. Press Run: the Python prints an SVG image.',
+    '',
+    'The shades are reversed. Change one expression so 0 is black and 255 is white.',
+    '{muted:Predict which square changes before you run it again. No install needed.}',
+], code='grid = [[0, 128, 255], [255, 64, 0]]\n'
+        'print(\'<svg viewBox="0 0 3 2" width="600">\')\n'
+        'for y, row in enumerate(grid):\n'
+        '    for x, value in enumerate(row):\n'
+        '        shade = 255 - value\n'
+        '        fill = f"rgb({shade},{shade},{shade})"\n'
+        '        print(f\'<rect x="{x}" y="{y}" \'\n'
+        '              f\'width="1" height="1" fill="{fill}"/>\')\n'
+        'print("</svg>")',
+   check='from xml.etree import ElementTree as ET\n'
+         'rects = list(ET.fromstring(_out))\n'
+         'ok = len(rects) == 6 and [r.get("fill") for r in rects] == [\n'
+         '    "rgb(0,0,0)", "rgb(128,128,128)", "rgb(255,255,255)",\n'
+         '    "rgb(255,255,255)", "rgb(64,64,64)", "rgb(0,0,0)"]',
+   eid='a-value-becomes-a-shade',
+   hint='change 255 - value · ctrl+enter runs it',
+   notes='This is the same Pyodide Python exercise layout as Weeks 2 and 3. The console '
+         'renders printed SVG; it is not Pillow, a file download, or an external API. '
+         'First run downloads Python into the browser. Ask for a prediction before '
+         'correcting the inversion. Changing one input value updates one visible square.'))
 S.append(two_col('00 · ONE PIXEL, THREE VALUES', 'A colour pixel groups its channels', [
     'One grayscale pixel stores one brightness value.',
     '',
@@ -142,11 +168,18 @@ S.append(two_col('01 · READ ONE PIXEL', 'Position first, channels second', [
     '',
     '**Try:** change one position, not the whole image.',
 ], [
+    'pixels = [',
+    '    [(255, 0, 0), (0, 255, 0)],',
+    '    [(0, 0, 255), (255, 255, 0)],',
+    ']',
+    '',
     'print(len(pixels))          # rows: 2',
     'print(len(pixels[0]))       # columns: 2',
     'print(len(pixels[0][0]))    # channels: 3',
     'pixels[0][1] = [255, 255, 255]  # make it white',
-], notes='The assignment changes the three channel values at one coordinate. Ask students '
+], notes='The complete Pillow example above now keeps rows nested and flattens them '
+   'only at putdata. This is the same pixels variable: look up a row and column '
+   'before flattening. The assignment changes one pixel; ask students '
    'to predict which visible square changes before describing a plotting helper. A row/column '
    'mistake is a common reason a transformation appears rotated or flipped.'))
 S.append(content('01 · HOW MUCH DATA?', 'Dimensions and representation matter', [
@@ -199,6 +232,29 @@ S.append(cards('02 · FROM NOISE TO FORM', 'An image is a field we can transform
 ], notes='This is the bridge from the week 3 idea that a chart is a transformation to image '
     'generation. The same pixels can be redrawn, recoloured or moved; none of those operations '
     'requires a learned model.'))
+S.append(exercise('02 · BROWSER PYTHON', 'Change the rule, change the image', [
+    'This program draws 144 RGB pixels. Both colours currently follow the column.',
+    '',
+    'Make blue depend on the row instead: top-right blue, bottom-left red.',
+    '{muted:Then try a diagonal or make the boundary move. The pixels are the output.}',
+], code='print(\'<svg viewBox="0 0 12 12" width="430">\')\n'
+        'for y in range(12):\n'
+        '    for x in range(12):\n'
+        '        red = 255 if x < 6 else 0\n'
+        '        blue = 255 if x < 6 else 0\n'
+        '        fill = f"rgb({red},0,{blue})"\n'
+        '        print(f\'<rect x="{x}" y="{y}" \'\n'
+        '              f\'width="1" height="1" fill="{fill}"/>\')\n'
+        'print("</svg>")',
+   check='from xml.etree import ElementTree as ET\n'
+         'fills = [r.get("fill") for r in ET.fromstring(_out)]\n'
+         'ok = len(fills) == 144 and fills[0] == "rgb(255,0,255)" and '
+         'fills[6] == "rgb(0,0,255)" and fills[72] == "rgb(255,0,0)"',
+   eid='change-the-rule-change-the-image',
+   hint='blue needs y · ctrl+enter runs it',
+   notes='Use the same x and y axes as the numeric grid; the colour rule is a '
+         'transformation, not a learned image generator. This result can be compared '
+         'with the local Pillow random-noise script immediately before it.'))
 
 # 03 · Video adds a temporal index to the frame.
 S.append(section('03', 'Add time', 'A video can be inspected as frames in an order'))
@@ -237,6 +293,34 @@ S.append(two_col('03 · A RUNNABLE EXAMPLE', 'Make three frames; save a short an
     'still frames and save them in order as a looping GIF. The GIF plays each frame for the '
     'same duration; no webcam or video-processing library is needed.',
     right_size=20))
+FRAME_JS = '''let positions = [80, 280, 480];
+
+function setup() {
+  createCanvas(640, 360);
+  frameRate(5);
+}
+
+function draw() {
+  background('#FAF8F4');
+  let index = (frameCount - 1) % positions.length;
+  let x = positions[index];
+  noStroke();
+  fill('#ED6D24');
+  circle(x, 180, 90);
+  fill('#000B1C');
+  textSize(26);
+  text('frame ' + index, 24, 40);
+}'''
+S.append(code_slide('03 · EDIT THE FRAMES', 'Change one position; watch the motion',
+                    FRAME_JS, figure=F.frame_preview(), code_size=22,
+                    sketch=live('moving-pixels', FRAME_JS, 640, 360,
+                                hint='edit positions or frameRate · Run to replay'),
+                    notes='This editable p5.js sketch is live in HTML as in Week 3; the '
+                          'Python/Pillow slide before it exports the three still frames as '
+                          'a GIF locally. JavaScript in the browser drives this preview; '
+                          'the two programs implement the same frame-index idea, not '
+                          'identical files. Change 280 to 400 or frameRate to 2, rerun '
+                          'and name what changed. The still diagram is the PDF/PPTX fallback.'))
 
 # 04 · A compact map of learned image-generation ideas.
 S.append(section('04', 'Learned image models', 'Different training ideas, different jobs'))
@@ -262,23 +346,37 @@ S.append(figure_slide('04 · CLIP · IMAGE/TEXT ALIGNMENT',
                       'image generator. Code reference: '
                       'https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb.',
                       caption='Code: [week05_notebook.ipynb](https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb)'))
+S.append(content('04 · TWO USES OF TEXT', 'A similarity score is not a drawing instruction', [
+    '**CLIP:** its text and image encoders compare a caption with an existing image.',
+    '',
+    '**Text-conditioned generation:** a prompt becomes features that guide repeated '
+    'changes to a noisy latent. The CLIP image encoder does not draw the image.',
+    '',
+    'Which words name an object? Which constrain material, composition or what must be absent?',
+    '',
+    '{muted:The particular text encoder and denoising architecture depend on the model.}',
+], notes='Do not equate CLIP’s two-encoder similarity task with the generative pipeline '
+    'or imply the prompt determines every pixel. Classic Stable Diffusion pipelines '
+    'may use a CLIP-family text encoder for conditioning; newer pipelines differ.'))
 S.append(figure_slide('04 · U-NET · TRAINING AND GENERATION',
                       'Learn to remove noise; then use that skill.', F.diffusion_training(),
                       notes='Based on the 2025 Week 5 PDF pp. 41-42. The archived p. 41 slide is '
                       'titled “U-Net Training” but depicts both forward noising and reverse '
                       'sampling. This original diagram shows latent diffusion: encode each '
                       'training image to z0 before adding noise; the U-Net learns to predict '
-                      'that noise. Generation starts at zT, applies the learned denoiser '
+                      'that known sampled noise, then uses its error to update denoiser '
+                      'weights. Generation starts at zT with weights fixed, applies the denoiser '
                       'repeatedly, then decodes the clean latent to pixels. It is a simplified '
                       'noise-prediction example; not every current model uses this exact '
                       'objective. The p. 42 U-Net image '
                       'is an architecture sketch; it omits conditioning details.',
                       caption='Code: [week05_notebook.ipynb](https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb)'))
 S.append(figure_slide('04 · VAE · ENCODER AND DECODER',
-                      'Compress the image, then reconstruct it.', F.vae_path(),
+                      'Learn a latent distribution; sample and reconstruct.', F.vae_path(),
                       notes='The latent is a compact learned representation; a VAE decoder maps '
-                      'it back to image values. A variational encoder models a distribution, but '
-                      'this teaching sketch omits its mean, variance and sampling details. A VAE '
+                      'it back to image values. The encoder estimates a distribution, '
+                      'represented by mean and variance; sampling produces a latent. '
+                      'Reconstruction is approximate. A VAE '
                       'can support generation from a sampled latent, but it is not the same process '
                       'as latent diffusion. This diagram follows the image -> encoder -> latent -> '
                       'decoder -> reconstruction sequence in the SD5913 2025 Week 5 PDF p. 43. '
@@ -296,6 +394,19 @@ S.append(figure_slide('04 · ONE LATENT-DIFFUSION PATH',
                       'latent space or objective. Code reference: '
                       'https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb.',
                       caption='Code: [week05_notebook.ipynb](https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb)'))
+S.append(content('04 · MODEL BOUNDARY', 'One diagram, not every image model', [
+    'This diagram explains one **classic latent-diffusion** path: text features '
+    'condition a denoiser; a VAE decoder turns the final latent into pixels.',
+    '',
+    'The training objective, denoiser and text encoder vary across model families. '
+    'Some current systems use transformer denoisers or flow matching instead.',
+    '',
+    '**Ask of a service:** which model made the image? Which controls does it expose? '
+    'Which parts of our diagram are only assumptions?',
+], notes='A hosted API is an interface, not a statement about its model internals. '
+    'Check the classroom model selection before describing it as a U-Net or '
+    'noise-prediction implementation. Do not treat the Easel client name as '
+    'the underlying media model.'))
 S.append(content('04 · OPTIONAL CODE EXTRA · LCM', 'A compatible model can generate in fewer steps', [
     'The 2025 examples contrast Stable Diffusion at 20 inference steps with an LCM pipeline at 4 inference steps.',
     '',
@@ -354,6 +465,24 @@ S.append(question('multiple_choice', 'What crosses an image-generation API?',
                   notes='B. The client sends a request with a prompt and options; the service '
                   'returns image data and metadata. The client decides how to display or save '
                   'the result. This recalls Week 4 immediately before the generation/API segment.'))
+S.append(exercise('05 · BROWSER PYTHON', 'A prompt is part of the request', [
+    'This prints request data. It does not send anything or need a key.',
+    '',
+    'Add a material and a composition constraint to the prompt.',
+    '{muted:What would the model still have to decide on its own?}',
+], code='import json\n'
+        'prompt = "An orange circle"\n'
+        'request = {"prompt": prompt, "size": "1024x1024", "n": 1}\n'
+        'print(json.dumps(request, indent=2))',
+   check=('ok = "paper" in request["prompt"].lower() and '
+          '"center" in request["prompt"].lower() and '
+          'request["size"] == "1024x1024" and request["n"] == 1'),
+   eid='a-prompt-is-part-of-the-request',
+   hint='add paper and centered · no network request',
+   notes='This safe browser drill reuses Week 4’s request-as-data idea: the output '
+         'is only JSON. The following slide is an instructor-controlled API call '
+         'with a key from the environment, not a browser-side request. After a '
+         'prompt passes, discuss remaining unspecified attributes and latency.'))
 S.append(two_col('05 · THE API LOOP', 'The client asks; the service returns media', [
     'This complete example sends one request and saves the image response.',
     '',
@@ -371,10 +500,10 @@ S.append(two_col('05 · THE API LOOP', 'The client asks; the service returns med
     'create credentials. Preflight the exact classroom client and model.',
     right_size=19))
 S.append(timeline('05 · GUIDED API EXERCISE', 'Make a small comparison, not a masterpiece', [
-    ('01', 'State an intention', 'Choose a simple image idea you can describe in one sentence.'),
+    ('01', 'State an invariant', 'Name material, composition and one thing the result must not contain.'),
     ('02', 'Generate a first result', 'Use the classroom Easel client and note the model and settings shown.'),
     ('03', 'Change one input', 'Revise one part of the request; keep the rest as stable as the client allows.'),
-    ('04', 'Compare and annotate', 'What changed? What did the model decide without being asked?'),
+    ('04', 'Judge the evidence', 'Did it meet your invariant? What did the model decide unprompted?'),
 ], notes='This is a short study, not a polished deliverable or a controlled scientific experiment. '
     'If the client does not expose a seed, do not describe the comparison as controlled. The '
     'instructor demonstrates the API path and supervises the image exercise; use the static '
