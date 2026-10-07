@@ -6,11 +6,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import week05_figures as F
-from week05_examples import (API_EXAMPLE, FRAME_EXAMPLE, NOISE_EXAMPLE,
+from week05_examples import (API_EXAMPLE, DIFFUSION_GENERATE_EXAMPLE,
+                             DIFFUSION_LOAD_EXAMPLE, FRAME_EXAMPLE, NOISE_EXAMPLE,
                              TINY_PIXEL_EXAMPLE)
 from week05_news import news_slides
 from deckgen import T, attach_reports
-from deckgen.layouts import (agenda, cards, code_slide, content, end, exercise,
+from deckgen.layouts import (agenda, cards, code_panel, code_slide, content, end, exercise,
                              figure_slide, live, question, section, statement,
                              timeline, two_col, title)
 
@@ -499,6 +500,77 @@ S.append(figure_slide('04 · ONE LATENT-DIFFUSION PATH',
                       'latent space or objective. Code reference: '
                       'https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb.',
                       caption='Code: [week05_notebook.ipynb](https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb)'))
+S.append(two_col('04 · RUN IT IN PYTHON · SETUP', 'Give the local model its own environment', [
+    '**Diffusers** connects the pipeline. **PyTorch** runs its tensor operations.',
+    '',
+    'uv installs a compatible PyTorch build. An NVIDIA GPU still needs a working system driver.',
+    '',
+    'Download libraries and weights before class. CPU works, but can be slow.',
+    '',
+    '[Optional demo and setup](https://github.com/sd5913/pfad/tree/2026/week05/diffusion)',
+], [
+    'cd week05/diffusion',
+    '',
+    'uv venv --no-project --python 3.12',
+    'uv pip install --torch-backend auto \\',
+    '    -r requirements.txt',
+    '',
+    'uv run --no-project generate.py --check',
+    'uv run --no-project generate.py',
+], lang=None, notes='Run these commands from the current pfad 2026 checkout. This optional '
+    'example has a separate Python 3.12 environment; --no-project avoids the Week 4 Worker '
+    'project in the parent directory. --torch-backend auto belongs to uv pip install, not '
+    'uv run. It chooses a compatible PyTorch wheel using the detected driver; uv does not '
+    'install or repair that driver. Prebuilt PyTorch wheels supply runtime libraries, so '
+    'this inference example normally does not require a separate system CUDA toolkit. '
+    'The first install and model download are large. Use --check before downloading '
+    'weights. The complete script also detects Apple MPS. GPU installation is not a '
+    'tutorial requirement. Official setup reference: '
+    'https://docs.astral.sh/uv/guides/integration/pytorch/.'))
+S.append(code_panel('04 · RUN IT IN PYTHON · LOAD', 'Load fixed weights onto a device',
+    DIFFUSION_LOAD_EXAMPLE.splitlines(),
+    caption='Excerpt: [generate.py](https://github.com/sd5913/pfad/blob/2026/week05/diffusion/generate.py)',
+    notes='Map this code to the diagram: from_pretrained loads the text encoder, U-Net, '
+    'scheduler, VAE and safety checker; to(device) moves their tensors onto the selected '
+    'processor. The learned weights stay fixed: no training data or weight updates here. '
+    'float16 is for this CUDA path; CPU uses float32. The current Diffusers API calls '
+    'the parameter dtype. This compact excerpt shows CUDA/CPU; the full script adds '
+    'Apple MPS in float32, an exact model revision and a settings JSON. fp16 selects '
+    'the smaller checkpoint files for CUDA, not a different learned model. The model '
+    'is Stable Diffusion 1.5, not a claim that every image model has these internals. '
+    'Model card and license: '
+    'https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5.'))
+S.append(code_panel('04 · RUN IT IN PYTHON · GENERATE', 'Prompt + seed in; a Pillow image out',
+    DIFFUSION_GENERATE_EXAMPLE.splitlines(),
+    caption='Continue with the loaded pipe. [Full runnable script](https://github.com/sd5913/pfad/blob/2026/week05/diffusion/generate.py)',
+    notes='Read the call before running it: prompt is text conditioning; the seed controls '
+    'starting randomness; steps counts denoising updates; guidance affects prompt influence; '
+    'width and height specify output pixels. images is a list; images[0] is the first '
+    'Pillow image, so save is the same image operation we used earlier. A CPU Generator '
+    'provides repeatable starting noise even when inference runs on CUDA. A matching '
+    'seed does not guarantee identical pixels across hardware or package versions. '
+    'The excerpt saves in the current directory; the complete script saves in week05/out '
+    'with prompt, model revision, versions and settings alongside it. Predict which '
+    'properties should remain if only the seed changes. Then try seed 8 and inspect '
+    'the image, without describing more steps or guidance as universal quality sliders.'))
+S.append(content('04 · RUN IT IN PYTHON · INSPECT', 'Check the image against the prompt', [
+    '**Requested:** orange ceramic sphere, cream paper, soft shadow, centered composition.',
+    '',
+    '**Run:** Stable Diffusion 1.5, seed 7, 20 steps, guidance 7.5, 512 x 512 pixels.',
+    '',
+    'Which requirements are visible? Keep a copy, change only the seed, then compare.',
+    '',
+    '{muted:Prepared output from the Python demo. Settings saved beside the image.}',
+], image='week05-stable-diffusion-7.png', fit='contain',
+   notes='This is the actual output of the linked Diffusers script on the teaching laptop, '
+    'not an illustration from another generator. Use it if a live run or download would '
+    'interrupt class. Ask for evidence of each prompt constraint, rather than calling the '
+    'image correct merely because generation completed. This seed-7 result has two spheres '
+    'and a matte surface: ask whether those meet the intended object count and material. '
+    'Model revision, package versions '
+    'and run settings are preserved in week05-stable-diffusion-7.json alongside the slide '
+    'asset. The saved elapsed time includes model loading; it is not a general speed '
+    'benchmark. Changing the seed rerolls noise; changing the prompt changes conditioning.'))
 S.append(content('04 · MODEL BOUNDARY', 'One diagram, not every image model', [
     'This diagram explains one **classic latent-diffusion** path: text features '
     'condition a denoiser; a VAE decoder turns the final latent into pixels.',
@@ -668,16 +740,18 @@ S.append(content('05 · DO THE GLYPHS STILL MATCH?', 'Generated text is not guar
     'rendering; compare it to the deterministic ASCII file before discussing '
     'quality. A teacher may demonstrate a real image edit only after preflighting '
     'the model and input-image controls; no student keys or paid calls required.'))
-S.append(content('05 · OPTIONAL INSTRUCTOR DEMO', 'ComfyUI / local model: useful, not required', [
-    'If ComfyUI has a local checkpoint ready, compare its setup, latency and output with the API.',
+S.append(content('05 · OPTIONAL INSTRUCTOR DEMO', 'Local pipeline or API: compare the boundaries', [
+    'Our Python demo runs Diffusers locally. The API sends a request to a service; both return image data.',
     '',
-    'The 2025 Stable Diffusion, LCM and ControlNet scripts are references, not a guarantee that every laptop can run them.',
+    'Compare setup, wait time and the controls you can inspect. Which model and settings made each result?',
     '',
-    '{muted:If the model is not ready, keep the lesson moving with the API result and a prepared screenshot.}',
+    '{muted:Use the saved Python result if the local model is not ready. ComfyUI is another optional interface.}',
 ], notes='Do not ask students to install PyTorch, download a checkpoint or create API credentials '
     'as a condition of completing the exercise. Rehearse the local pipeline on the actual demo '
-    'machine. CPU execution may be slow and half-precision GPU settings do not transfer safely '
-    'to every device. This draft should explain fallback, not promise a live run.'))
+    'machine. The current pfad/week05/diffusion example has tested device selection and '
+    'uses full precision on CPU/MPS. ComfyUI and the archived LCM/ControlNet scripts remain '
+    'optional references. Comparing different models across local and hosted interfaces '
+    'is exploratory; it is not a controlled quality comparison.'))
 
 # 06 · A low-stakes bridge toward the interactive experience project.
 S.append(section('06', 'From image to interaction', 'Start with what someone can do'))

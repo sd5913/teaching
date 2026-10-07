@@ -40,6 +40,8 @@ By the end of class, students can:
 - contrast GAN, VAE and diffusion at a high level; trace one Stable Diffusion path and
   distinguish CLIP, text conditioning, U-Net and VAE roles, including weights versus
   latents in training and generation;
+- read a Diffusers pipeline load and generation call, identify prompt/seed/steps, and
+  explain how its returned Pillow image becomes a saved PNG;
 - describe the request, wait and response in an image API exercise, using the previous
   week's vocabulary; write a constrained prompt and judge the result against an
   observable requirement rather than assuming text specifies every pixel;
@@ -68,6 +70,15 @@ chosen representation.
   machine. Keep credentials out of the deck and any student-facing files.
 - Prepare one saved API result as a fallback. Generation latency or service availability
   should not consume the interaction exercise.
+- Preflight the optional [current Diffusers demo](https://github.com/sd5913/pfad/tree/2026/week05/diffusion)
+  in its separate Python 3.12 environment. Use `uv pip install --torch-backend auto -r
+  requirements.txt`, then `uv run --no-project generate.py --check` and one full run.
+  Download the libraries and Stable Diffusion 1.5 weights before class; uv chooses a
+  PyTorch build but does not install the NVIDIA driver. The prepared seed-7 image and
+  settings in `deck/assets/week05-stable-diffusion-7.*` are the fallback. Keep installation
+  optional; the main tutorial still needs no GPU or model download.
+  For a CUDA live demo, add `--device cuda` to both the check and generation commands
+  so a disabled GPU fails before loading weights rather than silently using CPU.
 - The active `pfad` `2026` branch has the matching
   [`week05` tutorial and examples](https://github.com/sd5913/pfad/tree/2026/week05).
   Pull before class; the frozen `2025` model/webcam examples remain historical references.
@@ -107,6 +118,8 @@ chosen representation.
   on the teaching device. Treat it as an instructor demonstration; do not require student
   installation or promise that the archive's dependencies run on every laptop. In particular,
   the archived `2_gen_image.py` passes float16 even when selecting CPU; test the exact path.
+  The current `week05/diffusion/generate.py` uses float16 on CUDA and float32 on CPU/MPS,
+  pins the model revision, and saves the prompt, settings and package versions.
 - The in-slide animation example writes `moving-dot.gif` from three generated still
   frames, using Pillow only. The archived
   [`st_video_stream.py`](https://github.com/sd5913/pfad/blob/2025/week05/st_video_stream.py)
@@ -125,7 +138,7 @@ chosen representation.
 | 0:43–0:53 | Tools and rules | Compare NumPy/Pillow representations, read the local noise script and change one rule in the browser RGB grid. |
 | 0:53–1:00 | Source marks → text | Recall the pixel yarn-ball and arrow-plus-underscore from introductions. Change text-column resolution on the ASCII slider; compare with the local `ascii-magic` code. |
 | 1:00–1:10 | Frames into motion | Run the Pillow GIF locally if prepared; edit positions or rate in the live p5 sketch. Distinguish a GIF from compressed video. |
-| 1:10–1:27 | Image-model paths | Contrast CLIP alignment with text conditioning; trace VAE sampling, known noise, training weight updates and fixed-weight generation. GAN/LCM/ControlNet are optional. |
+| 1:10–1:27 | Image-model paths + Python | Trace CLIP/text conditioning, training weight updates and fixed-weight generation. Map the diagram to Diffusers: load, prompt + seed, save a Pillow image, inspect the prepared result. Use a preloaded live run only if ready; GAN/LCM/ControlNet are optional. |
 | 1:27–1:31 | Size and settings | Discuss historical model/VRAM estimates and service vs local run. |
 | 1:31–1:35 | API recall | Print and revise a JSON prompt request in the browser, without a credential or network call. |
 | 1:35–1:50 | Generate and edit | If preflighted, request an image through Easel; compare the actual 56-column ASCII edit input with its draft CRT result, then the arrow-and-underscore source with its wool result. Check glyph fidelity and silhouette. |
@@ -183,6 +196,13 @@ student's own icon is a personal, optional profile choice, never a course requir
 - **Latent diffusion:** the 2025 PDF p. 44 shows one text-conditioned path: text encoder,
   repeated U-Net denoising in latent space, then VAE decoding. Its 64 x 64 latent and 50-step
   loop are one illustration, not universal settings or architecture.
+- **Current Python demo:** `StableDiffusionPipeline.from_pretrained` loads a pretrained
+  pipeline; `.to(device)` places its tensors. Calling it updates latents, not weights.
+  `.images[0]` returns a Pillow image that can be saved with the same operation used
+  earlier. A CPU `torch.Generator` seeds the initial noise even for CUDA inference.
+  A matching seed helps repeat a run but does not ensure identical pixels across devices
+  or package versions. The two code slides are readable excerpts; the student script
+  also supports MPS, pins the checkpoint revision and records provenance.
 - **LCM and ControlNet:** keep these as optional repository-code extras from
   [`3_gen_image_lcm.py`](https://github.com/sd5913/pfad/blob/2025/week05/3_gen_image_lcm.py)
   and [`4_controlnet_canny.py`](https://github.com/sd5913/pfad/blob/2025/week05/4_controlnet_canny.py),
@@ -222,6 +242,11 @@ deadline until the Assignment 3 brief is confirmed.
 - **Current `pfad` examples:** `2026/week05` provides `tiny_image.py`, `image_array.py`,
   `noise.py`, `make_gif.py`, `logo_ascii.py`, and `request_image.py`, with local tests.
   They keep the core tutorial independent of a camera, a GPU or an API account.
+  The optional [`diffusion/`](https://github.com/sd5913/pfad/tree/2026/week05/diffusion)
+  adds pinned Diffusers/PyTorch requirements, `generate.py` and offline device/precision
+  tests. Its output is the prepared image on the new inspection slide. Setup follows
+  the [official uv/PyTorch guide](https://docs.astral.sh/uv/guides/integration/pytorch/)
+  and the [Diffusers seed guide](https://huggingface.co/docs/diffusers/en/using-diffusers/reusing_seeds).
 - **Archived `pfad` references:** these historical links target the frozen `2025` branch:
   [`1_random_image.py`](https://github.com/sd5913/pfad/blob/2025/week05/1_random_image.py)
   is a NumPy/Pillow noise example, and
