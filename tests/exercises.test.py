@@ -123,6 +123,20 @@ SOLUTIONS = {
         'print(to_xy(12, 1.35))',
     # week 04 · live output depends on the deployed API
     'ask-the-deployed-api': None,
+    # week 05 · values and procedural pixels, rendered as SVG in the browser
+    'a-value-becomes-a-shade': lambda mod: (
+        [e for s in mod.DECK['slides'] for e in s.els
+         if e.kind == 'exercise' and e.eid == 'a-value-becomes-a-shade'][0].code
+        .replace('255 - value', 'value')),
+    'change-the-rule-change-the-image': lambda mod: (
+        [e for s in mod.DECK['slides'] for e in s.els
+         if e.kind == 'exercise' and e.eid == 'change-the-rule-change-the-image'][0].code
+        .replace('blue = 255 if x < 6 else 0', 'blue = 255 if y < 6 else 0')),
+    'a-prompt-is-part-of-the-request': (
+        'import json\n'
+        'prompt = "An orange circle on paper, centered on cream"\n'
+        'request = {"prompt": prompt, "size": "1024x1024", "n": 1}\n'
+        'print(json.dumps(request, indent=2))'),
 }
 
 

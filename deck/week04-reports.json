@@ -1,0 +1,35 @@
+[
+  {
+    "activity": "iu20260924014900381NEUH",
+    "question": "Upload your first plot.",
+    "type": "Image Upload",
+    "ran": "2026-09-24T01:49:00.381000Z",
+    "responses": 32
+  },
+  {
+    "activity": "mc20260924015523652SKXD",
+    "question": "Which mark should represent SD5913?",
+    "type": "Multiple Choice",
+    "ran": "2026-09-24T01:55:23.652000Z",
+    "responses": 84
+  },
+  {
+    "activity": "mc20260924020647355REZO",
+    "question": "After someone chooses day 17, what is the state?",
+    "type": "Multiple Choice",
+    "ran": "2026-09-24T02:06:47.355000Z",
+    "responses": 74
+  },
+  {
+    "activity": null,
+    "question": "Which pattern best fits a browser button?",
+    "type": "Multiple Choice",
+    "withheld": "no matching activity in the provided export"
+  },
+  {
+    "activity": null,
+    "question": "In the tide app, what does the service send back?",
+    "type": "Multiple Choice",
+    "withheld": "no matching activity in the provided export"
+  }
+]
