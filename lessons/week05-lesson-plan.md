@@ -1,8 +1,11 @@
-# SD5913 · Week 5 lesson plan
+# SD5913 · 8 October 2026 lesson plan (`week05`)
 
-**Images & video: pixels, models and interaction** · 2 hours. Date and any room-specific
-arrangements remain to be confirmed after the 1 October holiday. The deck is
-`deck/week05.py`; it extends the Week 4 API request/response example.
+**8 October 2026 · Images & video: pixels, models and interaction** · 2 hours.
+This is `week05` content taught one Thursday later after the 1 October holiday.
+Keep repository names and routes aligned with PFAD; use calendar dates rather than
+week numbers for teaching dates from here on. The deck is `deck/week05.py`; it
+extends the previous API request/response example. Do not infer a final semester
+date from the one-week shift.
 
 ## Purpose
 
@@ -56,6 +59,11 @@ chosen representation.
 
 ## Before class
 
+- Preflight the [official DHH keynote](https://www.youtube.com/watch?v=vDjW_dRyKXY&t=1694s),
+  sound and YouTube access. Play 28:14–31:14 of the edited video and stop manually;
+  the player does not stop automatically. Test both independent ClassPoint votes,
+  or use a show of hands if the add-in is unavailable. Keep the first vote hidden
+  until the second one is complete.
 - Check the Easel client, classroom connection and intended model options on the teaching
   machine. Keep credentials out of the deck and any student-facing files.
 - Prepare one saved API result as a fallback. Generation latency or service availability
@@ -104,9 +112,9 @@ chosen representation.
 
 | Time | Segment | Instructor move / student action |
 |---|---|---|
-| 0:00–0:05 | Set the path | Today: Python values → a grid → visible pixels → generated images. |
-| 0:05–0:18 | Types and lists | Recall `int`, `float`, `str`, `bool`; read list positions from zero. |
-| 0:18–0:30 | Rows become a grid | Nest lists; predict a pixel, then correct the in-slide grayscale SVG. |
+| 0:00–0:10 | Before / after | Vote on understanding code, inspect dated AI news, watch the short Rust excerpt, vote again. Ask what evidence would change a mind. |
+| 0:10–0:20 | Types and lists | Recall `int`, `float`, `str`, `bool`; read list positions from zero. |
+| 0:20–0:30 | Rows become a grid | Nest lists; predict a pixel, then correct the in-slide grayscale SVG. |
 | 0:30–0:43 | Values become pixels | Map numbers to grayscale, then group three channel values into RGB. |
 | 0:43–0:53 | Tools and rules | Compare NumPy/Pillow representations, read the local noise script and change one rule in the browser RGB grid. |
 | 0:53–1:00 | Source marks → text | Recall the pixel yarn-ball and arrow-plus-underscore from introductions. Change text-column resolution on the ASCII slider; compare with the local `ascii-magic` code. |
@@ -121,6 +129,23 @@ chosen representation.
 The API study is exploratory rather than a controlled model comparison: only call it
 controlled if the client exposes a seed and the relevant settings are held fixed. The
 interaction seed is a warm-up, not a new submission requirement.
+
+## Opening discussion
+
+The two independent ClassPoint polls ask the same neutral question: **Should a
+developer understand every line of code they ship?** A: Agree; B: Unsure; C:
+Disagree. The sequence is a conversation, not a controlled experiment or a
+preferred answer. The [13 May 2025 DHH post](https://world.hey.com/dhh/coding-should-be-a-vibe-50908f49)
+argues for enjoying code while already using LLMs daily. The
+[23 September 2026 keynote](https://www.youtube.com/watch?v=vDjW_dRyKXY&t=1694s)
+argues for wider agent-written code; ask students to separate claims and evidence.
+The [22 September Anthropic release](https://www.anthropic.com/claude-opus-5-5),
+[29 September OpenAI model release](https://openai.com/index/introducing-gpt-6-1-sol/)
+and [29 September dots announcement](https://openai.com/index/introducing-dots/)
+are vendor sources using different benchmarks or describing a product. The 29
+September releases followed the keynote and cannot explain what DHH said on the
+23rd. Return to the lesson's practice: inspect representations, predict a change,
+run it, and check the result. Do not require any student account for the news.
 
 The marks are not final A/B candidates yet. Mark 18 (yarn-ball) goes from pixels to
 ASCII characters and then an edited CRT setting; Mark 38 (separate arrow and

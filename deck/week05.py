@@ -8,14 +8,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import week05_figures as F
 from week05_examples import (API_EXAMPLE, FRAME_EXAMPLE, NOISE_EXAMPLE,
                              TINY_PIXEL_EXAMPLE)
-from deckgen import attach_reports
+from week05_news import news_slides
+from deckgen import T, attach_reports
 from deckgen.layouts import (agenda, cards, code_slide, content, end, exercise,
                              figure_slide, live, question, section, statement,
                              timeline, two_col, title)
 
 COURSE = 'SD5913'
 SITE = 'sd5913.github.io/teaching'
-EYE = 'SD5913 · WEEK 05'
+EYE = 'SD5913 · 8 OCTOBER 2026'
 S = []
 
 
@@ -24,7 +25,19 @@ cover = title(EYE, 'Images & video', 'Pixels, models and interaction.')
 cover.notes = ('Move from the Week 4 API example to the data a picture contains, then ask '
                'what changes when time joins the image axes. Keep this as a bridge from '
                'code students can read to models they will inspect, not a product launch.')
+cover.els.append(T(120, 400, 1680, 105,
+    '8 October 2026 · week05 content in the repository\n'
+    'The 1 October holiday moved this session one Thursday later.',
+    'body', 30, '#CCDADD', lh=1.3))
 S.append(cover)
+# Keep literal question titles here for the after-class report scanner.
+before_news = content('BEFORE · 13 MAY 2025',
+    'BEFORE: Should a developer understand every line of code they ship?', [],
+    cp={'type': 'multiple_choice', 'choices': ['A', 'B', 'C']})
+after_news = content('AFTER · 23 SEPTEMBER 2026 · RAILS WORLD',
+    'AFTER: Should a developer understand every line of code they ship?', [],
+    cp={'type': 'multiple_choice', 'choices': ['A', 'B', 'C']})
+S.extend(news_slides(before_news, after_news))
 agenda_slide = agenda(EYE, [
     'Recall values, types, lists and positions',
     'Build a grid, then read it as pixels',
@@ -685,5 +698,5 @@ S.append(end('Make the data visible. Make the response legible.',
 
 attach_reports(S, Path(__file__).resolve().parent / 'week05-reports.json')
 
-DECK = {'title': f'{COURSE} · Week 5 — Images & video',
+DECK = {'title': f'{COURSE} · 8 October 2026 — Images & video',
         'pdf': f'{COURSE}-week05.pdf', 'slides': S}

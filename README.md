@@ -29,6 +29,16 @@ Two GitHub Actions workflows run on every push to `main` (and on demand):
 
 Generated and git-ignored: `_site/`, `export/`, `deck/assets/generated/`, `node_modules/`.
 
+## Content names and teaching dates
+
+Keep `week05`, `/week05/`, and later numbered folders aligned with the student
+repository. After the 1 October 2026 holiday, content numbers no longer match
+calendar teaching weeks: `week05` is taught on **8 October 2026**, in calendar
+week 6 of the course. From this lesson onward, use confirmed calendar dates on
+student-facing slides and site listings rather than calling a class "this week" or
+relabeling its source folder. Content `week13` is expected in calendar week 14,
+in December; do not publish an exact December date until the timetable confirms it.
+
 ## Build locally
 
 ```bash

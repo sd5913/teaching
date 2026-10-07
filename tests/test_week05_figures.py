@@ -25,9 +25,9 @@ class Week05FigureTests(unittest.TestCase):
 
     def test_diffusion_diagram_shows_latent_encoding_before_training_noise(self):
         svg = self.render('diffusion_training')
-        self.assertIn('VAE encoder -> z0', svg)
-        self.assertIn('sample zt', svg)
-        self.assertIn('noisy latent', svg)
+        self.assertLess(svg.index('VAE encoder'), svg.index('add noise'))
+        self.assertIn('image to latent z0', svg)
+        self.assertIn('noisy latent zt', svg)
         self.assertIn('random noise zT', svg)
         self.assertIn('updates model weights', svg)
         self.assertIn('weights stay fixed', svg)

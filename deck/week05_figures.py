@@ -75,26 +75,22 @@ def grayscale_grid(name='week05-grayscale-grid', w=940, h=520):
 def frame_sequence(name='week05-frame-sequence', w=1500, h=460):
     """Show a moving subject represented by ordered still frames."""
     c = Canvas(w, h, bg=PAPER)
-    teal = '#246E70'
-    frame_w, frame_h, gap = 340, 240, 105
-    x0, y0 = 35, 80
-    positions = (75, 170, 265)
+    frame_w, frame_h, gap = 370, 240, 130
+    x0, y0 = 65, 70
+    positions = (75, 185, 295)
     for i, pos in enumerate(positions):
         x = x0 + i * (frame_w + gap)
-        c.rect(x, y0, frame_w, frame_h, fill='#FFFFFF', stroke=teal, width=3)
+        c.rect(x, y0, frame_w, frame_h, fill='#FFFFFF', stroke=TEAL, width=3)
         c.circle(x + pos, y0 + 115, 28, fill=ORANGE, stroke=INK, width=2)
-        c.text(x + frame_w / 2, y0 + frame_h + 38, f'frame {i}', 23, INK,
+        c.text(x + frame_w / 2, y0 + frame_h + 45, f'frame {i}', 34, INK,
                anchor='middle', mono=True, weight=700)
         if i < 2:
-            ax = x + frame_w + 14
-            c.line(ax, y0 + frame_h / 2, ax + gap - 28, y0 + frame_h / 2,
-                   ORANGE, 4)
-            c.line(ax + gap - 48, y0 + frame_h / 2 - 13,
-                   ax + gap - 28, y0 + frame_h / 2, ORANGE, 4)
-            c.line(ax + gap - 48, y0 + frame_h / 2 + 13,
-                   ax + gap - 28, y0 + frame_h / 2, ORANGE, 4)
-    c.text(w / 2, 425, 'frame index -> time; frame rate controls playback speed',
-           24, teal, anchor='middle')
+            ax, end = x + frame_w + 16, x + frame_w + gap - 16
+            c.line(ax, 190, end, 190, ORANGE, 4)
+            c.line(end - 20, 177, end, 190, ORANGE, 4)
+            c.line(end - 20, 203, end, 190, ORANGE, 4)
+    c.text(w / 2, 425, 'Frame order gives time. Frame rate controls playback speed.',
+           32, TEAL, anchor='middle', mono=False)
     return c.finish(name)
 
 
@@ -109,254 +105,199 @@ def frame_preview(name='week05-frame-preview', w=640, h=360):
 def clip_alignment(name='week05-clip-alignment', w=1500, h=500):
     """Show CLIP matching text and images in a shared representation space."""
     c = Canvas(w, h, bg=PAPER)
-    teal = '#246E70'
-    orange = '#E87835'
-    ink = '#000B1C'
-
-    boxes = [
-        (35, 100, 215, 100, 'text prompts', 'captions'),
-        (310, 100, 250, 100, 'Text encoder', 'text vectors'),
-        (35, 285, 215, 100, 'images', 'visual examples'),
-        (310, 285, 250, 100, 'Image encoder', 'image vectors'),
-    ]
-    for x, y, bw, bh, heading, detail in boxes:
-        c.rect(x, y, bw, bh, fill='#FFFFFF', stroke=teal, width=3)
-        c.text(x + bw / 2, y + 43, heading, 22, ink,
-               anchor='middle', mono=True, weight=700)
-        c.text(x + bw / 2, y + 76, detail, 18, teal,
+    for y, source, encoder, vector in (
+        (90, 'captions', 'Text encoder', 'text vectors'),
+        (285, 'images', 'Image encoder', 'image vectors'),
+    ):
+        c.rect(30, y, 225, 110, fill='#FFFFFF', stroke=TEAL, width=3)
+        c.text(142.5, y + 66, source, 34, INK,
+               anchor='middle', mono=False, weight=700)
+        c.rect(310, y, 305, 110, fill='#FFFFFF', stroke=TEAL, width=3)
+        c.text(462.5, y + 45, encoder, 34, INK,
+               anchor='middle', mono=False, weight=700)
+        c.text(462.5, y + 86, vector, 30, TEAL,
                anchor='middle', mono=False)
+        c.line(267, y + 55, 297, y + 55, ORANGE, 4)
+        c.line(281, y + 43, 297, y + 55, ORANGE, 4)
+        c.line(281, y + 67, 297, y + 55, ORANGE, 4)
 
-    # Both encoded inputs feed a matrix of relative text-image similarity scores.
-    c.line(250, 150, 292, 150, orange, 4)
-    c.line(273, 138, 292, 150, orange, 4)
-    c.line(273, 162, 292, 150, orange, 4)
-    c.line(250, 335, 292, 335, orange, 4)
-    c.line(273, 323, 292, 335, orange, 4)
-    c.line(273, 347, 292, 335, orange, 4)
-
-    grid_x, grid_y, cell_w, cell_h = 850, 145, 92, 68
-    c.text(grid_x + 138, 80, 'TEXT EMBEDDINGS', 19, teal,
-           anchor='middle', weight=700)
-    c.text(665, 416, 'IMAGE EMBEDDINGS', 17, teal,
-           anchor='middle', weight=700)
-    c.line(560, 150, 730, 150, orange, 4)
-    c.line(730, 150, 730, 110, orange, 4)
-    c.line(730, 110, 965, 110, orange, 4)
-    c.line(953, 122, 965, 110, orange, 4)
-    c.line(977, 122, 965, 110, orange, 4)
-    c.line(560, 335, 800, 335, orange, 4)
-    c.line(800, 335, 800, 250, orange, 4)
-    c.line(800, 250, 850, 250, orange, 4)
-    c.line(830, 238, 850, 250, orange, 4)
-    c.line(830, 262, 850, 250, orange, 4)
+    # Columns represent text vectors, rows image vectors; diagonal pairs match.
+    grid_x, grid_y, cell_w, cell_h = 860, 145, 108, 76
+    c.text(1022, 69, 'Text vectors', 32, TEAL,
+           anchor='middle', mono=False, weight=700)
+    c.text(720, 423, 'Image vectors', 30, TEAL,
+           anchor='middle', mono=False, weight=700)
+    c.line(627, 145, 747, 145, ORANGE, 4)
+    c.line(747, 145, 747, 96, ORANGE, 4)
+    c.line(747, 96, 1022, 96, ORANGE, 4)
+    c.line(1022, 96, 1022, 130, ORANGE, 4)
+    c.line(1010, 112, 1022, 130, ORANGE, 4)
+    c.line(1034, 112, 1022, 130, ORANGE, 4)
+    c.line(627, 340, 777, 340, ORANGE, 4)
+    c.line(777, 340, 777, 259, ORANGE, 4)
+    c.line(777, 259, 846, 259, ORANGE, 4)
+    c.line(828, 247, 846, 259, ORANGE, 4)
+    c.line(828, 271, 846, 259, ORANGE, 4)
 
     for row in range(3):
         for col in range(3):
-            x = grid_x + col * cell_w
-            y = grid_y + row * cell_h
+            x, y = grid_x + col * cell_w, grid_y + row * cell_h
             fill = '#DCEBE5' if row == col else '#F0E6D7'
-            label = 'high' if row == col else 'lower'
             c.rect(x, y, cell_w - 6, cell_h - 6, fill=fill,
                    stroke='#FFFFFF', width=2)
-            c.text(x + (cell_w - 6) / 2, y + 39, label, 16, ink,
+            c.text(x + (cell_w - 6) / 2, y + 47,
+                   'high' if row == col else 'low', 30, INK,
                    anchor='middle', mono=False, weight=700)
-        c.text(grid_x + row * cell_w + (cell_w - 6) / 2, 132,
-               f'T{row + 1}', 18, ink, anchor='middle', mono=True)
-
-    c.rect(1170, 170, 270, 150, fill='#FFF1E7', stroke=teal, width=3)
-    c.text(1305, 224, 'rank pairs', 24, ink, anchor='middle', weight=700)
-    c.text(1305, 265, 'higher score = closer match', 17, teal,
-           anchor='middle', mono=False)
-    c.text(988, 375, 'similarity scores', 17, teal,
-           anchor='middle', mono=False)
-    c.text(w / 2, 455, 'CLIP scores image-text pairs; it is not a generator.',
-           23, ink, anchor='middle', mono=False)
+    c.text(1022, 420, 'similarity', 30, TEAL, anchor='middle', mono=False)
+    c.rect(1230, 175, 245, 170, fill='#FFF1E7', stroke=TEAL, width=3)
+    c.text(1352.5, 220, 'rank pairs', 34, INK,
+           anchor='middle', mono=False, weight=700)
+    c.text(1352.5, 267, 'high score:', 30, TEAL, anchor='middle', mono=False)
+    c.text(1352.5, 308, 'closer match', 30, TEAL, anchor='middle', mono=False)
+    c.text(w / 2, 478, 'CLIP matches images and text. It is not a generator.',
+           32, INK, anchor='middle', mono=False)
     return c.finish(name)
 
 
 def diffusion_training(name='week05-diffusion-training', w=1500, h=560):
     """Separate latent-space denoiser training from latent-space generation."""
     c = Canvas(w, h, bg=PAPER)
-    teal = '#246E70'
-    orange = '#E87835'
-    ink = '#000B1C'
-    x_positions = (40, 330, 620, 910, 1200)
-    box_w, box_h = 220, 118
-
-    c.text(40, 52, 'TRAIN', 25, teal, weight=700)
+    x_positions = (30, 410, 790, 1170)
+    box_w, box_h = 300, 130
     training = [
-        ('encode image', 'VAE encoder -> z0'),
-        ('add noise', 'at timestep t'),
-        ('sample zt', 'noisy latent'),
-        ('U-Net', 'predicts noise'),
-        ('compare', 'update weights'),
+        ('VAE encoder', 'image to latent z0'),
+        ('add noise', 'noisy latent zt'),
+        ('U-Net', 'predict noise'),
+        ('compare', 'prediction vs noise'),
     ]
-    for x, (heading, detail) in zip(x_positions, training):
-        c.rect(x, 78, box_w, box_h, fill='#FFFFFF', stroke=teal, width=3)
-        c.text(x + box_w / 2, 123, heading, 21, ink,
-               anchor='middle', mono=True, weight=700)
-        c.text(x + box_w / 2, 158, detail, 17, teal,
-               anchor='middle', mono=False)
-    for x in x_positions[:-1]:
-        start, end = x + box_w + 6, x + 276
-        c.line(start, 137, end, 137, orange, 4)
-        c.line(end - 18, 125, end, 137, orange, 4)
-        c.line(end - 18, 149, end, 137, orange, 4)
-
-    c.text(w / 2, 260,
-           'Training: known sampled noise is the target; its error updates model weights.',
-           21, ink, anchor='middle', mono=False)
-    c.text(40, 320, 'GENERATE', 25, teal, weight=700)
     generation = [
         ('random noise zT', 'starting latent'),
-        ('U-Net x N', 'prompt-guided steps'),
-        ('clean latent z0', 'final representation'),
+        ('U-Net x N', 'clean latent z0'),
         ('VAE decoder', 'latent to pixels'),
         ('RGB image', 'visible result'),
     ]
-    for x, (heading, detail) in zip(x_positions, generation):
-        c.rect(x, 346, box_w, box_h, fill='#FFFFFF', stroke=teal, width=3)
-        c.text(x + box_w / 2, 391, heading, 20, ink,
-               anchor='middle', mono=True, weight=700)
-        c.text(x + box_w / 2, 426, detail, 17, teal,
-               anchor='middle', mono=False)
-    for x in x_positions[:-1]:
-        start, end = x + box_w + 6, x + 276
-        c.line(start, 405, end, 405, orange, 4)
-        c.line(end - 18, 393, end, 405, orange, 4)
-        c.line(end - 18, 417, end, 405, orange, 4)
-
-    c.text(w / 2, 515,
-           'Generation: weights stay fixed while the noisy latent changes each step.',
-           20, ink, anchor='middle', mono=False)
+    for section, title_y, box_y, stages in (
+        ('TRAIN', 46, 70, training),
+        ('GENERATE', 316, 340, generation),
+    ):
+        c.text(30, title_y, section, 34, TEAL, mono=False, weight=700)
+        for x, (heading, detail) in zip(x_positions, stages):
+            c.rect(x, box_y, box_w, box_h, fill='#FFFFFF', stroke=TEAL, width=3)
+            c.text(x + box_w / 2, box_y + 52, heading, 34, INK,
+                   anchor='middle', mono=False, weight=700)
+            c.text(x + box_w / 2, box_y + 98, detail, 30, TEAL,
+                   anchor='middle', mono=False)
+        for x in x_positions[:-1]:
+            start, end, y = x + box_w + 12, x + 368, box_y + box_h / 2
+            c.line(start, y, end, y, ORANGE, 4)
+            c.line(end - 18, y - 12, end, y, ORANGE, 4)
+            c.line(end - 18, y + 12, end, y, ORANGE, 4)
+    c.text(w / 2, 254, 'Prediction error updates model weights.',
+           32, INK, anchor='middle', mono=False)
+    c.text(w / 2, 525, 'Generation changes the latent; model weights stay fixed.',
+           32, INK, anchor='middle', mono=False)
     return c.finish(name)
 
 
 def vae_path(name='week05-vae-path', w=1500, h=430):
     """Show encoding, a compact latent, and reconstruction."""
     c = Canvas(w, h, bg=PAPER)
-    teal = '#246E70'
-    orange = '#E87835'
-    ink = '#000B1C'
     labels = [
-        ('image x', 'input pixels'),
+        ('image x', 'pixels'),
         ('encoder', 'mean + variance'),
-        ('sample z', 'compact latent'),
+        ('latent z', 'sample z'),
         ('decoder', 'reconstructs'),
-        ('image x-hat', 'reconstruction'),
+        ('image x-hat', 'rebuilt pixels'),
     ]
-    box_y, box_h, box_w, gap = 130, 145, 245, 50
+    box_y, box_h, box_w, gap = 100, 150, 260, 40
     for i, (heading, detail) in enumerate(labels):
-        x = 20 + i * (box_w + gap)
+        x = 25 + i * (box_w + gap)
         fill = '#FFFFFF' if i % 2 == 0 else '#E8F0EF'
-        c.rect(x, box_y, box_w, box_h, fill=fill, stroke=teal, width=3)
-        c.text(x + box_w / 2, box_y + 58, heading, 25, ink,
-               anchor='middle', mono=True, weight=700)
-        c.text(x + box_w / 2, box_y + 101, detail, 20, teal, anchor='middle')
+        c.rect(x, box_y, box_w, box_h, fill=fill, stroke=TEAL, width=3)
+        c.text(x + box_w / 2, box_y + 61, heading, 34, INK,
+               anchor='middle', mono=False, weight=700)
+        c.text(x + box_w / 2, box_y + 110, detail, 30, TEAL,
+               anchor='middle', mono=False)
         if i < len(labels) - 1:
-            ax = x + box_w + 8
-            c.line(ax, box_y + box_h / 2, ax + gap - 18, box_y + box_h / 2,
-                   orange, 4)
-            c.line(ax + gap - 38, box_y + box_h / 2 - 12,
-                   ax + gap - 18, box_y + box_h / 2, orange, 4)
-            c.line(ax + gap - 38, box_y + box_h / 2 + 12,
-                   ax + gap - 18, box_y + box_h / 2, orange, 4)
-    c.text(w / 2, 360, 'The encoder models a distribution; a sampled z gives an approximate reconstruction.',
-           23, ink, anchor='middle')
-    c.text(w / 2, 398, 'Sampling a latent can make a new image; this is not the same as diffusion.',
-           21, teal, anchor='middle')
+            start, end, y = x + box_w + 9, x + box_w + gap - 10, box_y + box_h / 2
+            c.line(start, y, end, y, ORANGE, 4)
+            c.line(end - 17, y - 12, end, y, ORANGE, 4)
+            c.line(end - 17, y + 12, end, y, ORANGE, 4)
+    c.text(w / 2, 330, 'A VAE learns a compact representation and a path back to pixels.',
+           32, INK, anchor='middle', mono=False)
+    c.text(w / 2, 388, 'Sampling a latent can generate an image without diffusion.',
+           30, TEAL, anchor='middle', mono=False)
     return c.finish(name)
 
 
 def latent_diffusion(name='week05-latent-diffusion', w=1600, h=520):
-    """Show one common text-conditioned latent-diffusion generation path."""
+    """Show the classic text-conditioned Stable Diffusion generation path."""
     c = Canvas(w, h, bg=PAPER)
-    teal = '#246E70'
-    orange = '#E87835'
-    ink = '#000B1C'
-    box_y, box_h, box_w, gap = 245, 145, 260, 54
+    box_y, box_h, box_w, gap = 245, 145, 270, 50
     labels = [
-        ('latent noise', 'random starting point'),
-        ('U-Net x N', 'noise prediction'),
-        ('clean latent', 'compact representation'),
-        ('VAE decoder', 'map latent to pixels'),
-        ('image', 'visible RGB output'),
+        ('latent noise', 'random start'),
+        ('U-Net x N', 'denoise steps'),
+        ('clean latent', 'compact code'),
+        ('VAE decoder', 'decode pixels'),
+        ('image', 'RGB output'),
     ]
     for i, (title, detail) in enumerate(labels):
-        x = 20 + i * (box_w + gap)
+        x = 25 + i * (box_w + gap)
         fill = '#FFFFFF' if i % 2 == 0 else '#E8F0EF'
-        c.rect(x, box_y, box_w, box_h, fill=fill, stroke=teal, width=3)
-        c.text(x + box_w / 2, box_y + 58, title, 27, ink,
-               anchor='middle', mono=True, weight=700)
-        c.text(x + box_w / 2, box_y + 104, detail, 19, teal, anchor='middle')
+        c.rect(x, box_y, box_w, box_h, fill=fill, stroke=TEAL, width=3)
+        c.text(x + box_w / 2, box_y + 58, title, 34, INK,
+               anchor='middle', mono=False, weight=700)
+        c.text(x + box_w / 2, box_y + 107, detail, 30, TEAL,
+               anchor='middle', mono=False)
         if i < len(labels) - 1:
-            ax = x + box_w + 8
-            c.line(ax, box_y + box_h / 2, ax + gap - 18, box_y + box_h / 2,
-                   orange, 4)
-            c.line(ax + gap - 38, box_y + box_h / 2 - 12,
-                   ax + gap - 18, box_y + box_h / 2, orange, 4)
-            c.line(ax + gap - 38, box_y + box_h / 2 + 12,
-                   ax + gap - 18, box_y + box_h / 2, orange, 4)
-
-    c.rect(30, 50, 245, 105, fill='#FFF1E7', stroke=orange, width=3)
-    c.text(152, 93, 'prompt', 25, ink, anchor='middle', mono=True, weight=700)
-    c.text(152, 129, 'words as input', 18, teal, anchor='middle')
-    c.rect(345, 50, 260, 105, fill='#FFF1E7', stroke=orange, width=3)
-    c.text(475, 93, 'text encoder', 25, ink, anchor='middle', mono=True, weight=700)
-    c.text(475, 129, 'text features', 18, teal, anchor='middle')
-    c.line(275, 102, 345, 102, orange, 4)
-    c.line(328, 90, 345, 102, orange, 4)
-    c.line(328, 114, 345, 102, orange, 4)
-    c.line(475, 155, 475, 235, orange, 4)
-    c.line(463, 218, 475, 235, orange, 4)
-    c.line(487, 218, 475, 235, orange, 4)
-    c.text(650, 190, 'conditioning', 18, teal, anchor='middle')
-    c.text(w / 2, 466, 'The prompt guides denoising; the decoder turns the final latent into pixels.',
-           23, ink, anchor='middle')
+            start, end, y = x + box_w + 9, x + box_w + gap - 10, box_y + box_h / 2
+            c.line(start, y, end, y, ORANGE, 4)
+            c.line(end - 17, y - 12, end, y, ORANGE, 4)
+            c.line(end - 17, y + 12, end, y, ORANGE, 4)
+    c.rect(345, 45, 270, 115, fill='#FFF1E7', stroke=ORANGE, width=3)
+    c.text(480, 91, 'text encoder', 34, INK,
+           anchor='middle', mono=False, weight=700)
+    c.text(480, 135, 'prompt vectors', 30, TEAL, anchor='middle', mono=False)
+    c.line(480, 160, 480, 231, ORANGE, 4)
+    c.line(468, 212, 480, 231, ORANGE, 4)
+    c.line(492, 212, 480, 231, ORANGE, 4)
+    c.text(w / 2, 467, 'Prompt conditioning guides denoising; the VAE decoder returns pixels.',
+           32, INK, anchor='middle', mono=False)
     return c.finish(name)
 
 
 def controlnet_canny(name='week05-controlnet-canny', w=1500, h=500):
     """Show an edge map as an extra structural condition for generation."""
     c = Canvas(w, h, bg=PAPER)
-    teal = '#246E70'
-    orange = '#E87835'
-    ink = '#000B1C'
-    box_y, box_h, box_w, gap = 205, 140, 280, 65
+    box_y, box_h, box_w, gap = 220, 140, 310, 70
     labels = [
-        ('source image', 'input photograph'),
-        ('Canny edges', 'a structural guide'),
-        ('ControlNet', 'extra conditioning'),
-        ('new image', 'appearance varies'),
+        ('source image', 'input photo'),
+        ('Canny edges', 'structure guide'),
+        ('ControlNet', 'conditions SD'),
+        ('new image', 'new appearance'),
     ]
     for i, (heading, detail) in enumerate(labels):
-        x = 30 + i * (box_w + gap)
+        x = 25 + i * (box_w + gap)
         fill = '#FFF1E7' if i == 2 else '#FFFFFF'
-        c.rect(x, box_y, box_w, box_h, fill=fill, stroke=teal, width=3)
-        c.text(x + box_w / 2, box_y + 58, heading, 24, ink,
-               anchor='middle', mono=True, weight=700)
-        c.text(x + box_w / 2, box_y + 103, detail, 20, teal, anchor='middle')
+        c.rect(x, box_y, box_w, box_h, fill=fill, stroke=TEAL, width=3)
+        c.text(x + box_w / 2, box_y + 56, heading, 34, INK,
+               anchor='middle', mono=False, weight=700)
+        c.text(x + box_w / 2, box_y + 104, detail, 30, TEAL,
+               anchor='middle', mono=False)
         if i < len(labels) - 1:
-            ax = x + box_w + 8
-            c.line(ax, box_y + box_h / 2, ax + gap - 18, box_y + box_h / 2,
-                   orange, 4)
-            c.line(ax + gap - 38, box_y + box_h / 2 - 12,
-                   ax + gap - 18, box_y + box_h / 2, orange, 4)
-            c.line(ax + gap - 38, box_y + box_h / 2 + 12,
-                   ax + gap - 18, box_y + box_h / 2, orange, 4)
-
-    prompt_x = 720
-    c.rect(prompt_x, 25, box_w, 105, fill='#E8F0EF', stroke=teal, width=3)
-    c.text(prompt_x + box_w / 2, 65, 'text prompt', 24, ink,
-           anchor='middle', mono=True, weight=700)
-    c.text(prompt_x + box_w / 2, 101, 'describes appearance', 20, teal,
-           anchor='middle')
-    cx = prompt_x + box_w / 2
-    c.line(cx, 130, cx, 185, orange, 4)
-    c.line(cx - 12, 165, cx, 185, orange, 4)
-    c.line(cx + 12, 165, cx, 185, orange, 4)
-    c.text(w / 2, 430, 'Edges guide structure; the prompt guides appearance.',
-           24, ink, anchor='middle')
-    c.text(w / 2, 468, 'The output is a new candidate, not a pixel-perfect copy.',
-           21, teal, anchor='middle')
+            start, end, y = x + box_w + 10, x + box_w + gap - 12, box_y + box_h / 2
+            c.line(start, y, end, y, ORANGE, 4)
+            c.line(end - 18, y - 12, end, y, ORANGE, 4)
+            c.line(end - 18, y + 12, end, y, ORANGE, 4)
+    c.rect(785, 25, box_w, 115, fill='#E8F0EF', stroke=TEAL, width=3)
+    c.text(940, 71, 'text prompt', 34, INK,
+           anchor='middle', mono=False, weight=700)
+    c.text(940, 114, 'appearance', 30, TEAL, anchor='middle', mono=False)
+    c.line(940, 140, 940, 206, ORANGE, 4)
+    c.line(928, 187, 940, 206, ORANGE, 4)
+    c.line(952, 187, 940, 206, ORANGE, 4)
+    c.text(w / 2, 424, 'Edges guide structure. The prompt guides appearance.',
+           32, INK, anchor='middle', mono=False)
+    c.text(w / 2, 474, 'The output is a new image, not a pixel-perfect copy.',
+           30, TEAL, anchor='middle', mono=False)
     return c.finish(name)

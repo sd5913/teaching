@@ -44,14 +44,13 @@ jobs:
         deck: ${{ fromJson(needs.decks.outputs.decks) }}
     steps:
       - uses: actions/checkout@v4
-      # The key is everything that can change this deck's PowerPoint: its source, its
-      # answer links, the shared figures and assets, the course config, the deckgen pin
-      # and the exercise solutions. Same key, same files — restore and upload.
+      # Imported helpers (such as week05_news and week05_figures) affect the deck
+      # even when its entry-point file does not change.
       - id: cache
         uses: actions/cache@v4
         with:
           path: artifact
-          key: pptx-${{ matrix.deck }}-${{ hashFiles(format('deck/{0}.py', matrix.deck), format('deck/{0}-reports.json', matrix.deck), 'deck/figures.py', 'deck/assets/**', 'deckgen.toml', 'requirements.txt', 'tests/**') }}
+          key: pptx-${{ matrix.deck }}-${{ hashFiles('deck/**/*.py', format('deck/{0}-reports.json', matrix.deck), 'deck/assets/**', 'deckgen.toml', 'requirements.txt', 'tests/**') }}
       - if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/setup-python@v5
         with:
