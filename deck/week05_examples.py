@@ -77,6 +77,28 @@ with open("api-image.png", "wb") as f:
 print("saved api-image.png")
 '''
 
+# Readable excerpts; the linked student script adds MPS, a revision pin and metadata.
+DIFFUSION_LOAD_EXAMPLE = '''import torch
+from diffusers import StableDiffusionPipeline
+model = "stable-diffusion-v1-5/stable-diffusion-v1-5"
+device = "cuda" if torch.cuda.is_available() else "cpu"
+dtype = torch.float16 if device == "cuda" else torch.float32
+pipe = StableDiffusionPipeline.from_pretrained(
+    model, dtype=dtype, use_safetensors=True,
+    variant="fp16" if device == "cuda" else None,
+).to(device)
+'''
+
+DIFFUSION_GENERATE_EXAMPLE = '''prompt = ("An orange ceramic sphere on cream paper, "
+          "studio photograph, soft shadow, centered composition")
+generator = torch.Generator("cpu").manual_seed(7)
+image = pipe(
+    prompt, num_inference_steps=20, guidance_scale=7.5,
+    width=512, height=512, generator=generator,
+).images[0]
+image.save("stable-diffusion-7.png")
+'''
+
 RUNNABLE_EXAMPLES = {
     'tiny image': TINY_PIXEL_EXAMPLE,
     'random noise': NOISE_EXAMPLE,

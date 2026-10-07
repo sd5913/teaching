@@ -23,15 +23,15 @@ class Week05LogoCaseTests(unittest.TestCase):
         self.assertGreater(len(set(frame['text'] for frame in self.data['frames'])), 3)
         self.assertTrue(all('\n' in frame['text'] for frame in self.data['frames']))
 
-    def test_case_keeps_draft_edits_distinct_from_originals(self):
+    def test_case_keeps_edits_distinct_from_originals(self):
         for name in ('mark-18.png', 'mark-38.jpeg', 'week05-mark18-display-crop.png',
                      'week05-mark18-ascii-edit-input.png', 'week05-mark18-crt-draft.png',
-                     'week05-mark38-wool-draft.png'):
+                     'week05-mark38-wool-guided.jpg'):
             self.assertTrue((ROOT / 'deck/assets' / name).is_file(), name)
         titles = [slide.title for slide in self.deck.DECK['slides']]
         self.assertIn('Two marks, two source images', titles)
         self.assertIn('Keep the input; change the scene', titles)
-        self.assertIn('Keep the shapes; change the material', titles)
+        self.assertIn('Use an image to guide the shape', titles)
         source = (ROOT / 'deck/week05.py').read_text()
         self.assertIn("textWidth('M')", source)
         self.assertIn('Generated text is not guaranteed text', titles)
