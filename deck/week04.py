@@ -13,10 +13,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import week04_figures as F
 
-from deckgen import Image, T, PAPER, attach_reports
+from deckgen import Image, Figure, Slide, T, INK, WHITE, MUTED, PAPER, attach_reports
 from deckgen.layouts import (title, agenda, content, cards, section, statement,
                              question, two_col, code_panel, exercise, timeline, image_full,
-                             figure_slide, end)
+                             end)
 
 COURSE = 'SD5913'
 SITE = 'sd5913.github.io/teaching'
@@ -43,6 +43,19 @@ def annotated_code(eye, heading, explanation, lines, notes='', lang='py'):
     """A short explanation beside a large, legible excerpt."""
     return two_col(eye, heading, explanation, lines, notes=notes,
                    left_size=34, right_size=32, lang=lang)
+
+
+def diagram_slide(eye, heading, figure, notes=''):
+    """Give the diagram almost the whole slide; explanation belongs in notes."""
+    svg, png = figure
+    slide = Slide(bg=WHITE, notes=notes, title=heading)
+    slide.chrome = False
+    slide.els = [
+        T(80, 24, 1760, 32, eye, 'monomed', 22, MUTED),
+        T(80, 76, 1760, 80, heading, 'xbold', 60, INK),
+        Figure(80, 170, 1760, 792, svg, png),
+    ]
+    return slide
 
 
 def project_intro(eye, heading, body, references, notes=''):
@@ -222,7 +235,7 @@ S.append(annotated_code('03 · POLLING', 'Check, update, draw. Repeat.', [
     '    draw_frame()',
 ], notes='Pseudocode: a useful structure for continuous motion. These function names '
     'describe jobs; they are not built-in Python functions.'))
-S.append(figure_slide('03 · THE BROWSER EVENT LOOP', 'An event becomes a visible change',
+S.append(diagram_slide('03 · THE BROWSER EVENT LOOP', 'An event becomes a visible change',
     F.event_cycle(), notes='A conceptual sequence, not browser source code. Events queue; '
     'callbacks run; rendering happens when the browser has an opportunity. A long callback '
     'delays both the next event and the next paint.'))
@@ -272,12 +285,17 @@ S.append(question('multiple_choice', 'Which pattern best fits a browser button?'
 
 # 04 · Frontends and a data backend
 S.append(section('04', 'Frontend and backend', 'Two examples, two data paths'))
-S.append(figure_slide('04 · FRONTEND / BACKEND', 'Two places, one conversation',
-    F.frontend_backend(), notes='Frontend means the code providing the surface in the browser; '
-    'backend means the service running elsewhere. Trace the outward request and returning JSON. '
-    'Choosing a day can then use the month already downloaded. A browser app need not call '
-    'the server for every action. GitHub Pages hosts files; Cloudflare runs this service.'))
-S.append(figure_slide('04 · STREAMLIT · ONE PYTHON APP', 'Streamlit connects the two sides for you',
+S.append(diagram_slide('04 · FRONTEND / BACKEND · 1 OF 2', 'Ask for September',
+    F.frontend_request(), notes='Frontend means the browser code providing the surface. '
+    'Backend means the service. The browser sends GET /tides?month=9; FastAPI validates '
+    'the month and Python reads the saved snapshot. GitHub Pages delivers the frontend '
+    'files; Cloudflare runs this backend. Follow only the outward request on this slide.'))
+S.append(diagram_slide('04 · FRONTEND / BACKEND · 2 OF 2', 'Return data. Draw in the browser.',
+    F.backend_response(), notes='The server replies with 200 OK and JSON records for all '
+    '30 days in September. The browser chooses one day and draws its 24 heights. '
+    'Choosing another day can reuse the downloaded month without another request. '
+    'The client decides how the data looks; the service supplies the records.'))
+S.append(diagram_slide('04 · STREAMLIT · ONE PYTHON APP', 'Streamlit connects the two sides',
     F.streamlit_path(), notes='The earlier app reads the bundled file. It does not call our '
     '/tides API, but browser and Streamlit process still communicate over the network. '
     'When running locally, browser and server happen to be on the same laptop.'))
@@ -386,7 +404,7 @@ S.append(content('04 · AN API CAN MAKE SOMETHING', 'This image came back from a
     notes='Made for this deck using an image generation endpoint. The exact prompt and parameters '
     'are committed beside the PNG, and scripts/image_api_example.py reproduces the request. '
     'This is an illustration: its wave shape is not derived from the Quarry Bay measurements.'))
-S.append(figure_slide('04 · THE SAME REQUEST / RESPONSE PATTERN', 'A prompt goes in. An image comes back.',
+S.append(diagram_slide('04 · THE SAME REQUEST / RESPONSE PATTERN', 'A prompt goes in. An image comes back.',
     F.image_service(), notes='We used an authenticated POST to /v1/images/generations. '
     'The response format requested is b64_json; the script decodes it and saves a PNG. '
     'An image API extends what a program can do, just as the tide API supplies data. '
