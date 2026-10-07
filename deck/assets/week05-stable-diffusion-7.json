@@ -1,0 +1,19 @@
+{
+  "model": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+  "revision": "451f4fe16113bff5a5d2269ed5ad43b0592e9a14",
+  "prompt": "An orange ceramic sphere on cream paper, studio photograph, soft shadow, centered composition",
+  "seed": 7,
+  "steps": 20,
+  "guidance_scale": 7.5,
+  "width": 512,
+  "height": 512,
+  "device": "cuda",
+  "dtype": "torch.float16",
+  "elapsed_seconds": 242.76,
+  "versions": {
+    "torch": "2.14.1+cu132",
+    "diffusers": "0.41.0",
+    "transformers": "5.19.0",
+    "accelerate": "1.15.0"
+  }
+}
