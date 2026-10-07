@@ -28,40 +28,52 @@ FRAME_EXAMPLE = '''from PIL import Image, ImageDraw
 
 frames = []
 for x in (8, 26, 44):
-    frame = Image.new("RGB", (64, 48), "white")
+    frame = Image.new(
+        "RGB", (64, 48), "white")
     draw = ImageDraw.Draw(frame)
-    draw.ellipse((x, 18, x + 12, 30), fill=(232, 120, 53))
+    draw.ellipse(
+        (x, 18, x + 12, 30),
+        fill=(232, 120, 53))
     frames.append(frame)
 
 frames[0].save(
     "moving-dot.gif", save_all=True,
-    append_images=frames[1:], duration=200, loop=0,
+    append_images=frames[1:],
+    duration=200, loop=0,
 )
 print("saved", len(frames), "frames")
 '''
 
 API_EXAMPLE = '''import base64, json, os
-from urllib.request import Request, urlopen
+from urllib.request import Request
+from urllib.request import urlopen
 
-url = "https://easel.ait4x.org/v1/images/generations"
+url = ("https://easel.ait4x.org"
+       "/v1/images/generations")
 payload = {
     "model": "qwen-image-2.1",
-    "prompt": "An orange circle on cream paper",
+    "prompt": ("An orange circle "
+               "on cream paper"),
     "size": "1024x1024",
     "n": 1,
     "response_format": "b64_json",
 }
+key = os.environ["EASEL_KEY"]
 headers = {
-    "Authorization": "Bearer " + os.environ["EASEL_KEY"],
+    "Authorization": "Bearer " + key,
     "Content-Type": "application/json",
 }
 body = json.dumps(payload).encode()
-request = Request(url, data=body, headers=headers)
-with urlopen(request, timeout=600) as response:
+request = Request(
+    url, data=body, headers=headers)
+with urlopen(
+    request, timeout=600
+) as response:
     result = json.load(response)
-image = base64.b64decode(result["data"][0]["b64_json"])
-with open("api-image.png", "wb") as output:
-    output.write(image)
+encoded = result["data"][0]["b64_json"]
+image = base64.b64decode(encoded)
+with open("api-image.png", "wb") as f:
+    f.write(image)
 print("saved api-image.png")
 '''
 

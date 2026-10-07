@@ -170,7 +170,8 @@ S.append(two_col('01 · A TINY IMAGE', 'A small list becomes visible pixels', [
     '',
     'Run the complete script to enlarge a 2 x 2 image and save tiny-image.png.',
     '',
-    'Run: uv run --with pillow python tiny_image.py',
+    'In pfad/week05: uv run tiny_image.py',
+    '[Download tiny_image.py](https://github.com/sd5913/pfad/blob/2026/week05/tiny_image.py)',
 ], TINY_PIXEL_EXAMPLE.splitlines(), notes='No array library is needed to see the structure. '
     'This complete example uses Pillow to render four RGB tuples as a visible image. Python '
     'calls these lists; an image library turns the nested values into a displayed image. Say '
@@ -190,7 +191,7 @@ S.append(two_col('01 · READ ONE PIXEL', 'Position first, channels second', [
     'print(len(pixels))          # rows: 2',
     'print(len(pixels[0]))       # columns: 2',
     'print(len(pixels[0][0]))    # channels: 3',
-    'pixels[0][1] = [255, 255, 255]  # make it white',
+    'pixels[0][1] = (255, 255, 255)  # make it white',
 ], notes='The complete Pillow example above now keeps rows nested and flattens them '
    'only at putdata. This is the same pixels variable: look up a row and column '
    'before flattening. The assignment changes one pixel; ask students '
@@ -209,7 +210,7 @@ S.append(content('01 · HOW MUCH DATA?', 'Dimensions and representation matter',
 S.append(two_col('01 · NUMPY + PILLOW + OPENCV', 'Each library sees the same pixels differently', [
     'Array shape is (H, W, C); Pillow size is (W, H).',
     'Pillow modes include RGB, L and RGBA. OpenCV transforms images/video; camera frames may be BGR.',
-    '[2025 Week 5 notebook](https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb)',
+    '[Run image_array.py](https://github.com/sd5913/pfad/blob/2026/week05/image_array.py)',
 ], [
     'import numpy as np',
     'from PIL import Image',
@@ -223,16 +224,17 @@ S.append(two_col('01 · NUMPY + PILLOW + OPENCV', 'Each library sees the same pi
     '100 RGB array in (height, width, channels) order, then uses Pillow to interpret and '
     'convert it. The 2025 Week 5 PDF p. 37 lists NumPy, PIL and OpenCV; this small code '
     'example needs only NumPy and Pillow. OpenCV is included here as a related tool, not a '
-    'student installation requirement. The active 2026 pfad branch has no Week 5 examples yet; '
-    'the link intentionally points to the frozen 2025 branch.'))
+    'student installation requirement. The current pfad/week05/image_array.py declares '
+    'NumPy and Pillow dependencies for uv and saves both versions in week05/out. '
+    'The frozen 2025 notebook remains the historical source.'))
 
 # 02 · Generate values before asking a learned model for them.
 S.append(section('02', 'Make an image in code', 'Choose a rule, then inspect the marks it produces'))
 S.append(two_col('02 · RANDOM PIXELS', 'Noise is a starting material', [
     'Each pixel gets three chosen values, from 0 through 255.',
     '**Try:** change one dimension and predict what changes.',
-    'Run: uv run --with pillow python noise.py',
-    '[2025 source: 1_random_image.py](https://github.com/sd5913/pfad/blob/2025/week05/1_random_image.py)',
+    'In pfad/week05: uv run noise.py',
+    '[Download noise.py](https://github.com/sd5913/pfad/blob/2026/week05/noise.py)',
 ], NOISE_EXAMPLE.splitlines(), notes='This complete 2026 example uses Python’s seeded random '
    'generator and Pillow; no array library is needed. The output is an RGB image with three '
    '8-bit channels. The 2025 source uses NumPy and a high bound of 256, which is exclusive, '
@@ -346,7 +348,7 @@ S.append(code_slide('02 · ASCII-MAGIC · ONE SOURCE', 'One mark, several text w
     ASCII_CODE, sketch=live('logo-ascii-resolution', ASCII_JS, 640, 560,
                             hint='slider chooses text width · click to pause/play',
                             extra=ASCII_EXTRA), edit=False, lang='py',
-    caption='[Full Python script](https://github.com/sd5913/pfad/blob/draft/week05-logo-ascii/week05/logo_ascii.py) · uv run logo_ascii.py',
+    caption='[Full Python script](https://github.com/sd5913/pfad/blob/2026/week05/logo_ascii.py) · uv run logo_ascii.py',
     notes='The Python snippet runs locally, after the full student tutorial script has '
           'written out/source-crop.png. The tutorial uses ascii-magic to make ten '
           'ASCII text frames and a GIF; the browser p5.js sketch selects the precomputed '
@@ -354,7 +356,7 @@ S.append(code_slide('02 · ASCII-MAGIC · ONE SOURCE', 'One mark, several text w
           'inside the browser. Narrow columns discard shape information; more columns '
           'do not recreate detail absent from the source. The animation is a changing '
           'representation, not generated video. Ten sizes use a fixed width ratio. Source: '
-          'https://github.com/sd5913/pfad/blob/draft/week05-logo-ascii/week05/logo_ascii.py.'))
+          'https://github.com/sd5913/pfad/blob/2026/week05/logo_ascii.py.'))
 
 # 03 · Video adds a temporal index to the frame.
 S.append(section('03', 'Add time', 'A video can be inspected as frames in an order'))
@@ -381,38 +383,41 @@ S.append(two_col('03 · IMAGE VS VIDEO', 'Time is another axis of change', [
 ], notes='Keep the distinction between the raw-frame mental model and a compressed video '
     'file. A saved animation has an explicit frame order and duration; webcam processing is a '
     'separate live-input example and is not used here.'))
-S.append(two_col('03 · A RUNNABLE EXAMPLE', 'Make three frames; save a short animation', [
+S.append(two_col('03 · MAKE THE FRAMES', 'Make one still image for each position', [
     'Each loop makes one complete still image.',
     '',
     'The dot moves to a new position in each frame.',
     '',
+    'Keep the frames in a list, ready to save in order.',
+], FRAME_EXAMPLE.splitlines()[:11], notes='First half of the complete Pillow script. '
+    'Each iteration makes a new image rather than painting over the previous frame. '
+    'The next slide saves these same frames.'))
+S.append(two_col('03 · SAVE THE SEQUENCE', 'Save the frames as a looping GIF', [
     'Pillow saves the ordered frames as moving-dot.gif.',
     '',
-    'Run: uv run --with pillow python make_gif.py',
-], FRAME_EXAMPLE.splitlines(), notes='This complete 2026 example uses Pillow to create three '
+    'duration=200 means 200 milliseconds per frame.',
+    '',
+    'In pfad/week05: uv run make_gif.py',
+    '[Download make_gif.py](https://github.com/sd5913/pfad/blob/2026/week05/make_gif.py)',
+], FRAME_EXAMPLE.splitlines()[12:], notes='Second half of the complete 2026 example. '
+    'The downloaded script saves into week05/out. Together these slides create three '
     'still frames and save them in order as a looping GIF. The GIF plays each frame for the '
-    'same duration; no webcam or video-processing library is needed.',
-    right_size=20))
+    'same duration; no webcam or video-processing library is needed.'))
 FRAME_JS = '''let positions = [80, 280, 480];
-
 function setup() {
-  createCanvas(640, 360);
-  frameRate(5);
+  createCanvas(640, 360); frameRate(5);
+  noStroke(); textSize(26);
 }
-
 function draw() {
   background('#FAF8F4');
-  let index = (frameCount - 1) % positions.length;
-  let x = positions[index];
-  noStroke();
+  let i = (frameCount-1)%positions.length;
   fill('#ED6D24');
-  circle(x, 180, 90);
+  circle(positions[i], 180, 90);
   fill('#000B1C');
-  textSize(26);
-  text('frame ' + index, 24, 40);
+  text('frame ' + i, 24, 40);
 }'''
 S.append(code_slide('03 · EDIT THE FRAMES', 'Change one position; watch the motion',
-                    FRAME_JS, figure=F.frame_preview(), code_size=22,
+                    FRAME_JS, figure=F.frame_preview(),
                     sketch=live('moving-pixels', FRAME_JS, 640, 360,
                                 hint='edit positions or frameRate · Run to replay'),
                     notes='This editable p5.js sketch is live in HTML as in Week 3; the '
@@ -584,21 +589,36 @@ S.append(exercise('05 · BROWSER PYTHON', 'A prompt is part of the request', [
          'with a key from the environment, not a browser-side request. After a '
          'prompt passes, discuss remaining unspecified attributes and latency.'))
 S.append(two_col('05 · THE API LOOP', 'The client asks; the service returns media', [
-    'This complete example sends one request and saves the image response.',
+    'First, describe the image request as data.',
     '',
-    'The key must already be set in EASEL_KEY. Never paste it into source code.',
+    'The next two slides send it, then decode the returned image.',
     '',
-    'Run only when the teacher has enabled the API account:',
-    'uv run python request_image.py',
+    'Preview without a key: uv run request_image.py',
     '',
-    '[Complete Week 4 example](https://github.com/sd5913/teaching/blob/main/scripts/image_api_example.py)',
-], API_EXAMPLE.splitlines(), notes='This complete slide example uses the Python standard library '
-    'and reads its key from the EASEL_KEY environment variable. It asks for a base64 image '
-    'response and saves api-image.png. The linked Week 4 script is also runnable, handles a '
-    'download URL fallback, and writes to the Week 4 demo asset path; do not run it from the '
-    'shared repo unless intentionally regenerating that asset. Do not require students to '
-    'create credentials. Preflight the exact classroom client and model.',
-    right_size=19))
+    '[Download request_image.py](https://github.com/sd5913/pfad/blob/2026/week05/request_image.py)',
+], API_EXAMPLE.splitlines()[:14], notes='First of three readable code panels from one '
+    'complete standard-library example. The downloaded pfad script previews the payload '
+    'by default without a key or a network call. Run from pfad/week05.'))
+S.append(two_col('05 · SEND AND WAIT', 'A key authorises the request', [
+    'EASEL_KEY comes from the enabled classroom account.',
+    '',
+    'Never paste the key into source code.',
+    '',
+    'The client sends JSON and waits for a JSON response.',
+], API_EXAMPLE.splitlines()[14:26], notes='Continue from the payload in the previous '
+    'panel. This is the network step. Do not require students to create credentials. '
+    'Preflight the exact classroom client and model before sending a live request.'))
+S.append(two_col('05 · DECODE AND SAVE', 'The response contains an encoded image', [
+    'Decode the base64 image bytes, then save them.',
+    '',
+    'Only with an enabled account and key:',
+    'uv run request_image.py --send',
+    '',
+    'The downloaded script saves out/api-image.png.',
+], API_EXAMPLE.splitlines()[26:], notes='Final panel of the same complete example. '
+    'The downloaded pfad script adds a --send switch and keeps generated files in out. '
+    'The teaching repo Week 4 API script remains an instructor reference and writes to '
+    'the shared Week 4 asset path; do not run it unless intentionally regenerating that asset.'))
 S.append(timeline('05 · GUIDED API EXERCISE', 'Make a small comparison, not a masterpiece', [
     ('01', 'State an invariant', 'Name material, composition and one thing the result must not contain.'),
     ('02', 'Generate a first result', 'Use the classroom Easel client and note the model and settings shown.'),
@@ -668,12 +688,11 @@ S.append(content('06 · TUTORIAL · MAKE AN ICON', 'Your image, your choice', [
     'Export a square version and inspect it at avatar size. If you like it, '
     'set your GitHub profile picture yourself; this is optional, not a submission.',
     '',
-    '[Week 5 tutorial and runnable Python](https://github.com/sd5913/pfad/tree/draft/week05-logo-ascii/week05)',
+    '[Week 5 tutorial and runnable Python](https://github.com/sd5913/pfad/tree/2026/week05)',
 ], notes='GitHub Settings -> Public profile -> Profile picture -> Upload a photo is '
     'a student-controlled choice; do not alter student profiles or require anyone '
-    'to publish a class mark as their own avatar. The draft tutorial points to '
-    'the pfad PR branch pending lecturer review; update this link to 2026 '
-    'only after the student tutorial merges.'))
+    'to publish a class mark as their own avatar. The tutorial and runnable examples '
+    'are published on the current pfad 2026 branch.'))
 S.append(content('06 · PROJECT SEED', 'Name one meaningful interaction', [
     'Who is the person using your project, and what are they trying to do?',
     '',

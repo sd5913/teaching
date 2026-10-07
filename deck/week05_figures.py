@@ -10,52 +10,53 @@ MUTED = '#5C6470'
 LINE = '#D7D9D7'
 
 
-def pixel_grid(name='week05-pixel-grid', w=940, h=520):
+def pixel_grid(name='week05-pixel-grid', w=940, h=350):
     """Show spatial axes, one pixel per cell, and three RGB values per pixel."""
     c = Canvas(w, h, bg=PAPER)
-    x0, y0, cw, ch = 175, 105, 220, 150
+    x0, y0, cw, ch = 175, 90, 220, 95
     samples = [
-        ('[255, 40, 20]', '#FF2814', '#FFFFFF'),
-        ('[20, 200, 70]', '#14C846', INK),
-        ('[30, 90, 240]', '#1E5AF0', '#FFFFFF'),
-        ('[255, 210, 40]', '#FFD228', INK),
-        ('[80, 80, 80]', '#505050', '#FFFFFF'),
-        ('[240, 230, 215]', '#F0E6D7', INK),
+        ('[255,40,20]', '#FF2814', '#FFFFFF'),
+        ('[20,200,70]', '#14C846', INK),
+        ('[30,90,240]', '#1E5AF0', '#FFFFFF'),
+        ('[255,210,40]', '#FFD228', INK),
+        ('[80,80,80]', '#505050', '#FFFFFF'),
+        ('[240,230,215]', '#F0E6D7', INK),
     ]
     c.text(w / 2, 42, 'x = column (width)', 27, TEAL, anchor='middle', weight=700)
-    c.text(72, 75, 'y', 24, TEAL, anchor='middle', weight=700, mono=True)
-    c.text(72, 104, 'row', 21, MUTED, anchor='middle')
+    c.text(72, 52, 'y', 24, TEAL, anchor='middle', weight=700, mono=True)
+    c.text(72, 82, 'row', 23, MUTED, anchor='middle', weight=700)
 
     for row in range(2):
-        c.text(112, y0 + row * ch + ch / 2 + 8, str(row), 22, MUTED,
-               anchor='middle', mono=True)
+        c.text(112, y0 + row * ch + ch / 2 + 8, str(row), 23, MUTED,
+               anchor='middle', mono=True, weight=700)
         for col in range(3):
             label, fill, foreground = samples[row * 3 + col]
             x, y = x0 + col * cw, y0 + row * ch
             c.rect(x, y, cw - 8, ch - 8, fill=fill, stroke='#FFFFFF', width=3)
-            c.text(x + (cw - 8) / 2, y + (ch - 8) / 2 + 8, label, 21,
+            c.text(x + (cw - 8) / 2, y + (ch - 8) / 2 + 8, label, 24,
                    foreground, anchor='middle', mono=True, weight=700)
-            c.text(x + (cw - 8) / 2, y + ch + 15, str(col), 20, MUTED,
-                   anchor='middle', mono=True)
+            if row == 0:
+                c.text(x + (cw - 8) / 2, y0 - 12, str(col), 23, MUTED,
+                       anchor='middle', mono=True, weight=700)
 
     # The cell at row 0, column 2 is one pixel; its three values are RGB channels.
     x, y = x0 + 2 * cw, y0
     c.rect(x - 3, y - 3, cw - 2, ch - 2, stroke=ORANGE, width=6)
-    c.text(w / 2, 500, 'pixel[y][x] = [red, green, blue]', 24, INK,
+    c.text(w / 2, 330, 'pixel[y][x] = [red, green, blue]', 24, INK,
            anchor='middle', mono=True)
     return c.finish(name)
 
 
-def grayscale_grid(name='week05-grayscale-grid', w=940, h=520):
+def grayscale_grid(name='week05-grayscale-grid', w=940, h=350):
     """Map a small grid of brightness values to visible grayscale cells."""
     c = Canvas(w, h, bg=PAPER)
-    x0, y0, cw, ch = 235, 105, 220, 150
+    x0, y0, cw, ch = 235, 90, 220, 95
     values = ((20, 80, 160), (240, 160, 80))
     c.text(w / 2, 42, 'column', 25, TEAL, anchor='middle', weight=700)
-    c.text(80, 82, 'row', 22, TEAL, anchor='middle', weight=700)
+    c.text(80, 82, 'row', 23, TEAL, anchor='middle', weight=700)
     for row, values_row in enumerate(values):
-        c.text(165, y0 + row * ch + ch / 2 + 8, str(row), 22, MUTED,
-               anchor='middle', mono=True)
+        c.text(165, y0 + row * ch + ch / 2 + 8, str(row), 23, MUTED,
+               anchor='middle', mono=True, weight=700)
         for col, value in enumerate(values_row):
             shade = value
             fill = f'#{shade:02X}{shade:02X}{shade:02X}'
@@ -65,9 +66,9 @@ def grayscale_grid(name='week05-grayscale-grid', w=940, h=520):
             c.text(x + (cw - 8) / 2, y + (ch - 8) / 2 + 8, str(value), 25,
                    foreground, anchor='middle', mono=True, weight=700)
             if row == 0:
-                c.text(x + (cw - 8) / 2, y0 - 15, str(col), 20, MUTED,
-                       anchor='middle', mono=True)
-    c.text(w / 2, 500, 'one value at each row, column -> one shade', 24, INK,
+                c.text(x + (cw - 8) / 2, y0 - 12, str(col), 23, MUTED,
+                       anchor='middle', mono=True, weight=700)
+    c.text(w / 2, 330, 'one value at each row, column -> one shade', 24, INK,
            anchor='middle', mono=True)
     return c.finish(name)
 
@@ -82,7 +83,7 @@ def frame_sequence(name='week05-frame-sequence', w=1500, h=460):
         x = x0 + i * (frame_w + gap)
         c.rect(x, y0, frame_w, frame_h, fill='#FFFFFF', stroke=TEAL, width=3)
         c.circle(x + pos, y0 + 115, 28, fill=ORANGE, stroke=INK, width=2)
-        c.text(x + frame_w / 2, y0 + frame_h + 45, f'frame {i}', 34, INK,
+        c.text(x + frame_w / 2, y0 + frame_h + 45, f'frame {i}', 36, INK,
                anchor='middle', mono=True, weight=700)
         if i < 2:
             ax, end = x + frame_w + 16, x + frame_w + gap - 16
@@ -110,10 +111,10 @@ def clip_alignment(name='week05-clip-alignment', w=1500, h=500):
         (285, 'images', 'Image encoder', 'image vectors'),
     ):
         c.rect(30, y, 225, 110, fill='#FFFFFF', stroke=TEAL, width=3)
-        c.text(142.5, y + 66, source, 34, INK,
+        c.text(142.5, y + 66, source, 36, INK,
                anchor='middle', mono=False, weight=700)
         c.rect(310, y, 305, 110, fill='#FFFFFF', stroke=TEAL, width=3)
-        c.text(462.5, y + 45, encoder, 34, INK,
+        c.text(462.5, y + 45, encoder, 36, INK,
                anchor='middle', mono=False, weight=700)
         c.text(462.5, y + 86, vector, 30, TEAL,
                anchor='middle', mono=False)
@@ -123,9 +124,9 @@ def clip_alignment(name='week05-clip-alignment', w=1500, h=500):
 
     # Columns represent text vectors, rows image vectors; diagonal pairs match.
     grid_x, grid_y, cell_w, cell_h = 860, 145, 108, 76
-    c.text(1022, 69, 'Text vectors', 32, TEAL,
+    c.text(1022, 69, 'Text vectors', 36, TEAL,
            anchor='middle', mono=False, weight=700)
-    c.text(720, 423, 'Image vectors', 30, TEAL,
+    c.text(720, 423, 'Image vectors', 36, TEAL,
            anchor='middle', mono=False, weight=700)
     c.line(627, 145, 747, 145, ORANGE, 4)
     c.line(747, 145, 747, 96, ORANGE, 4)
@@ -146,11 +147,11 @@ def clip_alignment(name='week05-clip-alignment', w=1500, h=500):
             c.rect(x, y, cell_w - 6, cell_h - 6, fill=fill,
                    stroke='#FFFFFF', width=2)
             c.text(x + (cell_w - 6) / 2, y + 47,
-                   'high' if row == col else 'low', 30, INK,
+                   'high' if row == col else 'low', 36, INK,
                    anchor='middle', mono=False, weight=700)
     c.text(1022, 420, 'similarity', 30, TEAL, anchor='middle', mono=False)
     c.rect(1230, 175, 245, 170, fill='#FFF1E7', stroke=TEAL, width=3)
-    c.text(1352.5, 220, 'rank pairs', 34, INK,
+    c.text(1352.5, 220, 'rank pairs', 36, INK,
            anchor='middle', mono=False, weight=700)
     c.text(1352.5, 267, 'high score:', 30, TEAL, anchor='middle', mono=False)
     c.text(1352.5, 308, 'closer match', 30, TEAL, anchor='middle', mono=False)
@@ -159,11 +160,11 @@ def clip_alignment(name='week05-clip-alignment', w=1500, h=500):
     return c.finish(name)
 
 
-def diffusion_training(name='week05-diffusion-training', w=1500, h=560):
+def diffusion_training(name='week05-diffusion-training', w=1500, h=500):
     """Separate latent-space denoiser training from latent-space generation."""
     c = Canvas(w, h, bg=PAPER)
-    x_positions = (30, 410, 790, 1170)
-    box_w, box_h = 300, 130
+    x_positions = (20, 400, 780, 1160)
+    box_w, box_h = 310, 130
     training = [
         ('VAE encoder', 'image to latent z0'),
         ('add noise', 'noisy latent zt'),
@@ -178,12 +179,12 @@ def diffusion_training(name='week05-diffusion-training', w=1500, h=560):
     ]
     for section, title_y, box_y, stages in (
         ('TRAIN', 46, 70, training),
-        ('GENERATE', 316, 340, generation),
+        ('GENERATE', 286, 310, generation),
     ):
-        c.text(30, title_y, section, 34, TEAL, mono=False, weight=700)
+        c.text(30, title_y, section, 36, TEAL, mono=False, weight=700)
         for x, (heading, detail) in zip(x_positions, stages):
             c.rect(x, box_y, box_w, box_h, fill='#FFFFFF', stroke=TEAL, width=3)
-            c.text(x + box_w / 2, box_y + 52, heading, 34, INK,
+            c.text(x + box_w / 2, box_y + 52, heading, 36, INK,
                    anchor='middle', mono=False, weight=700)
             c.text(x + box_w / 2, box_y + 98, detail, 30, TEAL,
                    anchor='middle', mono=False)
@@ -194,7 +195,7 @@ def diffusion_training(name='week05-diffusion-training', w=1500, h=560):
             c.line(end - 18, y + 12, end, y, ORANGE, 4)
     c.text(w / 2, 254, 'Prediction error updates model weights.',
            32, INK, anchor='middle', mono=False)
-    c.text(w / 2, 525, 'Generation changes the latent; model weights stay fixed.',
+    c.text(w / 2, 485, 'Generation changes the latent; model weights stay fixed.',
            32, INK, anchor='middle', mono=False)
     return c.finish(name)
 
@@ -214,7 +215,7 @@ def vae_path(name='week05-vae-path', w=1500, h=430):
         x = 25 + i * (box_w + gap)
         fill = '#FFFFFF' if i % 2 == 0 else '#E8F0EF'
         c.rect(x, box_y, box_w, box_h, fill=fill, stroke=TEAL, width=3)
-        c.text(x + box_w / 2, box_y + 61, heading, 34, INK,
+        c.text(x + box_w / 2, box_y + 61, heading, 36, INK,
                anchor='middle', mono=False, weight=700)
         c.text(x + box_w / 2, box_y + 110, detail, 30, TEAL,
                anchor='middle', mono=False)
@@ -245,7 +246,7 @@ def latent_diffusion(name='week05-latent-diffusion', w=1600, h=520):
         x = 25 + i * (box_w + gap)
         fill = '#FFFFFF' if i % 2 == 0 else '#E8F0EF'
         c.rect(x, box_y, box_w, box_h, fill=fill, stroke=TEAL, width=3)
-        c.text(x + box_w / 2, box_y + 58, title, 34, INK,
+        c.text(x + box_w / 2, box_y + 58, title, 39, INK,
                anchor='middle', mono=False, weight=700)
         c.text(x + box_w / 2, box_y + 107, detail, 30, TEAL,
                anchor='middle', mono=False)
@@ -255,7 +256,7 @@ def latent_diffusion(name='week05-latent-diffusion', w=1600, h=520):
             c.line(end - 17, y - 12, end, y, ORANGE, 4)
             c.line(end - 17, y + 12, end, y, ORANGE, 4)
     c.rect(345, 45, 270, 115, fill='#FFF1E7', stroke=ORANGE, width=3)
-    c.text(480, 91, 'text encoder', 34, INK,
+    c.text(480, 91, 'text encoder', 39, INK,
            anchor='middle', mono=False, weight=700)
     c.text(480, 135, 'prompt vectors', 30, TEAL, anchor='middle', mono=False)
     c.line(480, 160, 480, 231, ORANGE, 4)
@@ -280,7 +281,7 @@ def controlnet_canny(name='week05-controlnet-canny', w=1500, h=500):
         x = 25 + i * (box_w + gap)
         fill = '#FFF1E7' if i == 2 else '#FFFFFF'
         c.rect(x, box_y, box_w, box_h, fill=fill, stroke=TEAL, width=3)
-        c.text(x + box_w / 2, box_y + 56, heading, 34, INK,
+        c.text(x + box_w / 2, box_y + 56, heading, 36, INK,
                anchor='middle', mono=False, weight=700)
         c.text(x + box_w / 2, box_y + 104, detail, 30, TEAL,
                anchor='middle', mono=False)
@@ -290,7 +291,7 @@ def controlnet_canny(name='week05-controlnet-canny', w=1500, h=500):
             c.line(end - 18, y - 12, end, y, ORANGE, 4)
             c.line(end - 18, y + 12, end, y, ORANGE, 4)
     c.rect(785, 25, box_w, 115, fill='#E8F0EF', stroke=TEAL, width=3)
-    c.text(940, 71, 'text prompt', 34, INK,
+    c.text(940, 71, 'text prompt', 36, INK,
            anchor='middle', mono=False, weight=700)
     c.text(940, 114, 'appearance', 30, TEAL, anchor='middle', mono=False)
     c.line(940, 140, 940, 206, ORANGE, 4)

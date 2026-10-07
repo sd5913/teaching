@@ -1,3 +1,4 @@
+import importlib.util
 import sys
 import unittest
 import xml.etree.ElementTree as ET
@@ -24,6 +25,14 @@ class Week05ProjectionFigureTests(unittest.TestCase):
     def setUpClass(cls):
         # Render each real Canvas once, including the PNG export used by PowerPoint.
         cls.rendered = {name: getattr(F, name)() for name in FIGURES}
+        spec = importlib.util.spec_from_file_location('week05_projection',
+                                                     DECK_DIR / 'week05.py')
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        cls.placed = {
+            Path(el.png).stem: el for slide in module.DECK['slides'] for el in slide.els
+            if el.kind == 'figure'
+        }
 
     def render(self, name):
         svg, png_path = self.rendered[name]
@@ -40,15 +49,26 @@ class Week05ProjectionFigureTests(unittest.TestCase):
                 self.assertEqual(Path(png_path).name,
                                  f"week05-{name.replace('_', '-')}.png")
 
-    def test_wide_diagram_labels_remain_readable_when_fit_to_a_slide(self):
-        # 30 px in a 1500–1600 px figure is about 16–18 pt at full slide width.
+    def test_primary_diagram_labels_are_at_least_40_slide_pixels(self):
+        for name in FIGURES:
+            source = ET.fromstring(self.render(name))
+            figure = self.placed[f"week05-{name.replace('_', '-')}"]
+            scale = figure.w / float(source.attrib['width'])
+            primary = [label for label in self.labels(name)
+                       if int(label.attrib['font-weight']) >= 700]
+            self.assertTrue(primary, name)
+            for label in primary:
+                with self.subTest(figure=name, text=label.text):
+                    self.assertGreaterEqual(float(label.attrib['font-size']) * scale, 40)
+
+    def test_secondary_wide_diagram_labels_remain_readable(self):
         for name in WIDE_FIGURES:
             for label in self.labels(name):
                 with self.subTest(figure=name, text=label.text):
                     self.assertGreaterEqual(float(label.attrib['font-size']), 30)
 
-    def test_wide_diagram_text_fits_the_canvas_and_its_box(self):
-        for name in WIDE_FIGURES:
+    def test_diagram_text_fits_the_canvas_and_its_box(self):
+        for name in FIGURES:
             root = ET.fromstring(self.render(name))
             width, height = float(root.attrib['width']), float(root.attrib['height'])
             boxes = []

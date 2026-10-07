@@ -68,11 +68,14 @@ chosen representation.
   machine. Keep credentials out of the deck and any student-facing files.
 - Prepare one saved API result as a fallback. Generation latency or service availability
   should not consume the interaction exercise.
-- The active `pfad` `2026` branch has no Week 5 examples yet; linked student code examples
-  below intentionally point to its frozen `2025` branch.
+- The active `pfad` `2026` branch has the matching
+  [`week05` tutorial and examples](https://github.com/sd5913/pfad/tree/2026/week05).
+  Pull before class; the frozen `2025` model/webcam examples remain historical references.
 - The slides include complete scripts for a tiny RGB image, a random-noise image and a
-  three-frame animated GIF. Copy each code panel into its named Python file and run the
-  command printed beside it; these examples need only Pillow. The random-noise example
+  three-frame animated GIF. Download the named scripts from `pfad/week05` and run
+  `uv run tiny_image.py`, `uv run noise.py`, or `uv run make_gif.py` in that folder.
+  The GIF and API sequences span readable code panels. These image/GIF examples need
+  only Pillow; dependencies are declared in each script. The random-noise example
   starts with Python's standard-library random module before introducing array libraries.
 - In the HTML deck, three Python drills run via Pyodide: two print SVG images from
   pixel values and one prints a JSON request without calling an API. The first Run
@@ -96,6 +99,9 @@ chosen representation.
   is a runnable standard-library Easel request. It reads `EASEL_KEY` from the environment
   and writes to the Week 4 demo asset path; use it as an instructor reference, keep the key
   private, and do not run it from the shared repo unless regenerating that image.
+- The student [`request_image.py`](https://github.com/sd5913/pfad/blob/2026/week05/request_image.py)
+  prints the request without a key or network call by default. Only use `--send` with
+  an enabled classroom account and `EASEL_KEY` already set; it saves to `week05/out`.
 - The archived examples depend on older Diffusers/PyTorch model setups. If showing
   Stable Diffusion, LCM or ControlNet in ComfyUI, rehearse that exact workflow and checkpoint
   on the teaching device. Treat it as an instructor demonstration; do not require student
@@ -213,8 +219,10 @@ deadline until the Assignment 3 brief is confirmed.
   input, callbacks, APIs and classes; the final pages are historical environment/tutorial
   setup. This 2026 deck keeps the relevant image/model sequence without replaying Week 4 or
   copying old setup instructions.
-- **Runnable `pfad` references:** the active `2026` branch has no Week 5 files yet, so
-  these links intentionally target the frozen `2025` branch:
+- **Current `pfad` examples:** `2026/week05` provides `tiny_image.py`, `image_array.py`,
+  `noise.py`, `make_gif.py`, `logo_ascii.py`, and `request_image.py`, with local tests.
+  They keep the core tutorial independent of a camera, a GPU or an API account.
+- **Archived `pfad` references:** these historical links target the frozen `2025` branch:
   [`1_random_image.py`](https://github.com/sd5913/pfad/blob/2025/week05/1_random_image.py)
   is a NumPy/Pillow noise example, and
   [`week05_notebook.ipynb`](https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb)
@@ -247,6 +255,6 @@ deadline until the Assignment 3 brief is confirmed.
   Do not carry it forward. The active 2026 `pfad` README still lists Assignment 3 as TBC;
   this interaction sketch remains a warm-up, not a new deliverable.
 
-This is a first draft of the instructor sequence. Final timing, the selected Easel controls,
-any local-model demonstration, and the Assignment 3 deadline are deliberately left open for
-the lecturer to confirm.
+The sequence and local examples have been reviewed for publication. Rehearse timing and
+the selected Easel controls on the teaching machine. Any local-model demonstration remains
+optional; the Assignment 3 deadline awaits confirmation.

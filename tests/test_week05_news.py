@@ -48,7 +48,7 @@ class Week05NewsTests(unittest.TestCase):
         self.assertIn("hashFiles('deck/**/*.py'", workflow)
 
     def test_three_opening_slides_keep_the_existing_lesson(self):
-        self.assertEqual(len(self.slides), 57)
+        self.assertEqual(len(self.slides), 60)
         self.assertIn('Images & video', self.slides[0].title)
         self.assertEqual(self.slides[5].title, 'Start with values')
         self.assertEqual(sum(slide.title == 'A value becomes a shade' for slide in self.slides), 1)
