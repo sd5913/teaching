@@ -101,7 +101,9 @@ chosen representation.
   selects frames prepared from Python; it does not run the package in the browser.
   The CRT edit used an earlier, denser 56-column ASCII image as input, which is
   shown alongside it; it was not made from the slider's 36-column still. Keep the
-  draft CRT and wool edits labelled as experiments until Gio supplies final A/B art.
+  source/edit pairs focused on using a control image: the input guides structure,
+  while an editing instruction can change the scene or material. The supplied yarn
+  image is the right-hand example for Mark 38.
   Inspect the exact input glyphs against the model-edited screen image: a model may
   approximate the silhouette while inventing characters. Do not require a student
   image-edit account or call, and do not set anyone's GitHub avatar for them.
@@ -166,11 +168,12 @@ September releases followed the keynote and cannot explain what DHH said on the
 23rd. Return to the lesson's practice: inspect representations, predict a change,
 run it, and check the result. Do not require any student account for the news.
 
-The marks are not final A/B candidates yet. Mark 18 (yarn-ball) goes from pixels to
-ASCII characters and then an edited CRT setting; Mark 38 (separate arrow and
-underscore) goes from a digital grid to a wool interpretation. These are opposite
-material translations, not two definitive logo designs. Once the two final images
-arrive, replace the two draft assets without revising the teaching logic. The
+The source/edit pairs demonstrate image conditioning. Mark 18 (yarn-ball) goes
+from pixels to ASCII characters and then an edited CRT setting; Mark 38 (separate
+arrow and underscore) supplies the shapes for a yarn interpretation on knitted
+fabric. Ask which features the control image guides and which details the model
+introduces. The specific yarn-generation workflow is not documented; do not label
+it as the earlier Canny/ControlNet example merely from its appearance. The
 student's own icon is a personal, optional profile choice, never a course requirement.
 
 ## Model language to keep precise

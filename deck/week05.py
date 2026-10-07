@@ -711,21 +711,24 @@ S.append(content('05 · IMAGE EDIT · ASCII → CRT', 'Keep the input; change th
    body_size=28, notes='The 56-column input is size 6 from the earlier ten-size '
     'ASCII study. It uses a denser character ramp than the classroom slider; '
     'do not imply the 32-column slide still was used as this edit input. '
-    'The provisional CRT result invents glyphs and is not the final A/B choice. '
+    'The CRT result invents glyphs; compare them with the actual control image. '
     'Ask what was preserved and what changed in a service-mediated image edit.'))
-S.append(content('05 · IMAGE EDIT · DIGITAL → WOOL', 'Keep the shapes; change the material', [
-    '**Left:** the original grid mark has a stepped diagonal arrow and a '
+S.append(content('05 · CONTROL IMAGE · DIGITAL → WOOL', 'Use an image to guide the shape', [
+    '**Left:** the control image supplies a stepped diagonal arrow and a '
     'separate underscore.',
     '',
-    '**Right:** a draft wool edit keeps two pieces, but pushes the arrow '
-    'toward a vertical shape. Is that still the same mark?',
+    '**Right:** the generated example renders those shapes as coloured yarn '
+    'on knitted fabric.',
     '',
-    '{muted:Two experiments, not two approved logos. Final images are pending.}',
-], images=['mark-38.jpeg', 'week05-mark38-wool-draft.png'], body_size=28,
-   notes='The right is a provisional model edit of Mark 38; the original left '
-    'has a diagonal stepped arrow with a distinct underscore. The wool result '
-    'alters the silhouette, so students can critique its fidelity. These '
-    'source/edit comparisons are teaching experiments, not selected logos.'))
+    'The image guides structure; an instruction can change material and setting.',
+], images=['mark-38.jpeg', 'week05-mark38-wool-guided.jpg'], body_size=28,
+   notes='This pair demonstrates using a control image with an editing instruction. '
+    'Mark 38 supplies the stepped arrow, separate underscore and their arrangement; '
+    'the supplied generated example interprets those shapes in yarn on knitted fabric. '
+    'Ask which features came from the image and which were introduced in the result. '
+    'Image conditioning guides the output but does not guarantee identical geometry. '
+    'The specific model and workflow were not supplied, so do not identify this '
+    'as the Canny/ControlNet implementation from the earlier optional example.'))
 S.append(content('05 · DO THE GLYPHS STILL MATCH?', 'Generated text is not guaranteed text', [
     'Compare the actual 56-column ASCII input with the CRT edit. Are the characters '
     'the same, in the same places?',
