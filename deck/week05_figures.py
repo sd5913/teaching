@@ -10,6 +10,24 @@ MUTED = '#5C6470'
 LINE = '#D7D9D7'
 
 
+def model_stage(c, x, y, w, h, heading, detail, role='data', heading_size=36):
+    """Narrowing/widening shapes distinguish encoding from decoding."""
+    if role == 'encode':
+        pts = [(x, y), (x + w, y + 22), (x + w, y + h - 22), (x, y + h)]
+        fill = '#DCEBE5'
+    elif role == 'decode':
+        pts = [(x, y + 22), (x + w, y), (x + w, y + h), (x, y + h - 22)]
+        fill = '#FFF1E7'
+    else:
+        pts = [(x, y), (x + w, y), (x + w, y + h), (x, y + h)]
+        fill = '#FFFFFF'
+    c.poly(pts, fill=fill, stroke=TEAL, width=3)
+    c.text(x + w / 2, y + h / 2 - 9, heading, heading_size, INK,
+           anchor='middle', mono=False, weight=700)
+    c.text(x + w / 2, y + h / 2 + 36, detail, 30, TEAL,
+           anchor='middle', mono=False)
+
+
 def pixel_grid(name='week05-pixel-grid', w=940, h=350):
     """Show spatial axes, one pixel per cell, and three RGB values per pixel."""
     c = Canvas(w, h, bg=PAPER)
@@ -183,11 +201,8 @@ def diffusion_training(name='week05-diffusion-training', w=1500, h=500):
     ):
         c.text(30, title_y, section, 36, TEAL, mono=False, weight=700)
         for x, (heading, detail) in zip(x_positions, stages):
-            c.rect(x, box_y, box_w, box_h, fill='#FFFFFF', stroke=TEAL, width=3)
-            c.text(x + box_w / 2, box_y + 52, heading, 36, INK,
-                   anchor='middle', mono=False, weight=700)
-            c.text(x + box_w / 2, box_y + 98, detail, 30, TEAL,
-                   anchor='middle', mono=False)
+            role = 'encode' if heading == 'VAE encoder' else 'decode' if heading == 'VAE decoder' else 'data'
+            model_stage(c, x, box_y, box_w, box_h, heading, detail, role)
         for x in x_positions[:-1]:
             start, end, y = x + box_w + 12, x + 368, box_y + box_h / 2
             c.line(start, y, end, y, ORANGE, 4)
@@ -204,21 +219,17 @@ def vae_path(name='week05-vae-path', w=1500, h=430):
     """Show encoding, a compact latent, and reconstruction."""
     c = Canvas(w, h, bg=PAPER)
     labels = [
-        ('image x', 'pixels'),
+        ('image x', 'input pixels'),
         ('encoder', 'mean + variance'),
         ('latent z', 'sample z'),
-        ('decoder', 'reconstructs'),
+        ('decoder', 'rebuild pixels'),
         ('image x-hat', 'rebuilt pixels'),
     ]
     box_y, box_h, box_w, gap = 100, 150, 260, 40
     for i, (heading, detail) in enumerate(labels):
         x = 25 + i * (box_w + gap)
-        fill = '#FFFFFF' if i % 2 == 0 else '#E8F0EF'
-        c.rect(x, box_y, box_w, box_h, fill=fill, stroke=TEAL, width=3)
-        c.text(x + box_w / 2, box_y + 61, heading, 36, INK,
-               anchor='middle', mono=False, weight=700)
-        c.text(x + box_w / 2, box_y + 110, detail, 30, TEAL,
-               anchor='middle', mono=False)
+        role = 'encode' if heading == 'encoder' else 'decode' if heading == 'decoder' else 'data'
+        model_stage(c, x, box_y, box_w, box_h, heading, detail, role)
         if i < len(labels) - 1:
             start, end, y = x + box_w + 9, x + box_w + gap - 10, box_y + box_h / 2
             c.line(start, y, end, y, ORANGE, 4)
@@ -239,17 +250,13 @@ def latent_diffusion(name='week05-latent-diffusion', w=1600, h=520):
         ('latent noise', 'random start'),
         ('U-Net x N', 'denoise steps'),
         ('clean latent', 'compact code'),
-        ('VAE decoder', 'decode pixels'),
+        ('VAE decoder', 'expand to pixels'),
         ('image', 'RGB output'),
     ]
     for i, (title, detail) in enumerate(labels):
         x = 25 + i * (box_w + gap)
-        fill = '#FFFFFF' if i % 2 == 0 else '#E8F0EF'
-        c.rect(x, box_y, box_w, box_h, fill=fill, stroke=TEAL, width=3)
-        c.text(x + box_w / 2, box_y + 58, title, 39, INK,
-               anchor='middle', mono=False, weight=700)
-        c.text(x + box_w / 2, box_y + 107, detail, 30, TEAL,
-               anchor='middle', mono=False)
+        model_stage(c, x, box_y, box_w, box_h, title, detail,
+                    'decode' if title == 'VAE decoder' else 'data', heading_size=40)
         if i < len(labels) - 1:
             start, end, y = x + box_w + 9, x + box_w + gap - 10, box_y + box_h / 2
             c.line(start, y, end, y, ORANGE, 4)

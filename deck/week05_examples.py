@@ -7,8 +7,12 @@ pixels = [
     [(0, 0, 255), (255, 255, 0)],
 ]
 image = Image.new("RGB", (2, 2))
-image.putdata([pixel for row in pixels for pixel in row])
-image.resize((120, 120), Image.Resampling.NEAREST).save("tiny-image.png")
+flat = [pixel for row in pixels
+        for pixel in row]
+image.putdata(flat)
+nearest = Image.Resampling.NEAREST
+large = image.resize((120,120), nearest)
+large.save("tiny-image.png")
 print("saved tiny-image.png")
 '''
 
