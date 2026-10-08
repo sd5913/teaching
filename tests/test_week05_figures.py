@@ -50,6 +50,16 @@ class Week05FigureTests(unittest.TestCase):
         self.assertIn('mean + variance', self.render('vae_path'))
         self.assertIn('sample z', self.render('vae_path'))
 
+    def test_encoder_and_decoder_have_distinct_geometry(self):
+        for diagram in ('diffusion_training', 'vae_path', 'latent_diffusion'):
+            svg = self.render(diagram)
+            self.assertIn('points=', svg)
+        self.assertIn('latent to pixels', self.render('diffusion_training'))
+        self.assertIn('VAE decoder', self.render('latent_diffusion'))
+        svg = self.render('vae_path')
+        self.assertIn('mean + variance', svg)
+        self.assertIn('rebuilt pixels', svg)
+
 
 if __name__ == '__main__':
     unittest.main()

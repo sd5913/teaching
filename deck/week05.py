@@ -31,6 +31,16 @@ cover.els.append(T(120, 400, 1680, 105,
     'The 1 October holiday moved this session one Thursday later.',
     'body', 30, '#CCDADD', lh=1.3))
 S.append(cover)
+S.append(content('DATES TO KEEP · OCTOBER / NOVEMBER',
+                 '22 October quiz · 1 November Assignment 3', [
+    '**Thursday 22 October:** mid-term quiz in class.',
+    '',
+    '**Sunday 1 November, 23:59 (Hong Kong time):** Assignment 3 is due.',
+    '',
+    'Today we start thinking about the interactive experience. What might someone do with yours?',
+], body_size=36, notes='These dates were confirmed by Gio on 8 October 2026. '
+    'The Assignment 3 brief and submission instructions are separate; do not infer '
+    'requirements from this reminder. 23:59 means 11:59 pm, Hong Kong time.'))
 # Keep literal question titles here for the after-class report scanner.
 before_news = content('BEFORE · 13 MAY 2025',
     'BEFORE: Should a developer understand every line of code they ship?', [],
@@ -177,6 +187,16 @@ S.append(two_col('01 · A TINY IMAGE', 'A small list becomes visible pixels', [
     'This complete example uses Pillow to render four RGB tuples as a visible image. Python '
     'calls these lists; an image library turns the nested values into a displayed image. Say '
     'row/column before saying x/y: image APIs often put height before width in an array shape.'))
+S.append(content('01 · SAVED OUTPUT', 'The four pixels after Pillow saves them', [
+    'The top row is red, green; the bottom row is blue, yellow.',
+    '',
+    'The script enlarges a 2 x 2 image without blurring its edges.',
+    '',
+    '**Try:** change the green tuple to white and predict the new top-right pixel.',
+], image='week05-tiny-image.png', fit='contain', body_size=32,
+   notes='Exact output of the preceding tiny_image.py example, also runnable '
+         'from the current 2026 pfad/week05 tutorial. The enlarged image uses '
+         'Pillow nearest-neighbour resampling.'))
 S.append(two_col('01 · READ ONE PIXEL', 'Position first, channels second', [
     'pixels[0][1] is the top row, second column: green.',
     'pixels[1][0] is the bottom row, first column: blue.',
@@ -189,10 +209,10 @@ S.append(two_col('01 · READ ONE PIXEL', 'Position first, channels second', [
     '    [(0, 0, 255), (255, 255, 0)],',
     ']',
     '',
-    'print(len(pixels))          # rows: 2',
-    'print(len(pixels[0]))       # columns: 2',
-    'print(len(pixels[0][0]))    # channels: 3',
-    'pixels[0][1] = (255, 255, 255)  # make it white',
+    'print(len(pixels))        # 2 rows',
+    'print(len(pixels[0]))     # 2 columns',
+    'print(len(pixels[0][0]))  # 3 channels',
+    'pixels[0][1] = (255, 255, 255)',
 ], notes='The complete Pillow example above now keeps rows nested and flattens them '
    'only at putdata. This is the same pixels variable: look up a row and column '
    'before flattening. The assignment changes one pixel; ask students '
@@ -242,6 +262,16 @@ S.append(two_col('02 · RANDOM PIXELS', 'Noise is a starting material', [
    'so generated values are 0 through 255. Run a downloaded archive example with uv run '
    '--with numpy --with pillow 1_random_image.py; its larger requirements also include model '
    'and webcam packages.'))
+S.append(content('02 · SAVED OUTPUT', 'What does seeded noise look like?', [
+    'Each position holds a separately sampled red, green and blue value.',
+    '',
+    'This is the image produced with seed 7. Change the seed for a different pattern.',
+    '',
+    '**Try:** change WIDTH and predict the output dimensions before running.',
+], image='week05-noise.png', fit='contain', body_size=32,
+   notes='Exact output of the preceding seeded noise.py example. It is '
+         'prepared as a fallback for the PDF and PowerPoint; students can run '
+         'the current 2026 pfad/week05 script to create their own copy.'))
 S.append(cards('02 · FROM NOISE TO FORM', 'An image is a field we can transform', [
     ('sample', 'Choose values', 'Random numbers, a formula, or measured data.'),
     ('map', 'Apply a rule', 'Use position, neighbours, or time to change each value.'),
@@ -500,6 +530,17 @@ S.append(figure_slide('04 · ONE LATENT-DIFFUSION PATH',
                       'latent space or objective. Code reference: '
                       'https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb.',
                       caption='Code: [week05_notebook.ipynb](https://github.com/sd5913/pfad/blob/2025/week05/week05_notebook.ipynb)'))
+S.append(cards('04 · READ THE MODEL SHAPES', 'What changes at each block?', [
+    ('narrow', 'VAE encoder', 'Compresses image pixels into a smaller latent representation.'),
+    ('repeat', 'U-Net denoiser', 'Predicts noise repeatedly while prompt features guide the steps.'),
+    ('widen', 'VAE decoder', 'Expands a cleaned latent back into visible image pixels.'),
+], notes='The narrowing and widening trapezoids on the previous diagrams '
+   'represent different jobs, not literal hardware shapes. The CLIP encoders '
+   'on the earlier alignment slide compare text/image features; they are '
+   'not the VAE decoder. In training the denoiser prediction is compared '
+   'with the sampled noise to adjust weights; in generation weights stay fixed. '
+   'This explanation applies to the classic latent-diffusion example, not '
+   'every contemporary image model.'))
 S.append(two_col('04 · RUN IT IN PYTHON · SETUP', 'Give the local model its own environment', [
     '**Diffusers** connects the pipeline. **PyTorch** runs its tensor operations.',
     '',
@@ -635,13 +676,6 @@ S.append(cards('04 · GENERATION SETTINGS', 'Every control changes the experimen
 
 # 05 · Turn the Week 4 request/response idea into an image exercise.
 S.append(section('05', 'Generate and inspect', 'A prompt is an input; the image is a response'))
-S.append(question('multiple_choice', 'What crosses an image-generation API?',
-                  choices=['A finished chart', 'A request in; image data out',
-                           'A mouse click only', 'A video camera feed'],
-                  eyebrow_text='05 · RECALL THE API',
-                  notes='B. The client sends a request with a prompt and options; the service '
-                  'returns image data and metadata. The client decides how to display or save '
-                  'the result. This recalls Week 4 immediately before the generation/API segment.'))
 S.append(exercise('05 · BROWSER PYTHON', 'A prompt is part of the request', [
     'This prints request data. It does not send anything or need a key.',
     '',
@@ -713,6 +747,23 @@ S.append(content('05 · IMAGE EDIT · ASCII → CRT', 'Keep the input; change th
     'do not imply the 32-column slide still was used as this edit input. '
     'The CRT result invents glyphs; compare them with the actual control image. '
     'Ask what was preserved and what changed in a service-mediated image edit.'))
+S.append(content('05 · CRT VIDEO', 'Four edited stills, one coded transition', [
+    'Watch the code resolve into **SD5913**, return to a full code field, '
+    'and finally form a yarn mark.',
+    '',
+    'The four keyframes were separately image-edited. Python renders the '
+    'in-between movement; this is not an AI-generated video.',
+    '',
+    '[Play the 16-second animation](https://sd5913.github.io/teaching/week05/crt-video.html)',
+], image='week05-crt-video-poster.jpg', fit='contain', body_size=29,
+   notes='The linked HTML player at site/week05/crt-video.html serves '
+         'site/week05/crt-four-stage.mp4 (16 seconds, 24 fps). The four '
+         'Qwen Image 2.1 still edits were aligned to the same blank CRT; '
+         'scripts/week05_crt_frames.py in the ongoing draft rendered the '
+         'intermediate frames on a 36 x 24 grid. The edits can alter glyphs, '
+         'so do not claim exact text preservation. MP4 SHA-256: '
+         'a5065b144a7137119c849e1cd78fe866287a45f44fa4da511d1cd020376c9213. '
+         'Use the poster and this explanation in PDF/PPTX when the site is unavailable.'))
 S.append(content('05 · CONTROL IMAGE · DIGITAL → WOOL', 'Use an image to guide the shape', [
     '**Left:** the control image supplies a stepped diagonal arrow and a '
     'separate underscore.',
@@ -781,18 +832,30 @@ S.append(content('06 · PROJECT SEED', 'Name one meaningful interaction', [
 ], notes='Give pairs a few quiet minutes, then invite one or two examples. Keep it connected to '
     "each student's project rather than prescribing a single interface or adding a new assignment "
     'requirement. AI image generation is one possible system response, not the definition of '
-    "interaction. The assignment's detailed deliverables and due date remain to be confirmed."))
-S.append(question('multiple_choice', 'Which is the strongest first interaction to prototype?',
-                  choices=['A tool list', 'A user action with a visible response',
-                           'A model name', 'A larger image file'],
-                  eyebrow_text='06 · EXIT CHECK',
-                  notes='B. Ask students to say the interaction in one sentence: “When I ___, '
-                  'the interface ___.” This is a quick exit check, not an assessed poll.'))
+    "interaction. The due date is 1 November at 23:59; detailed deliverables and "
+    "submission instructions still require the assignment brief."))
+S.append(content('06 · OPEN QUESTION', 'What interaction do you want to make?', [
+    'What could a visitor do: click, type, move, speak, or share an image?',
+    '',
+    'What would change in response, and how would the visitor notice?',
+    '',
+    'Sketch one action -> response -> feedback loop for your project. There is no single right answer.',
+], body_size=36, notes='Invite several ideas without voting for a prescribed interface. '
+   'Let students think about their interactive experience rather than adding '
+   'a new assessed deliverable.'))
 S.append(end('Make the data visible. Make the response legible.',
              'Images are values; video adds time; interaction gives someone a way in.',
              '[' + SITE + '](https://' + SITE + '/)'))
 
 attach_reports(S, Path(__file__).resolve().parent / 'week05-reports.json')
+
+# Deckgen's Reveal view does not show a slide counter; use the same footer position
+# as its built-in PowerPoint chrome so the PDF, HTML and PPTX stay in sync.
+for index, slide in enumerate(S, 1):
+    slide.els.append(T(1400, 1000, 400, 32, f'{index:02d}', 'monomed', 22,
+                       '#CCDADD' if not slide.chrome else '#5C6470',
+                       lh=1.2, align='r', valign='b', spc=0.14,
+                       name='week05-slide-number'))
 
 DECK = {'title': f'{COURSE} · 8 October 2026 — Images & video',
         'pdf': f'{COURSE}-week05.pdf', 'slides': S}

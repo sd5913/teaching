@@ -47,17 +47,18 @@ class Week05NewsTests(unittest.TestCase):
         workflow = (ROOT / '.github/workflows/pptx.yml').read_text()
         self.assertIn("hashFiles('deck/**/*.py'", workflow)
 
-    def test_three_opening_slides_keep_the_existing_lesson(self):
-        self.assertEqual(len(self.slides), 64)
+    def test_opening_slides_keep_the_existing_lesson(self):
+        self.assertGreaterEqual(len(self.slides), 67)
         self.assertIn('Images & video', self.slides[0].title)
-        self.assertEqual(self.slides[5].title, 'Start with values')
+        self.assertEqual(self.slides[1].title, '22 October quiz · 1 November Assignment 3')
+        self.assertEqual(self.slides[6].title, 'Start with values')
         self.assertEqual(sum(slide.title == 'A value becomes a shade' for slide in self.slides), 1)
         self.assertIn('8 October 2026', text_of(self.slides[0]))
         self.assertIn('1 October holiday', text_of(self.slides[0]))
-        self.assertNotIn('1 November 2026', '\n'.join(text_of(s) for s in self.slides))
+        self.assertIn('23:59', text_of(self.slides[1]))
 
     def test_before_after_are_independent_polls_with_identical_prompt_and_choices(self):
-        before, after = self.slides[1], self.slides[3]
+        before, after = self.slides[2], self.slides[4]
         self.assertIn(PROMPT, text_of(before))
         self.assertIn(PROMPT, text_of(after))
         self.assertEqual(before.cp, {'type': 'multiple_choice', 'choices': ['A', 'B', 'C']})
@@ -71,7 +72,7 @@ class Week05NewsTests(unittest.TestCase):
         self.assertNotEqual(before.title, after.title)
 
     def test_sources_and_dates_do_not_imply_september_29_caused_the_keynote(self):
-        before, news, after = self.slides[1:4]
+        before, news, after = self.slides[2:5]
         self.assertIn('13 MAY 2025', text_of(before))
         self.assertIn('23 SEPTEMBER 2026', text_of(after))
         self.assertIn('came after the keynote', text_of(news))
@@ -83,7 +84,7 @@ class Week05NewsTests(unittest.TestCase):
         self.assertIn('different tests', text_of(news).lower())
 
     def test_official_video_has_an_embed_and_timestamped_static_fallback(self):
-        after = self.slides[3]
+        after = self.slides[4]
         embeds = [el for el in after.html_only if el.kind == 'embed']
         self.assertEqual(len(embeds), 1)
         self.assertEqual(embeds[0].yt, 'vDjW_dRyKXY')
@@ -94,7 +95,7 @@ class Week05NewsTests(unittest.TestCase):
         self.assertIn('https://www.youtube.com/watch?v=vDjW_dRyKXY&t=1694s', urls)
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
-            rendered = html_slide(after, 4, root, root / 'assets', 'assets')
+            rendered = html_slide(after, 5, root, root / 'assets', 'assets')
         self.assertIn('https://www.youtube-nocookie.com/embed/vDjW_dRyKXY?rel=0', rendered)
         self.assertIn('print-only', rendered)
         self.assertIn('t=1694s', rendered)

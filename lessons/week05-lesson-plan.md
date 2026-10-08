@@ -126,8 +126,9 @@ chosen representation.
   frames, using Pillow only. The archived
   [`st_video_stream.py`](https://github.com/sd5913/pfad/blob/2025/week05/st_video_stream.py)
   is a separate optional webcam reference, not the class example.
-- Pull the student repository's current `2026` branch. Assignment 3 is listed as
-  interactive experience, with its brief/date still TBC in the course README.
+- Pull the student repository's current `2026` branch. Remind the class about the
+  in-class quiz on 22 October and the interactive experience Assignment 3 deadline:
+  Sunday 1 November at 23:59 Hong Kong time. The detailed brief is separate.
 
 ## Two-hour run of show
 
@@ -230,8 +231,8 @@ Ask each student to complete these prompts for their own project:
 4. Which choice should the person control, and which part could the system vary?
 
 The quick output is a three-step sketch: **action → system response → feedback**. Keep the
-responses tied to each student's idea; do not imply a fixed interface or assignment
-deadline until the Assignment 3 brief is confirmed.
+responses tied to each student's idea; do not imply a fixed interface or
+deliverables beyond the eventual Assignment 3 brief.
 
 ## Sources and adaptation notes
 
@@ -280,9 +281,10 @@ deadline until the Assignment 3 brief is confirmed.
   request/response vocabulary and code-first layout; never expose a key or overwrite the
   shared illustration unintentionally.
 - **Historical assignment facts:** the 2025 Week 5 PDF p. 4 lists an Oct. 26 deadline.
-  Do not carry it forward. The active 2026 `pfad` README still lists Assignment 3 as TBC;
-  this interaction sketch remains a warm-up, not a new deliverable.
+  Do not carry it forward. Gio confirmed the 2026 deadline as Sunday 1 November at
+  23:59, and the mid-term quiz for 22 October in class. This interaction sketch
+  remains a warm-up, not a new deliverable.
 
 The sequence and local examples have been reviewed for publication. Rehearse timing and
 the selected Easel controls on the teaching machine. Any local-model demonstration remains
-optional; the Assignment 3 deadline awaits confirmation.
+optional; confirm the detailed Assignment 3 brief and submission route separately.
