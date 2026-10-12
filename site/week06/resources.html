@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SD5913 Week 6 · Sound resources</title>
+<style>body{margin:0;background:#f4f4f2;color:#000b1c;font:20px/1.55 system-ui,sans-serif}main{max-width:940px;margin:auto;padding:48px 24px 80px}h1{font-size:clamp(40px,6vw,64px);line-height:1.05}h2{font-size:30px;line-height:1.2}section{padding:24px 0;border-top:1px solid #bbc9ca}a{color:#006b74;text-underline-offset:.18em}a:focus-visible{outline:3px solid #e97132;outline-offset:4px}pre{padding:24px;background:#000b1c;color:#edf7f8;overflow:auto;font-size:17px;border-radius:4px}.button{display:inline-block;padding:10px 16px;margin:0 12px 8px 0;background:#006b74;color:white;text-decoration:none}.note{padding:16px 20px;border-left:4px solid #e97132;background:white}li{margin:8px 0}small{font-size:16px}code{font-family:ui-monospace,monospace}</style></head><body><main>
+<p><a href="./">← Week 6 slides</a> · SD5913</p>
+<h1>Sound, one layer at a time.</h1>
+<p>Start in <a href="https://strudel.cc/" target="_blank" rel="noopener">the Strudel editor</a>. Play the existing starter or an instructor-selected example, change one value, then stop it. The four links below each open a complete, cumulative score. Each next link restores the supplied baseline, so save or undo your experiment before adding the next layer.</p>
+<p class="note">Start with low device volume. Click Play or use Ctrl+Enter to start/update; click Stop or use Ctrl+. to stop. Stop before switching tabs or returning to the slides. These links never start sound automatically.</p>
+<section><h2>Read the small language</h2><p><code>setcpm(100/4)</code> gives 25 cycles/minute. Here a cycle is four beats at 100 BPM. <code>*8</code> repeats eight times; <code>~</code> leaves a rest; <code>[c3,e3,g3]</code> places three notes together. <code>stack</code> combines the layers.</p><p><a href="https://strudel.cc/workshop/first-sounds/">First sounds</a> · <a href="https://strudel.cc/workshop/first-notes/">First notes</a></p></section>
+<section id="hi-hat"><h2>1. Hi-hat</h2>
+<p><a class="button" href="https://strudel.cc/#c2V0Y3BtKDEwMC80KQpzdGFjaygKICBzKCJoaCo4IikuZ2FpbiguMTIpLAopCg%3D%3D" target="_blank" rel="noopener">Open this stage in Strudel</a> <a href="strudel/hi-hat.strudel" download>Download score</a></p>
+<pre><code>setcpm(100/4)
+stack(
+  s(&quot;hh*8&quot;).gain(.12),
+)
+</code></pre></section><section id="bass"><h2>2. Add bass</h2>
+<p><a class="button" href="https://strudel.cc/#c2V0Y3BtKDEwMC80KQpzdGFjaygKICBzKCJoaCo4IikuZ2FpbiguMTIpLAogIG5vdGUoImMyIH4gZzIgfiIpLnMoInRyaWFuZ2xlIikuZ2FpbiguMTUpLAopCg%3D%3D" target="_blank" rel="noopener">Open this stage in Strudel</a> <a href="strudel/bass.strudel" download>Download score</a></p>
+<pre><code>setcpm(100/4)
+stack(
+  s(&quot;hh*8&quot;).gain(.12),
+  note(&quot;c2 ~ g2 ~&quot;).s(&quot;triangle&quot;).gain(.15),
+)
+</code></pre></section><section id="chords"><h2>3. Add chords</h2>
+<p><a class="button" href="https://strudel.cc/#c2V0Y3BtKDEwMC80KQpzdGFjaygKICBzKCJoaCo4IikuZ2FpbiguMTIpLAogIG5vdGUoImMyIH4gZzIgfiIpLnMoInRyaWFuZ2xlIikuZ2FpbiguMTUpLAogIG5vdGUoIltjMyxlMyxnM10iKS5zKCJzaW5lIikuZ2FpbiguMDgpLAopCg%3D%3D" target="_blank" rel="noopener">Open this stage in Strudel</a> <a href="strudel/chords.strudel" download>Download score</a></p>
+<pre><code>setcpm(100/4)
+stack(
+  s(&quot;hh*8&quot;).gain(.12),
+  note(&quot;c2 ~ g2 ~&quot;).s(&quot;triangle&quot;).gain(.15),
+  note(&quot;[c3,e3,g3]&quot;).s(&quot;sine&quot;).gain(.08),
+)
+</code></pre></section><section id="melody"><h2>4. Add melody</h2>
+<p><a class="button" href="https://strudel.cc/#c2V0Y3BtKDEwMC80KQpzdGFjaygKICBzKCJoaCo4IikuZ2FpbiguMTIpLAogIG5vdGUoImMyIH4gZzIgfiIpLnMoInRyaWFuZ2xlIikuZ2FpbiguMTUpLAogIG5vdGUoIltjMyxlMyxnM10iKS5zKCJzaW5lIikuZ2FpbiguMDgpLAogIG5vdGUoImM0IGU0IGc0IGI0Iikucygic2luZSIpLmdhaW4oLjEyKSwKKQo%3D" target="_blank" rel="noopener">Open this stage in Strudel</a> <a href="strudel/melody.strudel" download>Download score</a></p>
+<pre><code>setcpm(100/4)
+stack(
+  s(&quot;hh*8&quot;).gain(.12),
+  note(&quot;c2 ~ g2 ~&quot;).s(&quot;triangle&quot;).gain(.15),
+  note(&quot;[c3,e3,g3]&quot;).s(&quot;sine&quot;).gain(.08),
+  note(&quot;c4 e4 g4 b4&quot;).s(&quot;sine&quot;).gain(.12),
+)
+</code></pre></section>
+<section><h2>Make one change with an agent</h2><ol><li>Keep a copy of the four-layer score. Predict a change to rhythm, register, harmony or melody.</li><li>In the current Easel client, create a <strong>fresh project</strong>, then Templates → Strudel sound. Older projects can retain older sample kits.</li><li>Paste the complete score, then press Run. Ask the agent: “Change only the melody to feel more spacious. Keep the tempo and other three layers. Explain the edit and preserve my starting version.”</li><li>Listen, inspect the code, compare, then Stop or Escape. If the local hi-hat is unavailable, continue in strudel.cc or omit that layer while checking the installed kit.</li><li>Keep the before/after score and one sentence about the effect. The native oscillators and bundled drums avoid remote sample banks; their timbre need not match the website.</li></ol><p><a href="https://github.com/venetanji/easel-client/blob/d8dda0f1b953136ee7fc827eeeb39104471770b4/docs/strudel.md">Verified Easel Strudel workflow</a> · <a href="https://github.com/venetanji/easel-client/blob/d8dda0f1b953136ee7fc827eeeb39104471770b4/docs/strudel-compatibility.md">Compatibility and export limits</a></p><p class="note">Source-verified workflow. Check the installed classroom build and audible Run/Stop. Export WAV is a bounded render of supported code, not a recording of every live effect.</p></section>
+<section><h2>Python examples</h2><p>Download the helper beside both examples. In that folder run <code>python noise.py</code> or <code>python tone.py</code>. Each writes a two-second WAV without playing it.</p><ul><li><a href="examples/wav_support.py" download>wav_support.py</a> — shared standard-library file writer</li><li><a href="examples/noise.py" download>noise.py</a> — seeded random samples</li><li><a href="examples/tone.py" download>tone.py</a> — frequency and amplitude</li><li><a href="examples/request_song.py" download>request_song.py</a> — offline JSON preview by default</li><li><a href="examples/TEACHER_NOTES.md">Song API contract and instructor preflight</a></li></ul><p>The song API needs a separate configured service for a live request. The teacher serializes any live demo. Students do not need an account for this lesson.</p></section>
+<section><h2>Classroom follow-ups</h2><p><strong>Tutorial video: pending</strong> the instructor’s exact selection. No substitute video is linked.</p><p>For the practice slot, the <strong>instructor opens the existing mock</strong>. No assessed questions or answer bank are published here.</p></section>
+<footer><small>Week 6 content; calendar teaching date to be confirmed. Audio and AI generation are optional design tools, not new assignment requirements.</small></footer></main></body></html>
