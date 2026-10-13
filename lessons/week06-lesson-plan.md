@@ -11,7 +11,8 @@ Continue Week 5's image lesson with another representation students can inspect.
 A list of random values becomes two seconds of noise when a sample rate and file
 format give it a playback meaning. Replacing the random rule with a sine function
 makes frequency and amplitude tangible. The song API then makes a familiar
-request/response habit asynchronous. A four-layer Strudel score makes live edits
+request/response habit asynchronous. A short local speech-model comparison connects
+text, waveforms and imperfect transcripts. A four-layer Strudel score makes live edits
 tangible. Students then use an agent to vary one layer and inspect the result.
 
 The outcome is an explanation supported by a working example. Students should
@@ -21,6 +22,7 @@ be able to:
 - calculate duration from sample count and sample rate for the mono examples;
 - predict what changes when they edit seed, frequency, amplitude or duration;
 - distinguish a submitted song request from completed, saved audio;
+- distinguish speech synthesis from transcription and check an output against its source;
 - describe one user action, the data it changes, feedback and a way to stop.
 
 The reflection and making activities are formative. They add no assessed
@@ -39,7 +41,7 @@ Assignment 3, not requirements.
    amplitude limit cannot guarantee a comfortable listening level on every device.
    Offer waveform/visual review for anyone who does not want to listen.
 4. Open the HTML deck. The analysis instrument is slide 16 and the optional
-   sequencer appendix is slide 43. Check Play, Stop, Escape and slide navigation
+   sequencer appendix is slide 46. Check Play, Stop, Escape and slide navigation
    on the teaching machine. These instruments need no microphone. Open Strudel
    separately, at low volume; Stop/Ctrl+. before switching back to the slides.
    The deck cannot stop audio in a separate tab.
@@ -64,6 +66,13 @@ Assignment 3, not requirements.
    been supplied, so open the existing resource directly. The tutorial video
    is still unidentified: its resource slot is explicitly pending, with no link.
 
+10. For the optional speech demo, follow `speech.html` and the linked PFAD
+    `week06/speech/README.md` before class. Use its separate Python 3.12 environment,
+    not the Week 4 Worker project. Pre-download the models, test espeak-ng and
+    microphone input on the teaching device, and keep a consented short WAV as a
+    fallback. No model inference or microphone recording was run while preparing
+    this addition. A microphone is unnecessary for the file-input exercise.
+
 ## Two-hour run of show
 
 | Elapsed | Slides | Activity and instructor move |
@@ -74,16 +83,18 @@ Assignment 3, not requirements.
 | 26–38 | 12–15 | Read sine as a recipe; compare frequency and amplitude at a fixed sample rate. |
 | 38–45 | 16–17 | Browser analysis; spectrogram bridge only if useful. |
 | 45–55 | 18 | Ten-minute break. Stop browser audio. |
-| 55–70 | 19–25 | Song payload, prepare/submit/poll/save, offline preview. Optional single teacher request after preflight; keep it serialized. |
-| 70–87 | 26–32 | Strudel existing starter/example, then hi-hat → bass → chords → melody. Predict each change, Update and Stop. |
-| 87–105 | 33–36 | Easel bridge and pair making. Eighteen minutes total includes the final four-minute partner test. If setup fails, stay in Strudel and paste an agent-drafted edit. |
-| 105–115 | 38 | Existing mock practice: six minutes individual work, four minutes explaining reasoning. No new questions. |
-| 115–120 | 37, 39–42 | Reflection, resources, assessment reminders and one concrete design decision. |
-| Optional | 43–44 | The reused grid sequencer illustrates input → state → scheduled sound. Not part of the required two-hour path. |
+| 55–63 | 19–25 | Song payload, prepare/submit/poll/save and offline preview. Skip fresh generation if time is tight. |
+| 63–70 | 26–28 | Text-to-speech and speech-to-text: compare a short Kokoro cue with its Whisper transcript; bounded microphone demo only after consent and preflight. |
+| 70–87 | 29–35 | Strudel existing starter/example, then hi-hat → bass → chords → melody. Predict each change, Update and Stop. |
+| 87–105 | 36–39 | Easel bridge and pair making. Eighteen minutes total includes the final four-minute partner test. If setup fails, stay in Strudel and paste an agent-drafted edit. |
+| 105–115 | 41 | Existing mock practice: six minutes individual work, four minutes explaining reasoning. No new questions. |
+| 115–120 | 40, 42–45 | Reflection, resources, assessment reminders and one concrete design decision. |
+| Optional | 46–47 | The reused grid sequencer illustrates input → state → scheduled sound. Not part of the required two-hour path. |
 
-At the end of the pair task, use slide 37 as a quick prompt, then return to it
+At the end of the pair task, use slide 40 as a quick prompt, then return to it
 in the closing discussion if needed. If time slips, omit slide 17 and a live
-API generation. Keep the Strudel buildup, making time and existing mock slot.
+API generation. If speech setup is unavailable, trace the input/output examples
+without waiting for downloads. Keep the Strudel buildup, making time and existing mock slot.
 Do not spend the class installing packages or troubleshooting account access.
 
 ## Demonstration notes
@@ -155,6 +166,31 @@ subcommand. See the pinned Easel documentation in `site/week06/examples/TEACHER_
 all fields and endpoint details. The live service, account controls and exact
 generated duration remain unverified. The local tests use fake responses.
 
+### 3a. Local speech models
+
+Slides 26–28 link to `speech.html`. In the separate PFAD speech environment,
+run the Kokoro example with a short interface cue, then transcribe its saved WAV.
+Keep the script, settings, audio and proposed transcript together. Change only
+speech speed and compare the result. Do not assume a familiar sentence will be
+pronounced or transcribed perfectly.
+
+The explicit microphone mode captures a bounded amount of local sound and sends
+5-second chunks to a local faster-whisper model. Its output can lag and the chunk
+boundaries can cut words. It is not a native streaming decoder. Only record
+consenting participants, point out Ctrl+C before starting, and use the WAV input
+if microphone permission or the device fails. No recording or model loading
+occurs just by opening the slides or exercise page.
+
+Kokoro writes at 24 kHz. The transcription file decoder resamples to 16 kHz;
+changing a rate label alone would change the perceived speed and pitch. The
+transcript is a model prediction. Compare it with the source, including pauses
+and silence. Do not treat it as a verbatim record without checking.
+
+KittenTTS is a separately versioned optional comparison in the linked notes.
+Keep its legacy lightweight model distinct from the current, larger KittenTTS 2.
+These scripts add no assignment requirement. Runtime model quality, installation
+and microphone behavior still need a classroom preflight.
+
 ### 4. Strudel live coding, then Easel
 
 Begin in strudel.cc with the already-present starter or an existing example
@@ -162,7 +198,7 @@ selected by the instructor. Play, change one visible value, Update, and Stop.
 No specific third-party song is copied into this repository. Tutorial video:
 pending the instructor's exact link; the current lesson does not guess one.
 
-Use slides 29–32 in order. Each opens a complete cumulative score. The next
+Use slides 32–35 in order. Each opens a complete cumulative score. The next
 link restores the supplied baseline, so undo an experiment before adding the
 next layer, or keep it as a separate saved variation:
 
@@ -208,13 +244,14 @@ Teacher/agent implementation notes, verified against current source:
 The 18-minute making block includes four minutes of pair review. Keep a before
 and after score plus one sentence explaining the change. This is formative,
 not a new assessed deliverable. Students can inspect the visual code/feedback
-without listening. The optional slides 43–44 retain the original grid sequencer
+without listening. The optional slides 46–47 retain the original grid sequencer
 for illustrating one click, one state change and one scheduled note.
 
 ### Verification and classroom limits
 
-The local Python examples were executed and their WAV headers/sample values
-checked. Song API tests use mocked responses; no live generation or credentials
+The standard-library noise and tone examples were executed and their WAV
+headers/sample values checked. Speech tests use model and device substitutes;
+actual synthesis, transcription and microphone capture were not run. Song API tests use mocked responses; no live generation or credentials
 were used. Easel's editing and export behavior is verified from the pinned
 source and test assertions, not from the instructor's installed client.
 

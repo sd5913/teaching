@@ -58,3 +58,26 @@ The four cumulative scores are original teaching examples. No third-party song
 is transcribed or packaged. The website starter is used through its own editor.
 No tutorial video is identified yet. Keep that slot pending until the instructor
 supplies the exact selection.
+
+## Speech examples, 13 October 2026
+
+The speech extension uses official source documentation for
+[faster-whisper 1.2.1](https://github.com/SYSTRAN/faster-whisper/blob/v1.2.1/README.md),
+[Kokoro 0.9.4](https://pypi.org/project/kokoro/0.9.4/),
+[Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M), and
+[sounddevice 0.5.3](https://python-sounddevice.readthedocs.io/en/0.5.3/usage.html).
+The separate Python 3.12 environment avoids the PFAD Week 4 Worker project.
+
+The microphone example uses bounded continuous capture and processes short
+chunks with faster-whisper. This is near-live chunking, not a native streaming
+decoder. Recording can finish before slow inference does. File decoding
+resamples audio; sample-rate relabelling would be incorrect. Models and real
+microphone inference were not run while preparing these additions.
+
+The linked comparison uses the official projects for
+[Piper](https://github.com/OHF-Voice/piper1-gpl),
+[Chatterbox](https://github.com/resemble-ai/chatterbox),
+[Qwen3-TTS](https://github.com/QwenLM/Qwen3-TTS), and
+[KittenTTS](https://github.com/KittenML/KittenTTS).
+It distinguishes Kitten's legacy 0.8.1 API/mini-0.8 model from KittenTTS 2.
+No shared model benchmark or blanket commercial-use claim is made.

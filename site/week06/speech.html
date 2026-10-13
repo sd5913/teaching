@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SD5913 Week 6 · Speech synthesis and transcription</title>
+<style>
+body{margin:0;background:#f4f4f2;color:#000b1c;font:20px/1.55 system-ui,sans-serif}main{max-width:980px;margin:auto;padding:48px 24px 80px}h1{font-size:clamp(36px,6vw,62px);line-height:1.08}h2{font-size:30px;line-height:1.2}section{padding:26px 0;border-top:1px solid #bbc9ca}a{color:#006b74;text-underline-offset:.18em}a:focus-visible,summary:focus-visible{outline:3px solid #e97132;outline-offset:4px}pre{padding:22px;background:#000b1c;color:#edf7f8;overflow:auto;font-size:17px;border-radius:4px}code{font-family:ui-monospace,monospace}.note{padding:16px 20px;border-left:4px solid #e97132;background:white}li{margin:8px 0}summary{cursor:pointer;font-weight:700}small{font-size:16px}
+</style></head><body><main>
+<p><a href="./">Week 6 slides</a> · <a href="resources.html">Sound resources</a></p>
+<h1>Speech synthesis and transcription</h1>
+<p>A written cue can become a waveform. A recording can become a proposed transcript. Try both directions with a short sentence and check what changes.</p>
+<p class="note">No microphone starts from this page. These optional Python examples run on your own machine. First use downloads libraries, model weights and language resources. Local inference needs no classroom API key. The new model and microphone demos have not run in the validation environment.</p>
+<section id="setup"><h2>Before class</h2>
+<p><a href="https://github.com/sd5913/pfad/tree/draft/week06-speech-examples/week06/speech">Open the PFAD speech scripts and setup instructions</a>. Use the separate <strong>Python 3.12</strong> environment in <code>week06/speech</code>; the repository’s root environment belongs to the Week 4 Worker.</p>
+<ul><li>The primary examples use <code>kokoro==0.9.4</code> and <code>faster-whisper==1.2.1</code> on CPU. Their installed dependencies and model files need a preflight before a live lesson.</li>
+<li>Kokoro needs PyTorch, language resources and <code>espeak-ng</code>. Microphone capture uses sounddevice/PortAudio and the operating system’s microphone permission. A server or remote notebook does not automatically receive your browser’s microphone.</li>
+<li>Download and test the models ahead of time. <code>--check</code> checks prerequisites without loading model weights or recording. It cannot prove that a model will run successfully.</li>
+<li>Keep a short PCM WAV you have permission to use. The file-input exercise needs no microphone. Neither script plays audio automatically.</li></ul>
+<pre><code>cd week06/speech
+uv run --no-project synthesise.py --check
+uv run --no-project transcribe.py --check</code></pre>
+<p>The following commands assume the PFAD setup is complete and the terminal stays in this folder. Use a new output name for each comparison; existing results are preserved.</p>
+</section>
+<section id="synthesis"><h2>1. Text to a spoken cue</h2>
+<p>Predict how a spoken file-save notification will feel. Keep the wording short and use the preset synthetic voice.</p>
+<pre><code>uv run --no-project synthesise.py \
+  --text "Your file is ready." \
+  --speed 1.0 --out out/cue.wav</code></pre>
+<p>Kokoro uses <code>KPipeline(lang_code="a", device="cpu")</code> and the preset <code>af_heart</code>. The script keeps all generated chunks, then saves a mono PCM WAV at <strong>24,000 samples/s</strong> and a settings record. Open the saved file yourself at low volume.</p>
+<p>Change only <code>--speed 1.0</code> to <code>--speed 0.85</code> and save <code>out/cue-slower.wav</code>. Does it feel clearer, calmer or more interruptive? The numeric setting does not guarantee an exact duration. Check pronunciation as well as tone.</p>
+</section>
+<section id="file"><h2>2. A file to a proposed transcript</h2>
+<pre><code>uv run --no-project transcribe.py \
+  --audio out/cue.wav --out out/cue.txt</code></pre>
+<p>faster-whisper runs the English <code>base.en</code> model using CPU <code>int8</code> computation. Its file decoder resamples audio to mono <strong>16,000 samples/s</strong>. Resampling changes the sample sequence correctly; merely changing the rate label would change playback speed and pitch.</p>
+<p>Compare the printed and saved transcript with your original sentence and the actual audio. A correct transcript does not prove natural pronunciation. An error may come from the voice, the recognizer, or the way the words were recorded.</p>
+<p class="note">Speech recognition can hallucinate words, especially around silence or noise. Treat the text as a prediction until you check it. Do not use this classroom prototype as a verbatim record of someone else’s words.</p>
+</section>
+<section id="microphone"><h2>3. A bounded microphone transcript</h2>
+<p>Record yourself, or get the consent of anyone whose voice might be captured. Start only when the room is ready. This command records continuously for three 5-second chunks, then closes the microphone:</p>
+<pre><code>uv run --no-project transcribe.py --microphone \
+  --chunks 3 --seconds 5 --out out/mic.txt</code></pre>
+<p>The microphone supplies mono 16 kHz samples while the local model processes queued chunks. Text arrives after each chunk and can lag on a slow machine. <strong>Ctrl+C</strong> stops the demo. The complete script bounds recording, queue memory and waits for the capture device.</p>
+<p>This is <strong>chunked near-live transcription</strong>. It does not promise native streaming, immediate partial words or seamless sentence boundaries. A word split across two chunks may be lost or changed. Longer chunks give more context but delay feedback.</p>
+<p>If microphone permission or the input device fails, use the file example above. Do not publish recordings or transcripts of classmates. The exercise adds no assessed submission.</p>
+</section>
+<section id="reflect"><h2>A small design experiment</h2>
+<ol><li>Keep one sentence, its WAV, settings and transcript as a reference.</li><li>Change one synthesis parameter. Predict what a listener will notice.</li><li>Compare the second audio and transcript. Which result is useful evidence for your prediction?</li><li>Sketch an interface that lets a person correct a transcript or stop a spoken cue.</li></ol>
+<p>The visual route is to inspect the sentence, sample rate, duration and transcript. Listening or microphone use is optional.</p>
+</section>
+<section id="alternatives"><h2>Other speech synthesis options</h2>
+<p>Kokoro is the main exercise so everyone can discuss the same inputs and settings. Optional alternatives have different installation, hardware and licensing requirements.</p>
+<ul>
+<li><a href="https://github.com/OHF-Voice/piper1-gpl">Piper</a>: a local CPU voice for interface prompts. The current engine is GPL-3.0-or-later; inspect the chosen voice’s own model card and license.</li>
+<li><a href="https://github.com/resemble-ai/chatterbox">Chatterbox</a>: expressive dialogue and delivery cues. Current upstream Nano/V3 options may not exist in the published 0.1.7 wheel. Hardware and checkpoint choice need their own tested setup.</li>
+<li><a href="https://github.com/QwenLM/Qwen3-TTS">Qwen3-TTS</a>: multilingual voice design and delivery instructions, with different controls for different checkpoints. Its larger models suit a prepared demonstration rather than an assumed fast CPU exercise.</li>
+</ul>
+<p>Compare the same text for pronunciation, controllability, delay and resource use. Check the actual model license as well as the Python package. These are options to investigate, not a quality ranking or a claim that they were run here. Use preset or designed voices; reference-speaker experiments require that person’s permission for the intended use and sharing.</p>
+<details><summary>KittenTTS needs a version label</summary>
+<p>The older <a href="https://github.com/KittenML/KittenTTS/blob/0.8.1/README.md">KittenTTS 0.8.1 API</a> can use <a href="https://huggingface.co/KittenML/kitten-tts-mini-0.8">mini-0.8</a>, an approximately 80 MB model. That is a legacy English example. It is distinct from <a href="https://huggingface.co/KittenML/kitten-tts-2">KittenTTS 2</a>, a much larger multilingual model with a different API and weights license. Do not apply an old “25 MB” claim to the current model. Neither is installed or benchmarked for this lesson.</p>
+</details>
+</section>
+<section id="sources"><h2>Sources and checks</h2>
+<p><a href="https://github.com/SYSTRAN/faster-whisper/blob/v1.2.1/README.md">faster-whisper 1.2.1</a> · <a href="https://github.com/openai/whisper">Whisper</a> · <a href="https://pypi.org/project/kokoro/0.9.4/">Kokoro 0.9.4</a> · <a href="https://huggingface.co/hexgrad/Kokoro-82M">Kokoro model card</a> · <a href="https://python-sounddevice.readthedocs.io/en/0.5.3/installation.html">Microphone setup</a></p>
+<p>The source APIs were checked against official documentation. Offline tests cover the scripts’ validation, file handling and bounded capture logic with model/device substitutes. They do not establish actual speech quality, model-download reliability, performance or microphone behavior on the classroom computer. Pinning the main packages alone does not guarantee identical results across machines.</p>
+</section>
+<footer><small>SD5913 Week 6. Local speech models are optional tools for design exploration. Use original text and preset synthetic voices.</small></footer>
+</main></body></html>

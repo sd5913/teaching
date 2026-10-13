@@ -23,14 +23,14 @@ PY_WAVE = 'https://docs.python.org/3.12/library/wave.html'
 ANALYSIS_CODE = (HERE / 'week06_analysis.js').read_text()
 SEQUENCER_CODE = (HERE / 'week06_sequencer.js').read_text()
 
-S.append(title(EYE, 'Sound as data', 'Noise, waveforms, generated songs and interaction.',
+S.append(title(EYE, 'Sound as data', 'Noise, waveforms, speech, songs and interaction.',
     notes='Two-hour lesson. Keep the Week 6 lesson numbering. The teaching date has not been confirmed. '
     'The class builds on Week 5 images and API requests, for designers learning to program with agents. '
     'Have the offline noise and tone files ready. Start with the device volume low. No sound autoplays.'))
 
 S.append(agenda(EYE, [
     'Recall image values and positions', 'Make two seconds of noise',
-    'Shape a tone with a rule', 'Request a song through an API',
+    'Shape a tone with a rule', 'Explore songs and speech models',
     'Live-code four layers in Strudel', 'Edit with an agent and reflect',
 ], notes='The making and reflection blocks are part of the two-hour session. '
    'The standard-library examples work without accounts, external packages or a microphone. '
@@ -208,6 +208,9 @@ S.append(two_col('03 · WEEK 5 API PARALLEL', 'The request changes. The habit st
 from week06_api_slides import api_slides
 S.extend(api_slides())
 
+from week06_speech_slides import speech_slides
+S.extend(speech_slides())
+
 from week06_livecoding_slides import livecoding_slides
 S.extend(livecoding_slides())
 
@@ -239,7 +242,7 @@ S.append(content('PRACTICE · 10 MINUTES', 'Try the existing mock', [
 S.append(content('LINKED RESOURCES', 'Keep the code, not just the sound', [
     '[Open the lesson resources](resources.html)',
     'Four cumulative Strudel scores and links to the editor.',
-    'Python WAV examples and the offline song-request preview.',
+    'Python WAV, local speech models and the song-request preview.',
     'Tutorial video: pending the instructor’s selection.',
 ], notes='The resources page and examples travel with the HTML preview. '
     'The requested tutorial video has not been identified. Keep its status explicit; add the exact link '
