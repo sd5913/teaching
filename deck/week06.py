@@ -10,7 +10,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from deckgen import T
 from deckgen.layouts import (title, end, agenda, section, content, statement,
-                             two_col, figure_slide, code_panel, live)
+                             two_col, figure_slide, code_panel, live, question, exercise)
 import week05_figures as I
 import week06_figures as F
 
@@ -80,6 +80,35 @@ S.append(two_col('01 · THE AUDIO CLOCK', 'A sample rate gives the sequence a du
     '# one sample per time step', 'time = index / sample_rate'],
     notes='Here index stands for a sample index inside a loop. For mono, one frame contains one sample. '
     'For stereo, a frame contains a left and right sample. Do not confuse samples per second with cycles per second.'))
+
+S.append(question('multiple_choice', 'Eight samples at four samples/s: how long?',
+    choices=['0.5 seconds', '2 seconds', '4 seconds', '8 seconds'],
+    eyebrow_text='PREDICT · THE AUDIO CLOCK',
+    notes='Formative check, not an assessed quiz. Answer: 2 seconds. Give everyone time to calculate '
+    'before revealing the distribution. Ask what stays unchanged if we relabel the SAME eight numbers '
+    'as eight samples/s: the values stay fixed but duration becomes one second. Discuss it aloud if '
+    'ClassPoint is unavailable; the title and choices remain readable in HTML and PDF.'))
+
+S.append(exercise('01 · BROWSER EXPERIMENT', 'Stretch time without changing the samples', [
+    'Eight dots show eight fixed sample values. Run once at eight samples/s.',
+    'Change only rate to 4. Predict the duration before you run again.',
+    '{muted:The values and their order stay fixed; only the time scale changes. No sound plays.}',
+], code='samples = [0, 1, 3, 2, 0, -1, -3, -2]\n'
+        'rate = 8\n'
+        'dots = [(int(i/rate*360)+20, 120-v*25)\n'
+        '        for i, v in enumerate(samples)]\n'
+        'print(\'<svg viewBox="0 0 800 220" width="800">\')\n'
+        'for x, y in dots:\n'
+        '    print(f\'<circle cx="{x}" cy="{y}" r="8"/>\')\n'
+        'print(f\'<text x="20" y="200">{len(dots)/rate:g}s</text>\')\n'
+        'print(\'</svg>\')',
+   check='ok = ">2s<" in _out and \'cx="650"\' in _out',
+   eid='stretch-the-audio-clock', hint='rate = 4 · ctrl+enter runs it',
+   notes='Browser Python prints an SVG; it never synthesizes or plays sound. The dots show '
+         'signed signal samples around a centre line, not a measured recording. Let students '
+         'predict duration first. This changes playback interpretation rather than resampling; '
+         'the follow-up tone comparison instead changes frequency with the sample rate fixed. '
+         'The check expects two seconds and the last dot at x=650.'))
 
 S.append(figure_slide('01 · WAVEFORM AND SAMPLES', 'The waveform shows signal amplitude over time', F.w06_waveform(),
     caption='This illustration uses 44,100 samples/s. The WAV demos use 22,050 samples/s.',
@@ -155,6 +184,14 @@ S.append(two_col('02 · TWO DIFFERENT RATES', 'Frequency and sample rate', [
     'comparison. Changing the sample-rate label on already generated samples changes playback speed and pitch, '
     'which is a separate experiment.'))
 
+S.append(question('multiple_choice', 'Frequency 220 to 440 Hz: what stays the same?',
+    choices=['Duration and sample count', 'Number of cycles', 'Pitch', 'Waveform spacing'],
+    eyebrow_text='PREDICT · FIXED SAMPLE RATE',
+    notes='Formative check, not an assessed quiz. Answer: duration and sample count. '
+    'At a fixed 22,050 samples/s for two seconds, both files contain 44,100 mono samples. '
+    'The 440 Hz version has twice as many cycles in that time. If ClassPoint is unavailable, '
+    'ask students to choose in pairs before comparing the two saved WAVs.'))
+
 S.append(content('02 · AMPLITUDE AND LISTENING', 'The same numbers can feel different', [
     'Lower AMPLITUDE from 0.08 to 0.04 and compare.',
     'Then imagine the same cue in a quiet room and a busy studio.',
@@ -166,9 +203,11 @@ S.append(content('02 · AMPLITUDE AND LISTENING', 'The same numbers can feel dif
 S.append(figure_slide('02 · SOUND IN THE BROWSER', 'One sound, three views', F.w06_analysis_still(),
     sketch=live('week06-analysis', ANALYSIS_CODE, 1200, 700,
                 hint='Click Play · change frequency or waveform · Stop / Escape'),
-    caption='HTML has a live instrument. PDF and PowerPoint show the illustrated still.',
-    notes='Reused course instrument. Start only with a click. Change sine to triangle and sawtooth and observe '
-    'additional frequency components. This uses Web Audio in JavaScript, not the Python WAV writer. '
+    caption='Predict: double the frequency. What moves in the waveform and spectrum?',
+    notes='Reused course instrument. Start only with a click. Ask for a prediction, then double '
+    'frequency without changing waveform type; point to the shortened period and the measured '
+    'spectrum peak moving right. Next change sine to triangle and sawtooth at the same frequency '
+    'and observe additional frequency components. This uses Web Audio in JavaScript, not the Python WAV writer. '
     'The FFT display measures the browser oscillator output, not a microphone. Stop closes the AudioContext; '
     'Escape and slide navigation also stop. This still is illustrative, not a captured FFT. '
     'Source: ' + SOUND_SOURCE + ' and https://webaudio.github.io/web-audio-api/#AnalyserNode'))
@@ -210,6 +249,27 @@ S.extend(api_slides())
 
 from week06_speech_slides import speech_slides
 S.extend(speech_slides())
+
+# Worked interaction: input, state and audible feedback before Strudel.
+S.append(figure_slide('03 · SOUND IN THE BROWSER', 'A click changes the score', F.w06_written_score(),
+    sketch=live('week06-score', SEQUENCER_CODE, 1000, 600,
+                hint='Click Play · change one cell · Stop / Escape'),
+    caption='Predict a cell edit, test the next loop, then show your partner how to Stop.',
+    notes='Use the original course-owned sequencer as a worked example. Let a partner choose '
+    'one cell to change, predict the result, then click it and observe the '
+    'changed grid value and then listen when the playhead reaches that step. This is JavaScript Web Audio, '
+    'not Python or the API. A visible playhead is feedback. Stop, Escape, navigation and page hiding close '
+    'the audio context. No microphone, account or external sample pack is involved. Source: ' + SOUND_SOURCE))
+
+S.append(two_col('03 · READING THE INTERACTION', 'A small state change has an audible result', [
+    'The grid stores the score.',
+    'A click toggles one value between 0 and 1.',
+    'The player reads the current grid at each step.',
+], ['// excerpt from the browser instrument', 'grid[r][c] = 1 - grid[r][c];', '',
+    '// the scheduler checks a cell', 'if (grid[r][step]) {', '  // schedule a short note', '}'], lang='js', right_size=28,
+    notes='This is a shortened excerpt explaining state, not a complete sequencer. The full script ships with '
+    'the deck. Row maps to pitch and column to a time step. A click changes the data immediately; sound '
+    'changes when the scheduler next reaches that step. Ask students where they would put a mute control.'))
 
 from week06_livecoding_slides import livecoding_slides
 S.extend(livecoding_slides())
@@ -270,26 +330,6 @@ S.append(end('What should the listener notice?',
     'A sound is data, a design choice and part of an interaction.',
     'sd5913.github.io/teaching',
     notes='Close with one concrete choice from the room.'))
-
-# Optional worked interaction, after the main lesson close.
-S.append(figure_slide('OPTIONAL · SOUND IN THE BROWSER', 'A click changes the score', F.w06_written_score(),
-    sketch=live('week06-score', SEQUENCER_CODE, 1000, 600,
-                hint='Click Play · change one cell · Stop / Escape'),
-    caption='Four sine voices, eight steps. Each cell chooses whether a note plays.',
-    notes='Use the original course-owned sequencer as a worked example. Click an empty cell, observe the '
-    'changed grid value and then listen when the playhead reaches that step. This is JavaScript Web Audio, '
-    'not Python or the API. A visible playhead is feedback. Stop, Escape, navigation and page hiding close '
-    'the audio context. No microphone, account or external sample pack is involved. Source: ' + SOUND_SOURCE))
-
-S.append(two_col('OPTIONAL · READING THE INTERACTION', 'A small state change has an audible result', [
-    'The grid stores the score.',
-    'A click toggles one value between 0 and 1.',
-    'The player reads the current grid at each step.',
-], ['// excerpt from the browser instrument', 'grid[r][c] = 1 - grid[r][c];', '',
-    '// the scheduler checks a cell', 'if (grid[r][step]) {', '  // schedule a short note', '}'], lang='js', right_size=28,
-    notes='This is a shortened excerpt explaining state, not a complete sequencer. The full script ships with '
-    'the deck. Row maps to pitch and column to a time step. A click changes the data immediately; sound '
-    'changes when the scheduler next reaches that step. Ask students where they would put a mute control.'))
 
 for index, slide in enumerate(S, 1):
     slide.els.append(T(1400, 1000, 400, 32, f'{index:02d}', 'monomed', 22,
