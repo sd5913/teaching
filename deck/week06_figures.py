@@ -13,6 +13,7 @@ from deckgen.core import pil_font
 from deckgen.figures import Canvas, INK, ORANGE, MUTED, LINE, TEAL
 
 __all__ = ['w06_air_pressure', 'w06_pressure_measurement', 'w06_signal_lab_still',
+           'w06_speech_pipeline',
            'w06_waveform', 'w06_spectrogram_how', 'w06_midi',
            'w06_grid_score', 'w06_generate_test', 'w06_two_roads', 'w06_sound_spec',
            'w06_written_score', 'w06_strudel_pattern',
@@ -93,6 +94,35 @@ def w06_signal_lab_still(name='w06-signal-lab', w=1680, h=640):
     _label(c, 108, 435, 'signal -', 25)
     _label(c, 70, 550, '22,050 samples/s  /  44,100 samples  /  2 seconds', 32)
     _label(c, 70, 606, 'HTML: select tone or seeded noise, then PLAY 2 s or STOP.', 29, ORANGE)
+    return c.finish(name)
+
+
+def w06_speech_pipeline(name='w06-speech-pipeline', w=1680, h=640):
+    """The capture/transport changes, but transcription and human review stay."""
+    c = Canvas(w, h, bg=WHITE)
+    _label(c, 85, 60, 'LOCAL CONSOLE', 32)
+    _label(c, 85, 100, 'sounddevice mic', 25, MUTED)
+    c.rect(80, 170, 280, 105, fill=INK)
+    _label(c, 220, 230, 'Python frames', 32, WHITE, anchor='middle')
+    _label(c, 85, 335, 'LOCAL BROWSER', 32)
+    _label(c, 85, 375, 'START + permission', 25, MUTED)
+    c.rect(80, 425, 280, 105, fill=DARK_TEAL)
+    _label(c, 220, 485, 'WebRTC track', 32, WHITE, anchor='middle')
+    _arrow(c, 375, 220, 530, 295, ORANGE, 6, 18)
+    _arrow(c, 375, 480, 530, 350, ORANGE, 6, 18)
+    c.rect(550, 250, 290, 145, fill=TEAL)
+    _label(c, 695, 315, 'mono 16 kHz', 36, WHITE, anchor='middle')
+    _label(c, 695, 362, 'finite chunks', 27, WHITE, anchor='middle')
+    _arrow(c, 855, 320, 970, 320, ORANGE, 6, 18)
+    c.rect(990, 250, 265, 145, fill=INK)
+    _label(c, 1123, 313, 'Whisper', 38, WHITE, anchor='middle')
+    _label(c, 1123, 363, 'proposed text', 28, WHITE, anchor='middle')
+    _arrow(c, 1270, 320, 1360, 320, ORANGE, 6, 18)
+    c.rect(1380, 250, 235, 145, fill=DARK_TEAL)
+    _label(c, 1498, 313, 'CHECK', 38, WHITE, anchor='middle')
+    _label(c, 1498, 363, 'then reply', 28, WHITE, anchor='middle')
+    _label(c, 840, 598, 'Capture moves to the browser. A person still corrects the transcript.',
+           32, anchor='middle')
     return c.finish(name)
 
 

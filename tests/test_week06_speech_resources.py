@@ -30,12 +30,12 @@ class SpeechResourcesTests(unittest.TestCase):
         spec.loader.exec_module(module)
         return module
 
-    def test_three_speech_slides_fit_existing_lesson(self):
+    def test_six_speech_slides_follow_music(self):
         slides=self.module().speech_slides()
-        self.assertEqual(len(slides),3)
+        self.assertEqual(len(slides),6)
         sys.path.insert(0,str(ROOT/'deck'))
         import week06
-        self.assertEqual(len(week06.S),53)
+        self.assertEqual(len(week06.S),58)
 
     def test_resource_page_has_local_navigation_and_no_recording_or_autoplay(self):
         for tag,attrs in Tags(self.page()).items:
@@ -46,6 +46,7 @@ class SpeechResourcesTests(unittest.TestCase):
             if href and not url.scheme and not url.netloc and url.path:
                 self.assertTrue((ROOT/'site/week06'/url.path).exists(),href)
         self.assertIn('speech.html',(ROOT/'site/week06/resources.html').read_text())
+        self.assertIn('examples/speech_webrtc.py', self.page())
 
     def test_speech_page_discloses_chunking_dependencies_and_verification_limits(self):
         page=self.page()
@@ -64,8 +65,8 @@ class SpeechResourcesTests(unittest.TestCase):
 
     def test_run_sheet_preserves_workshop_time_and_updates_slide_numbers(self):
         notes=(ROOT/'lessons/week06-lesson-plan.md').read_text()
-        for text in ('58–65 | 32–34','65–87 | 35–43','87–105 | 44–47',
-                     '105–115 | 49'):
+        for text in ('50–70 | 25–34','70–88 | 35–38','92–106 | 46–52',
+                     '106–116 | 54'):
             self.assertIn(text,notes)
         self.assertIn('bounded',notes)
 

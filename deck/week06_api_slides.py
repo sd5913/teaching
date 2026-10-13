@@ -4,7 +4,7 @@ from deckgen.layouts import content, code_panel
 
 def api_slides():
     return [
-        code_panel('03 · A SONG REQUEST', 'A request describes the intended sound', [
+        code_panel('04 · MUSIC API · REQUEST', 'A request describes the intended sound', [
             '{', '  "model": "suno-music",',
             '  "prompt": "Gentle ambient piano, warm strings, slow pulse",',
             '  "title": "Evening", "make_instrumental": true,',
@@ -16,7 +16,7 @@ def api_slides():
             'classroom preflight. Do not add n, seed or BPM fields borrowed from an image API. '
             'The implementation and docs provenance is recorded in site/week06/examples/TEACHER_NOTES.md. '
             'https://github.com/venetanji/easel/blob/7c2a419e1eb2143a071d31ae45f2f105fcbf6b81/AUDIO_API.md'),
-        content('03 · ASYNCHRONOUS WORK', 'Submitted is different from ready', [
+        content('04 · MUSIC API · STATUS', 'Submitted is different from ready', [
             'Prepare the JSON request locally.',
             'Submit once and keep the returned attempt identity.',
             'Poll status with a time limit, then follow the returned track IDs.',
@@ -26,7 +26,7 @@ def api_slides():
             'completion and a saved playable file are separate states. The same-origin content endpoint '
             'avoids following arbitrary URLs or forwarding an API key to another host. No automatic retry '
             'of an ambiguous generation POST. Exact route sequence is in site/week06/examples/TEACHER_NOTES.md.'),
-        code_panel('03 · NO ACCOUNT NEEDED', 'The default is an offline request preview', [
+        code_panel('04 · MUSIC API · OFFLINE', 'The default is an offline request preview', [
             'python request_song.py \\',
             '  --prompt "Gentle ambient piano, warm strings, slow pulse" \\',
             '  --title "Evening" --instrumental \\',
@@ -37,7 +37,7 @@ def api_slides():
             'which still contacts the backend and fills a browser form. The complete script requires '
             'an explicit --send before any API request and uses EASEL_BASE_URL and EASEL_API_KEY. '
             'Never put the key in the deck, source file, screen recording or repository.'),
-        content('03 · INSTRUCTOR DEMO', 'One generation at a time', [
+        content('04 · MUSIC API · INSTRUCTOR', 'One generation at a time', [
             'The current backend uses one shared Suno browser.',
             'Its latest-attempt status can change if another request arrives.',
             'The instructor runs any live generation after checking the account.',
@@ -49,7 +49,7 @@ def api_slides():
             'the lesson. Live service availability, credits, provider terms and classroom playback remain '
             'unverified. A human handles login and CAPTCHA. Existing generated audio can be a fallback '
             'only when the instructor has an appropriate saved example.'),
-        content('03 · REQUEST AND REFLECTION', 'Which parts of the brief are precise?', [
+        content('04 · MUSIC API · REFLECT', 'Which parts of the brief are precise?', [
             'Compare “30 seconds” with “a gentle sense of arrival”.',
             'Which part can you measure? Which part needs a listener’s judgment?',
             'Change one field in the offline request and explain your prediction.',

@@ -8,12 +8,12 @@ EASEL_DOCS = 'https://github.com/venetanji/easel-client/blob/d8dda0f1b953136ee7f
 
 def livecoding_slides():
     slides = [
-        section('04 · LIVE CODING', 'Change the score. Hear the change.',
+        section('03 · MUSIC · LIVE CODING', 'Change the score. Hear the change.',
             'Hi-hat → bass → chords → melody → an agent-assisted variation',
             notes='Open Strudel in a separate tab. Keep the HTML lesson tab available. '
             'Linked stages are used instead of an iframe so keyboard shortcuts and audio stopping have one clear owner. '
             'Stop the editor before switching back; changing a slide cannot stop another tab.'),
-        content('04 · LISTEN FIRST', 'Begin with a working example', [
+        content('03 · MUSIC · LISTEN FIRST', 'Begin with a working example', [
             '[Open strudel.cc](https://strudel.cc/)',
             'Play the existing starter or an example selected by the instructor.',
             'Change one value. Update. What did you hear?',
@@ -23,7 +23,7 @@ def livecoding_slides():
             'The current public starter was tested through the cloud browser for Play and Stop UI state, not human audibility. '
             'Do not assume an example using a website sample bank will transfer to Easel. '
             'Tutorial video selection is still pending; the resources page says so without a fabricated link.'),
-        content('04 · A SMALL MUSICAL LANGUAGE', 'Four layers share one cycle', [
+        content('03 · MUSIC · PATTERNS', 'Four layers share one cycle', [
             '**Hi-hat** marks the pulse. **Bass** gives a low foundation.',
             '**Chords** put notes together. **Melody** moves through notes.',
             '*8 repeats; ~ is a rest; commas put notes together.',
@@ -41,7 +41,7 @@ def livecoding_slides():
         'Keep the other layers. Replace one melody note with ~.',
     ]
     for i, (stage, prompt) in enumerate(zip(STAGES, prompts), 1):
-        slide = code_panel(f'04 · LAYER {i} OF 4', stage['label'],
+        slide = code_panel(f'03 · MUSIC · LAYER {i} OF 4', stage['label'],
             stage['code'].rstrip().splitlines(), lang='js',
             caption=prompt,
             notes='This is the complete cumulative score, ready to replace the editor buffer. '
@@ -63,7 +63,7 @@ def livecoding_slides():
             'body', 30, '#006B74'))
         slides.append(slide)
     slides.extend([
-        content('04 · TAKE THE SCORE TO EASEL', 'Let the agent change one layer', [
+        content('03 · MUSIC · AGENT EDIT', 'Let the agent change one layer', [
             'Create a fresh project, then Templates → Strudel sound.',
             'Paste the four-layer score. You press Run to start sound.',
             '“Make the melody more spacious. Keep the other layers and tempo.”',
@@ -75,7 +75,7 @@ def livecoding_slides():
             'If the installed build differs, keep the exercise on strudel.cc. '
             'Use bundled drums and native synths rather than assuming website sample banks exist locally. '
             'Source-verified, not an installed-classroom-client test: ' + EASEL_DOCS),
-        content('04 · KEEP THE RESULT', 'A live edit needs a saved version', [
+        content('03 · MUSIC · KEEP THE RESULT', 'A live edit needs a saved version', [
             'Keep the starting score and the changed score.',
             'Ask the agent to save the working score, then reopen and check it.',
             'For a short file: Run → choose cycles → Export WAV.',

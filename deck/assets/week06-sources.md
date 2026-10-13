@@ -92,3 +92,30 @@ The linked comparison uses the official projects for
 [KittenTTS](https://github.com/KittenML/KittenTTS).
 It distinguishes Kitten's legacy 0.8.1 API/mini-0.8 model from KittenTTS 2.
 No shared model benchmark or blanket commercial-use claim is made.
+
+## Console-to-browser speech revision
+
+The 2025 Week 6 PDF pp. 38–43 links speech tools and poses asynchronous
+microphone-loopback questions (also tutorial p. 49); it contains no runnable
+WebRTC or voice agent. Week 7 PDF pp. 15–17 introduces text agents; Week 9
+PDF pp. 33, 39, 46 and 56 discusses WebRTC/WebSockets, Speaches and a PyAudio
+transcription exercise separately.
+The separate [legacy PFAD Week 9 README](https://github.com/venetanji/pfad/blob/7eb4077d508866ce0d95bbbd489ee64e9badb78b/week09/README.md)
+describes a Streamlit WebRTC transcription app and a faster-whisper service, but
+the named `speech_to_text_webrtc.py` and Compose file were never committed.
+The canonical 2025 branch [ERRATA.md](https://github.com/sd5913/pfad/blob/512edb07927c5d77cacc7279ba6be601b33dc601/ERRATA.md)
+documents that false lead and its [revised Week 9 README](https://github.com/sd5913/pfad/blob/512edb07927c5d77cacc7279ba6be601b33dc601/week09/README.md)
+lists only tracked files. The [console WebSocket example](https://github.com/sd5913/pfad/blob/512edb07927c5d77cacc7279ba6be601b33dc601/week09/simple_audio_transcription.py)
+requires a separate local realtime server; its callback writes to an asyncio
+queue from another thread, so it is not the tested class path. The [Week 7 text
+agent example](https://github.com/sd5913/pfad/blob/512edb07927c5d77cacc7279ba6be601b33dc601/week07/3_graph_agent.py)
+and legacy Docker chatbot are separate, not wired voice-response pipelines.
+
+For 2026 the console stage links the actual PFAD draft's bounded
+`transcribe.py`; the teacher-only browser stage is new original code under
+`site/week06/examples/speech_webrtc.py`. Its optional UI follows the
+[streamlit-webrtc audio receiver example](https://github.com/whitphx/streamlit-stt-app/blob/main/app_deepspeech.py)
+and the [Streamlit WebRTC library](https://github.com/whitphx/streamlit-webrtc),
+using local faster-whisper inference rather than a hosted service. Model,
+microphone, Streamlit/WebRTC installation and local Ollama reply are not
+preflighted on the teaching device. A static slide preview is not the live app.

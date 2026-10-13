@@ -10,10 +10,11 @@ Keep the lesson number `week06`. The calendar teaching date remains unconfirmed.
 Continue Week 5's image lesson with another representation students can inspect.
 A list of random values becomes two seconds of noise when a sample rate and file
 format give it a playback meaning. Replacing the random rule with a sine function
-makes frequency and amplitude tangible. The song API then makes a familiar
-request/response habit asynchronous. A short local speech-model comparison connects
-text, waveforms and imperfect transcripts. A four-layer Strudel score makes live edits
-tangible. Students then use an agent to vary one layer and inspect the result.
+makes frequency and amplitude tangible. A browser grid and four-layer Strudel
+score make music edits tangible before an agent-assisted variation. A separate,
+optional song API preview shows asynchronous requests. The final speech block
+starts with a finite Python console transcript, moves the capture point into
+a local WebRTC browser app, and only then offers a corrected-text response.
 
 The outcome is an explanation supported by a working example. Students should
 be able to:
@@ -23,6 +24,8 @@ be able to:
 - predict what changes when they edit seed, frequency, amplitude or duration;
 - distinguish a submitted song request from completed, saved audio;
 - distinguish speech synthesis from transcription and check an output against its source;
+- explain why a browser microphone needs a different transport than Python's
+  local microphone, and correct the transcript before asking for a reply;
 - describe one user action, the data it changes, feedback and a way to stop.
 
 The reflection and making activities are formative. They add no assessed
@@ -36,13 +39,21 @@ The archived 2025 Week 6 PDF (`references/2025/onedrive/PolyU/SD5913/SD5913 - PF
 spectrogram (pp. 28–31), then a 44,100-element array (p. 32). Its PyAudio
 examples on pp. 33–34 stream through a device; the 2026 finite WAV experiment
 is a more reliable first encounter with sample count, rate and a stopping point.
-The archived PDF links speech tools (p. 38) and poses a microphone-to-speaker
-loopback question (p. 40), but it does not contain this year's runnable speech
-exercise, browser score, song API, Strudel layers or agent edit. Those are 2026
-additions, not historical carry-overs. The separate historical lecture plan
-labels weeks differently; its proposed transcription workshop is not evidence
-of what appeared in the Week 6 slide record. The PDF is evidence of archived
-slides, not proof that every page was presented aloud.
+The archived PDF links speech tools (p. 38), discusses async producers and
+consumers (p. 39), and poses a microphone-to-speaker loopback question (p. 40).
+It does not include a running WebRTC transcription or responding agent. A
+separate legacy PFAD Week 9 README describes a Streamlit WebRTC example, but
+its named `speech_to_text_webrtc.py` and Compose service were never committed.
+The canonical `sd5913/pfad` `origin/2025` `ERRATA.md` records that omission and
+its revised Week 9 README no longer claims the app exists. The tracked console
+WebSocket demo there requires a separate local realtime server and writes into
+an `asyncio.Queue` from a PyAudio callback thread; neither is a validated
+classroom path. The Week 7 examples and legacy `extra/docker-bot` demonstrate
+text agents separately, not an integrated voice agent. The 2026 browser example
+is original work, not a recovered 2025 runnable file. The separate historical
+lecture plan labels weeks differently; its proposed transcription workshop is
+not evidence of what appeared in the Week 6 slide record. The PDF is evidence
+of archived slides, not proof that every page was presented aloud.
 
 In the new opening, the air-particle diagram depicts compressions carrying
 mechanical energy, while the next graph is pressure at one fixed microphone
@@ -62,12 +73,12 @@ to measure air pressure or to run the Python WAV writer in the browser.
    amplitude limit cannot guarantee a comfortable listening level on every device.
    Offer waveform/visual review for anyone who does not want to listen.
 4. Open the HTML deck. The new two-second sound lab is slide 6; the optional
-   spectrum instrument is slide 7 and the score sequencer is slide 35. Check
+   spectrum instrument is slide 7 and the score sequencer is slide 26. Check
    both modes, finite playback, Stop, Escape and slide navigation
    on the teaching machine. These instruments need no microphone. Open Strudel
    separately, at low volume; Stop/Ctrl+. before switching back to the slides.
    The deck cannot stop audio in a separate tab.
-5. The API preview is offline. Run the slide 29 command without `--send` to show
+5. The optional music API preview is offline. Run the slide 43 command without `--send` to show
    the exact JSON. A key and network are unnecessary for the student exercise.
 6. For an optional later live generation, read `site/week06/examples/TEACHER_NOTES.md` first.
    Verify the deployed service, model discovery, classroom account, credits,
@@ -88,12 +99,17 @@ to measure air pressure or to run the Python WAV writer in the browser.
    been supplied, so open the existing resource directly. The tutorial video
    is still unidentified: its resource slot is explicitly pending, with no link.
 
-10. For the optional speech demo, follow `speech.html` and the linked PFAD
+10. For the speech progression, follow `speech.html` and the linked PFAD
     `week06/speech/README.md` before class. Use its separate Python 3.12 environment,
     not the Week 4 Worker project. Pre-download the models, test espeak-ng and
     microphone input on the teaching device, and keep a consented short WAV as a
-    fallback. No model inference or microphone recording was run while preparing
-    this addition. A microphone is unnecessary for the file-input exercise.
+    fallback. The separate teacher-only Streamlit WebRTC app in
+    `site/week06/examples/` needs its own optional requirements, localhost
+    browser permission and cached `base.en`. Check START/STOP and browser
+    transport on that same computer; a remote browser needs HTTPS and potentially
+    STUN/TURN. Optional local Ollama replies require a separately installed model
+    and explicit corrected-text click. No model inference or microphone recording
+    was run while preparing this addition. A microphone is unnecessary for file input.
 
 ## Two-hour run of show
 
@@ -105,17 +121,17 @@ to measure air pressure or to run the Python WAV writer in the browser.
 | 26–38 | 18–22 | Read sine as a recipe; vote on what stays fixed at 440 Hz, then compare tone files. |
 | 38–40 | 23 | Optional spectrogram bridge: its stills are not one measured signal. |
 | 40–50 | 24 | Ten-minute break. Stop browser audio. |
-| 50–58 | 25–31 | Song request as asynchronous state change; preview JSON offline. Skip live submission and compress API details if time is tight. |
-| 58–65 | 32–34 | Contrast speech synthesis/transcription with prepared, consented files. Skip microphone/model setup in class; scripts are optional follow-up. |
-| 65–87 | 35–43 | A partner predicts and toggles a browser-score cell, sees feedback and demonstrates Stop. Then build hi-hat → bass → chords → melody in Strudel. |
-| 87–105 | 44–47 | Easel bridge and pair making. Eighteen minutes include the final four-minute partner test. If setup fails, stay in Strudel and paste an agent-drafted edit. |
-| 105–115 | 49 | Existing mock practice: six minutes individual work, four minutes explaining reasoning. No new questions. |
-| 115–120 | 48, 50–53 | One concrete reflection; resources and assessment reminders are reference slides, not five minutes of new lecture. |
+| 50–70 | 25–34 | Music block: predict/toggle the browser grid, then build hi-hat → bass → chords → melody in Strudel. Show Stop before changing tabs. |
+| 70–88 | 35–38 | Agent-assisted score edit, making and partner test. Eighteen minutes include the final four-minute test. If Easel setup fails, remain in Strudel. |
+| 88–92 | 39–45 | Optional music API: show one offline request/status distinction; leave detailed fields and any live paid generation for later. |
+| 92–106 | 46–52 | Speech: compare PFAD console chunks with the browser WebRTC path diagram and app; STOP the microphone, correct text, then explain the optional local reply. TTS is a separate follow-up. If the app is not preflighted, use a consented WAV. |
+| 106–116 | 54 | Existing mock practice: six minutes individual work, four minutes explaining reasoning. No new questions. |
+| 116–120 | 53, 55–58 | One concrete reflection; resources and assessment reminders are reference slides, not four minutes of new lecture. |
 
-At the end of the pair task, use slide 47 for partner feedback, then slide 48
-for one closing observation. If time slips, omit slides 7 and 23 and the live API demo.
-If speech setup is unavailable, trace input/output without waiting for downloads.
-Keep the browser score, Strudel buildup, making time and mock slot.
+At the end of the pair task, use slide 38 for partner feedback, then slide 53
+for one closing observation. If time slips, omit slides 7 and 23 and the optional
+API slides 40–45. If speech setup is unavailable, trace input/output using the
+file fallback without waiting for downloads. Keep Strudel, making time and mock.
 Do not spend the class installing packages or troubleshooting account access.
 
 ## Demonstration notes
@@ -152,74 +168,14 @@ Halving AMPLITUDE scales the signal values; do not promise half perceived loudne
 The demonstrations reject invalid frequencies at or above half the sample rate.
 No live streaming audio driver, PyAudio, GPU or third-party Python package is needed.
 
-### 3. Song API
-
-The script `site/week06/examples/request_song.py` is an instructor reference and local
-preview. Teach the compact payload and states in class rather than asking
-students to understand the whole defensive client in one sitting.
-
-Default command, with no credential or network request:
-
-```bash
-python request_song.py \
-  --prompt "Gentle ambient piano, warm strings, slow pulse" \
-  --title "Evening" --instrumental \
-  --duration-seconds 30 --weirdness 25 --style-influence 70
-```
-
-The client implements the verified sequence: one POST submission; bounded
-latest-attempt polling with identity checks; per-track polling; remote download
-preparation; authenticated same-origin content download. It saves every returned
-track and preserves the actual encoding rather than naming any bytes `.wav`.
-
-`--send` deliberately opts into a real generation and can spend credits.
-The teacher configures `EASEL_BASE_URL` and `EASEL_API_KEY` in the environment
-before using `--send`. The latter is the configured Easel bearer key; the operator's
-upstream Suno token is separate. This differs from Week 5's `EASEL_KEY` script
-convention. Never print, project or commit credentials.
-
-Easel's server-side `dry_run: true` is **not** offline. It contacts the backend
-and fills the native form. The teaching script's default preview is intentionally
-different. It does not set that flag or call the server.
-
-No current `easel-cli` song command was found; do not teach an invented CLI
-subcommand. See the pinned Easel documentation in `site/week06/examples/TEACHER_NOTES.md` for
-all fields and endpoint details. The live service, account controls and exact
-generated duration remain unverified. The local tests use fake responses.
-
-### 3a. Local speech models
-
-Slides 32–34 link to `speech.html`. In the separate PFAD speech environment,
-run the Kokoro example with a short interface cue, then transcribe its saved WAV.
-Keep the script, settings, audio and proposed transcript together. Change only
-speech speed and compare the result. Do not assume a familiar sentence will be
-pronounced or transcribed perfectly.
-
-The explicit microphone mode captures a bounded amount of local sound and sends
-5-second chunks to a local faster-whisper model. Its output can lag and the chunk
-boundaries can cut words. It is not a native streaming decoder. Only record
-consenting participants, point out Ctrl+C before starting, and use the WAV input
-if microphone permission or the device fails. No recording or model loading
-occurs just by opening the slides or exercise page.
-
-Kokoro writes at 24 kHz. The transcription file decoder resamples to 16 kHz;
-changing a rate label alone would change the perceived speed and pitch. The
-transcript is a model prediction. Compare it with the source, including pauses
-and silence. Do not treat it as a verbatim record without checking.
-
-KittenTTS is a separately versioned optional comparison in the linked notes.
-Keep its legacy lightweight model distinct from the current, larger KittenTTS 2.
-These scripts add no assignment requirement. Runtime model quality, installation
-and microphone behavior still need a classroom preflight.
-
-### 4. Strudel live coding, then Easel
+### 3. Music: browser score, Strudel, then Easel
 
 Begin in strudel.cc with the already-present starter or an existing example
 selected by the instructor. Play, change one visible value, Update, and Stop.
 No specific third-party song is copied into this repository. Tutorial video:
 pending the instructor's exact link; the current lesson does not guess one.
 
-Use slides 40–43 in order. Each opens a complete cumulative score. The next
+Use slides 31–34 in order. Each opens a complete cumulative score. The next
 link restores the supplied baseline, so undo an experiment before adding the
 next layer, or keep it as a separate saved variation:
 
@@ -265,15 +221,91 @@ Teacher/agent implementation notes, verified against current source:
 The 18-minute making block includes four minutes of pair review. Keep a before
 and after score plus one sentence explaining the change. This is formative,
 not a new assessed deliverable. Students can inspect the visual code/feedback
-without listening. Slides 35–36 use the original grid sequencer to illustrate
+without listening. Slides 26–27 use the original grid sequencer to illustrate
 one click, one state change and one scheduled note before Strudel.
+
+### 4. Optional music-generation API
+
+The script `site/week06/examples/request_song.py` is an instructor reference and local
+preview. Teach the compact payload and states in class rather than asking
+students to understand the whole defensive client in one sitting.
+
+Default command, with no credential or network request:
+
+```bash
+python request_song.py \
+  --prompt "Gentle ambient piano, warm strings, slow pulse" \
+  --title "Evening" --instrumental \
+  --duration-seconds 30 --weirdness 25 --style-influence 70
+```
+
+The client implements the verified sequence: one POST submission; bounded
+latest-attempt polling with identity checks; per-track polling; remote download
+preparation; authenticated same-origin content download. It saves every returned
+track and preserves the actual encoding rather than naming any bytes `.wav`.
+
+`--send` deliberately opts into a real generation and can spend credits.
+The teacher configures `EASEL_BASE_URL` and `EASEL_API_KEY` in the environment
+before using `--send`. The latter is the configured Easel bearer key; the operator's
+upstream Suno token is separate. This differs from Week 5's `EASEL_KEY` script
+convention. Never print, project or commit credentials.
+
+Easel's server-side `dry_run: true` is **not** offline. It contacts the backend
+and fills the native form. The teaching script's default preview is intentionally
+different. It does not set that flag or call the server.
+
+No current `easel-cli` song command was found; do not teach an invented CLI
+subcommand. See the pinned Easel documentation in `site/week06/examples/TEACHER_NOTES.md` for
+all fields and endpoint details. The live service, account controls and exact
+generated duration remain unverified. The local tests use fake responses.
+
+### 5. Speech: console to browser to response
+
+Slides 46–52 link to `speech.html`. Start with PFAD `transcribe.py` in its
+separate Python 3.12 environment: run the bounded 3-by-5-second local microphone
+capture or use a consented WAV if hardware fails. Keep each proposed transcript
+with its source and settings. Never equate output text with an authoritative
+record of a person’s words.
+
+The explicit console microphone mode captures a bounded amount of local sound and sends
+5-second chunks to a local faster-whisper model. Its output can lag and the chunk
+boundaries can cut words. It is not a native streaming decoder. Only record
+consenting participants, point out Ctrl+C before starting, and use the WAV input
+if microphone permission or the device fails. No recording or model loading
+occurs just by opening the slides or exercise page.
+
+For the optional teacher WebRTC step, run `site/week06/examples/speech_webrtc.py`
+locally with its separate requirements. A browser START/permission gesture sends
+audio frames over WebRTC to a local Streamlit process, which converts them to
+mono 16 kHz and transcribes at most three 3-second chunks. Processing stops
+after those chunks; the presenter must still click STOP to release the browser
+track. The person corrects text after STOP, then may deliberately ask an
+optional local Ollama model for a short text reply. There is no automatic
+agent call, hosted speech upload or spoken response. If localhost transport,
+model download or microphone permissions fail, use the PFAD file demo. A remote
+network demo would need HTTPS and possibly TURN, not just this lesson link.
+
+Kokoro is an optional subsequent text-to-speech exercise. It writes at 24 kHz. The transcription file decoder resamples to 16 kHz;
+changing a rate label alone would change the perceived speed and pitch. The
+transcript is a model prediction. Compare it with the source, including pauses
+and silence. Do not treat it as a verbatim record without checking.
+
+KittenTTS is a separately versioned optional comparison in the linked notes.
+Keep its legacy lightweight model distinct from the current, larger KittenTTS 2.
+These scripts and the app add no assignment requirement. Runtime model quality,
+WebRTC transport, local Ollama, installation and microphone behavior still need
+a classroom preflight.
 
 ### Verification and classroom limits
 
 The standard-library noise and tone examples were executed and their WAV
-headers/sample values checked. Speech tests use model and device substitutes;
-actual synthesis, transcription and microphone capture were not run. Song API tests use mocked responses; no live generation or credentials
-were used. Easel's editing and export behavior is verified from the pinned
+headers/sample values checked. Speech console tests use model/device substitutes.
+The local Streamlit app rendered silent before START; with Chromium's fake
+microphone and a stub recognizer, WebRTC delivered frames, the resampler fed a
+16 kHz chunk, a proposed line appeared, and STOP exposed the correction field.
+Real human microphone capture, actual Whisper/Kokoro inference and Ollama
+responses were not run. Song API tests use mocked responses; no live generation
+or credentials were used. Easel's editing and export behavior is verified from the pinned
 source and test assertions, not from the instructor's installed client.
 
 The public Strudel editor was checked in the cloud browser: the default starter
@@ -281,8 +313,9 @@ loaded and its Play/Stop controls changed state. The four-layer encoded link
 loaded the exact score. Its subsequent Play click was not completed because
 the cloud browser permission request was dismissed before a decision; it was
 not retried. Browser/device audibility and the classroom output route
-still require listening. The local deck's Web Audio Play/Stop/Escape/navigation
-checks await a reachable HTML preview. The offline mock-Web-Audio test
+still require listening. The local deck's sound lab had Play/natural-end,
+mode-change and navigation-stop Chromium checks on the earlier draft head.
+The offline mock-Web-Audio test
 (`node tests/week06_audio_lifecycle.test.cjs`) checks silent load, Play,
 parent slide-stop messages, visibility stop and stopping while startup awaits
 a resume. This is control-flow evidence, not a browser audio check.

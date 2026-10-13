@@ -32,8 +32,8 @@ S.append(title(EYE, 'Sound as data', 'Noise, waveforms, speech, songs and intera
 S.append(agenda(EYE, [
     'See how vibration becomes a measured signal', 'Hear two seconds of tone or noise in the browser',
     'Recall image values and positions', 'Make two seconds of noise',
-    'Shape a tone with a rule', 'Explore songs and speech models',
-    'Live-code four layers in Strudel', 'Edit with an agent and reflect',
+    'Shape a tone with a rule', 'Live-code music and edit with an agent',
+    'Preview a song request (optional)', 'Turn a transcript into an interaction',
 ], notes='The making and reflection blocks are part of the two-hour session. '
    'The standard-library examples work without accounts, external packages or a microphone. '
    'A live API generation is an optional instructor demonstration after preflight.'))
@@ -255,36 +255,14 @@ S.append(figure_slide('OPTIONAL BRIDGE · SOUND AS AN IMAGE', 'A spectrogram sho
 S.append(section('10 MINUTES', 'Break', 'Save the files you want to compare',
     notes='Stop any browser audio before the break. Preserve at least one before/after pair.'))
 
-S.append(content('03 · PROGRAMS AND MODELS', 'Where do the sound choices come from?', [
-    'Our Python rule specifies every sample value.',
-    'A song model uses learned patterns to interpret a request.',
-    'An agent can help prepare either program and inspect its result.',
-    'You still decide whether the sound serves the experience.',
-], notes='Avoid treating random/procedural as uncreative or model output as inherently expressive. '
-    'The distinction here is how the values are produced. A model prompt describes qualities; it does not '
-    'guarantee each note, exact duration or interaction behavior. The agent is a collaborator coordinating '
-    'tools; students need evidence of the result.'))
-
-S.append(two_col('03 · WEEK 5 API PARALLEL', 'The request changes. The habit stays useful.', [
-    'Prepare a request you can read.',
-    'Check the response before using it.',
-    'Save the output and its settings.',
-], ['# Week 5', 'POST /v1/images/generations', 'image response', '', '# Week 6',
-    'POST /v1/audio/generations', 'attempt status, then tracks'], lang=None,
-    notes='The image example uses the verified Easel image route and a base64 response. '
-    'Audio generation is an Easel extension with an asynchronous Suno-backed flow, not a claim that every '
-    'OpenAI-compatible API supports songs. A successful submission is not a completed audio file. '
-    'Exact current API provenance is included in site/week06/examples/TEACHER_NOTES.md.'))
-
-# The API contract slides are a small separately reviewed source module.
-from week06_api_slides import api_slides
-S.extend(api_slides())
-
-from week06_speech_slides import speech_slides
-S.extend(speech_slides())
+S.append(section('03 · MUSIC', 'Music: change the score, hear the result',
+    'Browser grid → four Strudel layers → agent-assisted variation',
+    notes='This block comes before the optional song API and separate speech block. '
+    'Start from an audible browser score and retain making time. Stop each source '
+    'before opening another tab. A score is a program for interaction, not a generated song.'))
 
 # Worked interaction: input, state and audible feedback before Strudel.
-S.append(figure_slide('03 · SOUND IN THE BROWSER', 'A click changes the score', F.w06_written_score(),
+S.append(figure_slide('03 · MUSIC · SOUND IN THE BROWSER', 'A click changes the score', F.w06_written_score(),
     sketch=live('week06-score', SEQUENCER_CODE, 1000, 600,
                 hint='Click Play · change one cell · Stop / Escape'),
     caption='Predict a cell edit, test the next loop, then show your partner how to Stop.',
@@ -294,7 +272,7 @@ S.append(figure_slide('03 · SOUND IN THE BROWSER', 'A click changes the score',
     'not Python or the API. A visible playhead is feedback. Stop, Escape, navigation and page hiding close '
     'the audio context. No microphone, account or external sample pack is involved. Source: ' + SOUND_SOURCE))
 
-S.append(two_col('03 · READING THE INTERACTION', 'A small state change has an audible result', [
+S.append(two_col('03 · MUSIC · READING THE INTERACTION', 'A small state change has an audible result', [
     'The grid stores the score.',
     'A click toggles one value between 0 and 1.',
     'The player reads the current grid at each step.',
@@ -314,6 +292,41 @@ S.append(content('PAIR REVIEW · FINAL 4 MINUTES', 'What does the other person n
     'What would become tiring after the twentieth use?',
 ], notes='Listen for claims supported by a concrete observation. Offer waveform/visual feedback review for '
     'anyone who does not want to listen. Ask for one change after the test, rather than broad aesthetic ratings.'))
+
+S.append(content('04 · MUSIC API · OPTIONAL', 'Where do the sound choices come from?', [
+    'Our Python rule specifies every sample value.',
+    'A song model uses learned patterns to interpret a request.',
+    'An agent can help prepare either program and inspect its result.',
+    'You still decide whether the sound serves the experience.',
+], notes='Avoid treating random/procedural as uncreative or model output as inherently expressive. '
+    'The distinction here is how the values are produced. A model prompt describes qualities; it does not '
+    'guarantee each note, exact duration or interaction behavior. The agent is a collaborator coordinating '
+    'tools; students need evidence of the result.'))
+
+S.append(two_col('04 · MUSIC API · WEEK 5 PARALLEL', 'The request changes. The habit stays useful.', [
+    'Prepare a request you can read.',
+    'Check the response before using it.',
+    'Save the output and its settings.',
+], ['# Week 5', 'POST /v1/images/generations', 'image response', '', '# Week 6',
+    'POST /v1/audio/generations', 'attempt status, then tracks'], lang=None,
+    notes='The image example uses the verified Easel image route and a base64 response. '
+    'Audio generation is an Easel extension with an asynchronous Suno-backed flow, not a claim that every '
+    'OpenAI-compatible API supports songs. A successful submission is not a completed audio file. '
+    'Exact current API provenance is included in site/week06/examples/TEACHER_NOTES.md.'))
+
+# The API contract slides are a small separately reviewed source module.
+from week06_api_slides import api_slides
+S.extend(api_slides())
+
+S.append(section('05 · SPEECH', 'Speech: from words to a responding interface',
+    'A local transcript → browser microphone → a checked reply',
+    notes='Speech is a separate path after music, not another song-generation service. '
+    'The console demo and the WebRTC app share the idea of bounded chunks. '
+    'The browser transport changes where audio is captured, not whether the model '
+    'is infallible. Leave room for consent, corrections and a non-microphone fallback.'))
+
+from week06_speech_slides import speech_slides
+S.extend(speech_slides())
 
 S.append(content('REFLECTION', 'Which choice can you explain?', [
     'Name one input and the data it changes.',
