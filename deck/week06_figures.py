@@ -12,10 +12,88 @@ import random
 from deckgen.core import pil_font
 from deckgen.figures import Canvas, INK, ORANGE, MUTED, LINE, TEAL
 
-__all__ = ['w06_waveform', 'w06_spectrogram_how', 'w06_midi',
+__all__ = ['w06_air_pressure', 'w06_pressure_measurement', 'w06_signal_lab_still',
+           'w06_waveform', 'w06_spectrogram_how', 'w06_midi',
            'w06_grid_score', 'w06_generate_test', 'w06_two_roads', 'w06_sound_spec',
            'w06_written_score', 'w06_strudel_pattern',
            'w06_analysis_still', 'w06_layer', 'w06_musicgen']
+
+
+def w06_air_pressure(name='w06-air-pressure', w=1680, h=640):
+    """Schematic compression/rarefaction, not a transverse air wave."""
+    c = Canvas(w, h, bg=WHITE)
+    _label(c, 70, 55, 'VIBRATING SOURCE', 34)
+    _label(c, 840, 55, 'ENERGY TRAVELS THROUGH AIR', 36, anchor='middle')
+    _label(c, 1520, 55, 'MICROPHONE', 34, anchor='middle')
+    c.rect(85, 185, 125, 260, fill=INK)
+    c.rect(206, 210, 26, 210, fill=ORANGE)
+    _arrow(c, 242, 315, 290, 315, ORANGE, 6, 20)
+    _arrow(c, 330, 117, 1360, 117, TEAL, 6, 20)
+    bands = ((340, 470, 14), (500, 625, 30), (655, 825, 9),
+             (855, 990, 30), (1020, 1190, 9), (1220, 1360, 16))
+    for left, right, count in bands:
+        for i in range(count):
+            x = left + (right - left) * (i + 0.5) / count
+            for row in range(6):
+                c.circle(x, 206 + row * 40, 4.5, fill=DARK_TEAL)
+    c.rect(1430, 225, 25, 185, fill=TEAL)
+    c.rect(1455, 276, 100, 82, fill=INK)
+    _label(c, 566, 474, 'COMPRESSION', 30, anchor='middle')
+    _label(c, 741, 518, 'RAREFACTION', 30, anchor='middle')
+    _label(c, 840, 572, 'Air moves back and forth locally; it does not travel with the sound.',
+           32, anchor='middle')
+    _label(c, 840, 618, 'Schematic particle spacing, not a picture of individual molecules.',
+           24, MUTED, anchor='middle')
+    return c.finish(name)
+
+
+def w06_pressure_measurement(name='w06-pressure-measurement', w=1680, h=640):
+    """Pressure at one location over time, not the spatial path of the air."""
+    c = Canvas(w, h, bg=WHITE)
+    _label(c, 840, 48, 'AT ONE PLACE: PRESSURE CHANGES OVER TIME', 36, anchor='middle')
+    _label(c, 125, 175, 'MIC', 36, anchor='middle')
+    c.rect(70, 205, 110, 170, fill=TEAL)
+    _arrow(c, 205, 290, 308, 290, ORANGE, 6, 20)
+    x0, x1, mid = 390, 1580, 295
+    c.line(x0, mid, x1, mid, INK, 3)
+    for ms in (0, 5, 10, 15, 20):
+        x = x0 + ms / 20 * (x1 - x0)
+        c.line(x, 145, x, 445, LINE, 2)
+        _label(c, x, 476, f'{ms} ms', 27, anchor='middle')
+    pts = [(x0 + i * (x1 - x0) / 600,
+            mid - 115 * math.sin(2 * math.pi * 200 * (i / 600 * 0.02)))
+           for i in range(601)]
+    for a, b in zip(pts, pts[1:]):
+        c.line(*a, *b, TEAL, 3)
+    _label(c, 410, 120, 'above ambient pressure', 26)
+    _label(c, 410, 431, 'below ambient pressure', 26)
+    _label(c, 840, 555, 'Microphone > changing signal > ordered samples', 37, anchor='middle')
+    _label(c, 840, 605, 'Illustrative 200 Hz pressure trace, not a microphone recording.',
+           24, MUTED, anchor='middle')
+    return c.finish(name)
+
+
+def w06_signal_lab_still(name='w06-signal-lab', w=1680, h=640):
+    """Illustrative 220 Hz buffer preview for the silent PDF/PPTX fallback."""
+    c = Canvas(w, h, bg=WHITE)
+    _label(c, 75, 55, 'TONE: 220 CYCLES / SECOND', 36)
+    _label(c, 1595, 55, 'FIRST 20 ms (INCLUDES 10 ms FADE-IN)', 28, anchor='end')
+    mid, x0, x1 = 305, 100, 1580
+    c.line(x0, mid, x1, mid, LINE, 3)
+    for ms in (0, 5, 10, 15, 20):
+        x = x0 + ms / 20 * (x1 - x0)
+        c.line(x, 155, x, 450, LINE, 2)
+        _label(c, x, 482, f'{ms} ms', 27, anchor='middle')
+    points = [(x0 + i * (x1 - x0) / 600,
+               mid - 105 * min(1, i / 300) * math.sin(2 * math.pi * 220 * (i / 600 * 0.02)))
+              for i in range(601)]
+    for a, b in zip(points, points[1:]):
+        c.line(*a, *b, TEAL, 3)
+    _label(c, 108, 132, 'signal +', 25)
+    _label(c, 108, 435, 'signal -', 25)
+    _label(c, 70, 550, '22,050 samples/s  /  44,100 samples  /  2 seconds', 32)
+    _label(c, 70, 606, 'HTML: select tone or seeded noise, then PLAY 2 s or STOP.', 29, ORANGE)
+    return c.finish(name)
 
 
 def w06_analysis_still(name='w06-analysis', w=1200, h=700):

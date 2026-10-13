@@ -21,6 +21,7 @@ IMAGE_SOURCE = 'https://github.com/sd5913/teaching/blob/dd8e30ed640af73008f283fd
 SOUND_SOURCE = 'https://github.com/venetanji/sd2112-teaching/blob/558d1d77ce6b0e42c2e9ec955ca191d40cb7976e/deck/week06.py'
 PY_WAVE = 'https://docs.python.org/3.12/library/wave.html'
 ANALYSIS_CODE = (HERE / 'week06_analysis.js').read_text()
+LAB_CODE = (HERE / 'week06_sound_lab.js').read_text()
 SEQUENCER_CODE = (HERE / 'week06_sequencer.js').read_text()
 
 S.append(title(EYE, 'Sound as data', 'Noise, waveforms, speech, songs and interaction.',
@@ -29,6 +30,7 @@ S.append(title(EYE, 'Sound as data', 'Noise, waveforms, speech, songs and intera
     'Have the offline noise and tone files ready. Start with the device volume low. No sound autoplays.'))
 
 S.append(agenda(EYE, [
+    'See how vibration becomes a measured signal', 'Hear two seconds of tone or noise in the browser',
     'Recall image values and positions', 'Make two seconds of noise',
     'Shape a tone with a rule', 'Explore songs and speech models',
     'Live-code four layers in Strudel', 'Edit with an agent and reflect',
@@ -43,6 +45,49 @@ S.append(content('OPENING · LISTENING', 'What does a sound ask you to do?', [
 ], notes='Give pairs a minute, then take two contrasting answers. This is discussion, not an assessed quiz. '
     'A design judgment should name context and repetition. Students who prefer not to listen can work '
     'from waveform views and descriptions. No hearing test or loudness sweep.'))
+
+S.append(figure_slide('01 · MECHANICAL ENERGY', 'A vibration travels through air', F.w06_air_pressure(),
+    caption='The source moves air locally; alternating compressions carry energy toward a microphone.',
+    notes='Adapt the physical starting point of the 2025 Week 6 PDF pp. 24–27, but draw an original '
+    'schematic. A vibrating source pushes/pulls air; air particles oscillate around their local '
+    'positions while energy propagates through compressions and rarefactions. Sound requires a '
+    'medium. The picture is not a transverse wiggle travelling through space or a molecular-scale '
+    'simulation. Ask which direction the energy travels and whether an air parcel crosses the room.'))
+
+S.append(figure_slide('01 · MEASUREMENT', 'A microphone measures change at one place',
+    F.w06_pressure_measurement(),
+    caption='Horizontal: time. Vertical: pressure change around ambient. Not a path through air.',
+    notes='The microphone transduces local pressure variations to an electrical signal; sampling '
+    'measures that changing signal at discrete times. The illustrative 200 Hz graph is computed, '
+    'not a recording from the classroom. The historical PDF p. 28 shows a time-domain waveform; '
+    'its p. 30 frequency plot and p. 31 spectrogram need not be the same recording. A positive '
+    'value is higher pressure than ambient, not a promise of greater perceived loudness.'))
+
+S.append(figure_slide('01 · HEAR AND SEE', 'Hear the rule. See its samples.', F.w06_signal_lab_still(),
+    sketch=live('week06-sound-lab', LAB_CODE, 1600, 600,
+                hint='Select Tone or Noise · click PLAY 2 s · STOP / Escape'),
+    caption='HTML: click PLAY for a finite two-second tone or noise. No install, key or microphone.',
+    notes='Demonstrate from the HTML deck itself: start at low device volume, click Play 2 s '
+    'for a 220 Hz tone, then switch to seeded noise and click Play again. The graph shows the '
+    'first 20 ms of the exact generated sample buffer, not a microphone measurement. Both '
+    'buffers have 44,100 mono samples at 22,050 samples/s and a 10 ms edge fade. The browser '
+    'may resample for its actual output device. Play requires a deliberate click, runs only '
+    'two seconds, and Stop/Escape/navigation/hidden tab closes audio. The PDF/PPTX show an '
+    'illustrative still and cannot play this browser instrument. Source: original 2026 '
+    'course code in deck/week06_sound_lab.js; no microphone, API or account.'))
+
+S.append(figure_slide('01 · EXPLORE THE SAME SIGNAL', 'One sound, three views', F.w06_analysis_still(),
+    sketch=live('week06-analysis', ANALYSIS_CODE, 1200, 700,
+                hint='Click Play · change frequency or waveform · Stop / Escape'),
+    caption='Predict: double the frequency. What moves in the waveform and spectrum?',
+    notes='Optional second browser demo if the class has time. Unlike the finite first demo, '
+    'this oscillator continues until Stop, Escape, navigation or page hiding. Ask for a '
+    'prediction, then double frequency without changing waveform type; point to the shortened '
+    'period and the measured spectrum peak moving right. Next change sine to triangle and '
+    'sawtooth at the same frequency and observe additional frequency components. The FFT '
+    'display measures this browser oscillator output, not a microphone. The still is '
+    'illustrative, not a captured FFT. Source: ' + SOUND_SOURCE + ' and '
+    'https://webaudio.github.io/web-audio-api/#AnalyserNode'))
 
 S.append(figure_slide('RECALL · WEEK 5', 'An image gives values positions in space', I.pixel_grid(),
     notes='Recall pixel[y][x] and channel order. The exact image grid is reused from the Week 5 course source. '
@@ -199,18 +244,6 @@ S.append(content('02 · AMPLITUDE AND LISTENING', 'The same numbers can feel dif
 ], notes='Signal amplitude is measurable. Perceived loudness also depends on frequency, device, listening level '
     'and the listener. Avoid saying half amplitude means half perceived loudness. Use the user-controlled '
     'device volume as an additional precaution. This is a design discussion rather than a hearing test.'))
-
-S.append(figure_slide('02 · SOUND IN THE BROWSER', 'One sound, three views', F.w06_analysis_still(),
-    sketch=live('week06-analysis', ANALYSIS_CODE, 1200, 700,
-                hint='Click Play · change frequency or waveform · Stop / Escape'),
-    caption='Predict: double the frequency. What moves in the waveform and spectrum?',
-    notes='Reused course instrument. Start only with a click. Ask for a prediction, then double '
-    'frequency without changing waveform type; point to the shortened period and the measured '
-    'spectrum peak moving right. Next change sine to triangle and sawtooth at the same frequency '
-    'and observe additional frequency components. This uses Web Audio in JavaScript, not the Python WAV writer. '
-    'The FFT display measures the browser oscillator output, not a microphone. Stop closes the AudioContext; '
-    'Escape and slide navigation also stop. This still is illustrative, not a captured FFT. '
-    'Source: ' + SOUND_SOURCE + ' and https://webaudio.github.io/web-audio-api/#AnalyserNode'))
 
 S.append(figure_slide('OPTIONAL BRIDGE · SOUND AS AN IMAGE', 'A spectrogram shows frequency over time', F.w06_spectrogram_how(),
     caption='Time across, frequency up. Shade represents magnitude in this illustration.',

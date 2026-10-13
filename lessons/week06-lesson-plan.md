@@ -44,6 +44,12 @@ labels weeks differently; its proposed transcription workshop is not evidence
 of what appeared in the Week 6 slide record. The PDF is evidence of archived
 slides, not proof that every page was presented aloud.
 
+In the new opening, the air-particle diagram depicts compressions carrying
+mechanical energy, while the next graph is pressure at one fixed microphone
+position over time. Neither is a classroom recording. The browser sound lab
+then draws the samples that its own Web Audio buffer plays. It does not claim
+to measure air pressure or to run the Python WAV writer in the browser.
+
 ## Preparation
 
 1. Open the HTML lesson and its linked `resources.html`. Download
@@ -55,12 +61,13 @@ slides, not proof that every page was presented aloud.
 3. Test the exact classroom device, output route and low volume. The numerical
    amplitude limit cannot guarantee a comfortable listening level on every device.
    Offer waveform/visual review for anyone who does not want to listen.
-4. Open the HTML deck. The analysis instrument is slide 19 and the score
-   sequencer is slide 32, before the Strudel build. Check Play, Stop, Escape and slide navigation
+4. Open the HTML deck. The new two-second sound lab is slide 6; the optional
+   spectrum instrument is slide 7 and the score sequencer is slide 35. Check
+   both modes, finite playback, Stop, Escape and slide navigation
    on the teaching machine. These instruments need no microphone. Open Strudel
    separately, at low volume; Stop/Ctrl+. before switching back to the slides.
    The deck cannot stop audio in a separate tab.
-5. The API preview is offline. Run the slide 26 command without `--send` to show
+5. The API preview is offline. Run the slide 29 command without `--send` to show
    the exact JSON. A key and network are unnecessary for the student exercise.
 6. For an optional later live generation, read `site/week06/examples/TEACHER_NOTES.md` first.
    Verify the deployed service, model discovery, classroom account, credits,
@@ -92,21 +99,21 @@ slides, not proof that every page was presented aloud.
 
 | Elapsed | Slides | Activity and instructor move |
 |---|---:|---|
-| 00–08 | 1–5 | Discuss a file-save sound; recall image values, then read one audio list. |
-| 08–20 | 6–12 | Predict duration in a formative ClassPoint vote, change the rate in browser Python, then inspect noise and WAV. Show hands if ClassPoint is unavailable. |
-| 20–26 | 13 | Pairs save a reference, change one constant, predict and compare. |
-| 26–38 | 14–18 | Read sine as a recipe; vote on what stays fixed at 440 Hz, then compare tone files. |
-| 38–45 | 19–20 | Predict a frequency change, compare the same live oscillator in waveform and spectrum, then Stop. Spectrogram bridge only if useful; its stills are not one measured signal. |
-| 45–55 | 21 | Ten-minute break. Stop browser audio. |
-| 55–63 | 22–28 | Song request as asynchronous state change; preview JSON offline. Skip live submission and compress API details if time is tight. |
-| 63–70 | 29–31 | Contrast text-to-speech and transcription with prepared, consented files. Skip microphone/model setup in class; scripts are optional follow-up. |
-| 70–87 | 32–40 | A partner predicts and toggles a browser-score cell, sees the feedback and demonstrates Stop. Then build hi-hat → bass → chords → melody in Strudel. |
-| 87–105 | 41–44 | Easel bridge and pair making. Eighteen minutes include the final four-minute partner test. If setup fails, stay in Strudel and paste an agent-drafted edit. |
-| 105–115 | 46 | Existing mock practice: six minutes individual work, four minutes explaining reasoning. No new questions. |
-| 115–120 | 45, 47–50 | One concrete reflection; resources and assessment reminders are reference slides, not five minutes of new lecture. |
+| 00–12 | 1–8 | Source vibration → travelling compression → pressure at one microphone. Click Play on slide 6 for a two-second tone, then noise; Stop. Slide 7 is an optional live spectrum comparison. Recall the image grid. |
+| 12–20 | 9–16 | Read ordered samples, predict duration in ClassPoint, change the rate in browser Python, then inspect noise/WAV. Show hands if ClassPoint is unavailable. |
+| 20–26 | 17 | Pairs save a reference, change one constant, predict and compare. |
+| 26–38 | 18–22 | Read sine as a recipe; vote on what stays fixed at 440 Hz, then compare tone files. |
+| 38–40 | 23 | Optional spectrogram bridge: its stills are not one measured signal. |
+| 40–50 | 24 | Ten-minute break. Stop browser audio. |
+| 50–58 | 25–31 | Song request as asynchronous state change; preview JSON offline. Skip live submission and compress API details if time is tight. |
+| 58–65 | 32–34 | Contrast speech synthesis/transcription with prepared, consented files. Skip microphone/model setup in class; scripts are optional follow-up. |
+| 65–87 | 35–43 | A partner predicts and toggles a browser-score cell, sees feedback and demonstrates Stop. Then build hi-hat → bass → chords → melody in Strudel. |
+| 87–105 | 44–47 | Easel bridge and pair making. Eighteen minutes include the final four-minute partner test. If setup fails, stay in Strudel and paste an agent-drafted edit. |
+| 105–115 | 49 | Existing mock practice: six minutes individual work, four minutes explaining reasoning. No new questions. |
+| 115–120 | 48, 50–53 | One concrete reflection; resources and assessment reminders are reference slides, not five minutes of new lecture. |
 
-At the end of the pair task, use slide 44 for partner feedback, then slide 45
-for one closing observation. If time slips, omit slide 20 and the live API demo.
+At the end of the pair task, use slide 47 for partner feedback, then slide 48
+for one closing observation. If time slips, omit slides 7 and 23 and the live API demo.
 If speech setup is unavailable, trace input/output without waiting for downloads.
 Keep the browser score, Strudel buildup, making time and mock slot.
 Do not spend the class installing packages or troubleshooting account access.
@@ -128,7 +135,7 @@ Change only one initially. Rerunning replaces `noise.wav`; rename the reference
 file or use another `--out` folder before comparing. The change in duration
 changes sample count and file size; seed and amplitude do not change that count.
 
-The reused slide 10 waveform is a separate 220 Hz harmonic teaching illustration
+The reused slide 14 waveform is a separate 220 Hz harmonic teaching illustration
 at 44,100 samples/s. It is labelled explicitly and is not a recording of our
 22,050 samples/s noise example.
 
@@ -182,7 +189,7 @@ generated duration remain unverified. The local tests use fake responses.
 
 ### 3a. Local speech models
 
-Slides 29–31 link to `speech.html`. In the separate PFAD speech environment,
+Slides 32–34 link to `speech.html`. In the separate PFAD speech environment,
 run the Kokoro example with a short interface cue, then transcribe its saved WAV.
 Keep the script, settings, audio and proposed transcript together. Change only
 speech speed and compare the result. Do not assume a familiar sentence will be
@@ -212,7 +219,7 @@ selected by the instructor. Play, change one visible value, Update, and Stop.
 No specific third-party song is copied into this repository. Tutorial video:
 pending the instructor's exact link; the current lesson does not guess one.
 
-Use slides 37–40 in order. Each opens a complete cumulative score. The next
+Use slides 40–43 in order. Each opens a complete cumulative score. The next
 link restores the supplied baseline, so undo an experiment before adding the
 next layer, or keep it as a separate saved variation:
 
@@ -258,7 +265,7 @@ Teacher/agent implementation notes, verified against current source:
 The 18-minute making block includes four minutes of pair review. Keep a before
 and after score plus one sentence explaining the change. This is formative,
 not a new assessed deliverable. Students can inspect the visual code/feedback
-without listening. Slides 32–33 use the original grid sequencer to illustrate
+without listening. Slides 35–36 use the original grid sequencer to illustrate
 one click, one state change and one scheduled note before Strudel.
 
 ### Verification and classroom limits

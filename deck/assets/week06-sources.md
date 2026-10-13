@@ -8,7 +8,7 @@ matched the earlier supplied commits.
 - [SD5913 Week 5 deck](https://github.com/sd5913/teaching/blob/dd8e30ed640af73008f283fd6cbcca9167fc3735/deck/week05.py)
   provides the course typography, teaching voice and image-to-API progression.
 - [SD5913 Week 5 figures](https://github.com/sd5913/teaching/blob/dd8e30ed640af73008f283fd6cbcca9167fc3735/deck/week05_figures.py)
-  supplies the unchanged RGB pixel grid on slide 4.
+  supplies the unchanged RGB pixel grid on slide 8.
 - [PFAD Week 5 examples](https://github.com/sd5913/pfad/tree/11252caa6ee6e34937fc3314b396e944be6bdf7d/week05)
   ground the seeded-noise, array-shape and offline API-preview parallels.
 - [SD2112 Week 6 deck](https://github.com/venetanji/sd2112-teaching/blob/558d1d77ce6b0e42c2e9ec955ca191d40cb7976e/deck/week06.py)
@@ -23,6 +23,17 @@ The sound figures are computed teaching illustrations. They are not recordings,
 measured FFT captures or generated song outputs. In the spectrogram explanation,
 the adjacent panels illustrate representations rather than one numerical
 transformation of a single signal. All source attribution remains in the notes.
+
+## Original physical-sound opening, 13 October 2026
+
+The 2025 SD5913 Week 6 PDF in the local reference archive, pp. 24–28, introduces
+sound as mechanical energy, air-pressure oscillation, a sequence of numbers and
+a time-domain waveform. Pages 29–31 show separate FFT, frequency and spectrogram
+visuals. The 2026 air-particle and microphone-pressure diagrams are newly drawn
+schematics, not scans from that PDF or traces from a real microphone. The new
+browser sound lab generates two finite, 2-second sample buffers locally using
+Web Audio; its graph shows those buffer values. The existing browser analyser
+measures its own oscillator output, not air pressure or a classroom recording.
 
 ## Technical references
 
