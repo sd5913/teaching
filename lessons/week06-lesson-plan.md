@@ -2,6 +2,11 @@
 
 Two-hour interactive HTML instructor draft for designers learning programming with agents.
 
+## News opening · checked 14 October 2026
+
+Slides 2–5 add Gemini 4 Argon (13 October), Haiku 5.5 (7 October), GPT-6 Intelligent UI (7 October) and Claude Motion (8 October). Each has a primary-source link, availability/limitations and one spoken prompt. These are optional discussion, not new quiz material. Budget four minutes within the opening; omit the optional spectrum comparison if needed. Preserve the making block and mock. News demos are vendor examples, not classroom-tested results; no account or paid call is needed.
+
+
 Keep the lesson number `week06`. The calendar teaching date remains unconfirmed.
 15 October 2026 is a proposed date, not a printed commitment.
 
@@ -72,13 +77,13 @@ to measure air pressure or to run the Python WAV writer in the browser.
 3. Test the exact classroom device, output route and low volume. The numerical
    amplitude limit cannot guarantee a comfortable listening level on every device.
    Offer waveform/visual review for anyone who does not want to listen.
-4. Open the HTML deck. The new two-second sound lab is slide 6; the optional
-   spectrum instrument is slide 7 and the score sequencer is slide 26. Check
+4. Open the HTML deck. The new two-second sound lab is slide 10; the optional
+   spectrum instrument is slide 11 and the score sequencer is slide 30. Check
    both modes, finite playback, Stop, Escape and slide navigation
    on the teaching machine. These instruments need no microphone. Open Strudel
    separately, at low volume; Stop/Ctrl+. before switching back to the slides.
    The deck cannot stop audio in a separate tab.
-5. The optional music API preview is offline. Run the slide 43 command without `--send` to show
+5. The optional music API preview is offline. Run the slide 47 command without `--send` to show
    the exact JSON. A key and network are unnecessary for the student exercise.
 6. For an optional later live generation, read `site/week06/examples/TEACHER_NOTES.md` first.
    Verify the deployed service, model discovery, classroom account, credits,
@@ -115,22 +120,23 @@ to measure air pressure or to run the Python WAV writer in the browser.
 
 | Elapsed | Slides | Activity and instructor move |
 |---|---:|---|
-| 00–12 | 1–8 | Source vibration → travelling compression → pressure at one microphone. Click Play on slide 6 for a two-second tone, then noise; Stop. Slide 7 is an optional live spectrum comparison. Recall the image grid. |
-| 12–20 | 9–16 | Read ordered samples, predict duration in ClassPoint, change the rate in browser Python, then inspect noise/WAV. Show hands if ClassPoint is unavailable. |
-| 20–26 | 17 | Pairs save a reference, change one constant, predict and compare. |
-| 26–38 | 18–22 | Read sine as a recipe; vote on what stays fixed at 440 Hz, then compare tone files. |
-| 38–40 | 23 | Optional spectrogram bridge: its stills are not one measured signal. |
-| 40–50 | 24 | Ten-minute break. Stop browser audio. |
-| 50–70 | 25–34 | Music block: predict/toggle the browser grid, then build hi-hat → bass → chords → melody in Strudel. Show Stop before changing tabs. |
-| 70–88 | 35–38 | Agent-assisted score edit, making and partner test. Eighteen minutes include the final four-minute test. If Easel setup fails, remain in Strudel. |
-| 88–92 | 39–45 | Optional music API: show one offline request/status distinction; leave detailed fields and any live paid generation for later. |
-| 92–106 | 46–52 | Speech: compare PFAD console chunks with the browser WebRTC path diagram and app; STOP the microphone, correct text, then explain the optional local reply. TTS is a separate follow-up. If the app is not preflighted, use a consented WAV. |
-| 106–116 | 54 | Existing mock practice: six minutes individual work, four minutes explaining reasoning. No new questions. |
-| 116–120 | 53, 55–58 | One concrete reflection; resources and assessment reminders are reference slides, not four minutes of new lecture. |
+| 00–04 | 1–5 | Optional dated news: one minute per item; ask one discussion question. |
+| 04–12 | 6–12 | Source vibration → travelling compression → pressure at one microphone. Click Play on slide 10 for a two-second tone, then noise; Stop. Slide 11 is an optional live spectrum comparison. Recall the image grid. |
+| 12–20 | 13–20 | Read ordered samples, predict duration in ClassPoint, change the rate in browser Python, then inspect noise/WAV. Show hands if ClassPoint is unavailable. |
+| 20–26 | 21 | Pairs save a reference, change one constant, predict and compare. |
+| 26–38 | 22–26 | Read sine as a recipe; vote on what stays fixed at 440 Hz, then compare tone files. |
+| 38–40 | 27 | Optional spectrogram bridge: its stills are not one measured signal. |
+| 40–50 | 28 | Ten-minute break. Stop browser audio. |
+| 50–70 | 29–38 | Music block: predict/toggle the browser grid, then build hi-hat → bass → chords → melody in Strudel. Show Stop before changing tabs. |
+| 70–88 | 39–42 | Agent-assisted score edit, making and partner test. Eighteen minutes include the final four-minute test. If Easel setup fails, remain in Strudel. |
+| 88–92 | 43–49 | Optional music API: show one offline request/status distinction; leave detailed fields and any live paid generation for later. |
+| 92–106 | 50–56 | Speech: compare PFAD console chunks with the browser WebRTC path diagram and app; STOP the microphone, correct text, then explain the optional local reply. TTS is a separate follow-up. If the app is not preflighted, use a consented WAV. |
+| 106–116 | 58 | Existing mock practice: six minutes individual work, four minutes explaining reasoning. No new questions. |
+| 116–120 | 57, 59–62 | One concrete reflection; resources and assessment reminders are reference slides, not four minutes of new lecture. |
 
-At the end of the pair task, use slide 38 for partner feedback, then slide 53
-for one closing observation. If time slips, omit slides 7 and 23 and the optional
-API slides 40–45. If speech setup is unavailable, trace input/output using the
+At the end of the pair task, use slide 42 for partner feedback, then slide 57
+for one closing observation. If time slips, omit slides 11 and 27 and the optional
+API slides 44–49. If speech setup is unavailable, trace input/output using the
 file fallback without waiting for downloads. Keep Strudel, making time and mock.
 Do not spend the class installing packages or troubleshooting account access.
 
@@ -151,7 +157,7 @@ Change only one initially. Rerunning replaces `noise.wav`; rename the reference
 file or use another `--out` folder before comparing. The change in duration
 changes sample count and file size; seed and amplitude do not change that count.
 
-The reused slide 14 waveform is a separate 220 Hz harmonic teaching illustration
+The reused slide 18 waveform is a separate 220 Hz harmonic teaching illustration
 at 44,100 samples/s. It is labelled explicitly and is not a recording of our
 22,050 samples/s noise example.
 
@@ -175,7 +181,7 @@ selected by the instructor. Play, change one visible value, Update, and Stop.
 No specific third-party song is copied into this repository. Tutorial video:
 pending the instructor's exact link; the current lesson does not guess one.
 
-Use slides 31–34 in order. Each opens a complete cumulative score. The next
+Use slides 35–38 in order. Each opens a complete cumulative score. The next
 link restores the supplied baseline, so undo an experiment before adding the
 next layer, or keep it as a separate saved variation:
 
@@ -221,7 +227,7 @@ Teacher/agent implementation notes, verified against current source:
 The 18-minute making block includes four minutes of pair review. Keep a before
 and after score plus one sentence explaining the change. This is formative,
 not a new assessed deliverable. Students can inspect the visual code/feedback
-without listening. Slides 26–27 use the original grid sequencer to illustrate
+without listening. Slides 30–31 use the original grid sequencer to illustrate
 one click, one state change and one scheduled note before Strudel.
 
 ### 4. Optional music-generation API
@@ -261,7 +267,7 @@ generated duration remain unverified. The local tests use fake responses.
 
 ### 5. Speech: console to browser to response
 
-Slides 46–52 link to `speech.html`. Start with PFAD `transcribe.py` in its
+Slides 50–56 link to `speech.html`. Start with PFAD `transcribe.py` in its
 separate Python 3.12 environment: run the bounded 3-by-5-second local microphone
 capture or use a consented WAV if hardware fails. Keep each proposed transcript
 with its source and settings. Never equate output text with an authoritative

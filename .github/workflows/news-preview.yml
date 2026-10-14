@@ -1,0 +1,30 @@
+name: Check dated AI news
+on:
+  pull_request:
+    paths:
+      - 'deck/news_20261014.py'
+      - 'deck/week06.py'
+      - 'tests/test_news_20261014.py'
+      - '.github/workflows/news-preview.yml'
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Check news content
+        run: python -m unittest discover -s tests -p 'test_news_20261014.py' -v
+      - name: Build HTML and check overflow
+        run: deckgen build week06 --site --no-pdf
+      - uses: actions/upload-artifact@v4
+        with:
+          name: week06-news-preview
+          path: |
+            _site/
+            export/preview/
+          retention-days: 7

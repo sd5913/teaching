@@ -13,6 +13,7 @@ from deckgen.layouts import (title, end, agenda, section, content, statement,
                              two_col, figure_slide, code_panel, live, question, exercise)
 import week05_figures as I
 import week06_figures as F
+from news_20261014 import news_slides
 
 S = []
 EYE = 'SD5913 · WEEK 06'
@@ -28,6 +29,8 @@ S.append(title(EYE, 'Sound as data', 'Noise, waveforms, speech, songs and intera
     notes='Two-hour lesson. Keep the Week 6 lesson numbering. The teaching date has not been confirmed. '
     'The class builds on Week 5 images and API requests, for designers learning to program with agents. '
     'Have the offline noise and tone files ready. Start with the device volume low. No sound autoplays.'))
+
+S.extend(news_slides('SD5913'))
 
 S.append(agenda(EYE, [
     'See how vibration becomes a measured signal', 'Hear two seconds of tone or noise in the browser',
