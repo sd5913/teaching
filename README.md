@@ -24,7 +24,7 @@ Two GitHub Actions workflows run on every push to `main` (and on demand):
 | `deck/assets/` | Images. `deck/assets/generated/` is drawn at build time and git-ignored. |
 | `lessons/` | Instructor run sheets. Built to `.docx` in the artifact, **not published**. |
 | `syllabus/` | Published only if listed under `[[publish]]` in `deckgen.toml`. |
-| `site/index.html` | The landing page. The reveal.js vendor bundle is added by the build. |
+| `site/index.html` | The landing page. Each weekly card links to its HTML deck and PDF; update these alongside `deckgen.toml`. The reveal.js vendor bundle is added by the build. |
 | `archive/` | The PowerPoint actually shown in class, per week, where it was not generated from `deck/`. Week 1 lives here — it was built by hand. |
 
 Generated and git-ignored: `_site/`, `export/`, `deck/assets/generated/`, `node_modules/`.
@@ -52,6 +52,16 @@ deckgen build --no-pdf        # skip the Chromium step
 The PDF step needs node 18+ and Playwright's Chromium:
 `npm install --no-save playwright@1.56.1 && npx playwright install chromium`.
 The html deck: arrow keys, `S` speaker notes, `O` overview, `F` full screen.
+
+The Cloudflare Pages project `teaching` publishes PR previews from `_site/`.
+Its build command must include PDFs so the homepage downloads work there too:
+
+```bash
+pip install -r requirements.txt && npm install --no-save --no-package-lock playwright@1.56.1 && npx playwright install --with-deps chromium && deckgen build --site
+```
+
+Keep that project setting aligned with `.github/workflows/site.yml`; `--no-pdf`
+is only a local shortcut when you do not need the downloads.
 
 `deckgen build` **exits non-zero if any text overflows its box**, so a broken slide fails
 the workflow rather than reaching the projector. Previews land in `export/preview/`.

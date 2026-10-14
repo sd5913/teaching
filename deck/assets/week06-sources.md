@@ -173,3 +173,25 @@ inspected on a 1920 x 1080 render. It is not part of the current 58-slide sequen
 Existing interaction-test expectations now match the retained frequency question
 and first Strudel layer. Song API teacher notes distinguish the historical local
 contract fixture from PFAD's maintained uv/dotenv script.
+
+## Harmonics clock follow-up, 14 October 2026
+
+The teaching and PFAD harmonics sketches now show the browser's actual
+`AudioContext.sampleRate` after Play. Before an audio context exists, the caption
+says the browser sets the clock. Changing the base frequency or multiplier does
+not set the sample rate; 22,050 samples/s belongs to the Python WAV examples.
+The instructor also confirmed that the piano's silent playback problem is solved.
+
+## Homepage PDF downloads, 14 October 2026
+
+Each weekly homepage card now has a separate PDF download, including Week 5
+(8 October) and Week 6. The Cloudflare Pages build previously used `--no-pdf`,
+so PDF URLs returned the HTML fallback. Its build command now installs pinned
+Playwright/Chromium and includes PDFs, matching the GitHub Pages workflow.
+The command is recorded in the README.
+
+The full six-deck site build exposed a Week 2 slide 33 overflow. Shortening its
+opening sentence fixed the overflow without changing the lesson. All six PDFs
+build locally; their homepage links return PDF content, and the Week 5 download
+works. The homepage was inspected at desktop and mobile sizes, and the harmonics
+caption was inspected before and after Play at presentation size.

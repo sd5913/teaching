@@ -232,7 +232,8 @@ S.append(figure_slide('02 · MULTIPLY A BASE', 'Build harmonics from a base freq
     caption='Keep 220 Hz fixed; try 2× then 3×. Predict the new frequency and shape.',
     notes='Student source: PFAD week06/browser/harmonics.js. Adjust two integer sliders '
     'and compare base, harmonic and their sum. Begin at 220 Hz x 2 = 440 Hz; '
-    'the sum changes timbre while the 22,050 samples/s clock stays fixed. Keep device volume low. '
+    'the sum changes timbre without setting the sample rate. The browser chooses '
+    'AudioContext.sampleRate; the Python WAV examples use 22,050 samples/s. Keep device volume low. '
     'Only play after an explicit click; Escape, Stop or leaving the slide closes audio.'))
 
 S.append(figure_slide('02 · SOUND AS A LANDSCAPE', 'Speak and see a flowing spectrum', F.w06_voice_surface_still(),
