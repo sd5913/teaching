@@ -24,13 +24,13 @@ __all__ = ['w06_air_pressure', 'w06_pressure_measurement', 'w06_signal_lab_still
 def w06_keyboard_still(name='w06-keyboard', w=1680, h=640):
     c = Canvas(w, h, bg=WHITE)
     _label(c, 70, 45, 'PLAY ONE NOTE. NAME ITS FREQUENCY.', 39)
-    _label(c, 70, 106, 'Click a key or press A S D F G H J K in the HTML slide.', 30)
+    _label(c, 70, 106, 'Click a key or press 1 2 3 4 5 6 7 8 in the HTML slide.', 30)
     names = ('C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5')
     for i, note in enumerate(names):
         x = 74 + i * 193
         c.rect(x, 170, 178, 290, fill=PALE_ORANGE if i == 0 else WHITE, stroke=INK, width=3)
         _label(c, x + 89, 380, note, 38, anchor='middle')
-        _label(c, x + 89, 429, 'ASDFGHJK'[i], 28, anchor='middle')
+        _label(c, x + 89, 429, '12345678'[i], 28, anchor='middle')
     _label(c, 75, 515, 'C4 = 261.63 Hz   /   C5 = 523.25 Hz: twice the frequency.', 34)
     _label(c, 75, 592, 'HTML: press a key to hear a short note. Escape or STOP silences it.', 30, ORANGE)
     return c.finish(name)

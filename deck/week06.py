@@ -230,7 +230,7 @@ S.append(question('multiple_choice', 'Frequency 220 to 440 Hz: what stays the sa
 
 S.append(figure_slide('02 · MUSIC FROM FREQUENCY', 'Play a small keyboard piano', F.w06_keyboard_still(),
     sketch=live('week06-piano', PIANO_CODE, 1200, 620,
-                hint='Click keys or press A–K · STOP / Escape'),
+                hint='Click keys or press 1–8 · STOP / Escape'),
     caption='Try C4 then C5. Can you hear and see the frequency double?',
     notes='Student source: PFAD week06/browser/piano.js. The HTML slide is a real p5 keyboard '
     'with short, quiet Web Audio notes; PDF/PPTX show an illustrative still. Let students '
@@ -262,7 +262,7 @@ S.append(figure_slide('02 · SOUND AS A LANDSCAPE', 'Speak and see a flowing spe
     'synthetic input. Only click MIC after consent; localhost/HTTPS asks for permission. '
     'Web Audio FFT bins become a rolling p5 WEBGL surface; no data is uploaded, saved '
     'or played back. Speak briefly, observe formants and changing energy, then Stop. '
-    'If permission or hardware fails, use DEMO. This visualizes frequency, not words: '
+    'If permission is denied, allow Microphone in browser site settings, reload and click MIC. The landscape is visual only: microphone input is never played through speakers. If hardware fails, use DEMO. This visualizes frequency, not words: '
     'the later speech section has a separate transcription model. The still is illustrative.'))
 
 S.append(section('10 MINUTES', 'Break', 'Save the files you want to compare',
