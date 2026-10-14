@@ -153,3 +153,9 @@ Checks: `python -m unittest discover -s tests -p '*test*.py' -v` and
 `node tests/week06_audio_lifecycle.test.cjs` (mock Web Audio lifecycle). The Week 6
 API tests are mocked, with no live service, credentials or generation charges.
 See `deck/assets/week06-sources.md` for source pins and verification limits.
+
+The individual Assignment 3 Canvas brief is
+[`syllabus/03-interactive-experience.md`](syllabus/03-interactive-experience.md).
+It includes the confirmed 15% weight and 1 November deadline, submission checklist,
+and a proposed 15-point rubric. A PowerPoint build also produces its Word and HTML
+versions in `export/docs/`; it is not listed for publication on the course site.

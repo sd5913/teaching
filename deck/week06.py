@@ -35,9 +35,9 @@ S.append(title(EYE, 'Sound as data', 'Noise, waveforms, speech, songs and intera
 S.extend(news_slides('SD5913'))
 
 S.append(agenda(EYE, [
-    'See vibration become samples and a WAV', 'Play a piano; combine a base and a harmonic',
-    'Speak to a live, flowing spectrum', 'Make music in Strudel with an agent',
-    'Preview a song request (optional)', 'Check a transcript before a response',
+    'See vibration become samples and a WAV', 'Shape a sound: frequency, amplitude, harmonics',
+    'Make music with a grid, Strudel and an agent', 'Preview a song request (optional)',
+    'Check a transcript; hear a local reply', 'Design an interaction and practise',
 ], notes='The making and reflection blocks are part of the two-hour session. '
    'The standard-library examples work without accounts, external packages or a microphone. '
    'A live API generation is an optional instructor demonstration after preflight.'))
@@ -49,6 +49,11 @@ S.append(content('OPENING · LISTENING', 'What does a sound ask you to do?', [
 ], notes='Give pairs a minute, then take two contrasting answers. This is discussion, not an assessed quiz. '
     'A design judgment should name context and repetition. Students who prefer not to listen can work '
     'from waveform views and descriptions. No hearing test or loudness sweep.'))
+
+S.append(section('01 · SOUND', 'Sound becomes data',
+    'Vibration, samples and a finite WAV',
+    notes='A brief transition into the physical sound and sampling block. '
+    'Ask what the microphone measures before showing the diagrams.'))
 
 S.append(figure_slide('01 · MECHANICAL ENERGY', 'A vibration travels through air', F.w06_air_pressure(),
     caption='The source moves air locally; alternating compressions carry energy toward a microphone.',
@@ -187,6 +192,11 @@ S.append(content('PAIR EXPERIMENT · 6 MINUTES', 'One change, one prediction', [
     'volume to a limit or test hearing. Afterward ask which variables change file size and which do not. '
     'Expected: duration changes sample count, seed changes values, amplitude scales values.'))
 
+S.append(section('02 · SYNTHESIS', 'Shape a sound',
+    'Frequency, amplitude and harmonics',
+    notes='Move from random samples to a repeating rule. Keep the sample clock fixed '
+    'while changing frequency or amplitude; these are different controls.'))
+
 S.append(two_col('02 · A REPEATING RULE', 'A sine wave repeats smoothly', [
     'Frequency sets cycles per second.',
     'Amplitude scales the signal values.',
@@ -268,7 +278,7 @@ S.append(figure_slide('02 · SOUND AS A LANDSCAPE', 'Speak and see a flowing spe
 S.append(section('10 MINUTES', 'Break', 'Save the files you want to compare',
     notes='Stop any browser audio before the break. Preserve at least one before/after pair.'))
 
-S.append(section('03 · MUSIC', 'Music: change the score, hear the result',
+S.append(section('03 · MUSIC', 'Make a musical pattern',
     'Browser grid → four Strudel layers → agent-assisted variation',
     notes='This block comes before the optional song API and separate speech block. '
     'Start from an audible browser score and retain making time. Stop each source '
@@ -296,6 +306,11 @@ S.append(content('PAIR REVIEW · FINAL 4 MINUTES', 'What does the other person n
 ], notes='Listen for claims supported by a concrete observation. Offer waveform/visual feedback review for '
     'anyone who does not want to listen. Ask for one change after the test, rather than broad aesthetic ratings.'))
 
+S.append(section('04 · MUSIC API · OPTIONAL', 'Describe a song',
+    'Preview a request before submitting it',
+    notes='An optional four-minute block. An offline preview is sufficient. '
+    'This transition does not add a live generation or setup task.'))
+
 S.append(content('04 · MUSIC API · OPTIONAL', 'Where do the sound choices come from?', [
     'Our Python rule specifies every sample value.',
     'A song model uses learned patterns to interpret a request.',
@@ -321,8 +336,8 @@ S.append(two_col('04 · MUSIC API · WEEK 5 PARALLEL', 'The request changes. The
 from week06_api_slides import api_slides
 S.extend(api_slides())
 
-S.append(section('05 · SPEECH', 'Speech: from words to a responding interface',
-    'A local transcript → browser microphone → a checked reply',
+S.append(section('05 · SPEECH', 'Talk, check, reply',
+    'A transcript, a local model and a spoken response',
     notes='Speech is a separate path after music, not another song-generation service. '
     'The console demo and the WebRTC app share the idea of bounded chunks. '
     'The browser transport changes where audio is captured, not whether the model '
@@ -330,6 +345,11 @@ S.append(section('05 · SPEECH', 'Speech: from words to a responding interface',
 
 from week06_speech_slides import speech_slides
 S.extend(speech_slides())
+
+S.append(section('06 · INTERACTION', 'Design the response',
+    'Reflect, practise and plan your project',
+    notes='Return to the action, response and feedback loop. Keep the existing '
+    'ten-minute mock slot; the section slide is a transition, not an extra activity.'))
 
 S.append(content('REFLECTION', 'Which choice can you explain?', [
     'Name one input and the data it changes.',
@@ -365,13 +385,14 @@ S.append(content('ASSESSMENT · 22 OCTOBER 2026', 'Quiz · Thursday 22 October',
     'open-book are not confirmed. Do not imply that AI use is authorized. This lesson does not replace '
     'or recreate the previously supplied mock quiz. Date: current Week 5 deck. Format: instructor briefing.'))
 
-S.append(content('ASSIGNMENT 3 · 15 POINTS', 'An interactive experience', [
+S.append(content('ASSIGNMENT 3 · INDIVIDUAL · 15%', 'An interactive experience', [
     'A user input and program response should form a loop.',
     'A website, survey or command-line program can work.',
     'Due Sunday 1 November, 23:59 Hong Kong time.',
-    'Detailed rubric and submission instructions are separate.',
+    'Submit your repository URL on Canvas; include README and PROCESS.',
 ], notes='The current Week 5 instructor lesson plan confirms 1 November 2026 at 23:59 '
-    'Hong Kong time. The instructor briefing supplies 15 points. Rubric component weights remain unconfirmed. Audio and AI generation '
+    'Hong Kong time. The PFAD course overview confirms 15%. See '
+    'syllabus/03-interactive-experience.md for the Canvas brief and proposed 15-point rubric. Audio and AI generation '
     'are possibilities, not required features. Source: '
     'https://github.com/sd5913/teaching/blob/dd8e30ed640af73008f283fd6cbcca9167fc3735/lessons/week05-lesson-plan.md'))
 

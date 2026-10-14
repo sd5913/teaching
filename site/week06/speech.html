@@ -6,54 +6,57 @@ body{margin:0;background:#f4f4f2;color:#000b1c;font:20px/1.55 system-ui,sans-ser
 </style></head><body><main>
 <p><a href="./">Week 6 slides</a> · <a href="resources.html">Sound resources</a></p>
 <h1>Speech synthesis and transcription</h1>
-<p>Start with a finite Python console transcript. Then move the microphone into a local browser app over WebRTC. Correct the proposed words before asking an optional local model to respond. Speech synthesis is a separate extension, not an automatic voice loop.</p>
-<p class="note">No microphone starts from this static page. The local Streamlit app asks for browser permission only after you click START. First use downloads libraries and model weights. Local inference needs no classroom API key. Model inference and actual microphone hardware still need a classroom-device rehearsal.</p>
-<section id="setup"><h2>Before class</h2>
-<p><a href="https://github.com/sd5913/pfad/tree/draft/week06-speech-examples/week06/speech">Open the PFAD speech scripts and setup instructions</a>. Use the separate <strong>Python 3.12</strong> environment in <code>week06/speech</code>; the repository’s root environment belongs to the Week 4 Worker.</p>
-<ul><li>The primary examples use <code>kokoro==0.9.4</code> and <code>faster-whisper==1.2.1</code> on CPU. Their installed dependencies and model files need a preflight before a live lesson.</li>
-<li>Kokoro needs PyTorch, language resources and <code>espeak-ng</code>. Microphone capture uses sounddevice/PortAudio and the operating system’s microphone permission. A server or remote notebook does not automatically receive your browser’s microphone.</li>
-<li>Download and test the models ahead of time. <code>--check</code> checks prerequisites without loading model weights or recording. It cannot prove that a model will run successfully.</li>
-<li>Keep a short PCM WAV you have permission to use. The file-input exercise needs no microphone. Neither script plays audio automatically.</li></ul>
-<pre><code>cd week06/speech
-uv run --no-project synthesise.py --check
-uv run --no-project transcribe.py --check</code></pre>
-<p>The following commands assume the PFAD setup is complete and the terminal stays in this folder. Use a new output name for each comparison; existing results are preserved.</p>
+<p>Turn text into a spoken cue, check a transcript, then try a local browser conversation. The bot combines faster-whisper base.en, a small chat model in LM Studio and Kokoro ONNX. Recognized words fill an editable chat box; you decide when to send them.</p>
+<p class="note">No microphone starts from this static page. The local Streamlit app asks for browser permission only after you click Start mic. First use downloads libraries and model weights. Local inference needs no classroom API key. Model inference and actual microphone hardware still need a classroom-device rehearsal.</p>
+<section id="setup"><h2>Prepare the portable environment</h2>
+<p>Follow the <a href="https://github.com/sd5913/pfad/blob/2026/week06/speech/CONVERSATION.md">PFAD local conversation guide</a>. Run commands from <code>week06/speech</code> in the PFAD checkout. Its separate <strong>Python 3.12</strong> environment avoids the root Week 4 Python project. CPU speech is the default on Windows, Macs and AMD machines. NVIDIA CUDA is optional; LM Studio can accelerate its language model independently, including Metal on supported Macs.</p>
+<p>Create the environment once; skip <code>uv venv</code> if it is already prepared. Installation and model preparation need internet; prepared models run locally. Existing model weights are checked and reused where possible.</p>
+<h3>Windows PowerShell</h3>
+<pre><code>uv venv --no-project --python 3.12 .venv
+uv pip install --python .venv/Scripts/python.exe -r conversation_requirements.txt
+uv run --no-project --python .venv/Scripts/python.exe prepare_models.py
+uv run --no-project --python .venv/Scripts/python.exe synthesise_onnx.py --check
+uv run --no-project --python .venv/Scripts/python.exe transcribe.py --check</code></pre>
+<h3>macOS / Linux</h3>
+<pre><code>uv venv --no-project --python 3.12 .venv
+uv pip install --python .venv/bin/python -r conversation_requirements.txt
+uv run --no-project --python .venv/bin/python prepare_models.py
+uv run --no-project --python .venv/bin/python synthesise_onnx.py --check
+uv run --no-project --python .venv/bin/python transcribe.py --check</code></pre>
+<p>Kokoro ONNX needs no PyTorch or separate system <code>espeak-ng</code> install: <code>espeakng-loader</code> supplies the phonemizer. Browser WebRTC needs no PortAudio. The older console microphone and PyTorch synthesis exercises have <a href="https://github.com/sd5913/pfad/blob/2026/week06/speech/README.md">separate setup requirements</a>, including sounddevice/PortAudio for console capture. <code>--check</code> checks prerequisites without loading model weights or recording; it does not prove real inference will work.</p>
+<p class="note">Prepare models ahead of class. Use a short consented PCM WAV and a typed-message route if the microphone is unavailable. Windows CPU/CUDA was exercised on the instructor laptop; macOS and Linux installation and physical classroom microphone/speakers still need rehearsal.</p>
 </section>
-<section id="file"><h2>1. A file to a proposed transcript</h2>
-<pre><code>uv run --no-project transcribe.py \
-  --audio out/cue.wav --out out/cue.txt</code></pre>
-<p>faster-whisper runs the English <code>base.en</code> model using CPU <code>int8</code> computation. Its file decoder resamples audio to mono <strong>16,000 samples/s</strong>. Resampling changes the sample sequence correctly; merely changing the rate label would change playback speed and pitch.</p>
-<p>Compare the printed and saved transcript with your original sentence and the actual audio. A correct transcript does not prove natural pronunciation. An error may come from the voice, the recognizer, or the way the words were recorded.</p>
-<p class="note">Speech recognition can hallucinate words, especially around silence or noise. Treat the text as a prediction until you check it. Do not use this classroom prototype as a verbatim record of someone else’s words.</p>
+<section id="synthesis"><h2>1. Text to a spoken cue</h2>
+<p>From the prepared speech folder, use the Windows interpreter below. On macOS/Linux, substitute <code>.venv/bin/python</code>.</p>
+<pre><code>uv run --no-project --python .venv/Scripts/python.exe synthesise_onnx.py --text "Your file is ready." --speed 1.0 --out ../out/cue.wav</code></pre>
+<p>Kokoro ONNX uses a preset synthetic voice and retains all generated chunks, saving a mono PCM WAV at <strong>24,000 samples/s</strong> and a settings record. Open the file yourself at low volume. Try <code>--speed 0.85</code> with <code>--out ../out/cue-slower.wav</code>. Does the cue feel clearer, calmer or more interruptive? Check pronunciation as well as tone. New filenames preserve the comparison.</p>
 </section>
-<section id="microphone"><h2>2. A bounded Python console transcript</h2>
-<p>Record yourself, or get the consent of anyone whose voice might be captured. Start only when the room is ready. This command records continuously for three 5-second chunks, then closes the microphone:</p>
-<pre><code>uv run --no-project transcribe.py --microphone \
-  --chunks 3 --seconds 5 --out out/mic.txt</code></pre>
-<p>The microphone supplies mono 16 kHz samples while the local model processes queued chunks. Text arrives after each chunk and can lag on a slow machine. <strong>Ctrl+C</strong> stops the demo. The complete script bounds recording, queue memory and waits for the capture device.</p>
-<p>This is <strong>chunked near-live transcription</strong>. It does not promise native streaming, immediate partial words or seamless sentence boundaries. A word split across two chunks may be lost or changed. Longer chunks give more context but delay feedback.</p>
-<p>If microphone permission or the input device fails, use the file example above. Do not publish recordings or transcripts of classmates. The exercise adds no assessed submission.</p>
+<section id="file"><h2>2. A file to a proposed transcript</h2>
+<pre><code>uv run --no-project --python .venv/Scripts/python.exe transcribe.py --audio ../out/cue.wav --offline --out ../out/cue.txt</code></pre>
+<p>Again, substitute <code>.venv/bin/python</code> on macOS/Linux. faster-whisper runs English <code>base.en</code> with CPU <code>int8</code> by default. Its decoder resamples audio to mono <strong>16,000 samples/s</strong>. Resampling changes the sample sequence; changing only the rate label would change speed and pitch.</p>
+<p>Compare the printed and saved transcript with your original sentence and the audio. A correct transcript does not prove natural pronunciation.</p>
+<p class="note">Recognition can hallucinate words around silence or noise. Treat the text as a prediction until you check it; get consent before capturing another person's voice.</p>
 </section>
-<section id="webrtc"><h2>3. Put the microphone in a browser with WebRTC</h2>
-<p>The console program reads a microphone attached to Python's own machine. For a browser microphone, <a href="https://github.com/sd5913/pfad/blob/draft/week06-speech-examples/week06/speech/speech_webrtc.py">the PFAD local Streamlit WebRTC app</a> receives a WebRTC audio track, converts frames to mono 16 kHz, and calls the same kind of finite <code>base.en</code> transcription in 3-second chunks. Its <a href="https://github.com/sd5913/pfad/blob/draft/week06-speech-examples/week06/speech/speech_webrtc_requirements.txt">separate requirements</a> are optional and do not change the Week 4 Worker or deckgen environment. The teaching preview also offers <a href="examples/speech_webrtc.py">a source download</a>.</p>
-<pre><code>cd week06/speech
-uv venv --python 3.12 .venv-webrtc
-uv pip install --python .venv-webrtc/bin/python -r speech_webrtc_requirements.txt
-.venv-webrtc/bin/python -m streamlit run speech_webrtc.py --server.address 127.0.0.1</code></pre>
-<p>First warm the same <code>base.en</code> cache with the PFAD file transcription on your own computer. In the local app, load the cached model, click START and permit the microphone, speak briefly, then click STOP. Processing is limited to three 3-second chunks. <strong>STOP is still necessary to end the browser media track</strong> if processing ends first. The app keeps transcripts in its local session, not WAV files. A browser on a remote computer would need HTTPS and likely STUN/TURN; this localhost example is not a published multi-user app.</p>
-<p class="note">The static course preview links the PFAD Python source; it cannot run the local model or accept a microphone. If WebRTC, the model or permissions fail, use the already-tested file-input path. Neither browser capture nor actual inference has been verified on the teaching device.</p>
+<section id="microphone"><h2>Optional: a bounded console transcript</h2>
+<p>After the separate <a href="https://github.com/sd5913/pfad/blob/2026/week06/speech/README.md">console setup</a>, this command records three 5-second chunks and then closes the microphone. Use <code>.venv/bin/python</code> on macOS/Linux.</p>
+<pre><code>uv run --no-project --python .venv/Scripts/python.exe transcribe.py --microphone --chunks 3 --seconds 5 --out ../out/mic.txt</code></pre>
+<p><strong>Ctrl+C</strong> stops early. This is chunked near-live transcription; boundaries can cut words and inference can lag. The browser app below listens until you press Stop mic or Send. The file exercise needs no microphone. Do not publish classmates' recordings or transcripts.</p>
 </section>
-<section id="reply"><h2>4. Check before a response</h2>
-<p>After STOP, inspect and correct the proposed transcript. The app contacts <strong>only local Ollama at 127.0.0.1:11434</strong>, and only if you press its Ask button. It requests a one-sentence text reply from a locally installed <code>qwen3:4b</code> model. Ollama is optional and was not run in this lesson validation; if it is unavailable, ask the class to write a response to the corrected sentence instead. Do not treat an incorrect transcript as an instruction, and do not imply that the app speaks its answer automatically.</p>
-<p>Change one sentence in the console exercise and then in the browser. What is the same about the model's input? What changes about capture, consent, timing and stopping? The visual/no-listening route remains the WAV metadata and written transcript.</p>
+<section id="webrtc"><h2>3. Open the local browser bot</h2>
+<p>Load a small instruction/chat model in LM Studio and start its local server on port 1234. The instructor uses the already-cached <strong>MiniCPM5-2B Q4_K_M</strong>; choose a model that fits your computer. See the <a href="https://github.com/sd5913/pfad/blob/2026/week06/speech/CONVERSATION.md#load-a-small-model-in-lm-studio">LM Studio setup</a> and <a href="https://github.com/sd5913/pfad/blob/2026/week06/speech/speech_webrtc.py">current app source</a>.</p>
+<h3>Windows PowerShell</h3>
+<pre><code>$env:HF_HUB_OFFLINE = "1"
+$env:TRANSFORMERS_OFFLINE = "1"
+uv run --no-project --python .venv/Scripts/python.exe python -m streamlit run speech_webrtc.py --server.address 127.0.0.1 --browser.gatherUsageStats false</code></pre>
+<h3>macOS / Linux</h3>
+<pre><code>HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 uv run --no-project --python .venv/bin/python python -m streamlit run speech_webrtc.py --server.address 127.0.0.1 --browser.gatherUsageStats false</code></pre>
+<p>Open <strong>http://localhost:8501</strong>. In the sidebar choose Find loaded models, then select your LM Studio model. Type and press Enter, or click <strong>Start mic</strong> beside the chat box and allow the microphone. Recognition fills the editable input in 3-second chunks. <strong>Capture continues until Stop mic or Send</strong>; it does not end after ten seconds. Stop mic for careful correction, then press Enter. Sending also stops capture before the reply.</p>
+<p class="note">No microphone starts from this static course page. The Python app runs on your own laptop; the static Pages preview does not host it. This localhost exercise is not a public multi-user deployment. A remote browser needs HTTPS and suitable WebRTC networking.</p>
 </section>
-<section id="synthesis"><h2>Optional extension: text to a spoken cue</h2>
-<p>Predict how a spoken file-save notification will feel. Keep the wording short and use the preset synthetic voice.</p>
-<pre><code>uv run --no-project synthesise.py \
-  --text "Your file is ready." \
-  --speed 1.0 --out out/cue.wav</code></pre>
-<p>Kokoro uses <code>KPipeline(lang_code="a", device="cpu")</code> and the preset <code>af_heart</code>. The script keeps all generated chunks, then saves a mono PCM WAV at <strong>24,000 samples/s</strong> and a settings record. Open the saved file yourself at low volume.</p>
-<p>Change only <code>--speed 1.0</code> to <code>--speed 0.85</code> and save <code>out/cue-slower.wav</code>. Does it feel clearer, calmer or more interruptive? The numeric setting does not guarantee an exact duration. Check pronunciation as well as tone.</p>
+<section id="reply"><h2>4. Check, send and hear the response</h2>
+<p>Correct the draft before sending. Text goes to the selected loopback LM Studio server only when you press Enter. Kokoro ONNX speaks the reply and each assistant message retains a player; browser autoplay settings may require pressing Play. Starting the mic or sending pauses previous reply audio. The editable personality prompt introduces Pip as a playful studio companion, usually replying in three to five sentences.</p>
+<p>Microphone audio is processed in memory; no microphone WAV is saved. Recent transcripts, conversation and reply audio live in the session. Setup and transcription logs are collapsed in the sidebar. Keep CPU speech unless you have the compatible NVIDIA libraries; <a href="https://github.com/sd5913/pfad/blob/2026/week06/speech/CONVERSATION.md#optional-nvidia-acceleration">optional CUDA instructions</a> describe the extra runtime and memory requirements. TensorRT and native streaming alternatives are optional research, not dependencies.</p>
+<p>If a model or device fails, use a file transcript and a written response. This exercise adds no assignment requirement to use speech or AI.</p>
 </section>
 <section id="reflect"><h2>A small design experiment</h2>
 <ol><li>Keep one sentence, its WAV, settings and transcript as a reference.</li><li>Change one synthesis parameter. Predict what a listener will notice.</li><li>Compare the second audio and transcript. Which result is useful evidence for your prediction?</li><li>Sketch an interface that lets a person correct a transcript or stop a spoken cue.</li></ol>
@@ -73,7 +76,7 @@ uv pip install --python .venv-webrtc/bin/python -r speech_webrtc_requirements.tx
 </section>
 <section id="sources"><h2>Sources and checks</h2>
 <p><a href="https://github.com/SYSTRAN/faster-whisper/blob/v1.2.1/README.md">faster-whisper 1.2.1</a> · <a href="https://github.com/openai/whisper">Whisper</a> · <a href="https://pypi.org/project/kokoro/0.9.4/">Kokoro 0.9.4</a> · <a href="https://huggingface.co/hexgrad/Kokoro-82M">Kokoro model card</a> · <a href="https://python-sounddevice.readthedocs.io/en/0.5.3/installation.html">Microphone setup</a></p>
-<p>The source APIs were checked against official documentation. Offline tests cover the scripts’ validation, file handling and bounded capture logic with model/device substitutes. They do not establish actual speech quality, model-download reliability, performance or microphone behavior on the classroom computer. Pinning the main packages alone does not guarantee identical results across machines.</p>
+<p>The <a href="https://github.com/sd5913/pfad/blob/2026/week06/ENVIRONMENT.md">PFAD environment report</a> records instructor Windows inference and browser checks, model reuse and optional CUDA measurements. The teaching review does not rerun those model checks. Classroom audibility and physical microphone capture still need rehearsal. Other synthesis models below were not run in this review; package pins alone do not guarantee identical results across machines.</p>
 </section>
 <footer><small>SD5913 Week 6. Local speech models are optional tools for design exploration. Use original text and preset synthetic voices.</small></footer>
 </main></body></html>

@@ -77,9 +77,9 @@ def w06_voice_surface_still(name='w06-voice-surface', w=1680, h=640):
 def w06_air_pressure(name='w06-air-pressure', w=1680, h=640):
     """Schematic compression/rarefaction, not a transverse air wave."""
     c = Canvas(w, h, bg=WHITE)
-    _label(c, 70, 55, 'VIBRATING SOURCE', 34)
-    _label(c, 840, 55, 'ENERGY TRAVELS THROUGH AIR', 36, anchor='middle')
-    _label(c, 1520, 55, 'MICROPHONE', 34, anchor='middle')
+    _label(c, 70, 55, 'SOURCE', 46)
+    _label(c, 840, 55, 'ENERGY TRAVELS THROUGH AIR', 46, anchor='middle')
+    _label(c, 1520, 55, 'MICROPHONE', 46, anchor='middle')
     c.rect(85, 185, 125, 260, fill=INK)
     c.rect(206, 210, 26, 210, fill=ORANGE)
     _arrow(c, 242, 315, 290, 315, ORANGE, 6, 20)
@@ -93,8 +93,8 @@ def w06_air_pressure(name='w06-air-pressure', w=1680, h=640):
                 c.circle(x, 206 + row * 40, 4.5, fill=DARK_TEAL)
     c.rect(1430, 225, 25, 185, fill=TEAL)
     c.rect(1455, 276, 100, 82, fill=INK)
-    _label(c, 566, 474, 'COMPRESSION', 30, anchor='middle')
-    _label(c, 741, 518, 'RAREFACTION', 30, anchor='middle')
+    _label(c, 566, 474, 'COMPRESSION', 46, anchor='middle')
+    _label(c, 741, 518, 'RAREFACTION', 46, anchor='middle')
     _label(c, 840, 572, 'Air moves back and forth locally; it does not travel with the sound.',
            32, anchor='middle')
     _label(c, 840, 618, 'Schematic particle spacing, not a picture of individual molecules.',
@@ -105,8 +105,8 @@ def w06_air_pressure(name='w06-air-pressure', w=1680, h=640):
 def w06_pressure_measurement(name='w06-pressure-measurement', w=1680, h=640):
     """Pressure at one location over time, not the spatial path of the air."""
     c = Canvas(w, h, bg=WHITE)
-    _label(c, 840, 48, 'AT ONE PLACE: PRESSURE CHANGES OVER TIME', 36, anchor='middle')
-    _label(c, 125, 175, 'MIC', 36, anchor='middle')
+    _label(c, 840, 48, 'AT ONE PLACE: PRESSURE CHANGES OVER TIME', 46, anchor='middle')
+    _label(c, 125, 175, 'MIC', 46, anchor='middle')
     c.rect(70, 205, 110, 170, fill=TEAL)
     _arrow(c, 205, 290, 308, 290, ORANGE, 6, 20)
     x0, x1, mid = 390, 1580, 295
@@ -154,27 +154,27 @@ def w06_signal_lab_still(name='w06-signal-lab', w=1680, h=640):
 def w06_speech_pipeline(name='w06-speech-pipeline', w=1680, h=640):
     """The capture/transport changes, but transcription and human review stay."""
     c = Canvas(w, h, bg=WHITE)
-    _label(c, 85, 60, 'LOCAL CONSOLE', 32)
+    _label(c, 85, 60, 'LOCAL CONSOLE', 46)
     _label(c, 85, 100, 'sounddevice mic', 25, MUTED)
     c.rect(80, 170, 280, 105, fill=INK)
-    _label(c, 220, 230, 'Python frames', 32, WHITE, anchor='middle')
-    _label(c, 85, 335, 'LOCAL BROWSER', 32)
+    _label(c, 220, 230, 'Mic frames', 46, WHITE, anchor='middle')
+    _label(c, 85, 335, 'LOCAL BROWSER', 46)
     _label(c, 85, 375, 'START + permission', 25, MUTED)
     c.rect(80, 425, 280, 105, fill=DARK_TEAL)
-    _label(c, 220, 485, 'WebRTC track', 32, WHITE, anchor='middle')
+    _label(c, 220, 485, 'WebRTC', 46, WHITE, anchor='middle')
     _arrow(c, 375, 220, 530, 295, ORANGE, 6, 18)
     _arrow(c, 375, 480, 530, 350, ORANGE, 6, 18)
     c.rect(550, 250, 290, 145, fill=TEAL)
-    _label(c, 695, 315, 'mono 16 kHz', 36, WHITE, anchor='middle')
-    _label(c, 695, 362, 'finite chunks', 27, WHITE, anchor='middle')
+    _label(c, 695, 315, 'mono 16 kHz', 46, WHITE, anchor='middle')
+    _label(c, 695, 362, 'short chunks', 32, WHITE, anchor='middle')
     _arrow(c, 855, 320, 970, 320, ORANGE, 6, 18)
     c.rect(990, 250, 265, 145, fill=INK)
-    _label(c, 1123, 313, 'Whisper', 38, WHITE, anchor='middle')
-    _label(c, 1123, 363, 'proposed text', 28, WHITE, anchor='middle')
+    _label(c, 1123, 313, 'Whisper', 46, WHITE, anchor='middle')
+    _label(c, 1123, 363, 'proposed text', 32, WHITE, anchor='middle')
     _arrow(c, 1270, 320, 1360, 320, ORANGE, 6, 18)
     c.rect(1380, 250, 235, 145, fill=DARK_TEAL)
-    _label(c, 1498, 313, 'CHECK', 38, WHITE, anchor='middle')
-    _label(c, 1498, 363, 'then reply', 28, WHITE, anchor='middle')
+    _label(c, 1498, 313, 'CHECK', 46, WHITE, anchor='middle')
+    _label(c, 1498, 363, 'then reply', 32, WHITE, anchor='middle')
     _label(c, 840, 598, 'Capture moves to the browser. A person still corrects the transcript.',
            32, anchor='middle')
     return c.finish(name)

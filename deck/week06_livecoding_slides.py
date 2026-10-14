@@ -8,7 +8,7 @@ EASEL_DOCS = 'https://github.com/venetanji/easel-client/blob/d8dda0f1b953136ee7f
 
 def livecoding_slides():
     slides = [
-        section('03 · MUSIC · LIVE CODING', 'Change the score. Hear the change.',
+        section('03 · MUSIC · LIVE CODING', 'Hear your code',
             'Hi-hat → bass → chords → melody → an agent-assisted variation',
             notes='Open Strudel in a separate tab. Keep the HTML lesson tab available. '
             'Linked stages are used instead of an iframe so keyboard shortcuts and audio stopping have one clear owner. '

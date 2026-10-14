@@ -21,7 +21,8 @@ multiply a base frequency to build a harmonic, and see an opt-in microphone
 signal flowing across a 3D frequency surface. This is a visualization, not
 transcription. Strudel and an agent-assisted edit turn those observations into
 music; the song API is optional. Speech finishes as finite console transcription,
-local browser capture, human correction, then an optional text response.
+continuous browser capture, editable text, then a local LM Studio reply spoken by
+Kokoro ONNX. CPU speech is the portable default; NVIDIA CUDA is optional.
 
 Ask students to name an input, predict its effect, inspect the output, and
 show how to stop it. Keep the Strudel making block and the existing mock.
@@ -61,8 +62,8 @@ to measure air pressure or to run the Python WAV writer in the browser.
 1. In the PFAD checkout, run `python noise.py` and `python tone.py` from
    `week06/sound/`. Their shared `wav_support.py` is already beside them.
    Open the saved WAVs at low volume; no Python package or account is needed.
-2. Open the HTML deck. Test the finite sound lab (slide 12), keyboard (27),
-   harmonics (28) and spectrum surface (30) on the teaching computer. The three
+2. Open the HTML deck. Test the finite sound lab (slide 13), keyboard (29),
+   harmonics (30) and spectrum surface (32) on the teaching computer. The three
    student JS sources are in PFAD `week06/browser/`. DEMO needs no microphone;
    MIC needs consent and localhost/HTTPS. Verify Stop, Escape and slide navigation.
    PDF/PPTX contain stills only. Offer the visual-only route without playing sound.
@@ -73,27 +74,28 @@ to measure air pressure or to run the Python WAV writer in the browser.
    default. For an instructor live send, read `site/week06/examples/TEACHER_NOTES.md`,
    check credit/account/model/service state, and serialize attempts; do not retry
    an uncertain paid submission. A key is never needed for the student route.
-5. Optional local speech: follow PFAD `week06/speech/README.md` in a separate
-   Python 3.12 environment. Warm models and rehearse console and Streamlit WebRTC
-   START/STOP on the actual device. Real mic/inference/Ollama remain preflight
-   items; use a consented file and written response if unavailable.
+5. Optional local speech: follow PFAD `week06/speech/CONVERSATION.md` in a separate
+   Python 3.12 environment. Reuse prepared models and load a small LM Studio chat
+   model. Rehearse Start mic, editable draft, Enter and reply playback on the
+   classroom device. The console microphone route has its own README and
+   sounddevice/PortAudio requirements; use a consented file if unavailable.
 
 ## Two-hour run of show
 
 | Elapsed | Slides | Activity and instructor move |
 |---|---:|---|
 | 00–04 | 1–9 | Choose up to three news items, ask the software-companies question, then frame the sound lesson. |
-| 04–12 | 10–13 | Vibration to microphone samples; click the finite tone/noise lab and Stop. |
-| 12–20 | 14–21 | Ordered values, sample clock, short browser-Python prediction and noise WAV. |
-| 20–26 | 22 | Pairs change one noise setting and compare with a saved reference. |
-| 26–40 | 23–30 | Sine/frequency at a fixed clock; vote, play the piano (27), build 220 x 2 and 220 x 3 (28), then DEMO or consented MIC on the 3D surface (30). |
-| 40–50 | 31 | Break; close audio and microphone tracks. |
-| 50–70 | 32–40 | Change a browser score, then build four cumulative Strudel layers. |
-| 70–88 | 41–44 | Agent-assisted edit, independent making and the final four-minute partner test. |
-| 88–92 | 45–51 | Optional API: contrast offline preview with a submitted request; skip a live paid call unless rehearsed. |
-| 92–106 | 52–58 | Speech: PFAD console to local WebRTC; stop capture, correct text, optionally ask a local model. File fallback works without a mic. |
-| 106–116 | 60 | Existing mock: six minutes alone, four minutes discussing reasoning. |
-| 116–120 | 59, 61–64 | One reflection; resource and assessment slides are references, not new lecture. |
+| 04–12 | 10–14 | Sound divider; vibration to microphone samples; finite tone/noise lab and Stop. |
+| 12–20 | 15–22 | Ordered values, sample clock, browser-Python prediction and noise WAV. |
+| 20–26 | 23 | Pairs change one noise setting and compare with a saved reference. |
+| 26–40 | 24–32 | Synthesis divider; fixed sample clock; vote, piano (29), harmonics (30), then DEMO or consented MIC on the 3D surface (32). |
+| 40–50 | 33 | Break; close audio and microphone tracks. |
+| 50–70 | 34–42 | Music divider; browser score, then four cumulative Strudel layers. |
+| 70–88 | 43–46 | Agent-assisted edit, independent making and the final four-minute partner test. |
+| 88–92 | 47–54 | Optional API divider and offline preview; skip a live paid call unless rehearsed. |
+| 92–106 | 55–61 | Speech divider; console to local browser bot; stop, correct, send to LM Studio and hear Kokoro ONNX. File and typed-text fallbacks. |
+| 106–116 | 64 | Existing mock: six minutes alone, four minutes discussing reasoning. |
+| 116–120 | 62–63, 65–68 | Interaction divider and one reflection; resource and assessment slides are references. |
 
 If time slips, omit news and the API details, not the sound experiment, Strudel
 making or the mock. The voice surface's synthetic DEMO can replace an untested
@@ -116,7 +118,7 @@ Change only one initially. Rerunning replaces `noise.wav`; rename the reference
 file or use another `--out` folder before comparing. The change in duration
 changes sample count and file size; seed and amplitude do not change that count.
 
-The reused slide 19 waveform is a separate 220 Hz harmonic teaching illustration
+The reused slide 20 waveform is a separate 220 Hz harmonic teaching illustration
 at 44,100 samples/s. It is labelled explicitly and is not a recording of our
 22,050 samples/s noise example.
 
@@ -140,7 +142,7 @@ selected by the instructor. Play, change one visible value, Update, and Stop.
 No specific third-party song is copied into this repository. Tutorial video:
 pending the instructor's exact link; the current lesson does not guess one.
 
-Use slides 37–40 in order. Each opens a complete cumulative score. The next
+Use slides 39–42 in order. Each opens a complete cumulative score. The next
 link restores the supplied baseline, so undo an experiment before adding the
 next layer, or keep it as a separate saved variation:
 
@@ -226,7 +228,7 @@ generated duration remain unverified. The local tests use fake responses.
 
 ### 5. Speech: console to browser to response
 
-Slides 53–58 link to `speech.html`. Start with PFAD `transcribe.py` in its
+Slides 56–61 link to `speech.html`. Start with PFAD `transcribe.py` in its
 separate Python 3.12 environment: run the bounded 3-by-5-second local microphone
 capture or use a consented WAV if hardware fails. Keep each proposed transcript
 with its source and settings. Never equate output text with an authoritative
@@ -240,26 +242,29 @@ if microphone permission or the device fails. No recording or model loading
 occurs just by opening the slides or exercise page.
 
 For the optional teacher WebRTC step, run PFAD `week06/speech/speech_webrtc.py`
-locally with its separate requirements. A browser START/permission gesture sends
-audio frames over WebRTC to a local Streamlit process, which converts them to
-mono 16 kHz and transcribes at most three 3-second chunks. Processing stops
-after those chunks; the presenter must still click STOP to release the browser
-track. The person corrects text after STOP, then may deliberately ask an
-optional local Ollama model for a short text reply. There is no automatic
-agent call, hosted speech upload or spoken response. If localhost transport,
+locally after the portable `CONVERSATION.md` setup, using
+`conversation_requirements.txt` and the explicit speech `.venv` interpreter.
+Start mic and browser permission send audio over WebRTC to local Streamlit,
+which converts to mono 16 kHz and transcribes three-second chunks continuously
+until Stop mic or Send. Proposed text fills the editable chat composer. Stop
+for careful editing, then Enter sends to the selected loopback LM Studio model.
+Sending also stops capture before Kokoro ONNX speaks the reply. Each reply has
+its own player; autoplay can require a Play click. CPU is the default on Windows,
+Macs and AMD; CUDA is optional. If localhost transport,
 model download or microphone permissions fail, use the PFAD file demo. A remote
 network demo would need HTTPS and possibly TURN, not just this lesson link.
 
-Kokoro is an optional subsequent text-to-speech exercise. It writes at 24 kHz. The transcription file decoder resamples to 16 kHz;
+Kokoro ONNX also supplies a separate file exercise. It writes at 24 kHz. The transcription file decoder resamples to 16 kHz;
 changing a rate label alone would change the perceived speed and pitch. The
 transcript is a model prediction. Compare it with the source, including pauses
 and silence. Do not treat it as a verbatim record without checking.
 
 KittenTTS is a separately versioned optional comparison in the linked notes.
 Keep its legacy lightweight model distinct from the current, larger KittenTTS 2.
-These scripts and the app add no assignment requirement. Runtime model quality,
-WebRTC transport, local Ollama, installation and microphone behavior still need
-a classroom preflight.
+These scripts and the app add no speech or AI assignment requirement. See PFAD
+`week06/ENVIRONMENT.md` for instructor Windows inference checks and resource
+measurements. Physical classroom microphone/speaker behavior and Mac/Linux
+installation still need a preflight.
 
 ### Verification and classroom limits
 
@@ -274,9 +279,12 @@ fake microphone frames, animated bounded frequency history, and released the
 track on Stop/Escape/navigation. A synthetic DEMO and narrow browser viewport
 also loaded. The tested source lives in PFAD `week06/browser/` and is copied
 unchanged into the slides. PDF and PPTX stills are illustrative, not live audio.
-Real human microphone capture, actual Whisper/Kokoro inference and Ollama
-responses were not run. Song API tests use mocked responses; no live generation
-or credentials were used. Easel's editing and export behavior is verified from the pinned
+The earlier teaching checks above used the historical bounded app snapshot;
+the current app is maintained in PFAD. Its environment report records real
+MiniCPM/Whisper/Kokoro inference and repeated browser replies on Windows, plus
+one successful live song request. This teaching review does not rerun those
+model or paid service checks. Physical microphone capture and classroom
+audibility remain unverified. Easel's editing and export behavior is verified from the pinned
 source and test assertions, not from the instructor's installed client.
 
 The public Strudel editor was checked in the cloud browser: the default starter
@@ -298,9 +306,11 @@ assignment value also use the instructor briefing supplied for this draft.
 
 - Quiz: Thursday 22 October 2026; open-book, timed, multiple choice. Question
   count and duration remain unconfirmed. Do not imply AI permission from open-book.
-- Assignment 3: an interactive experience, 15 points; Sunday 1 November 2026,
-  23:59 Hong Kong time. Detailed rubric weights and submission instructions are
-  separate. No audio requirement is added here.
+- Assignment 3: an individual interactive experience, 15% of the course;
+  Sunday 1 November 2026, 23:59 Hong Kong time. The Canvas-ready brief is
+  `syllabus/03-interactive-experience.md`, with a proposed 15-point rubric,
+  repository URL submission, README, PROCESS and a user trial. Audio and AI
+  remain optional. The brief is built to Word/HTML but is not published on the site.
 - No assessed quiz bank is included. The existing mock is opened directly for practice; its questions and answers are not published here.
 
 ## Source basis

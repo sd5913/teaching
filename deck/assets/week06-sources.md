@@ -8,7 +8,7 @@ matched the earlier supplied commits.
 - [SD5913 Week 5 deck](https://github.com/sd5913/teaching/blob/dd8e30ed640af73008f283fd6cbcca9167fc3735/deck/week05.py)
   provides the course typography, teaching voice and image-to-API progression.
 - [SD5913 Week 5 figures](https://github.com/sd5913/teaching/blob/dd8e30ed640af73008f283fd6cbcca9167fc3735/deck/week05_figures.py)
-  supplies the unchanged RGB pixel grid on slide 8.
+  supplies the unchanged RGB pixel grid on the Week 5 recall slide.
 - [PFAD Week 5 examples](https://github.com/sd5913/pfad/tree/11252caa6ee6e34937fc3314b396e944be6bdf7d/week05)
   ground the seeded-noise, array-shape and offline API-preview parallels.
 - [SD2112 Week 6 deck](https://github.com/venetanji/sd2112-teaching/blob/558d1d77ce6b0e42c2e9ec955ca191d40cb7976e/deck/week06.py)
@@ -128,3 +128,23 @@ They use the p5.js 1.11.3 browser runtime already bundled by deckgen. The
 static slide stills are course-drawn illustrations, not captured microphone
 measurements. The PFAD WAV and optional API scripts are copies of the tested
 teaching example sources, now kept together in `week06/sound/`.
+
+## Review and tutorial alignment, 14 October 2026
+
+The earlier speech notes above document the 13 October bounded Ollama prototype.
+The maintained student app is now on PFAD `2026`; the old source snapshot in
+`site/week06/examples/` is retained as historical test input and is no longer
+linked as the current app download. The speech slides, guide and resources use
+the current [conversation instructions](https://github.com/sd5913/pfad/blob/2026/week06/speech/CONVERSATION.md):
+faster-whisper base.en, LM Studio and Kokoro ONNX; CPU speech by default, optional
+NVIDIA CUDA, continuous capture until Stop mic or Send, and editable text before
+Enter sends. Commands select the separate Python 3.12 interpreter explicitly.
+
+The [environment report](https://github.com/sd5913/pfad/blob/2026/week06/ENVIRONMENT.md)
+records model reuse and instructor Windows inference/browser checks. This
+teaching review does not repeat model downloads or paid generation. Mac/Linux
+installation and physical classroom microphone/speaker checks remain outstanding.
+The six numbered section dividers now follow sound, synthesis, music, optional
+API, speech and interaction; the deck contains 68 slides. The Canvas brief is
+`syllabus/03-interactive-experience.md`, with an individual project and a proposed
+15-point rubric. It is not published to the course site.
