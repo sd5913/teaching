@@ -57,11 +57,13 @@ The Cloudflare Pages project `teaching` publishes PR previews from `_site/`.
 Its build command must include PDFs so the homepage downloads work there too:
 
 ```bash
-pip install -r requirements.txt && npm install --no-save --no-package-lock playwright@1.56.1 && npx playwright install --with-deps chromium && deckgen build --site
+pip install -r requirements.txt && npm install --no-save --no-package-lock playwright@1.56.1 && npx playwright install chromium && deckgen build --site
 ```
 
-Keep that project setting aligned with `.github/workflows/site.yml`; `--no-pdf`
-is only a local shortcut when you do not need the downloads.
+Keep its Playwright version and PDF output aligned with `.github/workflows/site.yml`.
+Cloudflare's build container does not allow `sudo`, so omit `--with-deps` there;
+the GitHub Actions runner can install OS dependencies. `--no-pdf` is only a local
+shortcut when you do not need the downloads.
 
 `deckgen build` **exits non-zero if any text overflows its box**, so a broken slide fails
 the workflow rather than reaching the projector. Previews land in `export/preview/`.
