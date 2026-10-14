@@ -135,7 +135,7 @@ to measure air pressure or to run the Python WAV writer in the browser.
 | 116–120 | 60, 62–65 | One concrete reflection; resources and assessment reminders are reference slides, not four minutes of new lecture. |
 
 At the end of the pair task, use slide 45 for partner feedback, then slide 60
-for one closing observation. If time slips, omit slides 14 and 27 and the optional
+for one closing observation. If time slips, omit slides 14 and 30 and the optional
 API slides 47–52. If speech setup is unavailable, trace input/output using the
 file fallback without waiting for downloads. Keep Strudel, making time and mock.
 Do not spend the class installing packages or troubleshooting account access.
