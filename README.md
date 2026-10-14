@@ -138,16 +138,19 @@ Nothing in the sources identifies a student. Keep it that way:
 ## Week 6 interactive sound lesson
 
 `deck/week06.py` continues Week 5 through finite WAV files, an offline song-API
-request preview, four cumulative Strudel stages and an agent-assisted variation.
+request preview, four cumulative Strudel stages and a local voice bot.
 Build with `deckgen build --no-pdf week06`. Open `/week06/` and its
 `resources.html` companion; the static companion and downloadable examples live
 in `site/week06/`. The browser instruments start only after a click. Stop the
 separate Strudel tab before returning to the slides.
 
 The content number stays `week06`; its calendar date is not yet confirmed.
-The instructor run sheet is `lessons/week06-lesson-plan.md`. The tutorial video
-selection is pending and the existing mock is opened by the instructor; neither
-a guessed link nor assessed question content is included.
+The 58-slide sequence opens with an open-source discussion before the agenda.
+The break follows the complete Strudel score; part two starts with the instructor
+API demo. The instructor run sheet is `lessons/week06-lesson-plan.md`.
+The quiz on 22 October has **40 questions in 30 minutes**; the existing mock test
+is on Canvas. No direct quiz link or assessed question content is included.
+The tutorial video selection is still pending.
 
 Checks: `python -m unittest discover -s tests -p '*test*.py' -v` and
 `node tests/week06_audio_lifecycle.test.cjs` (mock Web Audio lifecycle). The Week 6

@@ -7,7 +7,9 @@ Two-hour interactive HTML instructor draft for designers learning programming wi
 Slides 2–7 offer six optional dated news items; show only a few. Original slide 07
 (ArtCraft/PhotoCraft) is removed. The remaining software-analysis prompt asks:
 **What is the future of software companies if anyone can create and modify software?**
-Discuss possibilities, tests, ownership and trust rather than looking for a single answer.
+Before the agenda, ask **What software would you make open source?** Invite
+two or three suggestions about what students would inspect, change or share.
+Discuss ownership and trust rather than looking for a single answer.
 These are vendor/source reports, not classroom-tested product results or assessed questions.
 
 Keep the lesson number `week06`. The calendar teaching date is unconfirmed;
@@ -19,13 +21,14 @@ Start with a physical vibration, capture it as ordered samples, then change a
 sound intentionally. Students save a WAV, play an embedded keyboard piano,
 multiply a base frequency to build a harmonic, and see an opt-in microphone
 signal flowing across a 3D frequency surface. This is a visualization, not
-transcription. Strudel and an agent-assisted edit turn those observations into
-music; the song API is optional. Speech finishes as finite console transcription,
+transcription. Four cumulative Strudel layers turn those observations into
+music. Break after the complete four-layer score, then open part two with the
+instructor's song API demo. Speech finishes as finite console transcription,
 continuous browser capture, editable text, then a local LM Studio reply spoken by
 Kokoro ONNX. CPU speech is the portable default; NVIDIA CUDA is optional.
 
 Ask students to name an input, predict its effect, inspect the output, and
-show how to stop it. Keep the Strudel making block and the existing mock.
+show how to stop it. Keep the four-layer Strudel sequence and Canvas mock practice.
 No new assessed deliverable or requirement to use audio/AI is added.
 
 ### From the 2025 slide record to this lesson
@@ -62,13 +65,13 @@ to measure air pressure or to run the Python WAV writer in the browser.
 1. In the PFAD checkout, run `python noise.py` and `python tone.py` from
    `week06/sound/`. Their shared `wav_support.py` is already beside them.
    Open the saved WAVs at low volume; no Python package or account is needed.
-2. Open the HTML deck. Test the finite sound lab (slide 13), keyboard (29),
-   harmonics (30) and spectrum surface (32) on the teaching computer. The three
+2. Open the HTML deck. Test the finite sound lab (slide 13), keyboard (27),
+   harmonics (28) and spectrum surface (29) on the teaching computer. The three
    student JS sources are in PFAD `week06/browser/`. DEMO needs no microphone;
    MIC needs consent and localhost/HTTPS. Verify Stop, Escape and slide navigation.
    PDF/PPTX contain stills only. Offer the visual-only route without playing sound.
 3. Open four Strudel stages from `resources.html` at low volume. Stop its separate
-   tab before returning to the deck. Keep an existing mock and a consented WAV
+   tab before returning to the deck. Open the existing mock test on Canvas and keep a consented WAV
    for the no-device route. Do not spend the lesson installing packages.
 4. Optional song API: `week06/sound/request_song.py` previews JSON offline by
    default. For an instructor live send, read `site/week06/examples/TEACHER_NOTES.md`,
@@ -84,21 +87,19 @@ to measure air pressure or to run the Python WAV writer in the browser.
 
 | Elapsed | Slides | Activity and instructor move |
 |---|---:|---|
-| 00–04 | 1–9 | Choose up to three news items, ask the software-companies question, then frame the sound lesson. |
-| 04–12 | 10–14 | Sound divider; vibration to microphone samples; finite tone/noise lab and Stop. |
-| 12–20 | 15–22 | Ordered values, sample clock, browser-Python prediction and noise WAV. |
-| 20–26 | 23 | Pairs change one noise setting and compare with a saved reference. |
-| 26–40 | 24–32 | Synthesis divider; fixed sample clock; vote, piano (29), harmonics (30), then DEMO or consented MIC on the 3D surface (32). |
-| 40–50 | 33 | Break; close audio and microphone tracks. |
-| 50–70 | 34–42 | Music divider; browser score, then four cumulative Strudel layers. |
-| 70–88 | 43–46 | Agent-assisted edit, independent making and the final four-minute partner test. |
-| 88–92 | 47–54 | Optional API divider and offline preview; skip a live paid call unless rehearsed. |
-| 92–106 | 55–61 | Speech divider; console to local browser bot; stop, correct, send to LM Studio and hear Kokoro ONNX. File and typed-text fallbacks. |
-| 106–116 | 64 | Existing mock: six minutes alone, four minutes discussing reasoning. |
-| 116–120 | 62–63, 65–68 | Interaction divider and one reflection; resource and assessment slides are references. |
+| 00–08 | 1–9 | Choose up to three news items, ask what software students would make open source, then show the agenda. |
+| 08–20 | 10–14 | Vibration to microphone samples; finite tone/noise lab and Stop; recall image arrays. |
+| 20–30 | 15–21 | Ordered values, sample clock, browser-Python prediction and noise WAV. |
+| 30–44 | 22–29 | Synthesis; fixed sample clock; vote, piano (27), harmonics (28), then DEMO or consented MIC on the spectrum surface (29). |
+| 44–60 | 30–38 | Browser score and four cumulative Strudel layers (35–38). Finish with the complete melody score. |
+| 60–70 | 39 | Break; stop the Strudel tab, browser audio and microphone tracks. |
+| 70–84 | 40–44 | Start part two with the instructor API demo: compare image/song requests, inspect JSON, follow status and preview. Live generation only if rehearsed. |
+| 84–100 | 45–51 | Local speech demo: console, browser capture, edit, send to LM Studio and hear Kokoro ONNX. File and typed-text fallbacks. |
+| 100–110 | 54 | Canvas mock: six minutes alone, four minutes discussing reasoning. |
+| 110–120 | 52–53, 55–58 | Interaction reflection; resources; 40-question, 30-minute quiz reminder; individual project brief. |
 
-If time slips, omit news and the API details, not the sound experiment, Strudel
-making or the mock. The voice surface's synthetic DEMO can replace an untested
+If time slips, omit news and shorten API detail. Preserve the sound lab, complete
+Strudel score and Canvas mock practice. The voice surface's synthetic DEMO can replace an untested
 classroom microphone; do not imply it is a recording or transcription.
 
 ## Demonstration notes
@@ -135,14 +136,14 @@ Halving AMPLITUDE scales the signal values; do not promise half perceived loudne
 The demonstrations reject invalid frequencies at or above half the sample rate.
 No live streaming audio driver, PyAudio, GPU or third-party Python package is needed.
 
-### 3. Music: browser score, Strudel, then Easel
+### 3. Music: browser score and four Strudel layers
 
 Begin in strudel.cc with the already-present starter or an existing example
 selected by the instructor. Play, change one visible value, Update, and Stop.
 No specific third-party song is copied into this repository. Tutorial video:
 pending the instructor's exact link; the current lesson does not guess one.
 
-Use slides 39–42 in order. Each opens a complete cumulative score. The next
+Use slides 35–38 in order. Each opens a complete cumulative score. The next
 link restores the supplied baseline, so undo an experiment before adding the
 next layer, or keep it as a separate saved variation:
 
@@ -161,49 +162,24 @@ They replace an iframe: the dedicated tab owns its keyboard controls and audio.
 Before leaving it, Stop or Ctrl+.; navigating the slides cannot silence a
 separate tab. Browser sound always starts from a user gesture.
 
-For Easel, create a fresh project and a fresh Strudel sound template in the
-current client. Paste the same complete score, then the student presses Run.
-Ask the agent to make the melody more spacious while preserving the other
-three layers and tempo. Compare the actual code and sound with the prediction.
-Use local native synths/drums; remote web sample packs are blocked by this kit.
-If the installed client does not support the workflow, keep the website open
-and paste the agent's suggested code there instead. No paid generation is needed.
+Slide 31 uses the original grid sequencer to illustrate one click, one state
+change and one scheduled note before Strudel. Students can inspect the visual
+code and feedback without listening. Stop the complete four-layer score before
+the break on slide 39. Optional Easel agent-edit and export instructions remain
+on `resources.html` for follow-up; the separate making and partner-review slides
+have been removed from the classroom sequence.
 
-Teacher/agent implementation notes, verified against current source:
-
-- Inspect `window.EaselStrudel.getState().code` with `execute_canvas_javascript`.
-- `setCode(source)` fills the buffer without evaluation. `evaluate(source)`
-  compiles/updates on the existing clock, but does not start audio. The student
-  supplies Run/Ctrl+Enter/Cmd+Enter. Keep `.play()` out of the score.
-- A durable live change patches instance `app.js` `DEFAULT_LIVE_CODE` with
-  `reload:false`, verifies the save, then evaluates the same full score. Runtime
-  edits alone do not create source history. Repair a bad saved default too.
-- A source-only save leaves WAV export gated until reload. Reload stays silent;
-  press Run again. Stop/Escape/Ctrl+. silences the Easel template including tails.
-- Export WAV renders 1–16 cycles, up to 30 seconds including a 0.5-second tail;
-  stereo 48 kHz PCM16. It supports a bounded subset, not every live effect or
-  sample transformation. The starter stays deliberately simple. At this tempo,
-  one cycle plus tail is 2.9 seconds. Save/reopen the result in Media to check it.
-
-The 18-minute making block includes four minutes of pair review. Keep a before
-and after score plus one sentence explaining the change. This is formative,
-not a new assessed deliverable. Students can inspect the visual code/feedback
-without listening. Slide 33 uses the original grid sequencer to illustrate
-one click, one state change and one scheduled note before Strudel.
-
-### 4. Optional music-generation API
+### 4. After the break: instructor API demo
 
 The script `week06/sound/request_song.py` in PFAD is an instructor reference and local
 preview. Run it from that folder. Teach the compact payload and states in class rather than asking
 students to understand the whole defensive client in one sitting.
 
-Default command, with no credential or network request:
+Begin part two on slide 40. From PFAD `week06/sound`, preview the default
+request without a credential or network request:
 
 ```bash
-python request_song.py \
-  --prompt "Gentle ambient piano, warm strings, slow pulse" \
-  --title "Evening" --instrumental \
-  --duration-seconds 30 --weirdness 25 --style-influence 70
+uv run --no-project request_song.py
 ```
 
 The client implements the verified sequence: one POST submission; bounded
@@ -212,10 +188,10 @@ preparation; authenticated same-origin content download. It saves every returned
 track and preserves the actual encoding rather than naming any bytes `.wav`.
 
 `--send` deliberately opts into a real generation and can spend credits.
-The teacher configures `EASEL_BASE_URL` and `EASEL_API_KEY` in the environment
-before using `--send`. The latter is the configured Easel bearer key; the operator's
-upstream Suno token is separate. This differs from Week 5's `EASEL_KEY` script
-convention. Never print, project or commit credentials.
+The current PFAD script loads the repository-root `.env` and accepts `EASEL_KEY`,
+with `EASEL_API_KEY` as an alias; `EASEL_BASE_URL` overrides the supplied service
+default. uv reads the inline `python-dotenv` dependency. The operator's upstream
+Suno token is separate. Never print, project or commit credentials.
 
 Easel's server-side `dry_run: true` is **not** offline. It contacts the backend
 and fills the native form. The teaching script's default preview is intentionally
@@ -228,7 +204,7 @@ generated duration remain unverified. The local tests use fake responses.
 
 ### 5. Speech: console to browser to response
 
-Slides 56–61 link to `speech.html`. Start with PFAD `transcribe.py` in its
+Slides 46–51 link to `speech.html`. Start with PFAD `transcribe.py` in its
 separate Python 3.12 environment: run the bounded 3-by-5-second local microphone
 capture or use a consented WAV if hardware fails. Keep each proposed transcript
 with its source and settings. Never equate output text with an authoritative
@@ -304,14 +280,16 @@ a resume. This is control-flow evidence, not a browser audio check.
 Dates come from the current course materials; the quiz format and 15-point
 assignment value also use the instructor briefing supplied for this draft.
 
-- Quiz: Thursday 22 October 2026; open-book, timed, multiple choice. Question
-  count and duration remain unconfirmed. Do not imply AI permission from open-book.
+- Quiz: Thursday 22 October 2026; **40 questions in 30 minutes**, open-book,
+  multiple choice. Timing and count are instructor-confirmed. Open-book does not
+  establish permission to use AI tools.
 - Assignment 3: an individual interactive experience, 15% of the course;
   Sunday 1 November 2026, 23:59 Hong Kong time. The Canvas-ready brief is
   `syllabus/03-interactive-experience.md`, with a proposed 15-point rubric,
   repository URL submission, README, PROCESS and a user trial. Audio and AI
   remain optional. The brief is built to Word/HTML but is not published on the site.
-- No assessed quiz bank is included. The existing mock is opened directly for practice; its questions and answers are not published here.
+- The existing mock test is on Canvas. No direct quiz URL has been supplied;
+  open it through the course page. Its questions and answers are not published here.
 
 ## Source basis
 

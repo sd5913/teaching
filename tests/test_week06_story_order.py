@@ -15,7 +15,7 @@ class StoryOrderTests(unittest.TestCase):
         score = titles.index('A click changes the score')
         strudel = titles.index('Hi-hat')
         request = titles.index('A request describes the intended sound')
-        speech = titles.index('Words can become sound, and sound can become words')
+        speech = titles.index('Speech to text. Text to speech.')
         console = titles.index('Speak into Python. Check each chunk.')
         diagram = titles.index('One recognizer, two microphone paths')
         browser = titles.index('The same transcript moves into the browser')

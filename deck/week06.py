@@ -34,21 +34,19 @@ S.append(title(EYE, 'Sound as data', 'Noise, waveforms, speech, songs and intera
 
 S.extend(news_slides('SD5913'))
 
-S.append(agenda(EYE, [
-    'See vibration become samples and a WAV', 'Shape a sound: frequency, amplitude, harmonics',
-    'Make music with a grid, Strudel and an agent', 'Preview a song request (optional)',
-    'Check a transcript; hear a local reply', 'Design an interaction and practise',
-], notes='The making and reflection blocks are part of the two-hour session. '
-   'The standard-library examples work without accounts, external packages or a microphone. '
-   'A live API generation is an optional instructor demonstration after preflight.'))
+S.append(statement('What software would you\nmake open source?',
+    notes='Invite two or three suggestions before the agenda. Ask what students would want to inspect, '
+    'change or share, and who would benefit. Connect the discussion to the preceding software-analysis '
+    'news item. This is an open discussion, not an assessed question.'))
 
-S.append(content('OPENING · LISTENING', 'What does a sound ask you to do?', [
-    'Imagine a short sound when a file finishes saving.',
-    'What would make it reassuring? What would make it distracting?',
-    'Would you want to hear it on every save?',
-], notes='Give pairs a minute, then take two contrasting answers. This is discussion, not an assessed quiz. '
-    'A design judgment should name context and repetition. Students who prefer not to listen can work '
-    'from waveform views and descriptions. No hearing test or loudness sweep.'))
+S.append(agenda(EYE, [
+    'Sound: vibration, samples and WAV files', 'Synthesis: frequency, amplitude and harmonics',
+    'Music: a grid and four Strudel layers', 'After the break: song API demo',
+    'Speech: check a transcript; hear a local reply', 'Interaction, Canvas mock and project brief',
+], notes='Part one ends with the complete four-layer Strudel score. Take the ten-minute break there, '
+   'then begin part two with the instructor API demonstration. '
+   'The standard-library examples work without accounts, external packages or a microphone. '
+   'Use the offline API preview if a live generation is unavailable.'))
 
 S.append(section('01 · SOUND', 'Sound becomes data',
     'Vibration, samples and a finite WAV',
@@ -122,14 +120,6 @@ S.append(two_col('01 · THE AUDIO CLOCK', 'A sample rate gives the sequence a du
     notes='Here index stands for a sample index inside a loop. For mono, one frame contains one sample. '
     'For stereo, a frame contains a left and right sample. Do not confuse samples per second with cycles per second.'))
 
-S.append(question('multiple_choice', 'Eight samples at four samples/s: how long?',
-    choices=['0.5 seconds', '2 seconds', '4 seconds', '8 seconds'],
-    eyebrow_text='PREDICT · THE AUDIO CLOCK',
-    notes='Formative check, not an assessed quiz. Answer: 2 seconds. Give everyone time to calculate '
-    'before revealing the distribution. Ask what stays unchanged if we relabel the SAME eight numbers '
-    'as eight samples/s: the values stay fixed but duration becomes one second. Discuss it aloud if '
-    'ClassPoint is unavailable; the title and choices remain readable in HTML and PDF.'))
-
 S.append(exercise('01 · BROWSER EXPERIMENT', 'Stretch time without changing the samples', [
     'Eight dots show eight fixed sample values. Run once at eight samples/s.',
     'Change only rate to 4. Predict the duration before you run again.',
@@ -180,17 +170,6 @@ S.append(code_panel('01 · VALUES TO A WAV FILE', 'Samples inside a WAV file', [
     'The example maps normalized floats to signed 16-bit PCM. The header supplies channel count, sample width '
     'and sample rate. A WAV can contain different formats; this lesson deliberately writes uncompressed PCM. '
     'Sources: ' + PY_WAVE + ' and https://docs.python.org/3.12/library/struct.html'))
-
-S.append(content('PAIR EXPERIMENT · 6 MINUTES', 'One change, one prediction', [
-    'Keep the first noise.wav as a reference.',
-    'Change SEED, SECONDS or AMPLITUDE in noise.py.',
-    'Predict the difference, then run and compare.',
-    'Which part of the result could you explain from the code?',
-], notes='Pairs should change only one constant initially. Rename the first output before rerunning '
-    'because the script replaces the same filename. Suggested changes: seed 8, duration 1 second, '
-    'or amplitude 0.04. Lower amplitude still needs low device volume. Never ask students to increase '
-    'volume to a limit or test hearing. Afterward ask which variables change file size and which do not. '
-    'Expected: duration changes sample count, seed changes values, amplitude scales values.'))
 
 S.append(section('02 · SYNTHESIS', 'Shape a sound',
     'Frequency, amplitude and harmonics',
@@ -256,14 +235,6 @@ S.append(figure_slide('02 · MULTIPLY A BASE', 'Build harmonics from a base freq
     'the sum changes timbre while the 22,050 samples/s clock stays fixed. Keep device volume low. '
     'Only play after an explicit click; Escape, Stop or leaving the slide closes audio.'))
 
-S.append(content('02 · AMPLITUDE AND LISTENING', 'The same numbers can feel different', [
-    'Lower AMPLITUDE from 0.08 to 0.04 and compare.',
-    'Then imagine the same cue in a quiet room and a busy studio.',
-    'What would you need to know about the listener and device?',
-], notes='Signal amplitude is measurable. Perceived loudness also depends on frequency, device, listening level '
-    'and the listener. Avoid saying half amplitude means half perceived loudness. Use the user-controlled '
-    'device volume as an additional precaution. This is a design discussion rather than a hearing test.'))
-
 S.append(figure_slide('02 · SOUND AS A LANDSCAPE', 'Speak and see a flowing spectrum', F.w06_voice_surface_still(),
     sketch=live('week06-voice-surface', VOICE_CODE, 1200, 660,
                 hint='Click DEMO or allow MIC · speak briefly · STOP / Escape'),
@@ -275,13 +246,10 @@ S.append(figure_slide('02 · SOUND AS A LANDSCAPE', 'Speak and see a flowing spe
     'If permission is denied, allow Microphone in browser site settings, reload and click MIC. The landscape is visual only: microphone input is never played through speakers. If hardware fails, use DEMO. This visualizes frequency, not words: '
     'the later speech section has a separate transcription model. The still is illustrative.'))
 
-S.append(section('10 MINUTES', 'Break', 'Save the files you want to compare',
-    notes='Stop any browser audio before the break. Preserve at least one before/after pair.'))
-
 S.append(section('03 · MUSIC', 'Make a musical pattern',
-    'Browser grid → four Strudel layers → agent-assisted variation',
+    'A browser grid and four Strudel layers',
     notes='This block comes before the optional song API and separate speech block. '
-    'Start from an audible browser score and retain making time. Stop each source '
+    'Start from an audible browser score. Stop each source '
     'before opening another tab. A score is a program for interaction, not a generated song.'))
 
 # Worked interaction: input, state and audible feedback before Strudel.
@@ -298,36 +266,19 @@ S.append(figure_slide('03 · MUSIC · SOUND IN THE BROWSER', 'A click changes th
 from week06_livecoding_slides import livecoding_slides
 S.extend(livecoding_slides())
 
-S.append(content('PAIR REVIEW · FINAL 4 MINUTES', 'What does the other person notice?', [
-    'Let your partner try it before you explain.',
-    'What action did they expect to make?',
-    'Could they tell what changed, and stop it?',
-    'What would become tiring after the twentieth use?',
-], notes='Listen for claims supported by a concrete observation. Offer waveform/visual feedback review for '
-    'anyone who does not want to listen. Ask for one change after the test, rather than broad aesthetic ratings.'))
+S.append(section('10 MINUTES', 'Break', 'Stop the audio. API demo next.',
+    notes='The break follows the complete four-layer Strudel score. Stop the separate Strudel tab '
+    'and any browser microphone before leaving. Begin the second half with the instructor API demo.'))
 
-S.append(section('04 · MUSIC API · OPTIONAL', 'Describe a song',
-    'Preview a request before submitting it',
-    notes='An optional four-minute block. An offline preview is sufficient. '
-    'This transition does not add a live generation or setup task.'))
-
-S.append(content('04 · MUSIC API · OPTIONAL', 'Where do the sound choices come from?', [
-    'Our Python rule specifies every sample value.',
-    'A song model uses learned patterns to interpret a request.',
-    'An agent can help prepare either program and inspect its result.',
-    'You still decide whether the sound serves the experience.',
-], notes='Avoid treating random/procedural as uncreative or model output as inherently expressive. '
-    'The distinction here is how the values are produced. A model prompt describes qualities; it does not '
-    'guarantee each note, exact duration or interaction behavior. The agent is a collaborator coordinating '
-    'tools; students need evidence of the result.'))
-
-S.append(two_col('04 · MUSIC API · WEEK 5 PARALLEL', 'The request changes. The habit stays useful.', [
-    'Prepare a request you can read.',
-    'Check the response before using it.',
-    'Save the output and its settings.',
+S.append(two_col('04 · MUSIC API · DEMO', 'From an image request to a song', [
+    'Describe the sound you want.',
+    'Check the request, then follow its status.',
+    'Save the tracks and their settings.',
 ], ['# Week 5', 'POST /v1/images/generations', 'image response', '', '# Week 6',
     'POST /v1/audio/generations', 'attempt status, then tracks'], lang=None,
-    notes='The image example uses the verified Easel image route and a base64 response. '
+    notes='Start the second half here with the instructor API demonstration. Preview the request '
+    'before any live submission. If the service is unavailable, demonstrate the offline JSON preview. '
+    'The image example uses the verified Easel image route and a base64 response. '
     'Audio generation is an Easel extension with an asynchronous Suno-backed flow, not a claim that every '
     'OpenAI-compatible API supports songs. A successful submission is not a completed audio file. '
     'Exact current API provenance is included in site/week06/examples/TEACHER_NOTES.md.'))
@@ -348,8 +299,8 @@ S.extend(speech_slides())
 
 S.append(section('06 · INTERACTION', 'Design the response',
     'Reflect, practise and plan your project',
-    notes='Return to the action, response and feedback loop. Keep the existing '
-    'ten-minute mock slot; the section slide is a transition, not an extra activity.'))
+    notes='Return to the action, response and feedback loop. Use the existing mock on Canvas '
+    'for practice; the section slide is a transition, not an extra activity.'))
 
 S.append(content('REFLECTION', 'Which choice can you explain?', [
     'Name one input and the data it changes.',
@@ -359,12 +310,13 @@ S.append(content('REFLECTION', 'Which choice can you explain?', [
     'or publication is configured. The aim is to connect a programming decision to a design consequence.'))
 
 S.append(content('PRACTICE · 10 MINUTES', 'Try the existing mock', [
-    'The instructor opens the mock practice already supplied.',
-    'Try a short selection with your course notes beside you.',
-    'For one answer, trace the code and explain your reasoning.',
-    'Note one concept to revisit before 22 October.',
+    'Open the mock test on Canvas.',
+    'Try a few questions with your course notes beside you.',
+    'Trace one answer; explain why it works.',
+    'Choose one concept to revisit before 22 October.',
 ], notes='Reuse the existing mock package; do not create or publish assessed questions or an answer bank. '
-    'No verified course Canvas URL was supplied, so the instructor opens the existing resource directly. '
+    'The instructor confirmed that the mock test is on Canvas. Open it through the course page; '
+    'no direct quiz URL has been supplied. '
     'Suggested split: six minutes individual practice, four minutes explain and compare reasoning. '
     'This classroom slot does not establish the actual quiz duration or permitted tools.'))
 
@@ -372,18 +324,19 @@ S.append(content('LINKED RESOURCES', 'Keep the code, not just the sound', [
     '[Open the lesson resources](resources.html)',
     'Four cumulative Strudel scores and links to the editor.',
     'Python WAV, local speech models and the song-request preview.',
-    'Tutorial video: pending the instructor’s selection.',
+    'Mock test: on Canvas.',
 ], notes='The resources page and examples travel with the HTML preview. '
     'The requested tutorial video has not been identified. Keep its status explicit; add the exact link '
     'on this same branch when supplied rather than guessing a video.'))
 
 S.append(content('ASSESSMENT · 22 OCTOBER 2026', 'Quiz · Thursday 22 October', [
-    'Open-book, timed, multiple choice.',
-    'Practise tracing the course examples and explaining the output.',
-    'Question count and duration will be announced.',
-], notes='Keep the confirmed date and format. The question count, duration and permitted tools beyond '
-    'open-book are not confirmed. Do not imply that AI use is authorized. This lesson does not replace '
-    'or recreate the previously supplied mock quiz. Date: current Week 5 deck. Format: instructor briefing.'))
+    '**40 questions · 30 minutes.**',
+    'Open-book, multiple choice.',
+    'Practise with the mock test on Canvas.',
+], notes='The instructor confirmed 40 questions in 30 minutes and the existing mock test on Canvas. '
+    'The date and open-book multiple-choice format remain as previously confirmed. '
+    'Open-book does not establish permission to use AI tools. No assessed question content '
+    'is reproduced here. Date: current Week 5 deck. Format and timing: instructor briefing.'))
 
 S.append(content('ASSIGNMENT 3 · INDIVIDUAL · 15%', 'An interactive experience', [
     'A user input and program response should form a loop.',

@@ -8,10 +8,10 @@ KOKORO = 'https://huggingface.co/hexgrad/Kokoro-82M'
 
 def speech_slides():
     return [
-        content('05 · SPEECH · TWO DIRECTIONS', 'Words can become sound, and sound can become words', [
-            'Speech-to-text: captured sound becomes a proposed transcript.',
-            'An interface needs a correction step before it responds.',
-            'Text-to-speech turns a reply into a spoken cue.',
+        content('05 · SPEECH · TWO DIRECTIONS', 'Speech to text. Text to speech.', [
+            'Speech-to-text proposes what was said.',
+            'Check and correct the words before responding.',
+            'Text-to-speech gives the reply a voice.',
             '[Open the local speech exercise](speech.html)',
         ], notes='Speech is separate from the Strudel/music API block. The same small faster-whisper '
             'recognizer powers a PFAD Python console exercise and an optional teacher-run local '
@@ -69,10 +69,10 @@ def speech_slides():
             'Python inference. If the device or model fails, show the file transcript '
             'instead. Do not point the class at an untested public server.'),
         content('05 · SPEECH · RESPONSE', 'A response begins with a checked transcript', [
-            'Listen or inspect the proposed words. Correct errors first.',
-            'Start mic: recognized words fill the editable chat box.',
-            'Stop mic to correct the text, then press Enter to send.',
-            'LM Studio replies; Kokoro ONNX speaks the reply.',
+            'Start mic: words appear in the chat box.',
+            'Stop mic, then edit any recognition errors.',
+            'Press Enter to send the message.',
+            'LM Studio replies; Kokoro ONNX speaks.',
         ], notes='Capture continues in three-second chunks until Stop mic or Send. Sending '
             'also works during capture and stops the microphone before the reply. The '
             'instructor uses MiniCPM5-2B Q4_K_M in LM Studio on localhost:1234. Select '

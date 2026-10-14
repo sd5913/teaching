@@ -144,7 +144,21 @@ The [environment report](https://github.com/sd5913/pfad/blob/2026/week06/ENVIRON
 records model reuse and instructor Windows inference/browser checks. This
 teaching review does not repeat model downloads or paid generation. Mac/Linux
 installation and physical classroom microphone/speaker checks remain outstanding.
-The six numbered section dividers now follow sound, synthesis, music, optional
-API, speech and interaction; the deck contains 68 slides. The Canvas brief is
+The revised deck contains 58 slides: sound, synthesis and music before the break,
+then the API demo, speech and interaction. The Canvas brief is
 `syllabus/03-interactive-experience.md`, with an individual project and a proposed
 15-point rubric. It is not published to the course site.
+
+## Instructor trimming pass, 14 October 2026
+
+Slide references in this paragraph use the preceding 68-slide draft. Removed
+slides 9, 18, 23, 31, 43–48 and 53. Added the open-source discussion before the
+agenda. Moved the break to follow original slide 42, the complete Strudel score;
+it is now slide 39, followed by the instructor API demo on slide 40.
+The removed API integration warning remains in speaker notes and teacher notes.
+The optional agent-edit workflow remains in the companion resources, with no
+scheduled making or partner-review block in the revised lesson.
+
+The instructor confirmed **40 questions in 30 minutes** for the 22 October quiz
+and that the existing mock test is on Canvas. Updated slides, run sheet, README
+and companion resources; no direct Canvas quiz URL or assessed content is added.

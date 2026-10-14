@@ -51,7 +51,7 @@ class Week06StrudelTests(unittest.TestCase):
         for stage in m.STAGES:
             self.assertIn(m.editor_link(stage['code']), page)
         self.assertIn('Tutorial video: pending', page)
-        self.assertIn('instructor opens the existing mock', page)
+        self.assertIn('mock test on Canvas', page)
         self.assertNotIn('canvas.instructure.com', page)
         self.assertNotIn('<iframe', page)
 

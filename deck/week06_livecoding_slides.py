@@ -1,15 +1,12 @@
-"""Live coding progression: website first, then the current Easel bridge."""
+"""Four cumulative Strudel layers for the first half of the lesson."""
 from deckgen import T
 from deckgen.layouts import content, code_panel, section
 from week06_strudel import STAGES, editor_link
 
-EASEL_DOCS = 'https://github.com/venetanji/easel-client/blob/d8dda0f1b953136ee7fc827eeeb39104471770b4/docs/strudel.md'
-
-
 def livecoding_slides():
     slides = [
         section('03 · MUSIC · LIVE CODING', 'Hear your code',
-            'Hi-hat → bass → chords → melody → an agent-assisted variation',
+            'Hi-hat → bass → chords → melody',
             notes='Open Strudel in a separate tab. Keep the HTML lesson tab available. '
             'Linked stages are used instead of an iframe so keyboard shortcuts and audio stopping have one clear owner. '
             'Stop the editor before switching back; changing a slide cannot stop another tab.'),
@@ -62,41 +59,4 @@ def livecoding_slides():
             '[Open this complete stage in Strudel](' + editor_link(stage['code']) + ')',
             'body', 30, '#006B74'))
         slides.append(slide)
-    slides.extend([
-        content('03 · MUSIC · AGENT EDIT', 'Let the agent change one layer', [
-            'Create a fresh project, then Templates → Strudel sound.',
-            'Paste the four-layer score. You press Run to start sound.',
-            '“Make the melody more spacious. Keep the other layers and tempo.”',
-            'Inspect the edit, compare it with your prediction, then Stop.',
-        ], notes='Current Easel source supports agent editing through window.EaselStrudel. '
-            'setCode fills the buffer; evaluate compiles or updates the current clock, but neither starts audio. '
-            'The user supplies Run. Keep .play() out of submitted score code. '
-            'Start a fresh project as well as a fresh template: older projects can pin older kits without hh. '
-            'If the installed build differs, keep the exercise on strudel.cc. '
-            'Use bundled drums and native synths rather than assuming website sample banks exist locally. '
-            'Source-verified, not an installed-classroom-client test: ' + EASEL_DOCS),
-        content('03 · MUSIC · KEEP THE RESULT', 'A live edit needs a saved version', [
-            'Keep the starting score and the changed score.',
-            'Ask the agent to save the working score, then reopen and check it.',
-            'For a short file: Run → choose cycles → Export WAV.',
-            'Explain what you changed and what you actually observed.',
-        ], notes='Instructor implementation detail: inspect getState().code through execute_canvas_javascript. '
-            'For durable live edits, patch instance app.js DEFAULT_LIVE_CODE with reload:false, verify the save, '
-            'then evaluate the same complete score. Runtime edits alone do not create source history. '
-            'Source-only saves gate WAV export until reload; reload stays silent and the user presses Run again. '
-            'Export is a bounded render: 1–16 four-beat cycles, max 30 seconds including a 0.5-second tail, '
-            '48 kHz stereo PCM16. Not every live effect or sample manipulation can export. '
-            'The starter deliberately uses a small supported subset. Stop/Escape/Ctrl+. silences the Easel template. '
-            'Current docs/source verified; instructor is checking their local build separately. ' + EASEL_DOCS),
-        content('MAKING · 18 MINUTES', 'Predict → ask → inspect → listen', [
-            'Choose one layer and describe a change to its musical role.',
-            'Ask the agent for one small edit. Read the changed code.',
-            'Run it, compare versions, and test Stop and repeated updates.',
-            'Keep both scores and one sentence explaining your decision.',
-        ], notes='Pairs use a current Easel project or remain in Strudel if setup is unavailable. '
-            'The agent can draft a score that students paste into the website; no agent account or API generation is required. '
-            'Reserve the final four minutes for a partner to try it before explanation. '
-            'Offer waveform/visual inspection for anyone who prefers not to listen. '
-            'This is formative practice, not another assessed task. No external sample bank or Suno call is needed.'),
-    ])
     return slides
