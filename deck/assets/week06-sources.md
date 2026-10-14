@@ -162,3 +162,14 @@ scheduled making or partner-review block in the revised lesson.
 The instructor confirmed **40 questions in 30 minutes** for the 22 October quiz
 and that the existing mock test is on Canvas. Updated slides, run sheet, README
 and companion resources; no direct Canvas quiz URL or assessed content is added.
+
+## Codex review follow-up, 14 October 2026
+
+Week 6 now calls deckgen's `attach_reports` before finalizing the deck, following
+the existing weekly pattern. A missing report file is a no-op; future reports
+receive links and question-drift validation without adding student data here.
+The retained `w06_two_roads` figure now uses short, 46-pixel primary headings,
+inspected on a 1920 x 1080 render. It is not part of the current 58-slide sequence.
+Existing interaction-test expectations now match the retained frequency question
+and first Strudel layer. Song API teacher notes distinguish the historical local
+contract fixture from PFAD's maintained uv/dotenv script.

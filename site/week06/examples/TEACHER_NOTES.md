@@ -14,11 +14,29 @@ Verified 12 October 2026 against source, not a live deployment. No credentials w
 
 ## Classroom flow
 
+The slides use the maintained [PFAD `2026` song script](https://github.com/sd5913/pfad/blob/2026/week06/sound/request_song.py).
+From `week06/sound` in that checkout, run:
+
+```sh
+uv run --no-project request_song.py
+```
+
+This previews the supplied defaults. uv reads the script's inline `python-dotenv`
+dependency. For an explicit live `--send`, PFAD loads the repository-root `.env`
+and accepts `EASEL_KEY` or `EASEL_API_KEY`; `EASEL_BASE_URL` overrides the supplied
+service URL. Follow the [current tutorial](https://github.com/sd5913/pfad/blob/2026/week06/README.md#preview-a-song-request)
+for setup. Reuse prepared files and keep credentials out of projected output.
+
 Teach: submit once → wait for confirmed song IDs → poll each track → save remotely → fetch the bytes.
 
 The default example mode is an offline JSON preview. It neither reads credentials nor opens a connection. `--send` explicitly opts into a real generation that can consume credits. In contrast, the API's `dry_run: true` is online: it contacts the backend and fills the native browser form without clicking Create. It is deliberately not the example's default behavior.
 
-From the teaching repository root, run this safe preview and the offline tests:
+### Historical teaching snapshot
+
+The local `site/week06/examples/request_song.py` copy is retained for the API
+contract tests. It predates PFAD's uv metadata, song defaults and dotenv setup.
+Use the PFAD script for the classroom commands above. To inspect this historical
+copy from the teaching repository root:
 
 ```sh
 python site/week06/examples/request_song.py --prompt "Gentle ambient piano, warm strings, slow pulse" --title Evening --instrumental --duration-seconds 30 --weirdness 25 --style-influence 70

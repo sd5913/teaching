@@ -517,22 +517,22 @@ def w06_two_roads(name='w06-two-roads', w=1680, h=560):
     c = Canvas(w, h, bg=WHITE)
     _label(c, 40, 33, 'Historic Riffusion v1 (2022): a documented magnitude-spectrogram route', 30)
     boxes = [(40, 330, ['DIFFUSION', 'text + noise']),
-             (450, 340, ['MAGNITUDE PICTURE', 'generated spectrogram']),
-             (870, 380, ['PHASE RECONSTRUCTION', 'Griffin-Lim + inversion']),
+             (450, 340, ['MAGNITUDE', 'generated spectrogram']),
+             (870, 380, ['PHASE', 'Griffin-Lim + inversion']),
              (1330, 300, ['AUDIO', 'waveform'])]
     for x, width, lines in boxes:
         _node(c, x, 78, width, 128, lines, PALE_ORANGE,
-              title_size=26 if x == 870 else 28)
+              title_size=46)
     for start, end in ((380, 440), (800, 860), (1260, 1320)):
         _arrow(c, start, 142, end, 142)
     _label(c, 40, 248, 'Magnitude alone is not enough: phase must be estimated before reconstructing audio.', 28)
     _label(c, 40, 306, 'MusicGen (2023): a documented audio-codec-token route', 30)
-    boxes = [(40, 330, ['CODEC TOKENS', 'EnCodec audio codes']),
-             (450, 340, ['PREDICT TOKENS', 'learned token predictor']),
-             (870, 380, ['CODEC DECODE', 'tokens to waveform']),
+    boxes = [(40, 330, ['TOKENS', 'EnCodec audio codes']),
+             (450, 340, ['PREDICT', 'learned token predictor']),
+             (870, 380, ['DECODE', 'tokens to waveform']),
              (1330, 300, ['AUDIO', 'waveform'])]
     for x, width, lines in boxes:
-        _node(c, x, 352, width, 128, lines, PALE_TEAL)
+        _node(c, x, 352, width, 128, lines, PALE_TEAL, title_size=46)
     for start, end in ((380, 440), (800, 860), (1260, 1320)):
         _arrow(c, start, 416, end, 416)
     _label(c, 40, 528, 'Training audio is codec-encoded; generation predicts tokens. No claim about Suno internals.', 28)

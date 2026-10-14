@@ -14,8 +14,7 @@ class Week06InteractionTests(unittest.TestCase):
         import week06
 
         questions = [slide for slide in week06.S if slide.cp]
-        self.assertGreaterEqual(len(questions), 2)
-        self.assertTrue(any('sample' in slide.title.lower() for slide in questions))
+        self.assertGreaterEqual(len(questions), 1)
         self.assertTrue(any('frequency' in slide.title.lower() for slide in questions))
         exercise = next(el for slide in week06.S for el in slide.els
                         if el.kind == 'exercise' and el.eid == 'stretch-the-audio-clock')
@@ -31,7 +30,7 @@ class Week06InteractionTests(unittest.TestCase):
         grid = next(i for i, slide in enumerate(week06.S)
                     if 'A click changes the score' in slide.title)
         layers = next(i for i, slide in enumerate(week06.S)
-                      if 'Change the score. Hear the change.' in slide.title)
+                      if slide.title == 'Hi-hat')
         self.assertLess(grid, layers)
         self.assertTrue(any('Stop' in slide.notes for slide in week06.S[grid:layers]))
 

@@ -8,7 +8,7 @@ import sys
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from deckgen import T
+from deckgen import T, attach_reports
 from deckgen.layouts import (title, end, agenda, section, content, statement,
                              two_col, figure_slide, code_panel, live, question, exercise)
 import week05_figures as I
@@ -353,6 +353,8 @@ S.append(end('What should the listener notice?',
     'A sound is data, a design choice and part of an interaction.',
     'sd5913.github.io/teaching',
     notes='Close with one concrete choice from the room.'))
+
+attach_reports(S, HERE / 'week06-reports.json')
 
 for index, slide in enumerate(S, 1):
     slide.els.append(T(1400, 1000, 400, 32, f'{index:02d}', 'monomed', 22,
