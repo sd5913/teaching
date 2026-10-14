@@ -1,0 +1,7 @@
+setcpm(100/4)
+stack(
+  s("hh*8").gain(.12),
+  note("c2 ~ g2 ~").s("triangle").gain(.15),
+  note("[c3,e3,g3]").s("sine").gain(.08),
+  note("c4 e4 g4 b4").s("sine").gain(.12),
+)

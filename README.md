@@ -24,7 +24,7 @@ Two GitHub Actions workflows run on every push to `main` (and on demand):
 | `deck/assets/` | Images. `deck/assets/generated/` is drawn at build time and git-ignored. |
 | `lessons/` | Instructor run sheets. Built to `.docx` in the artifact, **not published**. |
 | `syllabus/` | Published only if listed under `[[publish]]` in `deckgen.toml`. |
-| `site/index.html` | The landing page. The reveal.js vendor bundle is added by the build. |
+| `site/index.html` | The landing page. Each weekly card links to its HTML deck and PDF; update these alongside `deckgen.toml`. The reveal.js vendor bundle is added by the build. |
 | `archive/` | The PowerPoint actually shown in class, per week, where it was not generated from `deck/`. Week 1 lives here — it was built by hand. |
 
 Generated and git-ignored: `_site/`, `export/`, `deck/assets/generated/`, `node_modules/`.
@@ -52,6 +52,18 @@ deckgen build --no-pdf        # skip the Chromium step
 The PDF step needs node 18+ and Playwright's Chromium:
 `npm install --no-save playwright@1.56.1 && npx playwright install chromium`.
 The html deck: arrow keys, `S` speaker notes, `O` overview, `F` full screen.
+
+The Cloudflare Pages project `teaching` publishes PR previews from `_site/`.
+Its build command must include PDFs so the homepage downloads work there too:
+
+```bash
+pip install -r requirements.txt && npm install --no-save --no-package-lock playwright@1.56.1 && npx playwright install chromium && deckgen build --site
+```
+
+Keep its Playwright version and PDF output aligned with `.github/workflows/site.yml`.
+Cloudflare's build container does not allow `sudo`, so omit `--with-deps` there;
+the GitHub Actions runner can install OS dependencies. `--no-pdf` is only a local
+shortcut when you do not need the downloads.
 
 `deckgen build` **exits non-zero if any text overflows its box**, so a broken slide fails
 the workflow rather than reaching the projector. Previews land in `export/preview/`.
@@ -134,3 +146,31 @@ Nothing in the sources identifies a student. Keep it that way:
 - [`sd5913/github-student-registry`](https://github.com/sd5913/github-student-registry) — the ID ↔ GitHub matcher at <https://pfad.ait4x.org>.
 - [`ait4x/deckgen`](https://github.com/ait4x/deckgen) — the slide toolchain this repo uses.
 - `~/dev/sd5913/` — the private admin workspace: course plan, deck reviews, roster, org scripts.
+
+## Week 6 interactive sound lesson
+
+`deck/week06.py` continues Week 5 through finite WAV files, an offline song-API
+request preview, four cumulative Strudel stages and a local voice bot.
+Build with `deckgen build --no-pdf week06`. Open `/week06/` and its
+`resources.html` companion; the static companion and downloadable examples live
+in `site/week06/`. The browser instruments start only after a click. Stop the
+separate Strudel tab before returning to the slides.
+
+The content number stays `week06`; its calendar date is not yet confirmed.
+The 58-slide sequence opens with an open-source discussion before the agenda.
+The break follows the complete Strudel score; part two starts with the instructor
+API demo. The instructor run sheet is `lessons/week06-lesson-plan.md`.
+The quiz on 22 October has **40 questions in 30 minutes**; the existing mock test
+is on Canvas. No direct quiz link or assessed question content is included.
+The tutorial video selection is still pending.
+
+Checks: `python -m unittest discover -s tests -p '*test*.py' -v` and
+`node tests/week06_audio_lifecycle.test.cjs` (mock Web Audio lifecycle). The Week 6
+API tests are mocked, with no live service, credentials or generation charges.
+See `deck/assets/week06-sources.md` for source pins and verification limits.
+
+The individual Assignment 3 Canvas brief is
+[`syllabus/03-interactive-experience.md`](syllabus/03-interactive-experience.md).
+It includes the confirmed 15% weight and 1 November deadline, submission checklist,
+and a proposed 15-point rubric. A PowerPoint build also produces its Word and HTML
+versions in `export/docs/`; it is not listed for publication on the course site.

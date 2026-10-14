@@ -501,7 +501,7 @@ S.append(image_full('nake-walk-through-raster-1966.jpg', '05 · FRIEDER NAKE · 
                           'room answers it by reading the rule.'))
 
 S.append(two_col('05 · READING', 'Read it out loud', [
-    'Reading code is a skill you practise, not a thing you know.',
+    'Reading code takes practice.',
     '',
     '- Start at the **bottom**: what does it print?',
     '- Then the loops, the lines that repeat: what is {mono:w}, what is {mono:h}, '
