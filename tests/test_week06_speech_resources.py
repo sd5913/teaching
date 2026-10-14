@@ -35,7 +35,7 @@ class SpeechResourcesTests(unittest.TestCase):
         self.assertEqual(len(slides),6)
         sys.path.insert(0,str(ROOT/'deck'))
         import week06
-        self.assertEqual(len(week06.S),62)
+        self.assertEqual(len(week06.S),65)
 
     def test_resource_page_has_local_navigation_and_no_recording_or_autoplay(self):
         for tag,attrs in Tags(self.page()).items:
