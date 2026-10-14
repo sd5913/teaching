@@ -17,7 +17,61 @@ __all__ = ['w06_air_pressure', 'w06_pressure_measurement', 'w06_signal_lab_still
            'w06_waveform', 'w06_spectrogram_how', 'w06_midi',
            'w06_grid_score', 'w06_generate_test', 'w06_two_roads', 'w06_sound_spec',
            'w06_written_score', 'w06_strudel_pattern',
-           'w06_analysis_still', 'w06_layer', 'w06_musicgen']
+           'w06_analysis_still', 'w06_layer', 'w06_musicgen',
+           'w06_keyboard_still', 'w06_harmonics_still', 'w06_voice_surface_still']
+
+
+def w06_keyboard_still(name='w06-keyboard', w=1680, h=640):
+    c = Canvas(w, h, bg=WHITE)
+    _label(c, 70, 45, 'PLAY ONE NOTE. NAME ITS FREQUENCY.', 39)
+    _label(c, 70, 106, 'Click a key or press A S D F G H J K in the HTML slide.', 30)
+    names = ('C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5')
+    for i, note in enumerate(names):
+        x = 74 + i * 193
+        c.rect(x, 170, 178, 290, fill=PALE_ORANGE if i == 0 else WHITE, stroke=INK, width=3)
+        _label(c, x + 89, 380, note, 38, anchor='middle')
+        _label(c, x + 89, 429, 'ASDFGHJK'[i], 28, anchor='middle')
+    _label(c, 75, 515, 'C4 = 261.63 Hz   /   C5 = 523.25 Hz: twice the frequency.', 34)
+    _label(c, 75, 592, 'HTML: press a key to hear a short note. Escape or STOP silences it.', 30, ORANGE)
+    return c.finish(name)
+
+
+def w06_harmonics_still(name='w06-harmonics', w=1680, h=640):
+    c = Canvas(w, h, bg=WHITE)
+    _label(c, 75, 48, 'BASE 220 Hz  x  2  =  440 Hz', 43)
+    _label(c, 75, 100, 'Change the multiplier; hear each wave, then hear the sum.', 30)
+    for row, (label, multiple, color) in enumerate((('BASE', 1, TEAL), ('HARMONIC', 2, ORANGE), ('SUM', 0, INK))):
+        mid = 215 + row * 140
+        _label(c, 72, mid, label, 31, color)
+        c.line(360, mid, 1570, mid, LINE, 2)
+        points = []
+        for i in range(201):
+            phase = 4 * math.pi * i / 200
+            value = math.sin(phase * multiple) if multiple else (math.sin(phase) + math.sin(phase * 2)) / 2
+            points.append((360 + 1210 * i / 200, mid - 52 * value))
+        for a, b in zip(points, points[1:]):
+            c.line(*a, *b, color, 3)
+    _label(c, 75, 617, 'HTML: adjust base and multiple. The sample clock stays fixed.', 29, ORANGE)
+    return c.finish(name)
+
+
+def w06_voice_surface_still(name='w06-voice-surface', w=1680, h=640):
+    c = Canvas(w, h, bg=WHITE)
+    _label(c, 75, 45, 'MICROPHONE  >  FREQUENCIES  >  FLOWING SURFACE', 39)
+    _label(c, 75, 100, 'A synthetic preview. The HTML asks permission before hearing a voice.', 28)
+    for row in range(24):
+        points = []
+        for col in range(65):
+            peak = 17 + 5 * math.sin(row / 5)
+            height = 155 * math.exp(-((col - peak) / 7) ** 2) * (0.6 + 0.3 * math.sin(row / 4) ** 2)
+            points.append((215 + col * 18 + row * 7, 405 - row * 7 - height))
+        for a, b in zip(points, points[1:]):
+            c.line(*a, *b, ORANGE if row % 5 == 0 else TEAL, 2)
+    _label(c, 75, 545, 'frequency across', 30)
+    _label(c, 720, 545, 'time flows away', 30)
+    _label(c, 1260, 545, 'height = energy', 30)
+    _label(c, 75, 610, 'HTML: click MIC or try DEMO. Nothing is recorded or uploaded.', 29, ORANGE)
+    return c.finish(name)
 
 
 def w06_air_pressure(name='w06-air-pressure', w=1680, h=640):

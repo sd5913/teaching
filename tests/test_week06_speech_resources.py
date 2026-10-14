@@ -35,7 +35,7 @@ class SpeechResourcesTests(unittest.TestCase):
         self.assertEqual(len(slides),6)
         sys.path.insert(0,str(ROOT/'deck'))
         import week06
-        self.assertEqual(len(week06.S),65)
+        self.assertEqual(len(week06.S),64)
 
     def test_resource_page_has_local_navigation_and_no_recording_or_autoplay(self):
         for tag,attrs in Tags(self.page()).items:
@@ -65,8 +65,8 @@ class SpeechResourcesTests(unittest.TestCase):
 
     def test_run_sheet_preserves_workshop_time_and_updates_slide_numbers(self):
         notes=(ROOT/'lessons/week06-lesson-plan.md').read_text()
-        for text in ('50–70 | 25–34','70–88 | 35–38','92–106 | 46–52',
-                     '106–116 | 54'):
+        for text in ('50–70 | 32–40','70–88 | 41–44','92–106 | 52–58',
+                     '106–116 | 60'):
             self.assertIn(text,notes)
         self.assertIn('bounded',notes)
 

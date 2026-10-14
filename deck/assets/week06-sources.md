@@ -112,10 +112,19 @@ agent example](https://github.com/sd5913/pfad/blob/512edb07927c5d77cacc7279ba6be
 and legacy Docker chatbot are separate, not wired voice-response pipelines.
 
 For 2026 the console stage links the actual PFAD draft's bounded
-`transcribe.py`; the teacher-only browser stage is new original code under
-`site/week06/examples/speech_webrtc.py`. Its optional UI follows the
+`transcribe.py`; the local presenter-only browser app is new original code at
+PFAD `week06/speech/speech_webrtc.py` (also mirrored in the teaching site for
+source download). Its optional UI follows the
 [streamlit-webrtc audio receiver example](https://github.com/whitphx/streamlit-stt-app/blob/main/app_deepspeech.py)
 and the [Streamlit WebRTC library](https://github.com/whitphx/streamlit-webrtc),
 using local faster-whisper inference rather than a hosted service. Model,
 microphone, Streamlit/WebRTC installation and local Ollama reply are not
 preflighted on the teaching device. A static slide preview is not the live app.
+
+The new keyboard, harmonic and voice-surface sketches are original course p5.js
+and Web Audio examples under PFAD `week06/browser/`, mirrored byte-for-byte in
+`deck/week06_{piano,harmonics,voice_surface}.js` for embedded HTML slides.
+They use the p5.js 1.11.3 browser runtime already bundled by deckgen. The
+static slide stills are course-drawn illustrations, not captured microphone
+measurements. The PFAD WAV and optional API scripts are copies of the tested
+teaching example sources, now kept together in `week06/sound/`.

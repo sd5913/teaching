@@ -21,9 +21,11 @@ FOOTER = 'SD5913 · Week 06 · Sound'
 IMAGE_SOURCE = 'https://github.com/sd5913/teaching/blob/dd8e30ed640af73008f283fd6cbcca9167fc3735/deck/week05.py'
 SOUND_SOURCE = 'https://github.com/venetanji/sd2112-teaching/blob/558d1d77ce6b0e42c2e9ec955ca191d40cb7976e/deck/week06.py'
 PY_WAVE = 'https://docs.python.org/3.12/library/wave.html'
-ANALYSIS_CODE = (HERE / 'week06_analysis.js').read_text()
 LAB_CODE = (HERE / 'week06_sound_lab.js').read_text()
 SEQUENCER_CODE = (HERE / 'week06_sequencer.js').read_text()
+PIANO_CODE = (HERE / 'week06_piano.js').read_text()
+HARMONICS_CODE = (HERE / 'week06_harmonics.js').read_text()
+VOICE_CODE = (HERE / 'week06_voice_surface.js').read_text()
 
 S.append(title(EYE, 'Sound as data', 'Noise, waveforms, speech, songs and interaction.',
     notes='Two-hour lesson. Keep the Week 6 lesson numbering. The teaching date has not been confirmed. '
@@ -33,10 +35,9 @@ S.append(title(EYE, 'Sound as data', 'Noise, waveforms, speech, songs and intera
 S.extend(news_slides('SD5913'))
 
 S.append(agenda(EYE, [
-    'See how vibration becomes a measured signal', 'Hear two seconds of tone or noise in the browser',
-    'Recall image values and positions', 'Make two seconds of noise',
-    'Shape a tone with a rule', 'Live-code music and edit with an agent',
-    'Preview a song request (optional)', 'Turn a transcript into an interaction',
+    'See vibration become samples and a WAV', 'Play a piano; combine a base and a harmonic',
+    'Speak to a live, flowing spectrum', 'Make music in Strudel with an agent',
+    'Preview a song request (optional)', 'Check a transcript before a response',
 ], notes='The making and reflection blocks are part of the two-hour session. '
    'The standard-library examples work without accounts, external packages or a microphone. '
    'A live API generation is an optional instructor demonstration after preflight.'))
@@ -78,19 +79,6 @@ S.append(figure_slide('01 · HEAR AND SEE', 'Hear the rule. See its samples.', F
     'two seconds, and Stop/Escape/navigation/hidden tab closes audio. The PDF/PPTX show an '
     'illustrative still and cannot play this browser instrument. Source: original 2026 '
     'course code in deck/week06_sound_lab.js; no microphone, API or account.'))
-
-S.append(figure_slide('01 · EXPLORE THE SAME SIGNAL', 'One sound, three views', F.w06_analysis_still(),
-    sketch=live('week06-analysis', ANALYSIS_CODE, 1200, 700,
-                hint='Click Play · change frequency or waveform · Stop / Escape'),
-    caption='Predict: double the frequency. What moves in the waveform and spectrum?',
-    notes='Optional second browser demo if the class has time. Unlike the finite first demo, '
-    'this oscillator continues until Stop, Escape, navigation or page hiding. Ask for a '
-    'prediction, then double frequency without changing waveform type; point to the shortened '
-    'period and the measured spectrum peak moving right. Next change sine to triangle and '
-    'sawtooth at the same frequency and observe additional frequency components. The FFT '
-    'display measures this browser oscillator output, not a microphone. The still is '
-    'illustrative, not a captured FFT. Source: ' + SOUND_SOURCE + ' and '
-    'https://webaudio.github.io/web-audio-api/#AnalyserNode'))
 
 S.append(figure_slide('RECALL · WEEK 5', 'An image gives values positions in space', I.pixel_grid(),
     notes='Recall pixel[y][x] and channel order. The exact image grid is reused from the Week 5 course source. '
@@ -240,6 +228,24 @@ S.append(question('multiple_choice', 'Frequency 220 to 440 Hz: what stays the sa
     'The 440 Hz version has twice as many cycles in that time. If ClassPoint is unavailable, '
     'ask students to choose in pairs before comparing the two saved WAVs.'))
 
+S.append(figure_slide('02 · MUSIC FROM FREQUENCY', 'Play a small keyboard piano', F.w06_keyboard_still(),
+    sketch=live('week06-piano', PIANO_CODE, 1200, 620,
+                hint='Click keys or press A–K · STOP / Escape'),
+    caption='Try C4 then C5. Can you hear and see the frequency double?',
+    notes='Student source: PFAD week06/browser/piano.js. The HTML slide is a real p5 keyboard '
+    'with short, quiet Web Audio notes; PDF/PPTX show an illustrative still. Let students '
+    'predict which note is an octave above C4, then press keys. A keyboard maps an input '
+    'to a frequency: it does not change the sample rate. Starts silent. Stop before switching tabs.'))
+
+S.append(figure_slide('02 · MULTIPLY A BASE', 'Build harmonics from a base frequency', F.w06_harmonics_still(),
+    sketch=live('week06-harmonics', HARMONICS_CODE, 1200, 650,
+                hint='Set base and multiple · play each wave or the sum · STOP'),
+    caption='Keep 220 Hz fixed; try 2× then 3×. Predict the new frequency and shape.',
+    notes='Student source: PFAD week06/browser/harmonics.js. Adjust two integer sliders '
+    'and compare base, harmonic and their sum. Begin at 220 Hz x 2 = 440 Hz; '
+    'the sum changes timbre while the 22,050 samples/s clock stays fixed. Keep device volume low. '
+    'Only play after an explicit click; Escape, Stop or leaving the slide closes audio.'))
+
 S.append(content('02 · AMPLITUDE AND LISTENING', 'The same numbers can feel different', [
     'Lower AMPLITUDE from 0.08 to 0.04 and compare.',
     'Then imagine the same cue in a quiet room and a busy studio.',
@@ -248,12 +254,16 @@ S.append(content('02 · AMPLITUDE AND LISTENING', 'The same numbers can feel dif
     'and the listener. Avoid saying half amplitude means half perceived loudness. Use the user-controlled '
     'device volume as an additional precaution. This is a design discussion rather than a hearing test.'))
 
-S.append(figure_slide('OPTIONAL BRIDGE · SOUND AS AN IMAGE', 'A spectrogram shows frequency over time', F.w06_spectrogram_how(),
-    caption='Time across, frequency up. Shade represents magnitude in this illustration.',
-    notes='Optional if students need a link back to Week 5 images. The three panels are illustrative examples, '
-    'not one measured signal transformed numerically. A magnitude spectrogram omits phase. '
-    'Making an image of sound playable requires more than treating it as ordinary pixels. '
-    'Keep the mathematics light and move on if time is short. Source: ' + SOUND_SOURCE))
+S.append(figure_slide('02 · SOUND AS A LANDSCAPE', 'Speak and see a flowing spectrum', F.w06_voice_surface_still(),
+    sketch=live('week06-voice-surface', VOICE_CODE, 1200, 660,
+                hint='Click DEMO or allow MIC · speak briefly · STOP / Escape'),
+    caption='Across: frequency. Into the scene: time. Height: relative energy. Nothing is recorded.',
+    notes='Student source: PFAD week06/browser/voice_surface.js. First click DEMO to see '
+    'synthetic input. Only click MIC after consent; localhost/HTTPS asks for permission. '
+    'Web Audio FFT bins become a rolling p5 WEBGL surface; no data is uploaded, saved '
+    'or played back. Speak briefly, observe formants and changing energy, then Stop. '
+    'If permission or hardware fails, use DEMO. This visualizes frequency, not words: '
+    'the later speech section has a separate transcription model. The still is illustrative.'))
 
 S.append(section('10 MINUTES', 'Break', 'Save the files you want to compare',
     notes='Stop any browser audio before the break. Preserve at least one before/after pair.'))
@@ -274,16 +284,6 @@ S.append(figure_slide('03 · MUSIC · SOUND IN THE BROWSER', 'A click changes th
     'changed grid value and then listen when the playhead reaches that step. This is JavaScript Web Audio, '
     'not Python or the API. A visible playhead is feedback. Stop, Escape, navigation and page hiding close '
     'the audio context. No microphone, account or external sample pack is involved. Source: ' + SOUND_SOURCE))
-
-S.append(two_col('03 · MUSIC · READING THE INTERACTION', 'A small state change has an audible result', [
-    'The grid stores the score.',
-    'A click toggles one value between 0 and 1.',
-    'The player reads the current grid at each step.',
-], ['// excerpt from the browser instrument', 'grid[r][c] = 1 - grid[r][c];', '',
-    '// the scheduler checks a cell', 'if (grid[r][step]) {', '  // schedule a short note', '}'], lang='js', right_size=28,
-    notes='This is a shortened excerpt explaining state, not a complete sequencer. The full script ships with '
-    'the deck. Row maps to pitch and column to a time step. A click changes the data immediately; sound '
-    'changes when the scheduler next reaches that step. Ask students where they would put a mute control.'))
 
 from week06_livecoding_slides import livecoding_slides
 S.extend(livecoding_slides())

@@ -6,11 +6,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "deck"))
 from news_20261014 import news_slides
 
 class NewsTests(unittest.TestCase):
-    def test_seven_sourced_non_assessed_items(self):
+    def test_sourced_non_assessed_items(self):
         for course in ("SD5913", "SD2112"):
             slides = news_slides(course)
-            self.assertEqual(len(slides), 7)
+            self.assertEqual(len(slides), 6 if course == "SD5913" else 7)
             self.assertEqual(slides[0].title, "Gemini 4 Argon")
+            if course == "SD5913":
+                self.assertNotIn("Rebuilding creative tools", [slide.title for slide in slides])
             for slide in slides:
                 self.assertFalse(slide.cp)
                 self.assertIn("Primary source: https://", slide.notes)

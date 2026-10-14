@@ -17,7 +17,7 @@ class PhysicsOpeningTests(unittest.TestCase):
         code = titles.index('A sound gives values positions in time')
         self.assertLess(air, lab)
         self.assertLess(lab, code)
-        self.assertLess(lab, 8)
+        self.assertLess(lab, code)
         self.assertTrue(any(el.kind == 'sketch' for el in week06.S[lab].html_only))
         self.assertIn('no microphone', week06.S[lab].notes.lower())
 

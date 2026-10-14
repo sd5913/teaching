@@ -12,7 +12,7 @@ OPENAI = "https://openai.com/index/gpt-6-for-everyone/"
 MOTION = "https://claude.com/resources/articles/dashboards-and-motion"
 
 def news_slides(course="SD5913"):
-    """Seven optional discussion slides; no ClassPoint/quiz activity IDs."""
+    """Dated optional discussion slides; no ClassPoint/quiz activity IDs."""
     design = course == "SD2112"
     rows = [
         ("13 OCT 2026 · GOOGLE", "Gemini 4 Argon", [
@@ -83,7 +83,7 @@ def news_slides(course="SD5913"):
             "MIT-licensed tool; 6.4 adds Android inspection and analysis improvements.",
             "Evidence can support reimplementation; inferred behaviour still needs tests.",
         ], "Where is your line between inspiration, compatibility and copying?" if design else
-           "What evidence separates a compatible implementation from a clone?",
+           "What is the future of software companies if anyone can create and modify software?",
          "https://github.com/morluto/rea", "REA: source, examples + limitations",
          "Release: https://github.com/morluto/rea/releases/tag/rea-agents-6.4.0 "
          "published 11 October 2026. Native analysis needs a supported provider such as "
@@ -95,6 +95,8 @@ def news_slides(course="SD5913"):
          "specification and edge-case tests, then implement independently without viewing source. "
          "Do not claim this proves a legal clean-room process."),
     ]
+    if not design:
+        rows = [row for row in rows if row[1] != "Rebuilding creative tools"]
     slides = []
     for date, heading, points, prompt, url, label, note in rows:
         slide = content("AI NEWS · " + date, heading, points,
