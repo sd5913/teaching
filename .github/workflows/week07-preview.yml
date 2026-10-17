@@ -1,0 +1,27 @@
+name: Check Week 7 slides
+on:
+  pull_request:
+    paths:
+      - 'deck/**'
+      - 'deckgen.toml'
+      - 'site/index.html'
+      - 'tests/test_week07_sequence.py'
+      - '.github/workflows/week07-preview.yml'
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -p 'test_week07_sequence.py' -v
+      - run: deckgen build week07 --site --no-pdf
+      - uses: actions/upload-artifact@v4
+        with:
+          name: week07-preview
+          path: _site/
+          retention-days: 7
