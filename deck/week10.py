@@ -71,18 +71,20 @@ S.append(two_col('01 · READ IT ALOUD', 'Class, object, attribute, method', [
     'amber.views: one attribute',
     'amber.view(): one behaviour',
 ], [
-    'class Artwork:',
+    '# EXCERPT: edit inside the class',
     '    def view(self):',
     '        self.views += 1',
     '',
-    'amber.view()',
-    'print(amber.views)',
-], notes='The method excerpt assumes amber was constructed on the preceding slide '
-    'and view was added inside that class definition; it is not standalone. Ask '
+    '# Do not run this fragment alone.',
+    '# The complete fresh run follows.',
+], notes='This is an edit inside the original class definition, not a second class '
+    'or a command to run against existing instances. The complete trace below '
+    'recreates both objects before making exactly one call. Ask '
     'what self points to when calling amber.view(). Do not introduce inheritance '
     'or an ORM before this distinction is secure.'))
 S.append(statement('PREDICT BEFORE RUNNING\namber.view()\nWhat happens to blue.views?',
-    notes='Think-pair-share. Keep the previous construction and method in view. '
+    notes='Fresh run: recreate amber with 2 views and blue with 7, using the complete '
+    'class below. Think-pair-share before its single call. '
     'Write amber.views and blue.views after the call before revealing the next '
     'slide. Expected: 3 and 7. If someone predicts both change, ask which '
     'self is passed to view(). This is an unassessed inspection activity.'))
@@ -93,14 +95,15 @@ S.append(diagram('01 · AFTER ONE METHOD CALL', 'Only the called object changes'
 S.append(code_panel('01 · RUN THE TRACE', 'Check the prediction in Python', [
     'class Artwork:',
     '    def __init__(self, title, views):',
-    '        self.title, self.views = title, views',
+    '        self.title = title',
+    '        self.views = views',
  '    def view(self):',
     '        self.views += 1',
  'amber = Artwork("Amber", 2)',
  'blue = Artwork("Blue", 7)',
  'amber.view()',
  'print(amber.views, blue.views)  # 3 7',
-], caption='Predict, run, then explain the different values.',
+], caption='Fresh run: define the class, create both objects, call once.',
     notes='This full example is runnable as-is in Python 3. Invite a student to '
     'change blue instead; predict the result before running. Paper trace is the '
     'fallback if a Python interpreter is unavailable. Aligns with PFAD Week 10 '
@@ -212,18 +215,24 @@ S.append(code_panel('03 · RESTART TEST', 'Close Python. Read the file back.', [
     'a saved exhibition record. Paper fallback: inspect a drawn JSON record.'))
 S.append(two_col('03 · RECONSTRUCT', 'A loaded record can become a new object', [
     'The file contains values, not methods.',
-    'A new object receives saved values.',
-    'Its method works again after loading.',
+    'Define the class again in this fresh process.',
+    'Use records from the preceding load step.',
 ], [
+    'class Artwork:',
+    '    def __init__(self, title, views):',
+    '        self.title = title',
+    '        self.views = views',
+    '    def view(self):',
+    '        self.views += 1',
     'record = records[0]',
     'restored = Artwork(',
     '    record["title"], record["views"]',
     ')',
     'restored.view()',
     'print(restored.views)  # 4',
-], notes='This excerpt assumes the Artwork class from the complete trace '
-    'and records from the read slide are already defined in the interpreter. '
-    'A fresh Python process would need the class definition again. Calling '
+], notes='Run directly after the read slide in the same fresh Python process. '
+    'The complete class definition is included here; only records comes from '
+    'the preceding load step. Calling '
     'view() updates only the new in-memory object; save again to change the '
     'file. This is deliberate: students distinguish reconstructing from '
     'persisting a later update.'))
