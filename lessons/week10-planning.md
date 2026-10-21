@@ -1,13 +1,13 @@
 # SD5913 Week 10 lesson planning
 
-Planning draft started 21 October 2026. This is the continuing review home for content `week10`, not a finished deck or an announcement to students. Keep this week's changes in the same draft PR.
+Planning draft started 21 October 2026. This is the continuing review home for content `week10`; the draft deck and instructor run sheet now live alongside it in the same teaching PR. Nothing is published or announced to students by editing this PR.
 
 ## Status and source limits
 
 - Teaching date: unconfirmed. Content week numbers must not be converted into calendar dates by simple addition after the 1 October holiday.
 - Candidate focus: **Classes objects and stored data**. The instructor's later slides and current course sequence take precedence.
 - No 2026 Week 10 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. The supplied historical PDFs are source evidence, not an approved 2026 timetable.
-- This PR adds planning text only. It does not register a deck, change the course site, set assessment requirements or publish learning material.
+- The draft now registers `deck/week10.py` in `deckgen.toml` and adds a Week 10 site card. Registration in source is not publication. It does not set assessment requirements or an unconfirmed teaching date.
 
 The supplied historical PDF is titled Data storage. It teaches object attributes and relationships before SQL/ORM and RAG, but assumes students can read class-based examples. The current instruction prioritises accessible classes and objects, so add an explicit concrete bridge before any database or agent framework.
 
@@ -43,14 +43,14 @@ Prioritise accessible classes and objects over advanced asyncio. Retain a visibl
 
 ## Materials to develop in this PR
 
-- [ ] Reconcile the supplied slide record with the current 2026 sequence and identify what is retained, replaced or moved.
-- [ ] Agree the learning outcome and teacher run sheet, with actual timing.
-- [ ] Author the deck with readable full-slide diagrams, short labels and supporting detail in notes. Follow AGENTS.md; primary diagram labels should target at least 40 design pixels at 1920 × 1080.
-- [ ] Include a worked example, a purposeful student prediction/inspection activity and a failure or limitation worth discussing.
-- [ ] Align the matching PFAD/2026 practical README and runnable examples without promising files that do not exist. Record the companion PR link once verified.
+- [x] Reconcile the supplied slide record with the current 2026 sequence; see `lessons/week10-lesson-plan.md` for page-by-page mapping.
+- [ ] Confirm the actual class duration and teaching date before adding a timed run sheet.
+- [x] Author a draft deck with full-slide diagrams, notes, code traces and a 28-slide teaching route.
+- [x] Include a runnable conceptual two-object example, student prediction, JSON save/restart demo and missing-file/broken-ID limitation.
+- [ ] Align executable examples with the [PFAD/2026 companion PR #13](https://github.com/sd5913/pfad/pull/13). Its current `week10/README.md` is a planning-only practical, not runnable files; the draft deck supplies its own standalone code snippets.
 - [ ] Select and verify the week's news using the criteria above.
 - [ ] Review the lesson for coherent progression, accuracy, appropriate depth and time for questions; revise in this same PR.
-- [ ] Build and visually inspect the actual finished deck before calling it classroom-ready.
+- [ ] Obtain instructor approval of timing and content before calling the deck classroom-ready; targeted build and preview checks are part of this draft's review.
 
 ## Gaps and decisions
 
@@ -84,4 +84,4 @@ Historical candidates, inspected as source inventory only; not claimed to run on
 
 ## Verification record
 
-Planning stage only: supplied PDF text and selected screenshot/diagram pages, repository source paths, current-course boundaries and duplicate-PR inventory reviewed. No deck or runnable example is added, so no deck build, rendered-slide review, model/device test or full repository test pass is claimed. Before a later implementation is called ready, run the repository's applicable tests, build the affected outputs, inspect diagrams at presentation size, verify practical links and record exactly what remains untested.
+The archive was read as 2025 evidence; `lessons/week10-lesson-plan.md` maps its PDF pages to this draft. The companion PFAD PR #13 currently has no runnable example to link. Week 10 diagrams and code previews are rendered in the local targeted build, not deployed. A full course build, physical classroom projection, instructor date/timing approval and optional live retrieval/model paths remain unverified.
