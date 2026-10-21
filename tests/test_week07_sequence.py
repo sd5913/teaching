@@ -28,7 +28,21 @@ class Week07Tests(unittest.TestCase):
     def test_sequence(self):
         titles = [s.title for s in W.S]
         self.assertLess(titles.index('Ask me anything.'), titles.index('Midterm quiz.\n10:00–10:30.'))
-        self.assertLess(titles.index('Midterm quiz.\n10:00–10:30.'), titles.index('What do you wish it did?'))
+        after_test = [
+            'Midterm quiz.\n10:00–10:30.',
+            'Take a short break.\nBack at 10:35.',
+            'A class defines each ball.',
+            'A method changes this ball.',
+            'Call red. Does blue move?',
+            'Same motion. Two ways to draw it.',
+            'Change the class. Watch both views.',
+            'What do you wish it did?',
+            'Find your people. Join one team.',
+            'Form your team. Aim big.',
+            'Show what you want to build.',
+        ]
+        positions = [titles.index(title) for title in after_test]
+        self.assertEqual(positions, sorted(positions))
         self.assertLess(titles.index('Form your team. Aim big.'), titles.index('Show what you want to build.'))
     def test_three_collections(self):
         active = [s for s in W.S if s.cp]
