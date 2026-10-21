@@ -10,6 +10,21 @@ class Week07Tests(unittest.TestCase):
         self.assertEqual(sum(map(len, SELECTION.values())), 20)
         self.assertEqual(len(W.RECAP), 20)
         self.assertTrue(all(s.cp is None and not s.report for s in W.RECAP))
+    def test_recap_has_current_presenter_cues(self):
+        slides = {s.title: s for s in W.RECAP}
+        self.assertIn('not a live exercise today', slides['One promise, four steps'].notes)
+        self.assertNotIn('they just ran', slides['That is a loop, and that is all of it'].notes)
+        self.assertNotIn('2025 question', slides['A cap never sits under a drawn cell'].notes)
+        function = slides['A rule with a name']
+        body = ' '.join(''.join(run.text for run in para.runs) for para in function.els[2].paras)
+        self.assertIn('No return, Python returns None', body)
+        self.assertNotIn('more than any other', body)
+        self.assertNotIn('Everything else today', ''.join(
+            run.text for para in slides['That is a loop, and that is all of it'].els[2].paras
+            for run in para.runs))
+        diffusion = slides['Learn to remove noise; then use that skill.']
+        self.assertEqual(diffusion.els[3].paras[0].runs[1].url,
+                         'https://github.com/sd5913/pfad/blob/2026/week05/diffusion/generate.py')
     def test_sequence(self):
         titles = [s.title for s in W.S]
         self.assertLess(titles.index('Ask me anything.'), titles.index('Midterm quiz.\n10:00–10:30.'))
