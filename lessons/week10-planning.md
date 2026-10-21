@@ -5,31 +5,41 @@ Planning draft started 21 October 2026. This is the continuing review home for c
 ## Status and source limits
 
 - Teaching date: unconfirmed. Content week numbers must not be converted into calendar dates by simple addition after the 1 October holiday.
-- Candidate focus: **Memory retrieval and useful data**. The instructor's later slides and current course sequence take precedence.
-- No 2026 Week 10 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. Historical slides are being requested separately.
+- Candidate focus: **Classes objects and stored data**. The instructor's later slides and current course sequence take precedence.
+- No 2026 Week 10 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. The supplied historical PDFs are source evidence, not an approved 2026 timetable.
 - This PR adds planning text only. It does not register a deck, change the course site, set assessment requirements or publish learning material.
 
-The 2025 Week 10 folder contains embeddings, a Qdrant handbook app and a login example. These are candidate concepts for this year's project support, not approved production recipes.
+The supplied historical PDF is titled Data storage. It teaches object attributes and relationships before SQL/ORM and RAG, but assumes students can read class-based examples. The current instruction prioritises accessible classes and objects, so add an explicit concrete bridge before any database or agent framework.
+
+## Supplied historical slide evidence
+
+SD5913 - PFAD - Week 10.pdf (67 pages): pp. 13–24 object attributes and relationships with short prediction tasks; 25–31 IDs, schema, SQL and Peewee class examples; 32–38 database types and persistence; 39–43 authentication; 44–55 embeddings, retrieval and RAG; 56–67 tutorial and project work. Text extracted throughout; relationship diagrams 16–18 and code/screenshot pages 28–30, 33, 41–43 and 46–54 visually inspected.
+
+Page numbers are 1-based PDF pages. These are historical materials supplied for review; the PDF itself is not copied into this public repository. Historical dates, marks and team arrangements are not adopted.
 
 ## Proposed learning outcome
 
-Distinguish application state, stored records and retrieved context. Inspect where an answer came from, and explain one case in which retrieval should return no useful evidence.
+Create two objects from one simple class, explain their separate attributes and one method, then relate those objects to records that can be saved and retrieved.
 
 ## Proposed classroom sequence
 
 This is a sequence for discussion, not a timed run sheet. Confirm the class duration and topic before allocating minutes. Preserve substantial explanation, a concrete example, a prediction or inspection activity and project application rather than turning the lesson into a list of tools.
 
-1. Start with a project question that needs remembered or retrieved information, rather than installing a database first.
-2. Compare an exact lookup with a similarity search using a small teacher-owned corpus.
-3. Inspect retrieved passages before any optional model response; show a deliberately irrelevant question.
-4. Pairs change one input, predict which records should be returned, and explain a failure.
-5. Teams choose a minimal storage/retrieval design or justify why their project needs neither.
+1. Start with one familiar project object such as a player, scene or message. Compare a class definition with two instances and predict which values belong to each instance.
+2. Use a small constructor, attributes and one method; change one object and check that the other is unaffected. Keep inheritance and framework machinery optional.
+3. Draw one-to-many and many-to-many relations using the archive's short prediction format, then introduce stable IDs only when needed.
+4. Save and reload a tiny invented dataset using the simplest selected local route. Explain that in-memory objects and persisted records have different lifetimes.
+5. Offer retrieval/RAG as a teacher demonstration only if the object/storage ideas are secure: inspect retrieved evidence before a response. Teams identify the minimum data their project needs.
 
 ## Weekly AI news
 
 Reserve an optional short opening discussion, trimmed before core teaching or assessment time. Suggested relevance filter: Agent memory, grounded search or retrieval evaluation. Discussion should test provenance, stale context and unsupported answers rather than repeat benchmark claims.
 
 Refresh near the actual class rather than filling future weeks with today's news. For each selected item record: event date and publication date, primary-source URL, exact supported claim, classroom connection, one discussion prompt, and whether the behaviour was personally tested or only reported by the source. If there is no useful verified item, omit the slot. News must not silently become assessed content.
+
+## Current teaching direction
+
+Prioritise accessible classes and objects over advanced asyncio. Retain a visible map of Scrum, Git teamwork, Docker and networks before changing their sequence. Include an agent → MCP server → tool explanation and a bounded permission-aware practical at the appropriate point; a model suggestion alone must not be treated as permission to act. This does not require AI inside every team project.
 
 ## Materials to develop in this PR
 
@@ -44,13 +54,13 @@ Refresh near the actual class rather than filling future weeks with today's news
 
 ## Gaps and decisions
 
-- Supply Week 10 slides and confirm whether search, persistence or authentication is the intended emphasis.
-- Select a small corpus with permission to use it and decide whether an entirely offline exercise is sufficient.
-- Review current dependencies and any chosen service costs before producing runnable examples.
+- Confirm the time available for the explicit classes/objects bridge before deciding how much ORM or RAG to keep.
+- Choose one small local persistence route and an invented dataset; do not require students to deploy a database.
+- Decide whether authentication should be omitted or treated only as a security critique; the archived implementation must not become a working student template.
 
 ## Guardrails specific to this week
 
-The archived login app hashes passwords with bare unsalted SHA-256; ERRATA explicitly says not to ship it. Do not copy it into the new tutorial or collect student passwords. Use invented records and teacher-owned text; no student submissions or personal data.
+The visually inspected archive pp. 42–43 contain bare SHA-256 password hashing, also flagged by repository ERRATA. Do not copy it or collect credentials. Explain classes and instances independently of ORM inheritance. Keep optional retrieval grounded in teacher-owned material and distinguish matching text from a guaranteed correct answer.
 
 Across every week, preserve the existing assessment weights and confirmed dates. Individual Assignment 3 is separate from the group project. Do not add team-size rules, compulsory AI/audio, new grading criteria, submission formats or deadlines. Never commit student records, private submissions, quiz questions/keys or credentials. Do not merge, publish to Canvas, deploy the course, or change automation as part of this plan.
 
@@ -74,4 +84,4 @@ Historical candidates, inspected as source inventory only; not claimed to run on
 
 ## Verification record
 
-Planning stage only: source paths, current-course boundaries and duplicate-PR inventory reviewed. No deck or runnable example is added, so no deck build, rendered-slide review, model/device test or full repository test pass is claimed. Before a later implementation is called ready, run the repository's applicable tests, build the affected outputs, inspect diagrams at presentation size, verify practical links and record exactly what remains untested.
+Planning stage only: supplied PDF text and selected screenshot/diagram pages, repository source paths, current-course boundaries and duplicate-PR inventory reviewed. No deck or runnable example is added, so no deck build, rendered-slide review, model/device test or full repository test pass is claimed. Before a later implementation is called ready, run the repository's applicable tests, build the affected outputs, inspect diagrams at presentation size, verify practical links and record exactly what remains untested.
