@@ -58,12 +58,20 @@ S.append(two_col('01 · A SMALL TEST', 'A review you can explain', [
     'One normal case and one error case are enough to start.',
     'Ask a person to try the interface without instructions.',
 ], [
-    'def add(a, b):', '    return a + b', '',
-    'assert add(3, 4) == 7', 'assert add(-2, 2) == 0',
+    'def add(a, b):',
+    '    if (type(a) is not int',
+    '            or type(b) is not int):',
+    '        raise ValueError("Use ints")',
+    '    return a + b',
+    'assert add(3, 4) == 7',
+    'try:',
+    '    add("3", 4)',
+    'except ValueError as error:',
+    '    print(error)',
 ], notes='The tiny function is deliberately ordinary: DRY is about a useful shared '
-    'rule, not forcing abstraction. Two assertions do not prove the entire app works. '
-    'Have students name an invalid-input behavior separately; do not claim Python\'s '
-    'operator alone gives the user a helpful message. Archive pp. 25-29, 31-34 motivate '
+    'rule, not forcing abstraction. The assertion checks success; the try/except '
+    'executes and explains the invalid-input path. Neither proves the whole app works. '
+    'Exact int types reject bools too; the interface must decide how to display the message. Archive pp. 25-29, 31-34 motivate '
     'reuse, debugging, testing, user testing and small steps.'))
 
 S.append(question('short_answer', 'What is the next smallest useful check?',
@@ -107,6 +115,9 @@ S.append(figure_slide('02 · THE RESULT', 'Inspect before answering', F.inbound(
 
 S.append(code_panel('02 · THE PURE FUNCTION', 'Nothing outside the two inputs', [
     'def add(a: int, b: int) -> int:',
+    '    if (type(a) is not int',
+    '            or type(b) is not int):',
+    '        raise ValueError("Use ints")',
     '    return a + b',
     '',
     'assert add(3, 4) == 7',
@@ -116,8 +127,8 @@ S.append(code_panel('02 · THE PURE FUNCTION', 'Nothing outside the two inputs',
     'an MCP server. A runnable MCP integration would need a pinned SDK, '
     'transport and lifecycle preflight; the companion PR includes an optional tested '
     'local MCP stdio smoke test, but classroom live use needs separate preflight. '
-    'Python bools are ints, and this function alone does not reject '
-    'them; for this exercise the advertised input contract is integer values.'))
+    'The explicit runtime check rejects booleans, strings and floats; annotations '
+    'alone do not enforce that input contract.'))
 
 S.append(question('multiple_choice', 'Is a proposed call proof that it ran?',
     choices=['Yes, the model named a tool', 'No, inspect the result or refusal',

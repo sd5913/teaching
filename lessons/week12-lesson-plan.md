@@ -39,6 +39,8 @@ result before saying what happened.
 | Permission | 14-18 | Compare same-geometry allow and block diagrams. Pairs mark the stop for missing argument, tool error or overwrite request. | Label call/result trace and one refusal/failure. |
 | Project application | 19-21 | Decide if a direct button is clearer; name one useful fix. Point to the draft companion exercise. | One check a teammate can review. |
 
+Treat the roles/permissions diagrams as a brief recall check, not a repeat of the earlier weekly introductions. Spend the recovered time executing the displayed valid and invalid addition inputs, then comparing the companion success, validation-error and denied-dispatch traces. Ask pairs to explain what evidence permits each final response and which layer stops each failure.
+
 Reserve discussion time in each block. If class time is shorter, skip optional
 news and the live-demo idea, not the result or refusal. If longer, ask pairs to
 swap labelled traces and challenge an unsupported final answer. No fixed
