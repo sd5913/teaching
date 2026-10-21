@@ -6,10 +6,16 @@ Planning draft started 21 October 2026. This is the continuing review home for c
 
 - Teaching date: unconfirmed. Content week numbers must not be converted into calendar dates by simple addition after the 1 October holiday.
 - Candidate focus: **Semester synthesis and final review**. The instructor's later slides and current course sequence take precedence.
-- No 2026 Week 13 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. Historical slides are being requested separately.
+- No 2026 Week 13 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. The supplied historical PDFs are source evidence, not an approved 2026 timetable.
 - This PR adds planning text only. It does not register a deck, change the course site, set assessment requirements or publish learning material.
 
-The current Week 1 deck locates the 10% final quiz in content Week 13. README expects content Week 13 in calendar week 14 in December and explicitly withholds an exact date. The 2025 archive ends with a semester-loop script.
+The supplied Week 13 PDF is a recap and final-assessment class: its agenda says recap and a final at 10am, followed by AMA and a team/repository tutorial. That historical time is not a confirmed 2026 booking. Current Week 1 places the 10% final quiz in content Week 13; README expects that content week in December but withholds an exact date.
+
+## Supplied historical slide evidence
+
+SD5913 - PFAD - Week 13.pdf (28 pages): p. 2 historical recap/final agenda; 3–26 recap; p. 8 classes/objects, 13 sprint, 14 Docker, 15–17 networks/APIs, 25–26 MCP and the small addition tool; 27 AMA; 28 team/repository check and testing on another computer. Text and screenshot contact sheets reviewed. The unsafe password screenshot on p. 21 and inaccurate assignment wording on p. 5 must not be copied.
+
+Page numbers are 1-based PDF pages. These are historical materials supplied for review; the PDF itself is not copied into this public repository. Historical dates, marks and team arrangements are not adopted.
 
 ## Proposed learning outcome
 
@@ -31,6 +37,10 @@ Reserve an optional short opening discussion, trimmed before core teaching or as
 
 Refresh near the actual class rather than filling future weeks with today's news. For each selected item record: event date and publication date, primary-source URL, exact supported claim, classroom connection, one discussion prompt, and whether the behaviour was personally tested or only reported by the source. If there is no useful verified item, omit the slot. News must not silently become assessed content.
 
+## Current teaching direction
+
+Prioritise accessible classes and objects over advanced asyncio. Retain a visible map of Scrum, Git teamwork, Docker and networks before changing their sequence. Include an agent → MCP server → tool explanation and a bounded permission-aware practical at the appropriate point; a model suggestion alone must not be treated as permission to act. This does not require AI inside every team project.
+
 ## Materials to develop in this PR
 
 - [ ] Reconcile the supplied slide record with the current 2026 sequence and identify what is retained, replaced or moved.
@@ -44,9 +54,9 @@ Refresh near the actual class rather than filling future weeks with today's news
 
 ## Gaps and decisions
 
-- Confirm the exact final-class and final-quiz date/time, duration, format and permitted tools. No December date is approved yet.
-- Supply the Week 13 slides and existing final-project hand-in/presentation arrangements.
-- Build the recap from what was actually taught, including approved later-week revisions, not today's provisional topic candidates.
+- Confirm the exact 2026 final-class and final-quiz date/time, duration, format and permitted tools; do not reuse the archive's 10am time.
+- Confirm the current project hand-in/presentation arrangements and replace historical Blackboard instructions with the actual current route.
+- Build the recap from what was actually taught in 2026, including approved later-week revisions, not the entire archive or today's candidate plans.
 
 ## Guardrails specific to this week
 
@@ -71,4 +81,4 @@ Historical candidates, inspected as source inventory only; not claimed to run on
 
 ## Verification record
 
-Planning stage only: source paths, current-course boundaries and duplicate-PR inventory reviewed. No deck or runnable example is added, so no deck build, rendered-slide review, model/device test or full repository test pass is claimed. Before a later implementation is called ready, run the repository's applicable tests, build the affected outputs, inspect diagrams at presentation size, verify practical links and record exactly what remains untested.
+Planning stage only: supplied PDF text and selected screenshot/diagram pages, repository source paths, current-course boundaries and duplicate-PR inventory reviewed. No deck or runnable example is added, so no deck build, rendered-slide review, model/device test or full repository test pass is claimed. Before a later implementation is called ready, run the repository's applicable tests, build the affected outputs, inspect diagrams at presentation size, verify practical links and record exactly what remains untested.
