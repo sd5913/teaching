@@ -6,10 +6,16 @@ Planning draft started 21 October 2026. This is the continuing review home for c
 
 - Teaching date: unconfirmed. Content week numbers must not be converted into calendar dates by simple addition after the 1 October holiday.
 - Candidate focus: **Connected interactions and state**. The instructor's later slides and current course sequence take precedence.
-- No 2026 Week 9 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. Historical slides are being requested separately.
+- No 2026 Week 9 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. The supplied historical PDFs are source evidence, not an approved 2026 timetable.
 - This PR adds planning text only. It does not register a deck, change the course site, set assessment requirements or publish learning material.
 
-2026 Week 4 already introduces Streamlit, browser events and FastAPI; Week 6 adds browser speech. The 2025 Week 9 archive contains HTTP and WebSocket examples. This is a proposed continuation, not a confirmed 2026 topic.
+The supplied historical PDF confirms Networks and APIs as the Week 9 backbone, after a Scrum/Git/Docker recap. Current Week 4 already teaches basic APIs and Week 6 speech, so this plan deepens the connection and debugging model without repeating those introductions or requiring advanced asyncio.
+
+## Supplied historical slide evidence
+
+SD5913 - PFAD - Week 9.pdf (60 pages): pp. 3–9 historical project/rubric material; 11–21 Scrum/Git/Docker recap; 23–35 network layers, IP, transport and ports; 36–45 APIs and HTTP/WebSocket examples; 46–58 speech service, setup and async audio screenshots; 59 project foundations. Text extracted throughout; pages 10, 26, 29–30, 43–45, 47 and 53–58 visually inspected.
+
+Page numbers are 1-based PDF pages. These are historical materials supplied for review; the PDF itself is not copied into this public repository. Historical dates, marks and team arrangements are not adopted.
 
 ## Proposed learning outcome
 
@@ -19,17 +25,21 @@ Trace a message from a user control through a service and back. Explain what sta
 
 This is a sequence for discussion, not a timed run sheet. Confirm the class duration and topic before allocating minutes. Preserve substantial explanation, a concrete example, a prediction or inspection activity and project application rather than turning the lesson into a list of tools.
 
-1. Retrieve the Week 4 input → function → output model and ask what changes when another process owns the function.
-2. Compare one HTTP exchange with an ongoing message connection using a large, stepwise diagram.
-3. Use a loopback-only echo demonstration to inspect message content, state and ordering.
-4. Interrupt the connection deliberately; let students predict and improve the visible error/retry behaviour.
-5. Teams decide whether their prototype actually needs networking and sketch one contract or a local-only alternative.
+1. Recall one Week 4 API request, then locate client, server, hostname/address and port on a clear diagram.
+2. Explain just enough network layering to distinguish an unreachable service, a wrong route and an application error. Keep transport trade-offs tied to a design example rather than a protocol survey.
+3. Inspect a small local request/response or instructor-prepared echo demo. Students predict the message and visible result; they do not need to write an asyncio event loop.
+4. Pause the service deliberately and compare the resulting error with malformed input; design useful feedback and a bounded retry.
+5. Teams decide whether networking is necessary for their prototype and document the smallest service boundary or a local-only alternative.
 
 ## Weekly AI news
 
 Reserve an optional short opening discussion, trimmed before core teaching or assessment time. Suggested relevance filter: Agent tool protocols, realtime APIs or collaboration tools. Require a concrete request/message trace and distinguish a product announcement from a verified classroom integration.
 
 Refresh near the actual class rather than filling future weeks with today's news. For each selected item record: event date and publication date, primary-source URL, exact supported claim, classroom connection, one discussion prompt, and whether the behaviour was personally tested or only reported by the source. If there is no useful verified item, omit the slot. News must not silently become assessed content.
+
+## Current teaching direction
+
+Prioritise accessible classes and objects over advanced asyncio. Retain a visible map of Scrum, Git teamwork, Docker and networks before changing their sequence. Include an agent → MCP server → tool explanation and a bounded permission-aware practical at the appropriate point; a model suggestion alone must not be treated as permission to act. This does not require AI inside every team project.
 
 ## Materials to develop in this PR
 
@@ -44,13 +54,13 @@ Refresh near the actual class rather than filling future weeks with today's news
 
 ## Gaps and decisions
 
-- Supply the Week 9 slides and confirm how much networking remains after the revised Week 4 and Week 6 lessons.
-- Choose a supported, pinned contemporary API example only after testing it.
-- Confirm classroom connectivity before proposing any cross-device exercise; keep a loopback alternative.
+- Agree the retained network depth after the revised Week 4 API introduction; no current-year resequencing is assumed.
+- Choose a supplied wrapper or synchronous example so async/await and callback queues are not prerequisites.
+- Confirm classroom connectivity before any opt-in paired-device task; keep the default loopback-only.
 
 ## Guardrails specific to this week
 
-Archive README is historical evidence, not a validated current setup. Its previously advertised WebRTC files never existed. Do not copy its network/firewall exercise as a required step or infer that REST services cannot store state.
+Review the archival technical shortcuts before reuse: UPDATE is not the intended standard HTTP update verb; a port is not restricted to one connection; TCP is not immune to all errors or fixed at three times the packets; REST statelessness does not prohibit stored application data. The old audio callbacks/queues are advanced and not a core exercise. Do not copy absent WebRTC files or historical rubric values.
 
 Across every week, preserve the existing assessment weights and confirmed dates. Individual Assignment 3 is separate from the group project. Do not add team-size rules, compulsory AI/audio, new grading criteria, submission formats or deadlines. Never commit student records, private submissions, quiz questions/keys or credentials. Do not merge, publish to Canvas, deploy the course, or change automation as part of this plan.
 
@@ -74,4 +84,4 @@ Historical candidates, inspected as source inventory only; not claimed to run on
 
 ## Verification record
 
-Planning stage only: source paths, current-course boundaries and duplicate-PR inventory reviewed. No deck or runnable example is added, so no deck build, rendered-slide review, model/device test or full repository test pass is claimed. Before a later implementation is called ready, run the repository's applicable tests, build the affected outputs, inspect diagrams at presentation size, verify practical links and record exactly what remains untested.
+Planning stage only: supplied PDF text and selected screenshot/diagram pages, repository source paths, current-course boundaries and duplicate-PR inventory reviewed. No deck or runnable example is added, so no deck build, rendered-slide review, model/device test or full repository test pass is claimed. Before a later implementation is called ready, run the repository's applicable tests, build the affected outputs, inspect diagrams at presentation size, verify practical links and record exactly what remains untested.
