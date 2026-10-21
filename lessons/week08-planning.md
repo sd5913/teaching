@@ -5,31 +5,41 @@ Planning draft started 21 October 2026. This is the continuing review home for c
 ## Status and source limits
 
 - Teaching date: unconfirmed. Content week numbers must not be converted into calendar dates by simple addition after the 1 October holiday.
-- Candidate focus: **Project scope and visual input**. The instructor's later slides and current course sequence take precedence.
-- No 2026 Week 8 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. Historical slides are being requested separately.
+- Candidate focus: **Team workflow and reproducible projects**. The instructor's later slides and current course sequence take precedence.
+- No 2026 Week 8 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. The supplied historical PDFs are source evidence, not an approved 2026 timetable.
 - This PR adds planning text only. It does not register a deck, change the course site, set assessment requirements or publish learning material.
 
-The current Week 1 deck and Week 7 run sheet require group-project scope agreement by Week 8. The 2025 Week 8 code explores camera input and landmarks. Project scope is confirmed; the vision lesson placement is a candidate.
+The supplied historical PDF is titled Goal-setting and Teamwork. Its main progression is project goals → Scrum → Git teamwork → Docker, followed by vision examples. The current course requires scope agreement by Week 8. Keep that backbone visible before deciding whether to redistribute its heavy optional material.
+
+## Supplied historical slide evidence
+
+SD5913 - PFAD - Week 8.pdf (62 pages): pp. 4–9 project and team framing; 11–18 agent/global-variable recap; 19–23 Scrum; 24–29 Git collaboration; 30–43 Docker and Compose; 44–49 visual-input/diffusion examples; 51–61 camera and container tutorial. Text extracted throughout; screenshot-heavy pages 12–13, 26–27, 32, 36–40, 45–46, 48–49 and 60 visually inspected.
+
+Page numbers are 1-based PDF pages. These are historical materials supplied for review; the PDF itself is not copied into this public repository. Historical dates, marks and team arrangements are not adopted.
 
 ## Proposed learning outcome
 
-Describe one intended user action, the program's response, and the smallest version the team can test. For the optional vision path, distinguish camera pixels, model-predicted landmarks and a chosen interaction.
+Turn a team goal into one small usable increment, describe the branch/PR review path, and explain what must be reproducible for another person to run the project.
 
 ## Proposed classroom sequence
 
 This is a sequence for discussion, not a timed run sheet. Confirm the class duration and topic before allocating minutes. Preserve substantial explanation, a concrete example, a prediction or inspection activity and project application rather than turning the lesson into a list of tools.
 
-1. Revisit the Week 7 team idea and image mock-up; identify one user action and observable response.
-2. Instructor shows a tiny visual-input pipeline, then a failure case such as occlusion or low light. Use prerecorded or synthetic input if camera access is unsuitable.
-3. Pairs predict what changes when one landmark or threshold changes, then inspect the result.
-4. Teams narrow one project interaction and identify its main unknown; discuss scope with the instructor under the existing Week 8 agreement.
-5. Finish with a concrete next test and a record of what the team will not build yet.
+1. Revisit the Week 7 idea and mock-up. Define intended user, useful response, success evidence and the riskiest assumption before agreeing scope.
+2. Use the archive's Scrum sequence to distinguish a product goal, ordered backlog, one short sprint goal and a usable increment. Adapt the vocabulary to a small student team without imposing formal roles or new grading rules.
+3. Walk one change through a branch, small commits, a pull request and peer review. Students predict where two changes could conflict and what evidence a reviewer needs.
+4. Explain image versus running container, host versus container, and code/data persistence with one minimal diagram and an instructor-prepared example. Docker is an option, not a new compulsory installation.
+5. Keep OpenCV/MediaPipe or diffusion as a short optional connection to future interactions, not a second complete core lesson. Teams leave with one next test and a runnable-project checklist.
 
 ## Weekly AI news
 
 Reserve an optional short opening discussion, trimmed before core teaching or assessment time. Suggested relevance filter: Visual-input agents, multimodal interfaces or agent-assisted prototyping. Tie any item to what inputs a program can inspect and how a student would test its claims.
 
 Refresh near the actual class rather than filling future weeks with today's news. For each selected item record: event date and publication date, primary-source URL, exact supported claim, classroom connection, one discussion prompt, and whether the behaviour was personally tested or only reported by the source. If there is no useful verified item, omit the slot. News must not silently become assessed content.
+
+## Current teaching direction
+
+Prioritise accessible classes and objects over advanced asyncio. Retain a visible map of Scrum, Git teamwork, Docker and networks before changing their sequence. Include an agent → MCP server → tool explanation and a bounded permission-aware practical at the appropriate point; a model suggestion alone must not be treated as permission to act. This does not require AI inside every team project.
 
 ## Materials to develop in this PR
 
@@ -44,13 +54,13 @@ Refresh near the actual class rather than filling future weeks with today's news
 
 ## Gaps and decisions
 
-- Confirm whether vision belongs in Week 8 this year and supply the later slide record.
-- Confirm the scope-agreement procedure and any existing project brief; do not invent a new graded submission.
-- Decide the supported camera/model route and rehearse permissions, missing-camera and low-confidence fallbacks.
+- Confirm how much of Scrum/Git/Docker should stay together in this year's Week 8 before moving vision or containers to another week.
+- Confirm the scope-agreement procedure and existing group brief; do not import the archived Dec 1 deadline, maximum-three team rule or Blackboard workflow.
+- Select a minimal environment example and check classroom Docker access without requiring privileged account changes. Retain the existing uv/local route.
 
 ## Guardrails specific to this week
 
-Do not reuse the archive's conflicting maximum team sizes. Do not present facial-emotion inference as a reliable judgement of people. Camera use must be opt-in, with no retained student imagery.
+Archived team size, dates and Blackboard instructions are not current policy. Correct rather than repeat the claim that volumes require a running container. Keep privileged Docker-group changes out of the student task. Container start order is not proof a service is ready; a prepared fallback should work without live models or a camera.
 
 Across every week, preserve the existing assessment weights and confirmed dates. Individual Assignment 3 is separate from the group project. Do not add team-size rules, compulsory AI/audio, new grading criteria, submission formats or deadlines. Never commit student records, private submissions, quiz questions/keys or credentials. Do not merge, publish to Canvas, deploy the course, or change automation as part of this plan.
 
@@ -73,4 +83,4 @@ Historical candidates, inspected as source inventory only; not claimed to run on
 
 ## Verification record
 
-Planning stage only: source paths, current-course boundaries and duplicate-PR inventory reviewed. No deck or runnable example is added, so no deck build, rendered-slide review, model/device test or full repository test pass is claimed. Before a later implementation is called ready, run the repository's applicable tests, build the affected outputs, inspect diagrams at presentation size, verify practical links and record exactly what remains untested.
+Planning stage only: supplied PDF text and selected screenshot/diagram pages, repository source paths, current-course boundaries and duplicate-PR inventory reviewed. No deck or runnable example is added, so no deck build, rendered-slide review, model/device test or full repository test pass is claimed. Before a later implementation is called ready, run the repository's applicable tests, build the affected outputs, inspect diagrams at presentation size, verify practical links and record exactly what remains untested.
