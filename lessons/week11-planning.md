@@ -7,7 +7,7 @@ Planning draft started 21 October 2026. This is the continuing review home for c
 - Teaching date: unconfirmed. Content week numbers must not be converted into calendar dates by simple addition after the 1 October holiday.
 - Candidate focus: **Connecting creative tools**. The instructor's later slides and current course sequence take precedence.
 - No 2026 Week 11 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. The supplied historical PDFs are source evidence, not an approved 2026 timetable.
-- This PR adds planning text only. It does not register a deck, change the course site, set assessment requirements or publish learning material.
+- This draft includes a Week 11 deck, site/nav registration and instructor run sheet for review. None is published; no assessment requirement is added.
 
 The supplied Week 11 PDF, Python-powered apps, genuinely spans Orange, Blender, TouchDesigner, NDI, hand tracking/OSC and a networked game. The repository index and README describe different parts of that broad lecture. Preserve the map, but propose one focused creative-tool path for this year's class rather than recreating every installation.
 
@@ -43,14 +43,14 @@ Prioritise accessible classes and objects over advanced asyncio. Retain a visibl
 
 ## Materials to develop in this PR
 
-- [ ] Reconcile the supplied slide record with the current 2026 sequence and identify what is retained, replaced or moved.
+- [x] Reconcile the supplied slide record with the current 2026 sequence and identify what is retained, replaced or moved.
 - [ ] Agree the learning outcome and teacher run sheet, with actual timing.
-- [ ] Author the deck with readable full-slide diagrams, short labels and supporting detail in notes. Follow AGENTS.md; primary diagram labels should target at least 40 design pixels at 1920 × 1080.
-- [ ] Include a worked example, a purposeful student prediction/inspection activity and a failure or limitation worth discussing.
-- [ ] Align the matching PFAD/2026 practical README and runnable examples without promising files that do not exist. Record the companion PR link once verified.
+- [x] Author the deck with readable full-slide diagrams, short labels and supporting detail in notes. Follow AGENTS.md; primary diagram labels should target at least 40 design pixels at 1920 × 1080.
+- [x] Include a worked example, a purposeful student prediction/inspection activity and a failure or limitation worth discussing.
+- [ ] Align the PFAD/2026 practical with runnable examples if a receiver is chosen. Its current [companion draft PR #14](https://github.com/sd5913/pfad/pull/14) is a planning README only; the slide baseline uses printed Python instead.
 - [ ] Select and verify the week's news using the criteria above.
-- [ ] Review the lesson for coherent progression, accuracy, appropriate depth and time for questions; revise in this same PR.
-- [ ] Build and visually inspect the actual finished deck before calling it classroom-ready.
+- [x] Review the lesson for coherent progression, accuracy, appropriate depth and time for questions; revise in this same PR.
+- [x] Build and visually inspect the draft deck; live receiver and classroom preflight still pending before calling it classroom-ready.
 
 ## Gaps and decisions
 
@@ -85,4 +85,4 @@ Historical candidates, inspected as source inventory only; not claimed to run on
 
 ## Verification record
 
-Planning stage only: supplied PDF text and selected screenshot/diagram pages, repository source paths, current-course boundaries and duplicate-PR inventory reviewed. No deck or runnable example is added, so no deck build, rendered-slide review, model/device test or full repository test pass is claimed. Before a later implementation is called ready, run the repository's applicable tests, build the affected outputs, inspect diagrams at presentation size, verify practical links and record exactly what remains untested.
+Teaching draft stage: supplied PDF text and archive provenance, current course boundaries, and companion PR reviewed. The Week 11 deck has a 29-slide targeted build and rendered-preview inspection; see lessons/week11-lesson-plan.md for pacing and source decisions. The printed Python example is synthetic and works without a receiver; no actual OSC receiver, Blender render, MCP tool, camera or external device has been tested. Teaching date and live tool choice remain unconfirmed; this is not published or claimed classroom-ready for the optional live route.
