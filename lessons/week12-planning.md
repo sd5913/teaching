@@ -1,13 +1,13 @@
 # SD5913 Week 12 lesson planning
 
-Planning draft started 21 October 2026. This is the continuing review home for content `week12`, not a finished deck or an announcement to students. Keep this week's changes in the same draft PR.
+Planning draft started 21 October 2026. The Week 12 teaching deck and provisional run sheet now live in this same draft PR; they are not an announcement to students or confirmation of the teaching date.
 
 ## Status and source limits
 
 - Teaching date: unconfirmed. Content week numbers must not be converted into calendar dates by simple addition after the 1 October holiday.
 - Candidate focus: **Agents tools and project review**. The instructor's later slides and current course sequence take precedence.
-- No 2026 Week 12 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. The supplied historical PDFs are source evidence, not an approved 2026 timetable.
-- This PR adds planning text only. It does not register a deck, change the course site, set assessment requirements or publish learning material.
+- At the start of planning, no 2026 Week 12 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. The new draft deck does not confirm a timetable; historical PDFs are source evidence only.
+- The initial planning-only PR now also includes `deck/week12.py`, original diagrams, a lesson plan, deck registration and site navigation in its working draft. Do not merge or publish without instructor review.
 
 The supplied Week 12 PDF combines project/code review, programming principles, optional generative-AI research and MCP. Its own small FastMCP addition example supplies a direct foundation for the requested safe agent → server → tool practical, without making ComfyUI infrastructure the starting point.
 
@@ -43,19 +43,19 @@ Prioritise accessible classes and objects over advanced asyncio. Retain a visibl
 
 ## Materials to develop in this PR
 
-- [ ] Reconcile the supplied slide record with the current 2026 sequence and identify what is retained, replaced or moved.
-- [ ] Agree the learning outcome and teacher run sheet, with actual timing.
-- [ ] Author the deck with readable full-slide diagrams, short labels and supporting detail in notes. Follow AGENTS.md; primary diagram labels should target at least 40 design pixels at 1920 × 1080.
-- [ ] Include a worked example, a purposeful student prediction/inspection activity and a failure or limitation worth discussing.
-- [ ] Align the matching PFAD/2026 practical README and runnable examples without promising files that do not exist. Record the companion PR link once verified.
+- [x] Reconcile archive topics in `lessons/week12-lesson-plan.md`; retain project review and small add tool, move ComfyUI setup to optional history.
+- [ ] Agree actual duration and date with the instructor; a flexible run sheet and learning outcome are drafted in `lessons/week12-lesson-plan.md`.
+- [x] Author a diagram-led deck with notes, readable primary labels, a worked example and a permission boundary.
+- [x] Include prediction, inspection, a missing input, a failed result and an out-of-scope side effect.
+- [x] Align to the read-only [PFAD companion PR #15](https://github.com/sd5913/pfad/pull/15): it has a proposed README trace, no runnable files. Do not claim a live MCP practical is already shipped.
 - [ ] Select and verify the week's news using the criteria above.
 - [ ] Review the lesson for coherent progression, accuracy, appropriate depth and time for questions; revise in this same PR.
-- [ ] Build and visually inspect the actual finished deck before calling it classroom-ready.
+- [x] Build the targeted deck and inspect slide sheets, full-size diagrams and a PDF diagram. Instructor approval and classroom-device check remain open.
 
 ## Gaps and decisions
 
 - Confirm whether agent/tool fundamentals need a short earlier bridge; this plan does not silently move the current course sequence.
-- Select and pin a minimal supported MCP runtime, then verify the addition tool and explicit allow/deny behaviour using current primary documentation.
+- If a future live MCP demo is requested, select and pin a minimal supported runtime, then verify the addition tool and explicit host-side allow/deny behaviour against current primary documentation. The static exercise does not require a runtime.
 - Confirm the project-review time and existing brief. No new submission, compulsory AI component or assessment criterion is introduced.
 
 ## Guardrails specific to this week
@@ -86,4 +86,4 @@ Historical candidates, inspected as source inventory only; not claimed to run on
 
 ## Verification record
 
-Planning stage only: supplied PDF text and selected screenshot/diagram pages, repository source paths, current-course boundaries and duplicate-PR inventory reviewed. No deck or runnable example is added, so no deck build, rendered-slide review, model/device test or full repository test pass is claimed. Before a later implementation is called ready, run the repository's applicable tests, build the affected outputs, inspect diagrams at presentation size, verify practical links and record exactly what remains untested.
+The 2025 Week 12 PDF (65 pages, SHA-256 in the archive manifest) was checked for review topics and its p. 51 add-tool screenshot; the original archive binaries remain outside this repo. Companion PR #15 has one README planning draft, not runnable code. The 21-slide 2026 Week 12 deck builds with the pinned deckgen toolchain to HTML, PDF and PowerPoints; preview sheets, full-size diagrams and one rendered PDF diagram were inspected. Four focused source/trace tests pass and `git diff --check` is clean. Not checked: a live MCP SDK/server/client, any model or classroom device, the full course build, instructor approval, confirmed teaching date/duration or news near the eventual class.
