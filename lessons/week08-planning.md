@@ -1,10 +1,10 @@
 # SD5913 Week 8 lesson planning
 
-Planning draft started 21 October 2026. This is the continuing review home for content `week08`, not an announcement to students. The 39-slide deck and instructor run sheet are now authored in this draft PR; confirm the date, companion release and classroom conditions before teaching.
+Planning draft started 21 October 2026. This is the continuing review home for content `week08`, not an announcement to students. The 39-slide deck and instructor run sheet are now authored in this draft PR; confirm companion release and classroom conditions before teaching.
 
 ## Status and source limits
 
-- Teaching date: unconfirmed. Content week numbers must not be converted into calendar dates by simple addition after the 1 October holiday.
+- Teaching date: Thursday 29 October 2026 (confirmed by gio). Content week numbers are not calendar-week numbers after the 1 October holiday; this is not an assignment deadline.
 - Candidate focus: **Team workflow and reproducible projects**. The instructor's later slides and current course sequence take precedence.
 - No 2026 Week 8 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. The supplied historical PDFs are source evidence, not an approved 2026 timetable.
 - This PR now registers a Week 8 deck and site card **in source only**; no deployment, assessment change or publication has occurred.
@@ -47,7 +47,7 @@ Prioritise accessible classes and objects over advanced asyncio. Retain a visibl
 - [x] Draft the learning outcome and an adjustable two-hour run sheet; **actual duration and scope-agreement procedure remain unconfirmed**.
 - [x] Author a progressive full-slide diagram deck with short labels and detailed notes. Follow AGENTS.md; primary diagram labels target at least 40 design pixels on a 1920 × 1080 slide.
 - [x] Include a worked example, prediction/inspection activities and failure cases (merge conflict, lost unmounted data, denied tool call).
-- [x] Align to the draft [PFAD companion PR #11](https://github.com/sd5913/pfad/pull/11) (read-only, head `3b7c77b8dbc4d2ef759561391d94e7917199e688`); do not claim it has runnable Docker examples. The companion release is pending.
+- [x] Align to the draft [PFAD companion PR #11](https://github.com/sd5913/pfad/pull/11) (original head `3b7c77b8dbc4d2ef759561391d94e7917199e688`); it now has a tested stdlib Tile demo, while Docker remains an optional paper exercise, not a tested Docker example. The companion release is pending.
 - [ ] Select and verify the week's news using the criteria above.
 - [x] Review story order, tests and diagrams in this same PR; reserve workshop and discussion time.
 - [x] Build the 39-slide draft with pinned deckgen and inspect diagram previews; classroom preflight remains pending.

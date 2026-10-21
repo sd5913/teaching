@@ -1,6 +1,6 @@
 """SD5913 Week 8: turn a project idea into a reviewed, reproducible increment.
 
-The date remains unconfirmed. The archive informs the concepts, not 2026 policy.
+The class meets Thursday 29 October 2026. The archive informs concepts, not 2026 policy.
 """
 import sys
 from pathlib import Path
@@ -12,7 +12,7 @@ from deckgen import Figure, Slide, T, INK, WHITE, MUTED, attach_reports
 from deckgen.layouts import (title, agenda, section, statement, content, two_col,
                              cards, question, code_panel, end)
 
-EYE = 'SD5913 · WEEK 08 · DATE TO BE CONFIRMED'
+EYE = 'SD5913 · WEEK 08 · THU 29 OCT 2026'
 S = []
 TILE_EXAMPLE = '''class Tile:
     def __init__(self, colour):
@@ -38,7 +38,7 @@ def diagram(eye, heading, figure, notes):
 
 
 S.append(title(EYE, 'One piece that works', 'Team workflow and reproducible projects.',
-    notes='Week 8 content; calendar teaching date is unconfirmed. Start from the Week 7 idea '
+    notes='Week 8 content is taught Thursday 29 October 2026. Start from the Week 7 idea '
           'and mock-up, not from a new assessment brief. Today: scope -> useful increment -> '
           'review -> reproducible run. Ask whose experience the team wants to improve.'))
 S.append(agenda(EYE, [
@@ -50,7 +50,7 @@ S.append(agenda(EYE, [
     'Team workshop: choose, test and explain one next step',
 ], notes='No live news item has been verified for the actual class date; omit the optional '
          'news opening rather than inventing an announcement. Allow substantial discussion '
-         'and a break to match the confirmed session length. The workshop uses the draft '
+         'and a break once the session length is confirmed. The workshop uses the draft '
          'PFAD companion PR #11; verify release status before class.'))
 
 S.append(section('01', 'Find the smallest loop', 'Week 7 gave us an idea; now make it testable.',
@@ -281,8 +281,8 @@ S.append(content('06 · DO THIS IN YOUR TEAM', 'One goal, one change, one check'
     'Name a branch/PR review path and a second person to test it.',
 ], notes='Use the draft student companion at https://github.com/sd5913/pfad/pull/11 '
          'until its Week 8 README is merged to the 2026 branch. Do not pretend '
-         'the PR contains runnable Docker examples; it contains a planning '
-         'activity, environment inspection and no-install fallback. No class '
+         'the PR contains a tested Docker/Compose project; it contains a planning '
+         'activity, tested stdlib Tile demo, environment inspection and no-install fallback. No class '
          'length is assumed; leave time for the paired test and questions.'))
 S.append(content('06 · SHARE A REPRODUCIBLE TRACE', 'Can someone else repeat it?', [
     'Point to the entry command, needed packages and a safe sample input.',

@@ -1,11 +1,12 @@
 # Week 8 instructor run sheet — one piece that works
 
-**Status:** teaching draft, not a date or release announcement. Confirm the calendar
-date, class length, Week 7 hand-off and group scope-agreement procedure before
+**Status:** teaching draft for Thursday 29 October 2026, not a release or assessment announcement. Confirm
+class length, Week 7 hand-off and group scope-agreement procedure before
 teaching. The current companion is [PFAD draft PR #11](https://github.com/sd5913/pfad/pull/11)
-(head `3b7c77b8dbc4d2ef759561391d94e7917199e688` at drafting); it contains
-one team activity and an environment-inspection fallback, **not** a tested
-Docker/Compose project. Use its merged 2026 path only after the PR is released.
+(original head `3b7c77b8dbc4d2ef759561391d94e7917199e688` at drafting); it contains
+one team activity, a tested stdlib Tile demo and an environment-inspection fallback;
+Docker is an optional paper exercise, **not** a tested Docker/Compose project.
+Use its merged 2026 path only after the PR is released.
 
 ## Outcome and preparation
 
@@ -84,7 +85,7 @@ they are illustrative, not a compulsory project architecture.
 
 ## Release checks still needed
 
-- Confirm actual class date, duration, group-scope process and Week 7 hand-off.
+- Confirm class duration, group-scope process and Week 7 hand-off; class date is Thursday 29 October 2026.
 - Confirm student companion PR release and update the draft link in speaker notes
   if its destination or instructions change.
 - If a live Docker example is added, preflight image, commands, storage and

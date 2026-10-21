@@ -70,7 +70,7 @@ class Week08DeckTests(unittest.TestCase):
         self.assertIn('week08/', [n['href'] for n in conf['nav']])
         page = (ROOT / 'site/index.html').read_text()
         self.assertIn('week08/SD5913-week08.pdf', page)
-        self.assertIn('DATE TO BE CONFIRMED', page)
+        self.assertIn('WEEK 08 · THU 29 OCT 2026', page)
 
 
 if __name__ == '__main__':
