@@ -240,8 +240,10 @@ S.append(content('04 · COMPOSE', 'One recipe can start several services', [
          'several services, verify readiness with an actual health check or a '
          'successful request, not only start order. Diagram-only fallback is sufficient.'))
 
-S.append(section('05', 'Tools have boundaries', 'An agent can propose actions, not grant its own access.',
-    notes='Transition from reviewable human changes to bounded machine-assisted suggestions.'))
+S.append(section('05 · OPTIONAL RECAP', 'Tools have boundaries', 'An agent can propose actions, not grant its own access.',
+    notes='Optional recall only: if teams already distinguish proposals from permissions, '
+    'skip this recap and spend the time on their reproducible project check. '
+    'Week 12 develops this into call, result, invalid-input and refusal traces.'))
 S.append(diagram('05 · AGENT AND MCP · 1 OF 2', 'A request is not permission', F.agent_tool(1),
     'Recall Week 4 API client/server and the historical Week 8 agent/tool recap. '
     'An MCP server can expose tool descriptions. A model may suggest a call, '
