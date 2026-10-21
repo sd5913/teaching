@@ -22,7 +22,7 @@ S.append(title(E, 'Connecting creative tools', 'One value. Two programs. A safe 
     notes='Content week 11; calendar teaching date and lesson length are not confirmed. '
     'Use the synthetic printed trace as the baseline. A prepared local OSC receiver is an optional '
     'teacher demonstration only after rehearsal; no camera, paid app, login or AI is required. '
-    'Companion planning activity: https://github.com/sd5913/pfad/pull/14 (draft, no runnable code).'))
+    'Companion draft: https://github.com/sd5913/pfad/pull/14 (offline Canvas mapping; no OSC receiver).'))
 S.append(agenda(E, ['An object: value and action', 'One value crosses a local boundary',
                     'Map it, inspect it, stop it', 'Optional tools and project application'],
     notes='No dated AI news item has been verified for this lesson; skip the optional news slot. '
@@ -76,7 +76,7 @@ S.append(code_panel('02 · OFFLINE TRACE', 'Run the smallest honest version', [
     notes='Run with plain Python in a scratch file or read together. Exact output: '
     'send /control 0.50; receive /control 0.50; opacity 50%. '
     'The second line represents a hypothetical receiver; make the simulation label audible. '
-    'The PFAD companion is a planning README only, not a runnable OSC exercise.'))
+    'The PFAD companion now supplies an offline Canvas mapping exercise, not a runnable OSC receiver.'))
 S.append(diagram('02 · MEANING', 'A number needs a mapping', F.mapping(),
     '0.0 means fully transparent and 1.0 fully opaque in this chosen design. '
     'The receiver clamps values to [0,1] before scaling, or rejects invalid values. '
@@ -87,13 +87,18 @@ S.append(question('multiple_choice', 'At 0.75, what does the artwork show?',
     notes='Answer A if the receiver implements the shown mapping. This is formative, not graded. '
     'Ask what happens if no receiver is attached: no visible change despite a valid printed value.'))
 S.append(code_panel('02 · RECEIVER LOGIC', 'Validate before you use it', [
-    'def opacity(value):', '    if not isinstance(value, (int, float)):',
-    '        return 0  # safe fallback', '    return round(max(0, min(1, value)) * 100)',
+    'from math import isfinite',
+    'def opacity(value):',
+    '    if type(value) not in (int, float):',
+    '        return 0  # reject strings and bools',
+    '    if not isfinite(value):',
+    '        return 0  # reject NaN and infinity',
+    '    return round(max(0, min(1, value)) * 100)',
     '', 'for value in (0, 0.5, 1, 3, "oops"):',
     '    print(value, opacity(value))',
 ], caption='Predict: 0, 50, 100, 100, 0. Which two inputs needed a policy?',
-    notes='Python bool is technically an int; in a production receiver explicitly reject booleans if they '
-    'can arrive. This teaching function illustrates numeric bounds and wrong type, not OSC decoding. '
+    notes='Python bool is technically an int, so exact type checking rejects it here. '
+    'isfinite rejects NaN and infinity before clamping. This is numeric validation, not OSC decoding. '
     'The value 3 is clamped and the string falls back to 0. A receiver should log invalid input.'))
 S.append(section('03 · TEST THE EDGE', 'Stop is part of the design',
                  'A silent sender is not the same as a zero value',
@@ -116,7 +121,7 @@ S.append(content('03 · PAIR LAB', 'Draw, predict, check, stop', [
     'Change one mapping or range. Compare the new result.',
     'Cross out a message. Sketch the safe result when updates stop.',
 ], notes='Use the companion planning activity at https://github.com/sd5913/pfad/pull/14. '
-    'No executable companion file exists yet: the printed Python snippets on the preceding slides '
+    'The companion supplies an offline Canvas mapping; the printed Python snippets here '
     'are the available baseline. In a 12-minute pair activity, allow 3 minutes to draw and predict, '
     '5 to edit/run or calculate, 2 to simulate absence, 2 to share. No assessed submission.'))
 S.append(section('04 · CHOOSE THE TOOL', 'One boundary is enough',
@@ -178,8 +183,8 @@ S.append(end('One value. Two programs. A safe stop.',
              'Trace it, map it, test silence.',
              '[Course tutorials](https://github.com/sd5913/pfad/tree/2026)',
              notes='End with one pair sharing its sketch, predicted number and missing-update '
-             'policy. The PFAD Week 11 companion is currently a planning PR, not released '
-             'runnable tutorial content. Do not announce a class date or new assessment.'))
+             'policy. The PFAD Week 11 companion now includes an offline Canvas mapping; '
+             'it is not a live OSC integration. Do not announce a class date or new assessment.'))
 
 attach_reports(S, Path(__file__).resolve().parent / 'week11-reports.json')
 DECK = {'title': 'SD5913 · Week 11 — Connecting creative tools',
