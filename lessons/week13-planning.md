@@ -4,7 +4,7 @@ Planning draft started 21 October 2026. This is the continuing review home for c
 
 ## Status and source limits
 
-- Teaching date: unconfirmed. Content week numbers must not be converted into calendar dates by simple addition after the 1 October holiday.
+- Teaching date: Thursday 3 December 2026 (confirmed by gio). Content week numbers are not calendar-week numbers after the 1 October holiday; this is not an assignment deadline.
 - Candidate focus: **Semester synthesis and final review**. The instructor's later slides and current course sequence take precedence.
 - No 2026 Week 13 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. The supplied historical PDFs are source evidence, not an approved 2026 timetable.
 - This PR now contains a provisional 29-slide deck, a flexible instructor run sheet,
@@ -12,7 +12,7 @@ Planning draft started 21 October 2026. This is the continuing review home for c
   class announcement or an assessment change. Review optional later-week slides
   against what was actually taught before presenting them.
 
-The supplied Week 13 PDF is a recap and final-assessment class: its agenda says recap and a final at 10am, followed by AMA and a team/repository tutorial. That historical time is not a confirmed 2026 booking. Current Week 1 places the 10% final quiz in content Week 13; README expects that content week in December but withholds an exact date.
+The supplied Week 13 PDF is a recap and final-assessment class: its agenda says recap and a final at 10am, followed by AMA and a team/repository tutorial. That historical time is not a confirmed 2026 booking. The Week 13 class is Thursday 3 December 2026; current Week 1 places the 10% final quiz in content Week 13, but its time and format require separate confirmation.
 
 ## Supplied historical slide evidence
 
@@ -50,14 +50,14 @@ Prioritise accessible classes and objects over advanced asyncio. Retain a visibl
 - [ ] Agree the learning outcome and teacher run sheet, with actual timing.
 - [x] Author the draft deck with full-slide diagrams, short labels and supporting detail in notes. Follow AGENTS.md; primary diagram labels target at least 40 design pixels at 1920 × 1080.
 - [x] Include a worked example, a purposeful student prediction/inspection activity and a failure or limitation worth discussing.
-- [x] Align the draft with PFAD companion [PR #16](https://github.com/sd5913/pfad/pull/16), a documentation-only proposal with no runnable starter to promise.
+- [x] Align the draft with PFAD companion [PR #16](https://github.com/sd5913/pfad/pull/16), which now includes a runnable stdlib loop; classroom use still needs preflight.
 - [ ] Select and verify the week's news using the criteria above.
 - [x] Review the draft for progression, accuracy, depth and questions; keep the run sheet flexible pending confirmed duration.
 - [x] Build and visually inspect the draft deck. Classroom readiness still depends on confirming taught later-week scope and assessment arrangements.
 
 ## Gaps and decisions
 
-- Confirm the exact 2026 final-class and final-quiz date/time, duration, format and permitted tools; do not reuse the archive's 10am time.
+- Confirm class duration and final-quiz date/time, format and permitted tools (class date: Thursday 3 December 2026); do not reuse the archive's 10am time.
 - Confirm the current project hand-in/presentation arrangements and replace historical Blackboard instructions with the actual current route.
 - Build the recap from what was actually taught in 2026, including approved later-week revisions, not the entire archive or today's candidate plans.
 
@@ -87,10 +87,10 @@ Historical candidates, inspected as source inventory only; not claimed to run on
 The 2025 PDF and archive provenance were reviewed as historical evidence only.
 The 2026 Week 1–6 slides anchor the confirmed recap, while later-week prompts
 are marked optional. A targeted Week 13 HTML/PDF/PPTX build and slide previews
-were inspected locally; this does not publish anything. The companion PR is
-documentation-only. No student project, second-device run, assessment format,
+were inspected locally; this does not publish anything. The companion PR now
+includes a runnable stdlib loop. No student project, second-device run, assessment format,
 or later-week teaching scope has been verified. Rehearse the selected practical
-and confirm the final-class arrangements before delivery. The focused Week 13
+and confirm final-quiz time/format and class duration before delivery. The focused Week 13
 tests and `git diff --check` pass. The full repository suite has one unrelated
 existing Week 6 student-module/source mismatch
 (`test_week06_new_sketches.NewSketches.test_piano_harmonics_and_voice_surface_live_in_student_module_and_deck`);

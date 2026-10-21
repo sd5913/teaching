@@ -1,6 +1,6 @@
 """SD5913 Week 13: provisional semester synthesis and reproducibility review.
 
-Content-week label only; the final class and assessment schedule are unconfirmed.
+Class date: Thursday 3 December 2026; duration and final-quiz time/format remain unconfirmed.
 """
 import sys
 from pathlib import Path
@@ -13,7 +13,7 @@ from deckgen.layouts import (agenda, cards, code_panel, content, end,
                              section, statement, title, two_col)
 
 HERE = Path(__file__).resolve().parent
-EYE = 'SD5913 · WEEK 13 · DATE TO BE CONFIRMED'
+EYE = 'SD5913 · WEEK 13 · THU 3 DEC 2026'
 S = []
 
 
@@ -30,8 +30,8 @@ def diagram(eye, heading, figure, notes):
     return slide
 
 S.append(title(EYE, 'Explain the loop', 'Semester synthesis · test it on another computer',
-    notes='Planning draft: confirm final-class timing and scope before teaching. This is a '
-    'content-week number, not a calendar-week promise. Do not copy the historical 10am final '
+    notes='Planning draft for Thursday 3 December 2026: confirm class duration, final-quiz '
+    'time/format and scope before teaching. Do not copy the historical 10am final '
     'slot or Blackboard instructions. No new assessed task is introduced.'))
 S.append(agenda(EYE, [
     'Trace a small interaction from input to result',
@@ -230,8 +230,8 @@ S.append(content('04 · TRY IT OR TRACE IT', 'One small reproducibility check', 
     'Fix one missing instruction, path or dependency if you can.',
 ], notes='Optional partner comparison, not a compulsory group activity or '
     'new submission. If no other device is available, use the paper trace '
-    'and inspect the README. Do not imply that the proposed PFAD Week 13 '
-    'README ships runnable starter code; it does not. Link to course '
+    'and inspect the README. PFAD PR #16 includes a runnable stdlib loop; '
+    'the paper trace remains a fallback. Link to course '
     'companion after that PR is merged, or open the draft directly.'))
 S.append(two_col('04 · EXPLAIN A FAILURE', 'A useful report has four parts', [
     'What you expected to happen.',
@@ -266,7 +266,7 @@ S.append(content('05 · ASSESSMENT BOUNDARY', 'Use confirmed course instructions
     '',
     '{muted:No quiz questions, timing, new deadline or new submission route on these slides.}',
 ], notes='Week 1 2026 assessment overview supports these weights. Its '
-    'content-week 13 placement does not confirm a December date or hour. '
+    'class date is Thursday 3 December 2026, but it does not confirm a quiz hour or format. '
     'Do not transfer the midterm format or archive 10am slot to the final. '
     'Do not repeat historical Blackboard hand-in instructions.'))
 S.append(end('Explain it. Test it. Make it repeatable.',

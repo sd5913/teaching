@@ -1,7 +1,7 @@
 # Week 13: explain the loop, explain your work
 
-Instructor draft for content `week13`; final class date, duration and final-quiz
-arrangements are not confirmed. This lesson is not an assessment announcement.
+Instructor draft for content `week13`; class date is Thursday 3 December 2026;
+class duration and final-quiz time/format are not confirmed. This lesson is not an assessment announcement.
 
 ## Outcome and preparation
 
@@ -9,10 +9,9 @@ Students should explain a small program as input, state, control flow, output an
 evidence, then identify a reproducibility gap. They can use their own work or a
 previously taught example. No new file, tool, team arrangement or deliverable is
 required. The matching student [Week 13 companion draft](https://github.com/sd5913/pfad/pull/16)
-contains a proposal for a short trace and another-computer check, not runnable
-starter code or a new assessment.
+contains a short trace, runnable stdlib loop and another-computer check, not a new assessment.
 
-Before class, confirm (1) final-week schedule and any assessment slot with gio,
+Before class, confirm (1) class duration and final-quiz time/format with gio,
 (2) which later-week concepts were actually taught, (3) the current project
 brief and submission route, and (4) working links to whichever current weekly
 examples are selected. The historical PDF is not evidence for 2026 timing or
@@ -78,13 +77,13 @@ Current anchors: teaching `deck/week01.py` (assessment weights and content-week
 placement), `deck/week02.py` (values and control flow), `deck/week04.py` (interface
 and tests), `deck/week05.py` (images), `deck/week06.py` (sound), and the student
 [PFAD companion PR #16](https://github.com/sd5913/pfad/pull/16). The companion
-is explicitly documentation-only; its partner check and paper fallback align
+now includes a runnable stdlib loop; its partner check and paper fallback align
 with slides 23–24. The optional later-week cards must be reconfirmed before
 teaching and should not be used as an assessment coverage list.
 
 ## Open decisions
 
-- Confirm exact teaching date, class duration and final-quiz schedule/format.
+- Confirm class duration and final-quiz time/format; class date is Thursday 3 December 2026.
 - Confirm actually taught later-week concepts and remove irrelevant optional slides.
 - Confirm project submission route and deadline against the current brief.
 - Verify the selected taught practical on the teaching computer; no live service
