@@ -6,10 +6,16 @@ Planning draft started 21 October 2026. This is the continuing review home for c
 
 - Teaching date: unconfirmed. Content week numbers must not be converted into calendar dates by simple addition after the 1 October holiday.
 - Candidate focus: **Connecting creative tools**. The instructor's later slides and current course sequence take precedence.
-- No 2026 Week 11 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. Historical slides are being requested separately.
+- No 2026 Week 11 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. The supplied historical PDFs are source evidence, not an approved 2026 timetable.
 - This PR adds planning text only. It does not register a deck, change the course site, set assessment requirements or publish learning material.
 
-The archive's top-level index emphasises Blender and Orange, while its actual Week 11 README centres NDI hand tracking and OSC. Both are historical sources; the intended 2026 focus needs the slide record.
+The supplied Week 11 PDF, Python-powered apps, genuinely spans Orange, Blender, TouchDesigner, NDI, hand tracking/OSC and a networked game. The repository index and README describe different parts of that broad lecture. Preserve the map, but propose one focused creative-tool path for this year's class rather than recreating every installation.
+
+## Supplied historical slide evidence
+
+SD5913 - PFAD - Week 11.pdf (78 pages): pp. 4–17 object/storage recap; 18–30 Orange; 31–39 Blender; 40–44 TouchDesigner; 45–48 NDI; 49–55 hand tracking/OSC; 56–60 networked game; 61–78 tutorial. Text and screenshot contact sheets reviewed, including Orange pipeline/code, Blender camera/light/render, OSC and game examples.
+
+Page numbers are 1-based PDF pages. These are historical materials supplied for review; the PDF itself is not copied into this public repository. Historical dates, marks and team arrangements are not adopted.
 
 ## Proposed learning outcome
 
@@ -19,17 +25,21 @@ Follow one value across two creative tools, explain its range and meaning, and s
 
 This is a sequence for discussion, not a timed run sheet. Confirm the class duration and topic before allocating minutes. Preserve substantial explanation, a concrete example, a prediction or inspection activity and project application rather than turning the lesson into a list of tools.
 
-1. Show one small creative interaction before naming the protocol or tool.
-2. Draw sender, message and receiver in successive large diagrams; trace one numeric value.
-3. Use deterministic synthetic values before optional live camera/network input.
-4. Let pairs remap a range or threshold and test a missing-input case.
-5. Teams identify whether connecting another tool improves their work enough to justify the extra dependency.
+1. Begin with one Python-controlled creative result and identify its object, attributes and method calls using the accessible classes/objects bridge.
+2. Map the archive's alternative tools briefly, then choose one route: change a Blender object property and render, or send a prepared numeric value to an OSC receiver.
+3. Explain the chosen tool boundary with successive large diagrams and deterministic inputs before any optional camera or network.
+4. Pairs change one value, predict the result and test missing/invalid input or a disconnected receiver.
+5. Teams decide whether this integration serves their project's goal; preserve time for a usable increment rather than installing multiple ecosystems.
 
 ## Weekly AI news
 
 Reserve an optional short opening discussion, trimmed before core teaching or assessment time. Suggested relevance filter: Creative-tool APIs, interoperable agent tools or inspectable generated workflows. Ask what crosses the boundary, what can fail and how a designer stays in control.
 
 Refresh near the actual class rather than filling future weeks with today's news. For each selected item record: event date and publication date, primary-source URL, exact supported claim, classroom connection, one discussion prompt, and whether the behaviour was personally tested or only reported by the source. If there is no useful verified item, omit the slot. News must not silently become assessed content.
+
+## Current teaching direction
+
+Prioritise accessible classes and objects over advanced asyncio. Retain a visible map of Scrum, Git teamwork, Docker and networks before changing their sequence. Include an agent → MCP server → tool explanation and a bounded permission-aware practical at the appropriate point; a model suggestion alone must not be treated as permission to act. This does not require AI inside every team project.
 
 ## Materials to develop in this PR
 
@@ -44,9 +54,9 @@ Refresh near the actual class rather than filling future weeks with today's news
 
 ## Gaps and decisions
 
-- Supply Week 11 slides to resolve the archive index versus README emphasis.
-- Choose one supported creative receiver available to the class; do not assume paid software or hardware.
-- Rehearse the selected protocol and package versions, including Stop, absent receiver and permission failure.
+- Choose one core tool route and verify it is available to the class. Keep other archive tools as optional references.
+- Confirm whether a short team-progress check belongs here; do not turn the archive's five-minute update into a new assessed presentation.
+- Rehearse the selected route, including Stop, missing receiver and permission failure, without making asyncio or an advanced multiplayer stack a prerequisite.
 
 ## Guardrails specific to this week
 
@@ -75,4 +85,4 @@ Historical candidates, inspected as source inventory only; not claimed to run on
 
 ## Verification record
 
-Planning stage only: source paths, current-course boundaries and duplicate-PR inventory reviewed. No deck or runnable example is added, so no deck build, rendered-slide review, model/device test or full repository test pass is claimed. Before a later implementation is called ready, run the repository's applicable tests, build the affected outputs, inspect diagrams at presentation size, verify practical links and record exactly what remains untested.
+Planning stage only: supplied PDF text and selected screenshot/diagram pages, repository source paths, current-course boundaries and duplicate-PR inventory reviewed. No deck or runnable example is added, so no deck build, rendered-slide review, model/device test or full repository test pass is claimed. Before a later implementation is called ready, run the repository's applicable tests, build the affected outputs, inspect diagrams at presentation size, verify practical links and record exactly what remains untested.
