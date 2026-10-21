@@ -1,10 +1,10 @@
 # SD5913 Week 12 lesson planning
 
-Planning draft started 21 October 2026. The Week 12 teaching deck and provisional run sheet now live in this same draft PR; they are not an announcement to students or confirmation of the teaching date.
+Planning draft started 21 October 2026. The Week 12 teaching deck and provisional run sheet now live in this same draft PR; they are not an announcement to students or a change to assessment dates. Class date: Thursday 26 November 2026.
 
 ## Status and source limits
 
-- Teaching date: unconfirmed. Content week numbers must not be converted into calendar dates by simple addition after the 1 October holiday.
+- Teaching date: Thursday 26 November 2026 (confirmed by gio). Content week numbers are not calendar-week numbers after the 1 October holiday; this is not an assignment deadline.
 - Candidate focus: **Agents tools and project review**. The instructor's later slides and current course sequence take precedence.
 - At the start of planning, no 2026 Week 12 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. The new draft deck does not confirm a timetable; historical PDFs are source evidence only.
 - The initial planning-only PR now also includes `deck/week12.py`, original diagrams, a lesson plan, deck registration and site navigation in its working draft. Do not merge or publish without instructor review.
@@ -44,10 +44,10 @@ Prioritise accessible classes and objects over advanced asyncio. Retain a visibl
 ## Materials to develop in this PR
 
 - [x] Reconcile archive topics in `lessons/week12-lesson-plan.md`; retain project review and small add tool, move ComfyUI setup to optional history.
-- [ ] Agree actual duration and date with the instructor; a flexible run sheet and learning outcome are drafted in `lessons/week12-lesson-plan.md`.
+- [ ] Agree actual duration with the instructor (class date: Thursday 26 November 2026); a flexible run sheet and learning outcome are drafted in `lessons/week12-lesson-plan.md`.
 - [x] Author a diagram-led deck with notes, readable primary labels, a worked example and a permission boundary.
 - [x] Include prediction, inspection, a missing input, a failed result and an out-of-scope side effect.
-- [x] Align to the read-only [PFAD companion PR #15](https://github.com/sd5913/pfad/pull/15): it has a proposed README trace, no runnable files. Do not claim a live MCP practical is already shipped.
+- [x] Align to [PFAD companion PR #15](https://github.com/sd5913/pfad/pull/15): it now has a paper/static trace, tested stdlib simulation and optional tested local MCP stdio smoke test. Classroom live use remains optional and unpreflighted.
 - [ ] Select and verify the week's news using the criteria above.
 - [ ] Review the lesson for coherent progression, accuracy, appropriate depth and time for questions; revise in this same PR.
 - [x] Build the targeted deck and inspect slide sheets, full-size diagrams and a PDF diagram. Instructor approval and classroom-device check remain open.
@@ -55,7 +55,7 @@ Prioritise accessible classes and objects over advanced asyncio. Retain a visibl
 ## Gaps and decisions
 
 - Confirm whether agent/tool fundamentals need a short earlier bridge; this plan does not silently move the current course sequence.
-- If a future live MCP demo is requested, select and pin a minimal supported runtime, then verify the addition tool and explicit host-side allow/deny behaviour against current primary documentation. The static exercise does not require a runtime.
+- If a classroom live MCP demo is requested, preflight the optional local stdio smoke test on that machine and verify host-side allow/deny behaviour. The static exercise does not require a runtime.
 - Confirm the project-review time and existing brief. No new submission, compulsory AI component or assessment criterion is introduced.
 
 ## Guardrails specific to this week
@@ -86,4 +86,4 @@ Historical candidates, inspected as source inventory only; not claimed to run on
 
 ## Verification record
 
-The 2025 Week 12 PDF (65 pages, SHA-256 in the archive manifest) was checked for review topics and its p. 51 add-tool screenshot; the original archive binaries remain outside this repo. Companion PR #15 has one README planning draft, not runnable code. The 21-slide 2026 Week 12 deck builds with the pinned deckgen toolchain to HTML, PDF and PowerPoints; preview sheets, full-size diagrams and one rendered PDF diagram were inspected. Four focused source/trace tests pass and `git diff --check` is clean. Not checked: a live MCP SDK/server/client, any model or classroom device, the full course build, instructor approval, confirmed teaching date/duration or news near the eventual class.
+The 2025 Week 12 PDF (65 pages, SHA-256 in the archive manifest) was checked for review topics and its p. 51 add-tool screenshot; the original archive binaries remain outside this repo. Companion PR #15 now has a paper/static trace, tested stdlib simulation and optional tested local MCP stdio smoke test. The 21-slide 2026 Week 12 deck builds with the pinned deckgen toolchain to HTML, PDF and PowerPoints; preview sheets, full-size diagrams and one rendered PDF diagram were inspected. Four focused source/trace tests pass and `git diff --check` is clean. Not checked here: classroom live MCP use, any model or classroom device, the full course build, instructor timing approval or news near class.

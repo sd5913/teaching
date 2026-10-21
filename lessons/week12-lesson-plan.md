@@ -1,10 +1,11 @@
 # SD5913 Week 12: review, then act
 
-Teaching date and class duration are not confirmed. This run sheet is a flexible
+Teaching date: Thursday 26 November 2026; class duration is not confirmed. This run sheet is a flexible
 sequence, not a new assessment rule or published timetable. Content folder
 `week12` stays aligned with PFAD. Companion planning draft:
-https://github.com/sd5913/pfad/pull/15 (`week12/README.md` only, checked at
-head `6d5e11cd1a319599e06cd5c341a1b38299d5d310`).
+https://github.com/sd5913/pfad/pull/15 (originally checked at head
+`6d5e11cd1a319599e06cd5c341a1b38299d5d310`; now includes a paper/static trace,
+tested stdlib simulation and optional tested local MCP stdio smoke test).
 
 ## Learning outcome
 
@@ -72,12 +73,13 @@ and manifest describe verified teacher-owned copies, not the current course.
 
 The archive PDF is not a mandate, code dependency, date source or public
 course asset. MCP architecture and server concepts are linked in the companion
-README; its draft does not ship a runnable server. Historical 2025 PFAD
+README; the PR includes a tested optional local MCP stdio smoke test, but classroom
+live use remains unpreflighted. Historical 2025 PFAD
 `ERRATA.md` cautions against copying the old asyncio lifecycle.
 
 ## Boundaries and open decisions
 
-- Confirm the actual Week 12 date, duration and topic with the instructor.
+- Confirm duration and topic with the instructor; class date is Thursday 26 November 2026.
 - Confirm whether an earlier agent/tools bridge is needed when future weeks
   are authored; do not retroactively rewrite other lessons in this PR.
 - Scrum, Git teamwork, Docker and networks remain on the course map but are

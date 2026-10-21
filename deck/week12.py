@@ -1,6 +1,6 @@
 """Week 12: review one project change, then trace and bound an MCP tool call.
 
-The companion is a planning draft, not a promised runnable server:
+The companion includes an optional tested local MCP stdio smoke test, not a promised classroom live demo:
 https://github.com/sd5913/pfad/pull/15
 Historical reference: 2025 Week 12 PDF pp. 21, 25-34, 48-53, 55-65.
 No historical assessment dates or installation instructions are adopted.
@@ -16,13 +16,13 @@ from deckgen.layouts import (title, agenda, section, statement, content,
                              figure_slide, code_panel, question, two_col, end)
 import week12_figures as F
 
-EYE = 'SD5913 · WEEK 12'
+EYE = 'SD5913 · WEEK 12 · THU 26 NOV 2026'
 COMPANION = 'https://github.com/sd5913/pfad/pull/15/files'
 S = []
 
 S.append(title(EYE, 'Review, then act',
     'A project check and one bounded agent tool call.',
-    notes='Date unconfirmed. Frame this as two halves: improve a project through evidence, '
+    notes='Class date: Thursday 26 November 2026. Frame this as two halves: improve a project through evidence, '
     'then distinguish an agent suggestion from an executed action. No AI feature is required '
     'in any group project. Prepared traces are the core route; do not install a server in class.'))
 
@@ -114,8 +114,9 @@ S.append(code_panel('02 · THE PURE FUNCTION', 'Nothing outside the two inputs',
     notes='The historical PDF p. 51 shows the tiny add(a,b) FastMCP example. '
     'We keep its no-side-effect function, but do not claim this excerpt starts '
     'an MCP server. A runnable MCP integration would need a pinned SDK, '
-    'transport and lifecycle preflight; the companion PR deliberately leaves '
-    'that out. Python bools are ints, and this function alone does not reject '
+    'transport and lifecycle preflight; the companion PR includes an optional tested '
+    'local MCP stdio smoke test, but classroom live use needs separate preflight. '
+    'Python bools are ints, and this function alone does not reject '
     'them; for this exercise the advertised input contract is integer values.'))
 
 S.append(question('multiple_choice', 'Is a proposed call proof that it ran?',
@@ -186,12 +187,11 @@ S.append(content('WORKSHOP · USE THE PREPARED TRACE', 'Keep the boundary visibl
     '[Open the proposed Week 12 PFAD activity](' + COMPANION + ')',
     'Label call -> result -> final answer; inspect one failure.',
     'No account, paid API, model download or live MCP server required.',
-], notes='The companion PR contains only week12/README.md, a proposed static '
-    'trace activity. Check that PR before class; the /2026/week12 link is not '
-    'a published dependency until it merges. Do not promise code or commands '
-    'that the companion does not provide. If a live demo is later requested, '
-    'preflight a pinned local stdio server separately and keep the static '
-    'trace as the no-device fallback.'))
+], notes='The companion PR now includes a paper/static trace, tested stdlib '
+    'simulation and optional tested local MCP stdio smoke test. The static trace '
+    'remains the classroom default; the /2026/week12 link is not a published '
+    'dependency until the PR merges. Classroom live use remains optional and '
+    'needs separate preflight.'))
 
 S.append(end('What actually happened?',
     'Show the check, the result and the stopping point.',
