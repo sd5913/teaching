@@ -137,6 +137,11 @@ SOLUTIONS = {
         'prompt = "An orange circle on paper, centered on cream"\n'
         'request = {"prompt": prompt, "size": "1024x1024", "n": 1}\n'
         'print(json.dumps(request, indent=2))'),
+    # week 06 · same samples, half the playback sample rate
+    'stretch-the-audio-clock': lambda mod: (
+        [e for s in mod.DECK['slides'] for e in s.els
+         if e.kind == 'exercise' and e.eid == 'stretch-the-audio-clock'][0].code
+        .replace('rate = 8', 'rate = 4')),
 }
 
 
