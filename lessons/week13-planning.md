@@ -1,13 +1,16 @@
 # SD5913 Week 13 lesson planning
 
-Planning draft started 21 October 2026. This is the continuing review home for content `week13`, not a finished deck or an announcement to students. Keep this week's changes in the same draft PR.
+Planning draft started 21 October 2026. This is the continuing review home for content `week13`; the slide deck is a draft for review, not an announcement to students. Keep this week's changes in the same draft PR.
 
 ## Status and source limits
 
 - Teaching date: unconfirmed. Content week numbers must not be converted into calendar dates by simple addition after the 1 October holiday.
 - Candidate focus: **Semester synthesis and final review**. The instructor's later slides and current course sequence take precedence.
 - No 2026 Week 13 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. The supplied historical PDFs are source evidence, not an approved 2026 timetable.
-- This PR adds planning text only. It does not register a deck, change the course site, set assessment requirements or publish learning material.
+- This PR now contains a provisional 29-slide deck, a flexible instructor run sheet,
+  deck registration and site navigation. They are draft sources, not a published
+  class announcement or an assessment change. Review optional later-week slides
+  against what was actually taught before presenting them.
 
 The supplied Week 13 PDF is a recap and final-assessment class: its agenda says recap and a final at 10am, followed by AMA and a team/repository tutorial. That historical time is not a confirmed 2026 booking. Current Week 1 places the 10% final quiz in content Week 13; README expects that content week in December but withholds an exact date.
 
@@ -43,14 +46,14 @@ Prioritise accessible classes and objects over advanced asyncio. Retain a visibl
 
 ## Materials to develop in this PR
 
-- [ ] Reconcile the supplied slide record with the current 2026 sequence and identify what is retained, replaced or moved.
+- [x] Reconcile the supplied slide record with the current 2026 sequence and identify what is retained, replaced or moved; see `week13-lesson-plan.md`.
 - [ ] Agree the learning outcome and teacher run sheet, with actual timing.
-- [ ] Author the deck with readable full-slide diagrams, short labels and supporting detail in notes. Follow AGENTS.md; primary diagram labels should target at least 40 design pixels at 1920 × 1080.
-- [ ] Include a worked example, a purposeful student prediction/inspection activity and a failure or limitation worth discussing.
-- [ ] Align the matching PFAD/2026 practical README and runnable examples without promising files that do not exist. Record the companion PR link once verified.
+- [x] Author the draft deck with full-slide diagrams, short labels and supporting detail in notes. Follow AGENTS.md; primary diagram labels target at least 40 design pixels at 1920 × 1080.
+- [x] Include a worked example, a purposeful student prediction/inspection activity and a failure or limitation worth discussing.
+- [x] Align the draft with PFAD companion [PR #16](https://github.com/sd5913/pfad/pull/16), a documentation-only proposal with no runnable starter to promise.
 - [ ] Select and verify the week's news using the criteria above.
-- [ ] Review the lesson for coherent progression, accuracy, appropriate depth and time for questions; revise in this same PR.
-- [ ] Build and visually inspect the actual finished deck before calling it classroom-ready.
+- [x] Review the draft for progression, accuracy, depth and questions; keep the run sheet flexible pending confirmed duration.
+- [x] Build and visually inspect the draft deck. Classroom readiness still depends on confirming taught later-week scope and assessment arrangements.
 
 ## Gaps and decisions
 
@@ -81,4 +84,14 @@ Historical candidates, inspected as source inventory only; not claimed to run on
 
 ## Verification record
 
-Planning stage only: supplied PDF text and selected screenshot/diagram pages, repository source paths, current-course boundaries and duplicate-PR inventory reviewed. No deck or runnable example is added, so no deck build, rendered-slide review, model/device test or full repository test pass is claimed. Before a later implementation is called ready, run the repository's applicable tests, build the affected outputs, inspect diagrams at presentation size, verify practical links and record exactly what remains untested.
+The 2025 PDF and archive provenance were reviewed as historical evidence only.
+The 2026 Week 1–6 slides anchor the confirmed recap, while later-week prompts
+are marked optional. A targeted Week 13 HTML/PDF/PPTX build and slide previews
+were inspected locally; this does not publish anything. The companion PR is
+documentation-only. No student project, second-device run, assessment format,
+or later-week teaching scope has been verified. Rehearse the selected practical
+and confirm the final-class arrangements before delivery. The focused Week 13
+tests and `git diff --check` pass. The full repository suite has one unrelated
+existing Week 6 student-module/source mismatch
+(`test_week06_new_sketches.NewSketches.test_piano_harmonics_and_voice_surface_live_in_student_module_and_deck`);
+it is not a Week 13 deck failure and is left unchanged.
