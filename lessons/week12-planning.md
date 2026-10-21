@@ -6,10 +6,16 @@ Planning draft started 21 October 2026. This is the continuing review home for c
 
 - Teaching date: unconfirmed. Content week numbers must not be converted into calendar dates by simple addition after the 1 October holiday.
 - Candidate focus: **Agents tools and project review**. The instructor's later slides and current course sequence take precedence.
-- No 2026 Week 12 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. Historical slides are being requested separately.
+- No 2026 Week 12 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. The supplied historical PDFs are source evidence, not an approved 2026 timetable.
 - This PR adds planning text only. It does not register a deck, change the course site, set assessment requirements or publish learning material.
 
-The 2025 Week 12 folder connects a Streamlit chat, a local-model endpoint and an MCP tool server. Week 7 in that archive introduced text agents earlier; this year's Week 7 instead centres the midterm and team ideation. The placement and prerequisites must be checked.
+The supplied Week 12 PDF combines project/code review, programming principles, optional generative-AI research and MCP. Its own small FastMCP addition example supplies a direct foundation for the requested safe agent → server → tool practical, without making ComfyUI infrastructure the starting point.
+
+## Supplied historical slide evidence
+
+SD5913 - PFAD - Week 12.pdf (65 pages): pp. 4–19 recap; 21 repository feedback; 24–34 programming principles (DRY, error handling, testing, user testing and small steps); 35–47 generative-AI research; 48–53 MCP, including the small add(a,b) server on p. 51, adapter on p. 52 and ComfyUI on p. 53; 54–65 tutorial. Text and screenshot contact sheets reviewed.
+
+Page numbers are 1-based PDF pages. These are historical materials supplied for review; the PDF itself is not copied into this public repository. Historical dates, marks and team arrangements are not adopted.
 
 ## Proposed learning outcome
 
@@ -19,17 +25,21 @@ Distinguish a model's suggestion from an executed tool action. Trace a bounded t
 
 This is a sequence for discussion, not a timed run sheet. Confirm the class duration and topic before allocating minutes. Preserve substantial explanation, a concrete example, a prediction or inspection activity and project application rather than turning the lesson into a list of tools.
 
-1. Revisit how students use coding agents, then distinguish that development workflow from embedding an agent in the product.
-2. Show one deterministic toy tool and its explicit arguments/result before introducing a framework.
-3. Trace success, invalid input and a denied or failed action; keep execution bounded and observable.
-4. Students critique a proposed tool call and decide what evidence or permission is missing.
-5. Use project-review time to test a representative interaction and choose the most important remaining fix; AI inside the product stays optional.
+1. Review one small project change through repeated code, an error case, a test and a user's response, drawing on archive pp. 24–34.
+2. Draw the agent, MCP server and tool as separate parts. Follow one request with explicit arguments into the server and one result back.
+3. Use the archive's tiny addition tool as the no-side-effect baseline. Inspect the tool schema, expected result and invalid input before adding any model choice.
+4. Add a permission exercise with a clearly simulated or blocked side-effecting request: decide what is allowed, refuse what is outside scope, and inspect the log. Do not implement unrestricted file writes or network actions.
+5. Teams test one representative interaction and identify their next useful fix. Keep ComfyUI, submodules, async orchestration and research-model surveys optional.
 
 ## Weekly AI news
 
 Reserve an optional short opening discussion, trimmed before core teaching or assessment time. Suggested relevance filter: Agent tool use, MCP, evaluation or permission controls. Compare advertised autonomy with observable actions, logs, failure handling and human review.
 
 Refresh near the actual class rather than filling future weeks with today's news. For each selected item record: event date and publication date, primary-source URL, exact supported claim, classroom connection, one discussion prompt, and whether the behaviour was personally tested or only reported by the source. If there is no useful verified item, omit the slot. News must not silently become assessed content.
+
+## Current teaching direction
+
+Prioritise accessible classes and objects over advanced asyncio. Retain a visible map of Scrum, Git teamwork, Docker and networks before changing their sequence. Include an agent → MCP server → tool explanation and a bounded permission-aware practical at the appropriate point; a model suggestion alone must not be treated as permission to act. This does not require AI inside every team project.
 
 ## Materials to develop in this PR
 
@@ -44,9 +54,9 @@ Refresh near the actual class rather than filling future weeks with today's news
 
 ## Gaps and decisions
 
-- Supply Week 12 slides and confirm where agent fundamentals should be introduced after the changed Week 7.
-- Choose a minimal safe tool contract and supported runtime; inspect current primary documentation at implementation time.
-- Confirm whether this class needs project-review time, and retain the existing brief rather than creating new submission requirements.
+- Confirm whether agent/tool fundamentals need a short earlier bridge; this plan does not silently move the current course sequence.
+- Select and pin a minimal supported MCP runtime, then verify the addition tool and explicit allow/deny behaviour using current primary documentation.
+- Confirm the project-review time and existing brief. No new submission, compulsory AI component or assessment criterion is introduced.
 
 ## Guardrails specific to this week
 
@@ -76,4 +86,4 @@ Historical candidates, inspected as source inventory only; not claimed to run on
 
 ## Verification record
 
-Planning stage only: source paths, current-course boundaries and duplicate-PR inventory reviewed. No deck or runnable example is added, so no deck build, rendered-slide review, model/device test or full repository test pass is claimed. Before a later implementation is called ready, run the repository's applicable tests, build the affected outputs, inspect diagrams at presentation size, verify practical links and record exactly what remains untested.
+Planning stage only: supplied PDF text and selected screenshot/diagram pages, repository source paths, current-course boundaries and duplicate-PR inventory reviewed. No deck or runnable example is added, so no deck build, rendered-slide review, model/device test or full repository test pass is claimed. Before a later implementation is called ready, run the repository's applicable tests, build the affected outputs, inspect diagrams at presentation size, verify practical links and record exactly what remains untested.
