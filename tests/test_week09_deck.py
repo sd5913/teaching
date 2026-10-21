@@ -30,11 +30,11 @@ class Week09DeckTests(unittest.TestCase):
         self.assertEqual(len(week09.S), 29)
         self.assertTrue(all(slide.notes for slide in week09.S))
 
-    def test_student_companion_is_linked_without_claiming_a_starter(self):
+    def test_student_companion_is_linked_without_confusing_tcp_and_websocket(self):
         source = (ROOT / 'deck/week09.py').read_text()
         self.assertIn('plan/week09-companion-activity/week09/README.md', source)
         self.assertIn('not a runnable Python client', source)
-        self.assertIn('planning draft, not a tested starter', source)
+        self.assertIn('tested stdlib loopback TCP echo starter, not WebSocket', source)
         self.assertNotIn('uv run week09/', source)
 
     def test_figures_are_readable_and_show_the_direction_of_messages(self):
@@ -61,7 +61,7 @@ class Week09DeckTests(unittest.TestCase):
         site = (ROOT / 'site/index.html').read_text()
         self.assertIn('href="week09/"', site)
         self.assertIn('href="week09/SD5913-week09.pdf"', site)
-        self.assertIn('DATE TO BE CONFIRMED', site)
+        self.assertIn('WEEK 09 · THU 5 NOV 2026', site)
 
 
 if __name__ == '__main__':

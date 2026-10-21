@@ -1,4 +1,4 @@
-"""Week 09: connected interactions and state. Date intentionally unconfirmed."""
+"""Week 09: connected interactions and state. Class: Thursday 5 November 2026."""
 import sys
 from pathlib import Path
 
@@ -9,14 +9,14 @@ from deckgen import attach_reports
 from deckgen.layouts import (agenda, cards, code_panel, content, end, figure_slide,
                              question, section, statement, title, two_col)
 
-EYE = 'SD5913 · WEEK 09 · DATE TO BE CONFIRMED'
+EYE = 'SD5913 · WEEK 09 · THU 5 NOV 2026'
 PRACTICAL = 'https://github.com/sd5913/pfad/blob/plan/week09-companion-activity/week09/README.md'
 S = []
 
 S.append(title(EYE, 'Connected interactions', 'Messages, memory and useful failure.',
     notes='Learning outcome: trace a control through a service and back; say what persists '
           'between messages and design a visible response when the service fails. '
-          'The date and class duration are unconfirmed. This is the current teaching draft, '
+          'Class date: Thursday 5 November 2026; duration remains unconfirmed. This is the current teaching draft, '
           'not an assessment brief. No live service, login, microphone or student data is needed.'))
 S.append(agenda(EYE, [
     'Recall the Week 4 API request', 'Find an address, a port and a route',
@@ -94,8 +94,8 @@ S.append(cards('02 · TWO WAYS TO TALK', 'Choose the shape of the exchange', [
           'not a claim that HTTP always opens a fresh TCP connection. REST statelessness '
           'does not prohibit a server from storing tide records or other data.'))
 S.append(figure_slide('02 · A CONTINUING CONVERSATION', 'Two messages, one connection', F.echo(),
-    notes='This is an illustrative localhost echo service, not an executable starter '
-          'in the current PFAD Week 9 draft. The client sends first. After hello '
+    notes='This illustrates a localhost echo service. PFAD PR #12 has a tested stdlib '
+          'loopback TCP starter, not WebSocket. The client sends first. After hello '
           'returns, send another distinct string without reconnecting and record order. '
           'A server can track active connections; persistence does not guarantee delivery '
           'after a disconnect. No asyncio is required to read this trace.'))
@@ -148,10 +148,10 @@ S.append(content('02 · THE LOCAL ACTIVITY', 'Send, compare, disconnect', [
     'Draw **client -> server -> client** and label host, port and protocol.',
     '', 'Predict the replies to red and blue. Keep both on one connection.',
     '', 'Now stop the server: write the error the person should see.',
-    '', f'[Current PFAD Week 9 planning activity]({PRACTICAL})',
-], body_size=32, notes='The companion PFAD PR #12 is a planning draft, not a tested starter. '
-          'Do the paper trace by default; only run a local echo demo if a verified '
-          'instructor-prepared starter exists later. Have pairs compare traces; '
+    '', f'[Current PFAD Week 9 echo practical]({PRACTICAL})',
+], body_size=32, notes='PFAD PR #12 has a tested stdlib loopback TCP echo starter, not WebSocket. '
+          'Do the paper trace by default; run the local TCP echo only after a '
+          'classroom-machine preflight. Have pairs compare traces; '
           'collect one disconnect observation verbally. No assessed submission, '
           'external device, firewall change, microphone, account or personal data.'))
 

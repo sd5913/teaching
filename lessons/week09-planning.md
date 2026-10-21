@@ -1,10 +1,10 @@
 # SD5913 Week 9 lesson planning
 
-Planning draft started 21 October 2026. This remains the review home for content `week09`, not an announcement to students. A 29-slide teaching draft now lives in `deck/week09.py`; the date, duration and live demo have not been confirmed. Keep revisions in the same draft PR.
+Planning draft started 21 October 2026. This remains the review home for content `week09`, not an announcement to students. A 29-slide teaching draft now lives in `deck/week09.py`; class date is Thursday 5 November 2026, while duration and classroom live demo remain unconfirmed. Keep revisions in the same draft PR.
 
 ## Status and source limits
 
-- Teaching date: unconfirmed. Content week numbers must not be converted into calendar dates by simple addition after the 1 October holiday.
+- Teaching date: Thursday 5 November 2026 (confirmed by gio). Content week numbers are not calendar-week numbers after the 1 October holiday; this is not an assignment deadline.
 - Candidate focus: **Connected interactions and state**. The instructor's later slides and current course sequence take precedence.
 - No 2026 Week 9 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. The supplied historical PDFs are source evidence, not an approved 2026 timetable.
 - This PR now registers a draft deck and adds a site card. It does not set assessment requirements or publish learning material; no commit, deployment or merge is part of this draft.
@@ -47,7 +47,7 @@ Prioritise accessible classes and objects over advanced asyncio. Retain a visibl
 - [ ] Agree the learning outcome and teacher run sheet, with actual timing.
 - [x] Author the deck with readable full-slide diagrams, short labels and supporting detail in notes. Follow AGENTS.md; primary diagram labels should target at least 40 design pixels at 1920 × 1080.
 - [x] Include a worked example, a purposeful student prediction/inspection activity and a failure or limitation worth discussing.
-- [x] Align the deck with the [PFAD Week 9 companion draft](https://github.com/sd5913/pfad/pull/12) at `b43632e`; its README proposes a localhost echo practical but contains no runnable starter yet. The deck therefore uses a paper trace and does not claim that code exists.
+- [x] Align the deck with [PFAD Week 9 companion PR #12](https://github.com/sd5913/pfad/pull/12) (originally at `b43632e`); it now includes tested stdlib loopback TCP echo code, not WebSocket. The deck retains a paper trace; classroom live use needs preflight.
 - [ ] Select and verify the week's news using the criteria above.
 - [ ] Review the lesson for coherent progression, accuracy, appropriate depth and time for questions; revise in this same PR.
 - [x] Build and visually inspect the teaching draft. Classroom readiness still depends on date/duration confirmation and any live starter preflight.
@@ -61,7 +61,7 @@ Prioritise accessible classes and objects over advanced asyncio. Retain a visibl
 ## Draft reconciliation, 21 October 2026
 
 - Retained from the supplied Week 9 PDF: the practical distinction between address, port and service (pp. 23–35); APIs, HTTP and WebSockets as communication patterns (pp. 36–45). The Week 4 tide service supplies the current-year worked request/response instead of repeating an API introduction.
-- Replaced: a speculative live server demonstration becomes an explicit paper echo trace and disconnect inspection until the PFAD companion gains a tested local starter. The 2025 paired-LAN setup and installation screenshots (pp. 47–52) are not instructions for 2026.
+- Replaced: a speculative live server demonstration becomes an explicit paper echo trace and disconnect inspection even with the tested stdlib loopback TCP starter; classroom live use needs preflight. The 2025 paired-LAN setup and installation screenshots (pp. 47–52) are not instructions for 2026.
 - Moved out of core: 2025 speech-service/audio-queue material (pp. 46, 53–58), protocol survey and advanced asyncio. The deck adds a permission-scoped agent → MCP server → tool explanation as a current teaching direction, not as archival evidence.
 - Corrected archive shortcuts: use standard HTTP methods rather than `UPDATE`; one port may serve multiple connections; TCP does not make an application infallible; REST statelessness does not forbid stored server data. Do not import the historical project/rubric dates and rules (pp. 3–9).
 - Suggested facilitation: opening prediction, address/route diagnosis, two-step tide diagram, message-order paper trace, disconnect feedback, bounded tool role-play, team boundary sketch and exit ticket. Allocate actual minutes only when class duration is confirmed. The optional AI news slot is empty pending near-class source verification.
@@ -92,4 +92,4 @@ Historical candidates, inspected as source inventory only; not claimed to run on
 
 ## Verification record
 
-The supplied PDF text and selected screenshot/diagram pages, repository source paths and current-course boundaries were reviewed. The Week 9 deck has been built with pinned deckgen v0.11.2 to HTML, PDF and plain/ClassPoint PPTX; its 29-slide preview sheets and full-size address, echo and MCP diagram previews were inspected. The PFAD companion at PR #12 contains a README only; no live echo service, model/device test or student practical has been preflighted. Source tests and diff checks are tracked in the implementation review, not evidence of a classroom run.
+The supplied PDF text and selected screenshot/diagram pages, repository source paths and current-course boundaries were reviewed. The Week 9 deck has been built with pinned deckgen v0.11.2 to HTML, PDF and plain/ClassPoint PPTX; its 29-slide preview sheets and full-size address, echo and MCP diagram previews were inspected. PFAD PR #12 now includes a tested stdlib loopback TCP echo starter, not WebSocket; classroom device and live use have not been preflighted here. Source tests and diff checks are tracked in the implementation review, not evidence of a classroom run.
