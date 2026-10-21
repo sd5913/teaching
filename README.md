@@ -36,8 +36,8 @@ repository. After the 1 October 2026 holiday, content numbers no longer match
 calendar teaching weeks: `week05` is taught on **8 October 2026**, in calendar
 week 6 of the course. From this lesson onward, use confirmed calendar dates on
 student-facing slides and site listings rather than calling a class "this week" or
-relabeling its source folder. Content `week13` is expected in calendar week 14,
-in December; do not publish an exact December date until the timetable confirms it.
+relabeling its source folder. Content `week13` is taught on Thursday 3 December 2026, in calendar week 14.
+Class duration and final-quiz timing/format are not confirmed by the class date.
 
 ## Build locally
 
