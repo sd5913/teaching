@@ -11,7 +11,7 @@ from deckgen.layouts import agenda, code_panel, content, end, section, statement
 import week10_figures as F
 
 S = []
-EYE = 'SD5913 · WEEK 10'
+EYE = 'SD5913 · WEEK 10 · THU 12 NOV 2026'
 
 
 def diagram(eyebrow, heading, figure, notes):
@@ -27,7 +27,7 @@ def diagram(eyebrow, heading, figure, notes):
 
 
 S.append(title(EYE, 'One class, two objects', 'And somewhere to keep them.',
-    notes='Content Week 10; teaching date unconfirmed. The 2025 Week 10 PDF is a historical '
+    notes='Content Week 10 is taught Thursday 12 November 2026. The 2025 Week 10 PDF is a historical '
     'data-storage source, not the 2026 timetable. Begin with an artwork or other fictional '
     'project thing, not a login account. The core outcome is to create two independent '
     'instances, describe one method, then save and retrieve small records.'))
@@ -104,15 +104,15 @@ S.append(code_panel('01 · RUN THE TRACE', 'Check the prediction in Python', [
     notes='This full example is runnable as-is in Python 3. Invite a student to '
     'change blue instead; predict the result before running. Paper trace is the '
     'fallback if a Python interpreter is unavailable. Aligns with PFAD Week 10 '
-    'companion PR #13 Activity 1, which is still a planning README, not runnable files.'))
+    'companion PR #13 Activity 1, which now includes tested stdlib fictional JSON save/reload code.'))
 S.append(content('01 · YOUR TURN', 'Trace a thing from your project', [
     'Name a class: artwork, scene, message or player.',
     'Choose two attributes and one small method.',
     'Describe two instances; change only one.',
     'Swap traces: can someone else explain the result?',
 ], notes='Give students time for a two-object paper trace. Fictional data only. '
-    'Do not promise a prebuilt PFAD script: companion PR #13 has a planning '
-    'activity and explicitly defers runnable examples. Circulate to distinguish '
+    'Companion PR #13 now has a tested stdlib fictional JSON save/reload example; its planning '
+    'activity can still be traced on paper. Circulate to distinguish '
     'one shared definition from the values belonging to each instance.'))
 S.append(section('02 · RELATIONSHIPS', 'Which things belong together?',
     'Give each stored thing an ID before connecting it.',
