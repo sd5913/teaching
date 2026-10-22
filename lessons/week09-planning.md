@@ -7,7 +7,7 @@ Planning draft started 21 October 2026. This remains the review home for content
 - Teaching date: Thursday 5 November 2026 (confirmed by gio). Content week numbers are not calendar-week numbers after the 1 October holiday; this is not an assignment deadline.
 - Candidate focus: **Connected interactions and state**. The instructor's later slides and current course sequence take precedence.
 - No 2026 Week 9 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. The supplied historical PDFs are source evidence, not an approved 2026 timetable.
-- This PR now registers a draft deck and adds a site card. It does not set assessment requirements or publish learning material; no commit, deployment or merge is part of this draft.
+- This PR registers a draft deck and adds a preview-site card. A branch preview is not the live course; it does not set assessment requirements or authorize a merge.
 
 The supplied historical PDF confirms Networks and APIs as the Week 9 backbone, after a Scrum/Git/Docker recap. Current Week 4 already teaches basic APIs and Week 6 speech, so this plan deepens the connection and debugging model without repeating those introductions or requiring advanced asyncio.
 
@@ -27,8 +27,8 @@ This is a sequence for discussion, not a timed run sheet. Confirm the class dura
 
 1. Recall one Week 4 API request, then locate client, server, hostname/address and port on a clear diagram.
 2. Explain just enough network layering to distinguish an unreachable service, a wrong route and an application error. Keep transport trade-offs tied to a design example rather than a protocol survey.
-3. Inspect a small local request/response or instructor-prepared echo demo. Students predict the message and visible result; they do not need to write an asyncio event loop.
-4. Pause the service deliberately and compare the resulting error with malformed input; design useful feedback and a bounded retry.
+3. Inspect a small local request/response and a two-message echo trace. Students predict the message and visible result; they do not need to write an asyncio event loop.
+4. Stop the echo service after the first reply. Compare a failed existing connection with a refused new connection and a server's HTTP 404; design useful feedback and a manual retry.
 5. Teams decide whether networking is necessary for their prototype and document the smallest service boundary or a local-only alternative.
 
 ## Weekly AI news
@@ -40,6 +40,15 @@ Refresh near the actual class rather than filling future weeks with today's news
 ## Current teaching direction
 
 Prioritise accessible classes and objects over advanced asyncio. Retain a visible map of Scrum, Git teamwork, Docker and networks before changing their sequence. Include an agent → MCP server → tool explanation and a bounded permission-aware practical at the appropriate point; a model suggestion alone must not be treated as permission to act. This does not require AI inside every team project.
+
+## Instructor run sheet (sequence, not minutes)
+
+- **Before class:** check the Week 4 `/tides?month=9` example and load the deck PDF as an offline backup. If using the optional live echo, start `python3 week09/echo_server.py` from a clean PFAD Week 9 PR checkout in terminal A, then run the ordinary client in B; verify red, blue and green before anyone joins. Leave all devices on loopback. If the room or installation is uncertain, use the paper trace instead.
+- **Slides 1–11, locate and diagnose:** collect one answer to the opening question before explaining. Draw browser, host, port and route; use `/tidess` to elicit a reachable-server 404, then compare a stopped server with no HTTP response. The Week 4 tide API is recall, not a new install task.
+- **Slides 12–20, state and failure:** contrast HTTP request/response with an ongoing WebSocket conversation, then say explicitly that the runnable companion uses newline-framed TCP, not WebSocket. Predict red and blue on one connection; green arrives after reconnect in the companion. For the optional live failure, run `python3 week09/echo_client.py --pause-before-blue`; after `received: red`, stop A with Ctrl+C, then press Enter in B. The resulting `No reply` is not a successful blue reply. Ask for waiting/error/manual-retry UI states. In this controlled sequence blue was not sent before shutdown; that is not a general delivery guarantee for in-flight messages.
+- **Slides 21–24, authority boundary:** on paper only, assign agent, MCP server, tool and human roles. Suggest listing names in an invented sketches folder; check the human's scope before any action, deny file contents, and report a result only if permission was granted. Do not open real folders, accounts or student data.
+- **Slides 25–29, prototype choice:** teams sketch one local-only, HTTP or live interaction, plus a useful failure message. Invite a reason for the boundary, not a technology checklist; accept a local-only answer. End with the smallest-boundary exit ticket; this is not graded evidence or a new submission.
+- **Fallback and close:** if sockets, Python, permissions or time prevent a live demo, run the same red/blue/green trace on paper and cross out the server before blue. Do not present a stopped-listener refusal as an HTTP 404 or claim that a sent message was processed without a reply. Leave questions and transition time flexible until the class duration is confirmed.
 
 ## Materials to develop in this PR
 

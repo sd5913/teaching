@@ -147,11 +147,16 @@ S.append(two_col('02 · FAILURE AS AN INTERACTION', 'Make waiting and failure le
 S.append(content('02 · THE LOCAL ACTIVITY', 'Send, compare, disconnect', [
     'Draw **client -> server -> client** and label host, port and protocol.',
     '', 'Predict the replies to red and blue. Keep both on one connection.',
-    '', 'Now stop the server: write the error the person should see.',
+    '', 'Stop the server after red: show waiting, error and manual retry.',
     '', f'[Current PFAD Week 9 echo practical]({PRACTICAL})',
 ], body_size=32, notes='PFAD PR #12 has a tested stdlib loopback TCP echo starter, not WebSocket. '
           'Do the paper trace by default; run the local TCP echo only after a '
-          'classroom-machine preflight. Have pairs compare traces; '
+          'classroom-machine preflight. For a reproducible interrupted connection, '
+          'run the companion client with --pause-before-blue, wait for received: red, '
+          'stop the server, then press Enter. Blue is not sent before the stop in this '
+          'controlled sequence; this does not prove the fate of arbitrary in-flight '
+          'messages. The client shows No reply, never a received: blue line. '
+          'Have pairs compare traces and sketch waiting, error and manual retry states; '
           'collect one disconnect observation verbally. No assessed submission, '
           'external device, firewall change, microphone, account or personal data.'))
 
