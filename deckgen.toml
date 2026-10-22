@@ -7,7 +7,7 @@ name   = "Programming for Artists and Designers"
 year   = "2026/27"
 school = "PolyU School of Design"
 footer = "SD5913 · PFAD"
-decks  = ["week01", "week02", "week03", "week04", "week05", "week06", "week07"]
+decks  = ["week01", "week02", "week03", "week04", "week05", "week06", "week07", "week10"]
 
 [[nav]]
 label = "SD5913"
@@ -39,7 +39,11 @@ href  = "week06/"
 
 [[nav]]
 label = "22 October 2026 · Midterm + teams (week07)"
-href = "week07/"
+href  = "week07/"
+
+[[nav]]
+label = "12 November 2026 · Objects and saved data (week10)"
+href  = "week10/"
 
 [[nav]]
 label = "Words"
@@ -52,4 +56,3 @@ href  = "glossary.html"
 src   = "GLOSSARY.md"
 out   = "glossary.html"
 title = "SD5913 · Words we use"
-
