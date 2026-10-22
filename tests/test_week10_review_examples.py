@@ -43,7 +43,9 @@ class ReviewExamples(unittest.TestCase):
                 out = io.StringIO()
                 with contextlib.redirect_stdout(out):
                     exec(panel("A loaded record can become a new object", "two_col", 3), fresh)
-                self.assertEqual(out.getvalue().strip(), "4")
+                self.assertEqual(out.getvalue().strip(), "a1 4")
+                self.assertEqual(fresh["restored"].exhibition_id, "e1")
+                self.assertEqual(fresh["restored"].id, "a1")
             finally:
                 os.chdir(here)
 

@@ -180,21 +180,22 @@ S.append(code_panel('03 · SERIALIZE', 'Choose what belongs in a record', [
 S.append(code_panel('03 · SAVE', 'Write a small local JSON file', [
     'import json',
     'from pathlib import Path',
-    '',
     'records = [',
     '    {"id": "a1", "title": "Amber", "views": 3,',
     '     "exhibition_id": "e1"},',
     '    {"id": "a2", "title": "Blue", "views": 7,',
     '     "exhibition_id": "e1"},',
     ']',
-    'Path("artworks.json").write_text(',
-    '    json.dumps(records, indent=2), encoding="utf-8")',
-], caption='Run in a writable folder. Inspect artworks.json.',
-    notes='Self-contained Python 3 standard-library snippet. write_text '
-    'overwrites a file of the same name; warn before rerunning against anyone\'s '
-    'own data. This is a tiny fictional demo, not a durable concurrent '
-    'database or a secure credential store. The file is created in the '
-    'current working directory. For live teaching use a disposable folder.'))
+    'with Path("artworks.json").open("x",',
+    '        encoding="utf-8") as file:',
+    '    json.dump(records, file, indent=2)',
+], caption='Use a disposable folder. Save refuses to replace an existing file.',
+    notes='Self-contained Python 3 standard-library snippet. Exclusive mode x '
+    'raises FileExistsError rather than overwriting earlier work. This compact '
+    'slide saves artwork records only: e1 is an ID string here, not a checked '
+    'exhibition. The PFAD companion saves both exhibitions and artworks and '
+    'checks the link on load. This is not a durable concurrent database or a '
+    'secure credential store. Run in a disposable writable folder.'))
 S.append(code_panel('03 · RESTART TEST', 'Close Python. Read the file back.', [
     'import json',
     'from pathlib import Path',
@@ -219,20 +220,20 @@ S.append(two_col('03 · RECONSTRUCT', 'A loaded record can become a new object',
     'Use records from the preceding load step.',
 ], [
     'class Artwork:',
-    '    def __init__(self, title, views):',
-    '        self.title = title',
-    '        self.views = views',
+    '    def __init__(self, record):',
+    '        self.id = record["id"]',
+    '        self.title = record["title"]',
+    '        self.views = record["views"]',
+    '        self.exhibition_id = (',
+    '            record["exhibition_id"])',
     '    def view(self):',
     '        self.views += 1',
-    'record = records[0]',
-    'restored = Artwork(',
-    '    record["title"], record["views"]',
-    ')',
+    'restored = Artwork(records[0])',
     'restored.view()',
-    'print(restored.views)  # 4',
+    'print(restored.id, restored.views)',
 ], notes='Run directly after the read slide in the same fresh Python process. '
-    'The complete class definition is included here; only records comes from '
-    'the preceding load step. Calling '
+    'The class rebuilds all four saved fields; only records comes from the '
+    'preceding load step. Calling '
     'view() updates only the new in-memory object; save again to change the '
     'file. This is deliberate: students distinguish reconstructing from '
     'persisting a later update.'))

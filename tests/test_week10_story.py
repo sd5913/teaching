@@ -50,6 +50,10 @@ class Week10Tests(unittest.TestCase):
                                             cwd=directory, text=True, capture_output=True,
                                             check=True)
                     self.assertEqual(result.stdout.strip(), expected)
+            retry = subprocess.run([sys.executable, '-c', save],
+                                   cwd=directory, text=True, capture_output=True)
+            self.assertNotEqual(retry.returncode, 0)
+            self.assertIn('FileExistsError', retry.stderr)
 
 
 if __name__ == '__main__':

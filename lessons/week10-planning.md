@@ -49,7 +49,7 @@ Prioritise accessible classes and objects over advanced asyncio. Retain a visibl
 - [x] Include a runnable conceptual two-object example, student prediction, JSON save/restart demo and missing-file/broken-ID limitation.
 - [x] Align executable examples with [PFAD/2026 companion PR #13](https://github.com/sd5913/pfad/pull/13). It now has tested stdlib fictional JSON save/reload code; the draft deck also supplies standalone snippets. Preflight classroom run steps.
 - [ ] Select and verify the week's news using the criteria above.
-- [ ] Review the lesson for coherent progression, accuracy, appropriate depth and time for questions; revise in this same PR.
+- [x] Review the lesson for coherent progression, accuracy, appropriate depth and time for questions; revise in this same PR. Instructor timing approval remains separate.
 - [ ] Obtain instructor approval of timing and content before calling the deck classroom-ready; targeted build and preview checks are part of this draft's review.
 
 ## Gaps and decisions
@@ -84,4 +84,4 @@ Historical candidates, inspected as source inventory only; not claimed to run on
 
 ## Verification record
 
-The archive was read as 2025 evidence; `lessons/week10-lesson-plan.md` maps its PDF pages to this draft. The companion PFAD PR #13 now includes tested stdlib fictional JSON save/reload code. Week 10 diagrams and code previews are rendered in the local targeted build, not deployed. A full course build, physical classroom projection, instructor timing approval and optional live retrieval/model paths remain unverified.
+The archive was read as 2025 evidence; `lessons/week10-lesson-plan.md` maps its PDF pages to this draft. The companion PFAD PR #13 includes tested stdlib fictional JSON save/reload code, including duplicate-ID and broken-link checks. On 22 October, the full course build produced 28 Week 10 HTML/PDF/PPTX slides with no overflow, and key PDF pages were inspected at presentation scale. Physical classroom projection, instructor timing approval and optional live retrieval/model paths remain unverified. A local build is not a student-facing release.
