@@ -25,10 +25,10 @@ class Week08DeckTests(unittest.TestCase):
         self.assertLess(self.titles.index('Show a usable increment'),
                         self.titles.index('Review, then integrate'))
         self.assertLess(self.titles.index('Review, then integrate'),
-                        self.titles.index('Choose what survives removal'))
-        self.assertLess(self.titles.index('Choose what survives removal'),
-                        self.titles.index('Check the scope before a tool call'))
-        self.assertLess(self.titles.index('Check the scope before a tool call'),
+                        self.titles.index('Same project. Separate settings.'))
+        self.assertLess(self.titles.index('Same project. Separate settings.'),
+                        self.titles.index('A frame becomes landmarks'))
+        self.assertLess(self.titles.index('A frame becomes landmarks'),
                         self.titles.index('One goal, one change, one check'))
 
     def test_diagram_canvas_and_notes(self):
@@ -59,8 +59,12 @@ class Week08DeckTests(unittest.TestCase):
     def test_only_verified_draft_companion_is_linked(self):
         notes = ' '.join(s.notes for s in self.deck.S)
         self.assertIn('https://github.com/sd5913/pfad/pull/11', notes)
-        self.assertIn('local uv', notes)
-        self.assertIn('read-only', notes)
+        self.assertIn('uv/local', notes)
+        self.assertIn('GitHub Actions', notes)
+        self.assertIn('Codex cloud', notes)
+        self.assertIn('MediaPipe', notes)
+        self.assertIn('no input', notes)
+        self.assertNotIn('Docker', notes)
         self.assertNotIn('asyncio', notes)
         self.assertNotIn('Dec 1', notes)
 

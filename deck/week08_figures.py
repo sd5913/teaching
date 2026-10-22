@@ -76,40 +76,24 @@ def git_path(step):
     return c.finish(f'week08-git-{step}')
 
 
-def runtime(step):
+def environments():
     c = Canvas(1600, 720)
-    box(c, 20, 170, 'IMAGE', 'Packaged recipe', TEAL)
-    box(c, 585, 170, 'CONTAINER', 'Running process', ORANGE)
-    box(c, 1150, 170, 'LOCAL FILE', 'Lost on removal', VIOLET)
-    arrow(c, (465, 300), (555, 300), 'run')
+    box(c, 20, 170, 'REPOSITORY', 'Code + safe samples', TEAL)
+    box(c, 585, 170, 'GITHUB', 'Actions environment', ORANGE)
+    box(c, 1150, 170, 'CODEX', 'Cloud environment', VIOLET)
+    text(c, 800, 615, 'Separate settings. Never commit real credentials.',
+         45, anchor='middle')
+    return c.finish('week08-environments')
+
+
+def vision(step):
+    c = Canvas(1600, 720)
+    box(c, 20, 170, 'FRAME', 'Opt-in camera', TEAL)
+    box(c, 585, 170, 'LANDMARK', 'Index fingertip x', ORANGE)
+    box(c, 1150, 170, 'TILE', 'Visible choice', VIOLET)
+    arrow(c, (465, 305), (555, 305))
     if step >= 2:
-        arrow(c, (1030, 300), (1120, 300), 'writes')
-    text(c, 800, 600, 'A stopped container is not the same as a removed container.',
+        arrow(c, (1030, 305), (1120, 305))
+    text(c, 800, 600, 'x < 0.5: blue     x >= 0.5: red     no hand: no input',
          41, anchor='middle')
-    return c.finish(f'week08-runtime-{step}')
-
-
-def persistence():
-    c = Canvas(1600, 720)
-    box(c, 20, 155, 'HOST', 'Your project folder', TEAL)
-    box(c, 585, 155, 'CONTAINER', 'App reads /work', ORANGE)
-    box(c, 1150, 155, 'DATA', 'Write /work/out', VIOLET)
-    arrow(c, (465, 285), (555, 285), 'bind mount')
-    arrow(c, (1030, 285), (1120, 285), 'write')
-    text(c, 800, 570, 'Named volume: another persistent store managed by Docker.',
-         42, anchor='middle')
-    text(c, 800, 635, 'No mount: removal loses container-only writes.',
-         42, anchor='middle')
-    return c.finish('week08-persistence')
-
-
-def agent_tool(step):
-    c = Canvas(1600, 720)
-    box(c, 20, 170, 'PERSON', 'Grants scope', TEAL)
-    box(c, 585, 170, 'AGENT', 'Proposes a call', ORANGE)
-    box(c, 1150, 170, 'MCP SERVER', 'Offers tools', VIOLET)
-    arrow(c, (465, 305), (555, 305), 'request')
-    if step >= 2:
-        arrow(c, (1030, 305), (1120, 305), 'allowed call')
-    text(c, 800, 610, 'The tool executes only within granted permissions.', 45, anchor='middle')
-    return c.finish(f'week08-agent-{step}')
+    return c.finish(f'week08-vision-{step}')

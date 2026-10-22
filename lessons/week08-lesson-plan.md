@@ -1,95 +1,90 @@
 # Week 8 instructor run sheet — one piece that works
 
-**Status:** teaching draft for Thursday 29 October 2026, not a release or assessment announcement. Confirm
-class length, Week 7 hand-off and group scope-agreement procedure before
-teaching. The current companion is [PFAD draft PR #11](https://github.com/sd5913/pfad/pull/11)
-(original head `3b7c77b8dbc4d2ef759561391d94e7917199e688` at drafting); it contains
-one team activity, a tested stdlib Tile demo and an environment-inspection fallback;
-Docker is an optional paper exercise, **not** a tested Docker/Compose project.
-Use its merged 2026 path only after the PR is released.
+**Status:** draft for Thursday 29 October 2026, not a release or assessment
+announcement. Confirm class length, Week 7 hand-off and group scope-agreement
+procedure before teaching. The [PFAD companion PR #11](https://github.com/sd5913/pfad/pull/11)
+contains the student activity; use its merged 2026 path only after release.
 
 ## Outcome and preparation
 
-Students should leave able to state one small user/action/response promise,
-organise it as a goal and a usable increment, explain how a branch and peer
-review protect the team's working version, and tell another person what code,
-dependencies and safe data are needed to reproduce a run. No new submission
-is created by these working notes. The existing course plan asks for agreement
-on group scope by Week 8; confirm how to do that with the instructor.
+Students should turn a Week 7 idea into one testable increment, describe a
+branch/PR review path, and give another person safe repeatable run steps. They
+should distinguish GitHub Actions environment secrets from Codex cloud task
+settings, then map one hand position to a visible tile choice. No new graded
+submission or required account is created. The existing course plan calls for
+agreement on group scope by Week 8; confirm the actual route with Gio.
 
-Open the Week 7 mock-up and a working project's existing README. Have the deck
-PDF as a no-network backup. ClassPoint is optional: the three prediction votes
-also work in pairs or by show of hands. No news item has been verified for the
-actual teaching date, so skip the optional news slot. No Docker access, camera,
-live model, MCP installation or new student account is required.
+Open a Week 7 mock-up, a working project's README, and the Week 8 companion.
+Use the deck PDF as a network fallback. The prediction votes also work in
+pairs if ClassPoint is unavailable. No news item is verified for this date,
+so omit the optional slot. Prepare the supplied coordinate trace; use a live
+camera only after installation, permissions and the no-hand state have been
+checked on the classroom machine. No real API key, paid service, Docker or
+new student account is required.
 
-## Suggested pacing if this meeting lasts two hours
+## Suggested pacing if the meeting lasts two hours
 
-Adjust to the confirmed schedule; the numbers are **proposed**, not the
-course timetable. For a shorter meeting, cut optional containers and vision,
-not the goal, review and reproducibility workshop.
+Adjust to the confirmed timetable. For a shorter session, omit the live
+camera, not the goal, review, safe-setup comparison or team workshop.
 
-| Minutes | Slide block | Ask and demonstrate |
+| Minutes | Block | Ask and demonstrate |
 |---|---|---|
-| 0–15 | 1–8 | Recall one Week 7 mock-up. Trace visitor → tile → visible selection; inspect the tiny Tile class; have pairs choose the strongest success evidence. |
-| 15–38 | 9–14 | Build goal → ordered backlog → usable increment in three consistent diagrams. Teams voice one first test. |
-| 38–60 | 15–21 | Trace main → branch → PR → review → merge. Predict the same-line conflict and distinguish a text conflict from a broken combined behaviour. |
-| 60–70 | — | Break / questions; move if the actual session differs. |
-| 70–92 | 22–29 | Inspect a real README's code, dependencies and sample data. Predict stop vs remove and whether a mount survives; show prepared trace, not unverified commands. |
-| 92–102 | 30–34 | Agent → MCP server → tool, permission check. Vision is an optional input example only. |
-| 102–120 | 35–39 | Teams choose one increment, peer review path, repeatable run steps and next test; ask a few to explain a limitation. |
+| 0–15 | From Week 7 to one loop | Trace visitor → tile → visible response. Read the tiny Tile class and ask what would test the idea. |
+| 15–38 | Goal and increment | Order a short backlog and choose one usable slice. Teams state a first test. |
+| 38–60 | Branch and review | Trace main → branch → PR → review. Predict a text conflict and a broken combined behaviour. |
+| 60–70 | Break | Shift to fit the actual class. |
+| 70–90 | Repeatable and safe setup | Inspect README run steps and sample data; sort invented public settings versus secrets. GitHub Actions and Codex cloud have separate environments. |
+| 90–107 | MediaPipe input | Predict x = 0.2 and 0.8, try the supplied trace, then remove input. Compare an opt-in live camera only if preflighted. |
+| 107–120 | Team workshop | Choose an increment, reviewer, repeatable steps and next test; ask teams to name one limitation. |
 
-The colour-tile example on slide 5 uses a Python function returning a dictionary;
-slide 6 adds a tiny runnable Tile class with individual state. Neither is a
-complete interactive/audio application. Ask
-what a second visitor must actually see and how to tell a failed speaker from
-a failed click. Slide 7 is a prediction activity before the answer appears.
-Slides 10–12 and 16–18 use stable geometry to reveal one relationship at a
-time; keep detailed explanations in notes rather than on the drawings.
+The tile function and tiny Tile class on the early slides show response and
+per-object state, not a complete interactive/audio application. Ask what a
+visitor must actually see; a sound is optional. The goal/backlog/increment
+and branch/PR diagrams reveal one relationship at a time.
 
-## Environment activity / honest fallback
+## Environment comparison
 
-For slide 24, choose one project with known local run steps. Partners locate
-the entry command and a shareable sample input, predict a missing dependency,
-then edit the instructions to make one observation repeatable. Local uv is a
-valid route. Slides 25–29 show a **conceptual**, not measured, Docker trace:
-stop/restart the same container retains its writable layer; removing and
-recreating loses unmounted writes; reconnecting the same bind mount or volume
-preserves mounted data. An explicitly removed volume does not survive. A
-volume exists independently of a running container. Show the trace/diagram
-if the classroom host has no preflighted Docker example. Never ask students
-to join a privileged Docker group or mount personal folders/secrets. Service
-start order does not establish readiness: verify with a successful request or
-health check if a later live example is prepared.
+A GitHub Actions job explicitly targets a GitHub environment for its scoped
+settings and any protection rules; a Codex cloud task uses its own environment
+configuration. Neither receives the other's secrets automatically. An
+environment variable is not automatically a secret. Work through fake labels
+such as `DEMO_TOKEN` without putting any actual value into code, screenshots,
+PRs or logs. No one needs to create an account or configure a secret today.
+See [GitHub environments](https://docs.github.com/actions/deployment/targeting-different-environments/using-environments-for-deployment)
+and [Codex cloud environments](https://developers.openai.com/codex/environments/cloud-environments).
+If a real key is exposed, revoke/rotate it; deleting a commit is insufficient.
 
-For slides 31–33, describe an illustrative read-only request on a safe sample
-README. A tool advertisement or model proposal does not grant permission to
-delete files. No real destructive call is part of this lesson. For slide 34,
-a pointer or supplied coordinate sequence can replace a camera; capture is
-opt-in, no upload by default, and visual input is not evidence of emotion.
+## Hand position to visible response
+
+A consented camera frame can yield MediaPipe hand landmarks. The optional
+camera mode mirrors the frame and takes landmark 8 (index fingertip) as a
+normalized x coordinate: x < 0.5 selects blue; x >= 0.5
+selects red. A missing or invalid hand is explicitly **no input**, not a new
+detection or a fake success. Have pairs predict the supplied no-camera trace
+before running `python -B week08/hand_tiles.py` from the PFAD repo root.
+It exercises the mapping with 0.20, 0.49, 0.50, 0.80 and None, not the
+MediaPipe detector. If the
+camera demonstration was preflighted, compare the actual hand position and
+visible feedback with that trace. A pointer control is also valid. Do not
+record, upload or infer a person's emotions from a frame. Confirm the
+companion's `--camera --model` command and device requirements before class;
+the model is manually downloaded outside the repo, and `q` exits the tile
+window. The course-node optional inference was blocked by missing
+`libEGL.so.1`, so classroom camera behavior remains unverified.
 
 ## Source reconciliation
 
-The supplied 2025 Week 8 PDF (62 pages) is historical evidence. Retained:
-goal questions (p. 9), Scrum goal/backlog/increment vocabulary (pp. 19–23),
-branch/review choices (pp. 24–29), image/container/volume ideas (pp. 30–43).
-Replaced: the archived Dec 1 deadline, team-size/Blackboard instructions
-(pp. 4–8); mandatory Docker installation and multi-container model commands
-without preflight (pp. 30–43); the inaccurate statement that a volume needs
-a running container to be accessible (p. 34). Moved to optional connection:
-OpenCV/MediaPipe/diffusion (pp. 44–49, 51–61), not a parallel practical.
-The 2026 Week 7 idea/mock-up and current PFAD PR #11 supply the immediate
-student task. Agent → MCP → tool and explicit permission boundaries extend
-the historical agent recap (pp. 11–16) for the current teaching direction;
-they are illustrative, not a compulsory project architecture.
+The 2025 Week 8 PDF (62 pages) supplies project goals (p. 9), Scrum vocabulary
+(pp. 19–23), Git collaboration (pp. 24–29), and hand/visual input ideas
+(pp. 44–49, 51–61). Its Docker/Compose block (pp. 30–43) is **omitted from the
+2026 Week 8 core**, not adopted as a requirement; historical dates, team size
+and Blackboard instructions also do not carry over. The GitHub/Codex
+safe-setup comparison is a new current-year addition, not archived content.
+The Week 7 idea/mock-up and current PFAD Week 8 PR supply the student task.
 
-## Release checks still needed
+## Remaining release checks
 
-- Confirm class duration, group-scope process and Week 7 hand-off; class date is Thursday 29 October 2026.
-- Confirm student companion PR release and update the draft link in speaker notes
-  if its destination or instructions change.
-- If a live Docker example is added, preflight image, commands, storage and
-  cross-platform permissions on the classroom machine; the deck deliberately
-  promises only a prepared trace.
-- Optional news needs event/publication dates, primary source and a tested/not-
-  tested distinction close to class; omit if none qualifies.
+- Confirm class duration and group-scope process without inventing a submission.
+- Verify the student companion's final commands and updated draft links before
+  classroom use; run its no-camera tests and preflight the optional camera.
+- If adding near-class news, verify primary source, dates and what was tested.
