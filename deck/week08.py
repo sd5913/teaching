@@ -54,6 +54,21 @@ S.append(content('NEWS / 28 OCTOBER', 'Who gets to build and remix?', [
     'Anthropic’s 22 October research tested September configurations under controlled adversarial conditions, not everyday failure rates. '
     'Installed tools and automated monitors do not themselves authorize publishing or sharing data. '
     'The linked OpenAI announcement was inaccessible during the 28 October source check; do not quote its claims without verifying it.'))
+S.append(content('NEWS / 28 OCTOBER / VOICE', 'Dessa can listen while it speaks.', [
+    '**Dessa / Block:** [a research preview of speech-to-speech AI](https://block.xyz/dessa).',
+    '**Full duplex:** it listens and speaks at the same time.',
+    'Tone, timing, laughter and interruptions shape the conversation.',
+    '**Your game:** what changes if a character can hear you mid-sentence?',
+], body_size=42, notes='Primary source: https://block.xyz/dessa, read 28 October 2026. '
+    'Block says Dessa was trained from scratch on human conversation, without text or pretrained models. '
+    'Its full-duplex model takes audio in and produces audio out, including overlapping conversation. '
+    'These are developer claims and selected recordings, not results we reproduced. '
+    'If useful, play 15-20 seconds of a gaming conversation from the page after checking laptop audio. '
+    'Keep the entire opening news discussion within three minutes: choose one or two stories across the two slides. '
+    'Connect back to the Week 6 voice bot and forward to a handbook agent: retrieval supplies relevant PDF passages, '
+    'conversation history supplies memory, and speech is an interaction channel. '
+    'The Dessa page does not establish handbook retrieval, persistent memory or an available classroom integration. '
+    'Ask about timing and interruption in a game character or installation. No account or local model is needed for the news discussion.'))
 S.append(section('01', 'Your group project', 'An ambitious idea, built and delivered together.', notes='Connect to the Week 7 idea and mock-up.'))
 S.append(submission('https://github.com/sd5913/pfad/blob/4358b4e47b874ef40c120e63b2f6329acbe9b7d5/assignments/group-project.md',
     'Canvas repository submissions open this week. Final deadline: Sunday 6 December 2026, 23:59 HKT. '

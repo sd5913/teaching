@@ -18,6 +18,9 @@ module; do not rename it to match the calendar week.
 
 ## Preflight
 
+- Open the [Dessa news source](https://block.xyz/dessa) and check laptop audio
+  for a short gaming-conversation excerpt. Keep all news within three minutes
+  of the existing opening: choose one or two stories across the two news slides.
 - Reconcile registered GitHub accounts and submission verification against sd5913
   membership; have students accept the organization invitation. Members can
   currently create public repositories. Demonstrate **Owner: sd5913** when
