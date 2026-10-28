@@ -18,6 +18,17 @@ access settings. Existing personal group repos can be transferred with the
 instructor's help, preserving history. Personal-account Projects also exist;
 the organization is this course's shared home rather than a GitHub requirement.
 
+Students create their group Project from the organization's
+[Group Project 2026 template](https://github.com/orgs/sd5913/projects/1), based on
+the iterative-development structure. It includes one-week iterations, current
+and next iteration views, a full board and dated delivery cards. Tutor reviews
+cover the class weeks of 5, 12, 19 and 26 November, then 3 December; exact meeting
+times follow each group's allocated tutorial slot and are confirmed by the
+tutor. The 6 December, 23:59 HKT submission card is separate. Students bring a
+usable increment and evidence, record feedback and agree the next goal. This
+documents the existing execution criterion without adding a grade component or
+Canvas upload. New copies need their own repository links and teammate access.
+
 Agile/Scrum is explicit quiz material. The Week 1 Manifesto recap leads into
 iterative/incremental work, Scrum pillars, accountabilities, artifacts and their
 commitments, and Sprint events. GitHub Projects/Issues demonstrate shared

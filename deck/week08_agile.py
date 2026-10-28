@@ -7,6 +7,7 @@ MANIFESTO = 'https://agilemanifesto.org/'
 PRINCIPLES = 'https://agilemanifesto.org/principles.html'
 SCRUM = 'https://scrumguides.org/scrum-guide.html'
 PROJECTS = 'https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/quickstart-for-projects'
+TEAM_TEMPLATE = 'https://github.com/orgs/sd5913/projects/1'
 
 
 def manifesto():
@@ -195,6 +196,42 @@ def board():
     return slide
 
 
+def tutor_deliveries():
+    slide = canvas('GROUP PROJECT / WEEKLY TUTOR REVIEWS', 'Bring a usable delivery each week.',
+        'These are the remaining Thursday class-week dates, not appointments at a '
+        'newly invented time. Students meet their assigned tutor in their scheduled '
+        'tutorial slot that week; the tutor confirms the exact time. The course '
+        'Project template contains dated draft cards and one-week iterations. '
+        'At each review bring a usable Increment, test/playtest evidence and the '
+        'main blocker. Record tutor feedback and the next goal with owners. '
+        'Adapt each focus to the game, app or installation with the tutor. '
+        'The final Canvas submission is a separate deadline, not a tutor meeting. '
+        'These records support the existing 25% execution mark; there is no extra '
+        f'grade component or Canvas upload. Template: {TEAM_TEMPLATE}.')
+    slide.els.append(T(120, 295, 1680, 70,
+        'Your assigned tutor / your scheduled tutorial slot that week', 'body', 40, INK))
+    for i, (day, focus) in enumerate([
+        ('05 Nov', 'First working interaction'),
+        ('12 Nov', 'Integrated core experience'),
+        ('19 Nov', 'Playtest and feedback'),
+        ('26 Nov', 'Delivery candidate'),
+        ('03 Dec', 'Final tutor delivery review'),
+    ]):
+        y = 390 + i * 92
+        slide.els += [
+            Rect(120, y, 1680, 80, PAPER),
+            T(150, y + 12, 290, 65, day, 'xbold', 44, INK),
+            T(490, y + 12, 1280, 65, focus, 'body', 42, INK),
+        ]
+    slide.els += [
+        T(120, 875, 1680, 65, 'Canvas deadline: 06 Dec 2026 / 23:59 HKT',
+          'semibold', 44, ORANGE),
+        T(120, 955, 1680, 45,
+          f'[Group Project 2026 template →]({TEAM_TEMPLATE})', 'body', 32, BLUE),
+    ]
+    return slide
+
+
 def agile_slides(teamwork_url):
     return [
         content('AGILE / SCRUM / TOOLS', 'Three different kinds of support', [
@@ -211,14 +248,20 @@ def agile_slides(teamwork_url):
             f'Sources: {MANIFESTO}, {SCRUM}, {PROJECTS}.'),
         manifesto(), learning_loop(), accountabilities(), artifacts(), sprint(), board(),
         content('GITHUB / ISSUES → PROJECT → PULL REQUEST', 'Set up your team tracking.', [
-            '**1 / Create** your group Project under **sd5913**; choose Board view.',
-            '**2 / Add** repository issues with an outcome, assignee and check.',
-            '**3 / Track** Status; optionally add a weekly Iteration field.',
-            '**4 / Link** the PR to its issue; record review and test evidence.',
+            f'**1 / Copy** [Group Project 2026]({TEAM_TEMPLATE}) into **sd5913**; name it for your team.',
+            '**2 / Link** your repository; give teammates Project Write access.',
+            '**3 / Plan** issues in weekly iterations; use the dated tutor review cards.',
+            '**4 / Track** Status; link the PR, tests and review evidence.',
             'A PR description with **Closes #12** closes issue #12 on merge to the default branch.',
         ], body_size=42, notes='Demonstrate with prepared material, not a student-owned '
             'board. Personal-account Projects also exist; this course uses an sd5913 '
-            'organization repository and Project for each group. Students first accept '
+            'organization repository and Project for each group. In sd5913 > Projects > '
+            'New project select the organization template Group Project 2026. It uses '
+            'the iterative-development structure with one-week cycles, Current iteration '
+            'and Next iteration views, a Team board and Delivery dates. Use the group '
+            'copy rather than editing the shared template. Repository links and '
+            'collaborators are not copied, so configure both for the new Project. '
+            'Students first accept '
             'the org invitation using their registered account, then choose Owner: '
             'sd5913 when creating a public repository. Give teammates Write access to '
             'their own repository and separately to their Project. Set that Project\'s '
@@ -234,6 +277,7 @@ def agile_slides(teamwork_url):
             'Other options include Trello, Notion or a shared Markdown task list, provided '
             'the work and weekly progress remain accessible from the repository. '
             f'{PROJECTS}; https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue'),
+        tutor_deliveries(),
         content('GROUP PROJECT / EXECUTION / 25%', 'Show how your team makes progress.', [
             '**Plan:** ordered tasks, clear owners and a goal for the next cycle.',
             '**Build:** small, steady contributions and usable Increments.',
