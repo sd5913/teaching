@@ -4,7 +4,7 @@ from deckgen import Slide, Rect, T, INK, WHITE, PAPER, ORANGE, MUTED, attach_rep
 from deckgen.layouts import title, agenda, section, statement, content, question, code_panel, end, finalize
 
 EYE = 'SD5913 / WEEK 08 / 29 OCTOBER 2026'
-PFAD = 'https://github.com/sd5913/pfad/tree/655440055a40d0d8f336a527150fae7f2d5fd825/week08'
+PFAD = 'https://github.com/sd5913/pfad/tree/408af3350c7791935f7d8b3b13fa632f224fc779/week08'
 S = []
 
 
@@ -43,7 +43,7 @@ S.append(content('GROUP PROJECT / CANVAS', 'Register your repository now.', [
     'Submit its URL on Canvas from this week; an initial README is enough.',
     'Keep building and documenting progress in that same repository.',
     'Final deadline: Sunday 6 December 2026, 23:59 HKT.',
-    '[Group project brief](https://github.com/sd5913/pfad/blob/655440055a40d0d8f336a527150fae7f2d5fd825/assignments/group-project.md)',
+    '[Group project brief](https://github.com/sd5913/pfad/blob/408af3350c7791935f7d8b3b13fa632f224fc779/assignments/group-project.md)',
 ], body_size=42, notes='Canvas assignment URL was not supplied. Instructor: add its actual link when available. Website URL submission; ensure the team submission settings match the actual Canvas group set. This does not change individual Assignment 3.'))
 S.append(boxes('GROUP PROJECT / 40% OF COURSE GRADE', 'How the project is marked', [
     ('25%', 'Creative idea', 'Novelty and value'), ('50%', 'Code', 'Works; meets the brief'), ('25%', 'Execution', 'Steady, documented work')],
@@ -151,27 +151,27 @@ S.append(boxes('LIVE DEMO / PIPELINE', 'From light to an action', [
 S.append(content('LIVE / FACE + HAND', 'Look at what the model returns.', [
     'Face detector: a box around each detected face.', 'Hand Landmarker: 21 points per hand, including index fingertip 8.',
     'Move closer, rotate your hand, hide it: when does tracking fail?',
-    '[Modern source and run commands](https://github.com/sd5913/pfad/blob/655440055a40d0d8f336a527150fae7f2d5fd825/week08/README.md)',
+    '[Modern source and run commands](https://github.com/sd5913/pfad/blob/408af3350c7791935f7d8b3b13fa632f224fc779/week08/README.md)',
 ], body_size=42, notes='From PFAD root run: uv run --project week08 python week08/vision.py face; then hand. Press q to stop. Show vision.py and the model source. Camera demo requires graphical desktop and permission.'))
 S.append(content('LIVE / HAND TO RESPONSE', 'A coordinate becomes a choice.', [
     'Read landmark 8: the index fingertip.', 'Map x < 0.5 to blue and x ≥ 0.5 to red.',
-    'If no hand is detected, select neither.', '[Hand-to-tile example](https://github.com/sd5913/pfad/blob/655440055a40d0d8f336a527150fae7f2d5fd825/week08/hand_tiles.py)',
-], body_size=42, notes='Run no-camera sample first: python -B week08/hand_tiles.py. Then if preflighted: uv run --project week08 python week08/hand_tiles.py --camera --model week08/models/hand.task. Check exact command and model before lecture.'))
+    'If no hand is detected, select neither.', '[Hand-to-tile example](https://github.com/sd5913/pfad/blob/408af3350c7791935f7d8b3b13fa632f224fc779/week08/hand_tiles.py)',
+], body_size=42, notes='Run no-camera sample first: python -B week08/hand_tiles.py. Then if preflighted: uv run --project week08 python week08/hand_tiles.py --camera --model week08/models/hand.task. Add --camera-index 1 if using the second camera. Check exact command and model before lecture.'))
 S.append(content('LIVE / GESTURE + POSE', 'Compare two kinds of output.', [
     'Gesture Recognizer: a trained model returns a gesture label and score.',
     'Pose Landmarker: body points can drive an interaction.',
     'A score is model confidence, not proof of intent.',
-    '[Examples and source](https://github.com/sd5913/pfad/blob/655440055a40d0d8f336a527150fae7f2d5fd825/week08/vision.py)',
+    '[Examples and source](https://github.com/sd5913/pfad/blob/408af3350c7791935f7d8b3b13fa632f224fc779/week08/vision.py)',
 ], body_size=42, notes='Run gesture then pose. This modern trained recognizer differs from the 2025 handwritten landmark rules. Discuss what happens when the hand or body leaves view.'))
 S.append(content('LIVE / SEGMENTATION', 'A mask changes the background.', [
     'The model estimates a person mask for each frame.', 'OpenCV combines foreground with a replacement background.',
-    'Try hair, a raised hand and a busy background.', '[All Week 8 vision exercises](https://github.com/sd5913/pfad/tree/655440055a40d0d8f336a527150fae7f2d5fd825/week08)',
+    'Try hair, a raised hand and a busy background.', '[All Week 8 vision exercises](https://github.com/sd5913/pfad/tree/408af3350c7791935f7d8b3b13fa632f224fc779/week08)',
 ], body_size=42, notes='Run uv run --project week08 python week08/vision.py segment. Segmentation estimates pixels, distinct from landmarks. No camera data needs uploading or saving.'))
 S.append(content('TUTORIAL / TWO HOURS', 'Try all nine vision examples.', [
     'Start with camera setup, face and hand; then pose, mesh and gestures.',
     'Combine models, try segmentation, and examine expression output critically.',
     'For each example: run it, observe, change one thing, and discuss a limitation.',
-    '[Open the PFAD Week 8 tutorial](https://github.com/sd5913/pfad/blob/655440055a40d0d8f336a527150fae7f2d5fd825/week08/README.md)',
+    '[Open the PFAD Week 8 tutorial](https://github.com/sd5913/pfad/blob/408af3350c7791935f7d8b3b13fa632f224fc779/week08/README.md)',
 ], body_size=42, notes='The tutorial is led by the TA using the README, independent of instructor ClassPoint login. Optional team cloud setup follows the camera work where time allows.'))
 S.append(end('Build together.\nShow your work.', 'One idea. One shared repository. A working next step.', EYE,
     notes='Remind teams to submit the shared repository URL and continue developing until 6 December 23:59 HKT.'))
