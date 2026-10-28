@@ -15,8 +15,19 @@ Explain the computing ideas that let students make decisions about those tools.
 Read the instructor's current request, accepted course plan, actual earlier
 decks, relevant PFAD READMEs and the existing draft PR pair. Inspect what was
 taught, rather than relying on a future draft's recap. Read the corresponding
-2025 slides and examples if available; record what is retained, updated, moved
-or removed. Current instructor decisions override historical scheduling.
+2025 slides and examples if available. Maintain a concept crosswalk recording
+the original slide/page or example, its 2026 destination, and whether it is
+retained, updated, moved or removed. Read adjacent weeks for dependencies.
+Current instructor decisions override historical scheduling.
+
+Preserve the planned progression, not just isolated topics. In the later-week
+sequence, objects/classes lead to persistent relational models; embeddings
+lead to semantic retrieval/RAG; those same vectors and source metadata feed
+visual exploration before application APIs and agents. Replacing an outdated
+installation or framework does not justify deleting the computing idea.
+Include substantive removals or changes of scope in the outline for agreement.
+An audit's recommendation and an omission in an existing draft are not proof
+that the instructor approved a deletion.
 
 Prepare an outline for agreement containing:
 
@@ -73,8 +84,17 @@ defence, graded presentation or software stack.
 For each major concept, provide a representation, a concrete code path, an
 observable result and a useful question or failure. For example, a networking
 block should let a student follow a message through client/server roles and
-explain what happens when the server stops. A database block should contain
-queries and persisted records, not only a comparison of files and objects.
+explain what happens when the server stops. A relational database block should
+build on meaningful classes such as User, Account, Message or SaveFile. Trace
+model methods to stored fields/relationships, SQL and a fresh-process reload.
+Clarify that values and relationships persist; Python methods remain code.
+
+An embeddings block needs real model-derived numerical vectors and observable
+similarity-search results. Link results to source IDs/text/metadata, distinguish
+similarity from exact database lookup, and inspect retrieval before generation.
+If a later lesson visualizes those vectors, carry the same corpus, encoder
+identity, dimension and provenance across the handoff. A sourced vector fixture
+can support an honest fallback; keyword matching cannot stand in for embeddings.
 
 Introduce terminology in plain language, then use the correct technical term.
 Ask students to predict outputs, distinguish two mechanisms, locate a fault,

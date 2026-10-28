@@ -15,6 +15,10 @@ creating or reviewing a lesson. These instructions apply to the whole repo.
 - Agree the outline before producing a replacement lesson. Read the actual
   delivered material and its PFAD companion first. Check the 2025 archive for
   useful content and omissions; it does not determine current policy or APIs.
+- Preserve cross-week conceptual dependencies with a source-to-lesson crosswalk.
+  Persistent model classes, embeddings/semantic retrieval and the subsequent
+  exploration of the same vectors are part of the teaching progression.
+  Modernizing a stack or accepting an audit does not authorize dropping them.
 - Preserve verification over memorization: predict a result, trace the code,
   try a change, inspect a failure, explain the evidence. A tool tour and repeated
   project-planning prompts do not substitute for computing concepts.
