@@ -25,7 +25,8 @@ module; do not rename it to match the calendar week.
   Preserve history when helping transfer an existing personal repository.
 - Prepare a GitHub Projects Board demonstration with repository issues, assignees,
   Status and weekly Iteration. Use the [Group Project 2026 template](https://github.com/orgs/sd5913/projects/1):
-  students choose it in sd5913 > Projects > New project. Show Current iteration,
+  show the public-page screenshot, open the link, click **Use this template**
+  and choose **sd5913** as the owner. Show Current iteration,
   Next iteration, Team board and Delivery dates. Use a prepared group copy for
   changes. Repository links and collaborators are not copied from the template.
   Check board access separately from repository

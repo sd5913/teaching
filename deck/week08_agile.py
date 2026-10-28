@@ -1,5 +1,5 @@
 """Agile/Scrum concepts and GitHub tracking for the group-project execution mark."""
-from deckgen import Rect, T, INK, WHITE, PAPER, MUTED, LINE, BLUE, ORANGE, TEAL
+from deckgen import Image, Rect, T, INK, WHITE, PAPER, MUTED, LINE, BLUE, ORANGE, TEAL
 from deckgen.layouts import content
 from week08_visuals import canvas
 
@@ -196,6 +196,32 @@ def board():
     return slide
 
 
+def project_template():
+    slide = canvas('GITHUB PROJECTS / PUBLIC COURSE TEMPLATE', 'Start from the course template.',
+        'Screenshot of the public Group Project 2026 template, captured signed out '
+        'on 28 October 2026. The enlarged button is a detail from the same page. '
+        'Open the linked template and click Use this template, choose sd5913 as '
+        'the owner and name the new Project for your group. GitHub creates a Project '
+        'with the configured views, fields and dated draft review cards. Link your '
+        'repository and configure teammate Project access afterwards. The screenshot '
+        'shows the complete delivery schedule; the next two slides explain setup '
+        f'and tutor reviews. Source: {TEAM_TEMPLATE}.')
+    slide.els += [
+        Image(120, 340, 1680, 434, 'week08-project-template.png',
+              fit='contain', url=TEAM_TEMPLATE),
+        Rect(120, 340, 1680, 434, stroke=LINE, stroke_w=2),
+        Rect(1654, 358, 133, 40, stroke=ORANGE, stroke_w=4),
+        T(1475, 288, 325, 60, 'Start here ↓', 'semibold', 40, ORANGE, align='r'),
+        Image(120, 835, 400, 96, 'week08-project-template-button.png',
+              fit='contain', url=TEAM_TEMPLATE),
+        T(555, 850, 1245, 85, '→ Owner: sd5913 → Name your group\'s Project',
+          'semibold', 42, INK),
+        T(120, 960, 1680, 40,
+          f'[Open Group Project 2026 →]({TEAM_TEMPLATE})', 'body', 32, BLUE),
+    ]
+    return slide
+
+
 def tutor_deliveries():
     slide = canvas('GROUP PROJECT / WEEKLY TUTOR REVIEWS', 'Bring a usable delivery each week.',
         'These are the remaining Thursday class-week dates, not appointments at a '
@@ -247,20 +273,22 @@ def agile_slides(teamwork_url):
             'within the broader Agile landscape, and GitHub is one possible tool. '
             f'Sources: {MANIFESTO}, {SCRUM}, {PROJECTS}.'),
         manifesto(), learning_loop(), accountabilities(), artifacts(), sprint(), board(),
+        project_template(),
         content('GITHUB / ISSUES → PROJECT → PULL REQUEST', 'Set up your team tracking.', [
-            f'**1 / Copy** [Group Project 2026]({TEAM_TEMPLATE}) into **sd5913**; name it for your team.',
-            '**2 / Link** your repository; give teammates Project Write access.',
+            f'**1 / Open** [Group Project 2026]({TEAM_TEMPLATE}) → **Use this template** → **sd5913**.',
+            '**2 / Set up** the name, repository link and teammate Project Write access.',
             '**3 / Plan** issues in weekly iterations; use the dated tutor review cards.',
             '**4 / Track** Status; link the PR, tests and review evidence.',
             'A PR description with **Closes #12** closes issue #12 on merge to the default branch.',
         ], body_size=42, notes='Demonstrate with prepared material, not a student-owned '
             'board. Personal-account Projects also exist; this course uses an sd5913 '
-            'organization repository and Project for each group. In sd5913 > Projects > '
-            'New project select the organization template Group Project 2026. It uses '
+            'organization repository and Project for each group. Open the linked '
+            'Group Project 2026 template, click Use this template and choose sd5913 '
+            'as the owner. Name the new Project for the group. It uses '
             'the iterative-development structure with one-week cycles, Current iteration '
             'and Next iteration views, a Team board and Delivery dates. Use the group '
-            'copy rather than editing the shared template. Repository links and '
-            'collaborators are not copied, so configure both for the new Project. '
+            'Project for ongoing work. Repository links and collaborators are not '
+            'included, so configure both for the new Project. '
             'Students first accept '
             'the org invitation using their registered account, then choose Owner: '
             'sd5913 when creating a public repository. Give teammates Write access to '

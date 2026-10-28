@@ -11,7 +11,7 @@ from week08_visuals import (
 from week08_agile import agile_slides
 
 EYE = 'SD5913 / WEEK 08 / 29 OCTOBER 2026'
-PFAD = 'https://github.com/sd5913/pfad/blob/4dc205218cacb130f4c9642a70ec85078e48903c/week08'
+PFAD = 'https://github.com/sd5913/pfad/blob/f88e2d37a90160868b90f0d9ced810c1137622f8/week08'
 S = []
 
 
@@ -55,7 +55,7 @@ S.append(content('NEWS / 28 OCTOBER', 'Who gets to build and remix?', [
     'Installed tools and automated monitors do not themselves authorize publishing or sharing data. '
     'The linked OpenAI announcement was inaccessible during the 28 October source check; do not quote its claims without verifying it.'))
 S.append(section('01', 'Your group project', 'An ambitious idea, built and delivered together.', notes='Connect to the Week 7 idea and mock-up.'))
-S.append(submission('https://github.com/sd5913/pfad/blob/4dc205218cacb130f4c9642a70ec85078e48903c/assignments/group-project.md',
+S.append(submission('https://github.com/sd5913/pfad/blob/f88e2d37a90160868b90f0d9ced810c1137622f8/assignments/group-project.md',
     'Canvas repository submissions open this week. Final deadline: Sunday 6 December 2026, 23:59 HKT. '
     'Students accept the sd5913 organization invitation with their registered GitHub account. '
     'One teammate creates a public repository with Owner: sd5913, for example group-your-project, '
@@ -273,7 +273,7 @@ S.append(vision_code('Call a method for each frame', [
 S.append(content('LIVE / FACE + HAND', 'Look at what the model returns.', [
     'Face detector: a box around each detected face.', 'Hand Landmarker: 21 points per hand, including index fingertip 8.',
     'Move closer, rotate your hand, hide it: when does tracking fail?',
-    '[Modern source and run commands](https://github.com/sd5913/pfad/blob/4dc205218cacb130f4c9642a70ec85078e48903c/week08/README.md)',
+    '[Modern source and run commands](https://github.com/sd5913/pfad/blob/f88e2d37a90160868b90f0d9ced810c1137622f8/week08/README.md)',
 ], body_size=42, notes='From the PFAD root, cd week08; run uv run python vision.py face; then hand. Press q to stop. Show vision.py and the model source. Camera demo requires graphical desktop and permission.'))
 S.append(fingertip(
     'A result object contains hand_landmarks, a list of detected hands. Each hand is a list of 21 landmark objects; '
@@ -304,7 +304,7 @@ S.append(vision_code('Turn a position into a choice', [
     'The guards also reject nonnumeric, nonfinite and out-of-frame values. '
     'From the PFAD root, cd week08 and run uv run python hand_tiles.py for the synthetic no-camera examples. '
     'This is an authored threshold, not a gesture classification by the model.'))
-S.append(tiles('https://github.com/sd5913/pfad/blob/4dc205218cacb130f4c9642a70ec85078e48903c/week08/hand_tiles.py',
+S.append(tiles('https://github.com/sd5913/pfad/blob/f88e2d37a90160868b90f0d9ced810c1137622f8/week08/hand_tiles.py',
     'From the PFAD root, cd week08. Run no-camera sample first: uv run python hand_tiles.py. Then if preflighted: uv run python hand_tiles.py --camera --model models/hand.task. Add --camera-index 1 if using the second camera. Check exact command and model before lecture.'))
 S.append(vision_code('Draw a point on the frame', [
     'height, width = frame.shape[:2]',
@@ -322,11 +322,11 @@ S.append(content('LIVE / GESTURE + POSE', 'Compare two kinds of output.', [
     'Gesture Recognizer: a trained model returns a gesture label and score.',
     'Pose Landmarker: body points can drive an interaction.',
     'A score is model confidence, not proof of intent.',
-    '[Examples and source](https://github.com/sd5913/pfad/blob/4dc205218cacb130f4c9642a70ec85078e48903c/week08/vision.py)',
+    '[Examples and source](https://github.com/sd5913/pfad/blob/f88e2d37a90160868b90f0d9ced810c1137622f8/week08/vision.py)',
 ], body_size=42, notes='Run gesture; choose pose or segmentation as the second demo according to time. This modern trained recognizer differs from the 2025 handwritten landmark rules. Discuss what happens when the hand or body leaves view.'))
 S.append(content('LIVE / SEGMENTATION', 'A mask changes the background.', [
     'The model estimates a person mask for each frame.', 'OpenCV combines foreground with a replacement background.',
-    'Try hair, a raised hand and a busy background.', '[All Week 8 vision exercises](https://github.com/sd5913/pfad/tree/4dc205218cacb130f4c9642a70ec85078e48903c/week08)',
+    'Try hair, a raised hand and a busy background.', '[All Week 8 vision exercises](https://github.com/sd5913/pfad/tree/f88e2d37a90160868b90f0d9ced810c1137622f8/week08)',
 ], body_size=42, notes='If choosing segmentation, from week08 run uv run python vision.py segment. Otherwise explain the mask briefly and leave the live example for the tutorial. Segmentation estimates pixels, distinct from landmarks. No camera data needs uploading or saving.'))
 S.append(tutorial(
     f'{PFAD}/README.md',

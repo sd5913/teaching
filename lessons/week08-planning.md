@@ -20,7 +20,8 @@ the organization is this course's shared home rather than a GitHub requirement.
 
 Students create their group Project from the organization's
 [Group Project 2026 template](https://github.com/orgs/sd5913/projects/1), based on
-the iterative-development structure. It includes one-week iterations, current
+the iterative-development structure: click **Use this template** and choose
+**sd5913** as the owner. It includes one-week iterations, current
 and next iteration views, a full board and dated delivery cards. Tutor reviews
 cover the class weeks of 5, 12, 19 and 26 November, then 3 December; exact meeting
 times follow each group's allocated tutorial slot and are confirmed by the
