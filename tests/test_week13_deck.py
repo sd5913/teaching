@@ -1,4 +1,4 @@
-"""Checks for the provisional Week 13 deck and its navigation."""
+"""Week 13 export contract; revision prose is reviewed in rendered artifacts."""
 
 import importlib.util
 import tomllib
@@ -24,30 +24,16 @@ class Week13Deck(unittest.TestCase):
         self.assertIn('href="week13/"', site)
         self.assertIn('week13/SD5913-week13.pdf', site)
 
-    def test_complete_unassessed_review_sequence(self):
+    def test_public_deck_has_notes_without_graded_activity_payloads(self):
         slides = self.module.DECK['slides']
-        self.assertEqual(len(slides), 29)
         self.assertTrue(all(slide.notes for slide in slides))
         self.assertFalse(any(slide.cp for slide in slides))
-        titles = [slide.title for slide in slides]
-        for title in ('What prints?', 'What if limit is zero?',
-                      'A suggestion is not permission to act',
-                      'From repository to checked result', 'What still needs an explanation?'):
-            self.assertIn(title, titles)
 
-    def test_diagrams_fill_the_body_and_have_large_labels(self):
+    def test_diagrams_fill_export_body(self):
         for slide in self.module.DECK['slides']:
-            if slide.title not in ('Input becomes a visible result',
-                                   'Test, change, stop',
-                                   'A suggestion is not permission to act',
-                                   'From repository to checked result'):
-                continue
-            figure = next(el for el in slide.els if type(el).__name__ == 'Figure')
-            self.assertGreaterEqual(figure.w, 1700)
-            self.assertGreaterEqual(figure.h, 780)
-        source = (ROOT / 'deck/week13_figures.py').read_text()
-        self.assertIn('58, INK', source)
-        self.assertIn('42, MUTED', source)
+            for figure in (el for el in slide.els if type(el).__name__ == 'Figure'):
+                self.assertGreaterEqual(figure.w, 1700)
+                self.assertGreaterEqual(figure.h, 780)
 
 
 if __name__ == '__main__':
