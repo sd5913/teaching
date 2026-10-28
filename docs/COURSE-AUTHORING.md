@@ -152,6 +152,9 @@ device, a real deployment token, paid generation or specialist hardware.
 State any actual prerequisites. Provide deterministic fixtures, a local
 simulation or another meaningful fallback, and distinguish its coverage from
 the live system. Do not describe a trace replay as a live agent.
+Rendering a film still requires a verified graphics path, even when no
+dedicated GPU or model inference is required. Document that prerequisite and
+the recorded-frame/partner-machine alternative honestly.
 
 Rehearse network demos alongside the presenter and other required services;
 check ports and bind addresses. Exercise disconnects, malformed/missing data,

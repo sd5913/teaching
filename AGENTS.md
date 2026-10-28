@@ -60,7 +60,7 @@ creating or reviewing a lesson. These instructions apply to the whole repo.
   times within allocated tutorial slots. These records support the existing
   execution criterion. Do not invent a compulsory project defence.
 - Project connections are inspiration. Do not require camera input, AI,
-  a specific engine, app-store publication, paid APIs, a GPU or robot hardware
+  a specific engine, app-store publication, paid APIs, a dedicated GPU or robot hardware
   merely because a weekly demo uses them. State actual exercise prerequisites
   and supply a meaningful fallback.
 
