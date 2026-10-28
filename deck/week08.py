@@ -31,12 +31,19 @@ S.append(question('multiple_choice', 'What is your group idea becoming?',
     notes='Invite each team to choose the closest direction. These categories overlap and an idea can change. ClassPoint if available; otherwise show of hands. Ask one or two teams what a person will do.'))
 S.append(agenda(EYE, ['Group project and assessment', 'Teamwork: changes, review and conflicts', 'Codex cloud environments for app and game starters', 'Break', 'Actions, artifacts and deployment secrets', 'Live camera: OpenCV and MediaPipe', 'PFAD tutorial'],
     notes='Suggested pacing: opening/news/project 10 min; Git 20; cloud 25; break 10; Actions 20; camera demos 30; tutorial handoff 5 = 120 minutes.'))
-S.append(content('NEWS / 28 OCTOBER', 'A coding agent still needs a review.', [
-    'New coding models can suggest a change; the team decides whether it works.',
-    'Read the diff. Run the checks. Ask a teammate to try the result.',
-    '[OpenAI: GPT-6.1 Terra announcement](https://openai.com/index/introducing-gpt-6-1-terra/)',
-    '[Research: red-teaming automatic permission monitoring](https://alignment.anthropic.com/2026/red-teaming-auto-mode/)',
-], body_size=42, notes='Use three minutes inside the opening. OpenAI published its announcement 26 October; cost/capability comparisons are vendor claims, not a verified student-project benchmark. Anthropic’s 22 October research tests September snapshots in a controlled setting, not everyday failure rates. Installed tools and automatic monitoring do not themselves authorize publication or sharing data.'))
+S.append(content('NEWS / 28 OCTOBER', 'Who gets to build and remix?', [
+    '[Switch 2](https://www.polygon.com/nintendo-switch-2-hackers-jailbreak-dumping-files-modding/): new access enables homebrew and mods.',
+    '[Indie games](https://arstechnica.com/gaming/2026/10/ai-game-clones-are-making-indie-developers-afraid-to-show-their-work/): fear of AI clones delays a demo.',
+    '[Agent research](https://alignment.anthropic.com/2026/red-teaming-auto-mode/): automated monitors can be bypassed.',
+    '[OpenAI announcement](https://openai.com/index/introducing-gpt-6-1-terra/): test what coding agents produce.',
+], body_size=42, notes='Use three minutes inside the opening; choose one or two stories, not four separate discussions. '
+    'Polygon reported on 22 and 26 October that a Switch 2 exploit enabled modding and later file-system access on a specific firmware; '
+    'the published demo is temporary and is not a general permanent jailbreak or kernel access. We have not tested a console. '
+    'Ask: what would you add to a closed platform, and how does that differ from copying someone’s game or assets? '
+    'Ars Technica reports a developer postponed a public demo over cloning concerns; that is a concern about potential copying, not proof the demo was copied. '
+    'Anthropic’s 22 October research tested September configurations under controlled adversarial conditions, not everyday failure rates. '
+    'Installed tools and automated monitors do not themselves authorize publishing or sharing data. '
+    'The linked OpenAI announcement was inaccessible during the 28 October source check; do not quote its claims without verifying it.'))
 S.append(section('01', 'Your group project', 'An ambitious idea, built and delivered together.', notes='Connect to the Week 7 idea and mock-up.'))
 S.append(content('GROUP PROJECT / CANVAS', 'Register your repository now.', [
     'Create one shared GitHub repository for your team.',
