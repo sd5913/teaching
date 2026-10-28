@@ -10,7 +10,9 @@ module; do not rename it to match the calendar week.
 | 30–55 | Codex cloud | Create environments for the Capacitor and Godot starters, review setup, publish and start a small task; mention the Python option. Keep a prepared environment available. |
 | 55–65 | Break | Set up the camera and light. |
 | 65–85 | Actions and delivery | Follow CI to artifacts; use Tetrilaunch's OS matrix and mobile workflows; show secret creation with fake values and provider deployment token. |
-| 85–115 | OpenCV and MediaPipe | Live camera: preview, face, hand, fingertip-to-tile, gesture, pose or segmentation. Show tracking loss and source links. |
+| 85–93 | Frames and Python objects | Connect pixels, channels, the camera object and its read method to Week 7 classes; introduce the tracker and model asset. |
+| 93–105 | Landmarks to interaction | Run face/hand and fingertip-to-tile; trace the result, no-hand case, threshold and pixel coordinates. Ask students to predict the threshold outputs. |
+| 105–115 | Other model outputs | Show gesture and pose or segmentation; compare outputs, tracking loss and limitations. Choose the second demo according to time. |
 | 115–120 | Tutorial handoff | Open PFAD README; explain the nine examples and optional group cloud work. |
 
 ## Preflight

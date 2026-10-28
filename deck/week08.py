@@ -166,25 +166,132 @@ S.append(boxes('LIVE DEMO / PIPELINE', 'From light to an action', [
     ('OpenCV', 'Camera → frame', 'BGR → RGB'), ('MediaPipe', 'Model → landmarks', 'Coordinates + confidence'),
     ('Your code', 'Map the result', 'Draw or change state')],
     'No hand is a valid result: make the response safe when detection disappears. Models can fail under poor light, occlusion or unfamiliar camera angles.'))
+S.append(boxes('COMPUTER VISION / DATA', 'What is a camera frame?', [
+    ('Pixels', 'A grid of tiny', 'colour values'),
+    ('Channels', 'Each pixel has', 'blue, green, red'),
+    ('Video', 'A sequence of', 'frames over time')],
+    'A frame is a numerical array: rows and columns locate pixels; three channel values describe colour. '
+    'OpenCV normally gives this camera image in BGR order; MediaPipe expects an SRGB image, so the example converts to RGB. '
+    'Point out that faster frame processing gives more frequent updates, but a model takes time to run.'))
+S.append(boxes('PYTHON / WEEK 7 REVISITED', 'Classes, objects and methods', [
+    ('Week 7', 'Ball is a class', 'red.update(0.1)'),
+    ('Camera', 'VideoCapture class', 'camera.read()'),
+    ('Tracking', 'HandLandmarker', 'tracker.detect_for_video()')],
+    'A class describes a kind of object. red was one Ball instance, with its own position; update was its method. '
+    'camera is an instance of VideoCapture and read is its method. tracker is a HandLandmarker instance; '
+    'detect_for_video is its method. A method is a function accessed through an object; '
+    'the object may hold state and resources. The real call also takes an image and a timestamp.'))
+
+
+def vision_code(heading, lines, caption, notes):
+    slide = code_panel('PYTHON / PFAD WEEK 8', heading, lines, caption=caption, notes=notes)
+    for element in slide.els:
+        if getattr(element, 'name', '') == 'code':
+            for paragraph in element.paras:
+                for run in paragraph.runs:
+                    run.size = 40
+    return slide
+
+
+S.append(vision_code('Read a frame from the camera', [
+    'camera = cv2.VideoCapture(camera_index)',
+    'ok, frame = camera.read()',
+    'if not ok:',
+    '    raise RuntimeError("Camera frame unavailable")',
+    'frame = cv2.flip(frame, 1)',
+    'rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)',
+], 'One method call returns a success flag and an image array.',
+    'Excerpt adapted from hand_tiles.py: the real program checks isOpened and reads inside a while loop. '
+    'camera_index chooses the device. read() returns two values: ok is a Boolean and frame is an image array. '
+    'If reading fails, do not process an empty frame. flip mirrors the image horizontally. '
+    'The real code passes cvtColor directly to mp.Image rather than assigning rgb.'))
+S.append(vision_code('Configure the tracker', [
+    'base = mp.tasks.BaseOptions(model_asset_path=str(model_path))',
+    'options = mp.tasks.vision.HandLandmarkerOptions(',
+    '    base_options=base,',
+    '    running_mode=mp.tasks.vision.RunningMode.VIDEO,',
+    '    num_hands=1,',
+    ')',
+], 'Options describe the task; the .task file contains the trained model.',
+    'This is the options excerpt from hand_tiles.py, after imports and model selection. '
+    'MediaPipe is the runtime library; the model asset contains learned parameters used for prediction. '
+    'Options are an object describing model path, video mode and maximum hands. '
+    'The next slide creates the tracker from these options; it is reused across frames, not rebuilt each frame.'))
+S.append(vision_code('Call a method for each frame', [
+    'with HandLandmarker.create_from_options(options) as tracker:',
+    '    # Repeat for each RGB frame and increasing timestamp',
+    '    image = mp.Image(image_format=mp.ImageFormat.SRGB,',
+    '                     data=rgb)',
+    '    result = tracker.detect_for_video(image, timestamp_ms)',
+], 'The method returns a result object; it does not choose a game action.',
+    'Abbreviated from hand_tiles.py: HandLandmarker here stands for mp.tasks.vision.HandLandmarker; '
+    'rgb is the converted frame shown on the prior slide. The actual method call is inside a while loop. '
+    'VIDEO mode requires each frame timestamp in milliseconds; the example uses a monotonic clock and '
+    'ensures strictly increasing integers. create_from_options is a class method that creates tracker; '
+    'detect_for_video is called on that instance. with closes the tracker when the block exits.'))
 S.append(content('LIVE / FACE + HAND', 'Look at what the model returns.', [
     'Face detector: a box around each detected face.', 'Hand Landmarker: 21 points per hand, including index fingertip 8.',
     'Move closer, rotate your hand, hide it: when does tracking fail?',
     '[Modern source and run commands](https://github.com/sd5913/pfad/blob/2d99258f3a3d495ca68d7939ce5fde39d403b8ab/week08/README.md)',
 ], body_size=42, notes='From PFAD root run: uv run --project week08 python week08/vision.py face; then hand. Press q to stop. Show vision.py and the model source. Camera demo requires graphical desktop and permission.'))
+S.append(boxes('PYTHON / FOLLOW THE RESULT', 'Find the index fingertip', [
+    ('result', 'hand_landmarks', 'list of hands'),
+    ('[0][8]', 'first hand', 'index fingertip'),
+    ('.x', 'horizontal position', '0 left → 1 right')],
+    'A result object contains hand_landmarks, a list of detected hands. Each hand is a list of 21 landmark objects; '
+    'index 8 is the index fingertip. Its x and y are normalised to image width and height: '
+    'x=0 is the left edge and x=1 the right edge; y increases downwards. These are predictions, '
+    'and coordinates can fall outside the image. An empty hand list means no hand was found.'))
+S.append(vision_code('What if no hand is found?', [
+    'if result.hand_landmarks:',
+    '    x = result.hand_landmarks[0][8].x',
+    'else:',
+    '    x = None',
+    'selected = tile_for_x(x)',
+], 'Check the list before indexing; None means no input.',
+    'Equivalent expanded form of the conditional expression in hand_tiles.py. '
+    'An empty list is false in Python; indexing its first element would fail. '
+    'The point object has an x attribute. tile_for_x is our own function, '
+    'not a MediaPipe method: it translates the result into application behaviour.'))
+S.append(vision_code('Turn a position into a choice', [
+    'def tile_for_x(x):',
+    '    if x is None or not isinstance(x, (int, float)):',
+    '        return None',
+    '    if not math.isfinite(x) or not 0 <= x <= 1:',
+    '        return None',
+    '    return "blue" if x < 0.5 else "red"',
+], 'Predict: 0.49 → ?     0.50 → ?     None → ?',
+    'Actual tile_for_x function from hand_tiles.py; math is imported in that file. '
+    'Ask students first: 0.49 returns blue, 0.50 returns red, and None returns None. '
+    'The guards also reject nonnumeric, nonfinite and out-of-frame values. '
+    'Run python -B week08/hand_tiles.py from the PFAD root for the synthetic no-camera examples. '
+    'This is an authored threshold, not a gesture classification by the model.'))
 S.append(content('LIVE / HAND TO RESPONSE', 'A coordinate becomes a choice.', [
     'Read landmark 8: the index fingertip.', 'Map x < 0.5 to blue and x ≥ 0.5 to red.',
     'If no hand is detected, select neither.', '[Hand-to-tile example](https://github.com/sd5913/pfad/blob/2d99258f3a3d495ca68d7939ce5fde39d403b8ab/week08/hand_tiles.py)',
 ], body_size=42, notes='Run no-camera sample first: python -B week08/hand_tiles.py. Then if preflighted: uv run --project week08 python week08/hand_tiles.py --camera --model week08/models/hand.task. Add --camera-index 1 if using the second camera. Check exact command and model before lecture.'))
+S.append(vision_code('Draw a point on the frame', [
+    'height, width = frame.shape[:2]',
+    'for point in points:',
+    '    pixel = (int(point.x * width),',
+    '             int(point.y * height))',
+    '    cv2.circle(frame, pixel, 2, colour, -1)',
+], 'Normalised coordinates × image size → pixel coordinates.',
+    'Adapted from draw_points in vision.py: the original passes the calculated tuple directly to cv2.circle. '
+    'shape gives image dimensions in height, width order; drawing uses x, y order. '
+    'For a 640 by 480 frame, (0.5, 0.5) maps to (320, 240). '
+    'A coordinate at exactly 1 maps to width or height, just beyond the last pixel; '
+    'a real interaction may clamp or reject points outside the image.'))
 S.append(content('LIVE / GESTURE + POSE', 'Compare two kinds of output.', [
     'Gesture Recognizer: a trained model returns a gesture label and score.',
     'Pose Landmarker: body points can drive an interaction.',
     'A score is model confidence, not proof of intent.',
     '[Examples and source](https://github.com/sd5913/pfad/blob/2d99258f3a3d495ca68d7939ce5fde39d403b8ab/week08/vision.py)',
-], body_size=42, notes='Run gesture then pose. This modern trained recognizer differs from the 2025 handwritten landmark rules. Discuss what happens when the hand or body leaves view.'))
+], body_size=42, notes='Run gesture; choose pose or segmentation as the second demo according to time. This modern trained recognizer differs from the 2025 handwritten landmark rules. Discuss what happens when the hand or body leaves view.'))
 S.append(content('LIVE / SEGMENTATION', 'A mask changes the background.', [
     'The model estimates a person mask for each frame.', 'OpenCV combines foreground with a replacement background.',
     'Try hair, a raised hand and a busy background.', '[All Week 8 vision exercises](https://github.com/sd5913/pfad/tree/2d99258f3a3d495ca68d7939ce5fde39d403b8ab/week08)',
-], body_size=42, notes='Run uv run --project week08 python week08/vision.py segment. Segmentation estimates pixels, distinct from landmarks. No camera data needs uploading or saving.'))
+], body_size=42, notes='If choosing segmentation, run uv run --project week08 python week08/vision.py segment. Otherwise explain the mask briefly and leave the live example for the tutorial. Segmentation estimates pixels, distinct from landmarks. No camera data needs uploading or saving.'))
 S.append(content('TUTORIAL / TWO HOURS', 'Try all nine vision examples.', [
     'Start with camera setup, face and hand; then pose, mesh and gestures.',
     'Combine models, try segmentation, and examine expression output critically.',
