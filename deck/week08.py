@@ -1,26 +1,35 @@
 """SD5913 Week 8: teamwork, cloud environments, delivery and computer vision."""
 from pathlib import Path
-from deckgen import Slide, Rect, T, INK, WHITE, PAPER, ORANGE, MUTED, attach_reports
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from deckgen import Rect, T, INK, WHITE, PAPER, ORANGE, MUTED, attach_reports
 from deckgen.layouts import title, agenda, section, statement, content, question, code_panel, end, finalize
+from week08_visuals import (
+    canvas, grading, submission, conflict, starters, camera_frame, objects, fingertip, tiles, tutorial,
+)
 
 EYE = 'SD5913 / WEEK 08 / 29 OCTOBER 2026'
-PFAD = 'https://github.com/sd5913/pfad/tree/c01fcee0adcb517ff09e82d6960d552fef63e685/week08'
+PFAD = 'https://github.com/sd5913/pfad/blob/c01fcee0adcb517ff09e82d6960d552fef63e685/week08'
 S = []
 
 
-def boxes(eye, heading, blocks, note):
-    slide = Slide(bg=WHITE, title=heading, notes=note)
-    slide.chrome = False
-    slide.els = [T(80, 24, 1760, 34, eye, 'monomed', 24, MUTED),
-                 T(80, 80, 1760, 110, heading, 'xbold', 62, INK)]
+def boxes(eye, heading, blocks, note, flow=False, caption=None):
+    slide = canvas(eye, heading, note)
     count = len(blocks)
-    width = (1680 - 40 * (count - 1)) / count
+    gap = 80 if flow else 40
+    width = (1680 - gap * (count - 1)) / count
     for i, (head, a, b) in enumerate(blocks):
-        x = 120 + i * (width + 40)
-        slide.els += [Rect(x, 300, width, 390, PAPER),
-                      T(x + 30, 320, width - 60, 130, head, 'xbold', 96 if head.endswith('%') else 48, INK),
-                      T(x + 30, 445, width - 60, 120, a, 'body', 42, INK),
-                      T(x + 30, 565, width - 60, 120, b, 'body', 42, INK)]
+        x = 120 + i * (width + gap)
+        slide.els += [Rect(x, 370, width, 390, PAPER),
+                      T(x + 28, 400, width - 56, 100, head, 'xbold', 44, INK),
+                      T(x + 28, 535, width - 56, 100, a, 'body', 40, INK),
+                      T(x + 28, 650, width - 56, 100, b, 'body', 40, INK)]
+        if flow and i < count - 1:
+            slide.els.append(T(x + width + 8, 525, gap - 16, 90,
+                               '→', 'xbold', 60, ORANGE, align='c'))
+    if caption:
+        slide.els.append(T(120, 860, 1680, 85, caption, 'body', 40, INK))
     return slide
 
 S.append(title(EYE, 'Build together.\nShip something.', 'Teamwork, cloud environments, delivery and computer vision.',
@@ -29,13 +38,13 @@ S.append(question('multiple_choice', 'What is your group idea becoming?',
     choices=['A game', 'An app or creative tool', 'An installation', 'Something else / still deciding'],
     eyebrow_text='OPENING / YOUR GROUP PROJECT',
     notes='Invite each team to choose the closest direction. These categories overlap and an idea can change. ClassPoint if available; otherwise show of hands. Ask one or two teams what a person will do.'))
-S.append(agenda(EYE, ['Group project and assessment', 'Teamwork: changes, review and conflicts', 'Codex cloud environments for app and game starters', 'Break', 'Actions, artifacts and deployment secrets', 'Live camera: OpenCV and MediaPipe', 'PFAD tutorial'],
+S.append(agenda(EYE, ['Project, assessment and news', 'Teamwork: branch, review, merge', 'Codex cloud: app, game or Python', '10-minute break', 'Actions, builds and deployment secrets', 'Live camera: OpenCV + MediaPipe', 'PFAD: the two-hour tutorial'],
     notes='Suggested pacing: opening/news/project 10 min; Git 20; cloud 25; break 10; Actions 20; camera demos 30; tutorial handoff 5 = 120 minutes.'))
 S.append(content('NEWS / 28 OCTOBER', 'Who gets to build and remix?', [
-    '[Switch 2](https://www.polygon.com/nintendo-switch-2-hackers-jailbreak-dumping-files-modding/): new access enables homebrew and mods.',
-    '[Indie games](https://arstechnica.com/gaming/2026/10/ai-game-clones-are-making-indie-developers-afraid-to-show-their-work/): fear of AI clones delays a demo.',
-    '[Agent research](https://alignment.anthropic.com/2026/red-teaming-auto-mode/): automated monitors can be bypassed.',
-    '[OpenAI announcement](https://openai.com/index/introducing-gpt-6-1-terra/): test what coding agents produce.',
+    '**Switch 2:** [new access enables homebrew and mods](https://www.polygon.com/nintendo-switch-2-hackers-jailbreak-dumping-files-modding/).',
+    '**Indie games:** [fear of AI clones delays a demo](https://arstechnica.com/gaming/2026/10/ai-game-clones-are-making-indie-developers-afraid-to-show-their-work/).',
+    '**Agent research:** [automated monitors can be bypassed](https://alignment.anthropic.com/2026/red-teaming-auto-mode/).',
+    '**OpenAI announcement:** [test what coding agents produce](https://openai.com/index/introducing-gpt-6-1-terra/).',
 ], body_size=42, notes='Use three minutes inside the opening; choose one or two stories, not four separate discussions. '
     'Polygon reported on 22 and 26 October that a Switch 2 exploit enabled modding and later file-system access on a specific firmware; '
     'the published demo is temporary and is not a general permanent jailbreak or kernel access. We have not tested a console. '
@@ -45,15 +54,10 @@ S.append(content('NEWS / 28 OCTOBER', 'Who gets to build and remix?', [
     'Installed tools and automated monitors do not themselves authorize publishing or sharing data. '
     'The linked OpenAI announcement was inaccessible during the 28 October source check; do not quote its claims without verifying it.'))
 S.append(section('01', 'Your group project', 'An ambitious idea, built and delivered together.', notes='Connect to the Week 7 idea and mock-up.'))
-S.append(content('GROUP PROJECT / CANVAS', 'Register your repository now.', [
-    'Create one shared GitHub repository for your team.',
-    'Submit its URL on Canvas from this week; an initial README is enough.',
-    'Keep building and documenting progress in that same repository.',
-    'Final deadline: Sunday 6 December 2026, 23:59 HKT.',
-    '[Group project brief](https://github.com/sd5913/pfad/blob/c01fcee0adcb517ff09e82d6960d552fef63e685/assignments/group-project.md)',
-], body_size=42, notes='Canvas assignment URL was not supplied. Instructor: add its actual link when available. Website URL submission; ensure the team submission settings match the actual Canvas group set. This does not change individual Assignment 3.'))
-S.append(boxes('GROUP PROJECT / 40% OF COURSE GRADE', 'How the project is marked', [
-    ('25%', 'Creative idea', 'Novelty and value'), ('50%', 'Code', 'Works; meets the brief'), ('25%', 'Execution', 'Steady, documented work')],
+S.append(submission('https://github.com/sd5913/pfad/blob/c01fcee0adcb517ff09e82d6960d552fef63e685/assignments/group-project.md',
+    'Canvas repository submissions open this week. Final deadline: Sunday 6 December 2026, 23:59 HKT. '
+    'Canvas assignment URL was not supplied. Instructor: add its actual link when available. Website URL submission; ensure the team submission settings match the actual Canvas group set. This does not change individual Assignment 3.'))
+S.append(grading(
     'These are shares of the group-project mark, not separate course-grade percentages. Code includes handling complexity well. Execution means small steady increments and documented weekly progress.'))
 S.append(content('PROJECT / FIRST AGREEMENT', 'Make the next step testable.', [
     'Who uses it, and what do they do?', 'What visible or audible response makes the idea special?',
@@ -78,42 +82,41 @@ def git_walkthrough(stage):
         'In order: Bob reads the PR and diff, checks out the branch and tests it. He requests a change on the PR. Alice fixes and tests locally, then commits and pushes; the existing PR updates.',
         'In order: Bob checks the revised PR and approves it. Alice merges it into main on GitHub. Both teammates switch to main and git pull origin main before their next branch; their local copies do not update automatically.',
     ][stage - 1]
-    slide = Slide(bg=WHITE, title=heads[stage - 1], notes=notes)
-    slide.chrome = False
-    slide.els = [T(80, 24, 1760, 34, 'TEAMWORK / SAME CHANGE / STEP %d OF 3' % stage, 'monomed', 24, MUTED),
-                 T(80, 80, 1760, 100, heads[stage - 1], 'xbold', 62, INK)]
+    slide = canvas('TEAMWORK / SAME CHANGE / STEP %d OF 3' % stage,
+                   heads[stage - 1], notes)
     for index, (label, action, detail) in enumerate(steps, start=1):
         x = 120 + (index - 1) * 590
-        slide.els += [Rect(x, 300, 500, 430, PAPER),
-                      T(x + 30, 325, 440, 95, str(index), 'xbold', 72, ORANGE),
-                      T(x + 30, 435, 440, 75, label, 'xbold', 40, INK),
-                      T(x + 30, 535, 440, 80, action, 'body', 44, INK),
-                      T(x + 30, 635, 440, 75, detail, 'body', 40, INK)]
+        slide.els += [Rect(x, 370, 500, 450, PAPER),
+                      T(x + 30, 395, 440, 95, str(index), 'xbold', 72, ORANGE),
+                      T(x + 30, 505, 440, 75, label, 'xbold', 40, INK),
+                      T(x + 30, 605, 440, 80, action, 'body', 44, INK),
+                      T(x + 30, 720, 440, 75, detail, 'body', 40, INK)]
         if index < 3:
-            slide.els.append(T(x + 510, 455, 80, 110, '→', 'xbold', 72, ORANGE))
+            slide.els.append(T(x + 510, 540, 80, 110, '→', 'xbold', 72, ORANGE))
     return slide
 
 for stage in (1, 2, 3):
     S.append(git_walkthrough(stage))
 S.append(boxes('TEAMWORK / SHARED REPOSITORY', 'From change to shared main', [
-    ('1 / Branch', 'Update main', 'Create a feature branch'), ('2 / Change', 'Edit and test', 'Commit and push'),
-    ('3 / Review', 'Open a pull request', 'Teammate tries it'), ('4 / Merge', 'Integrate on GitHub', 'Everyone updates main')],
-    'Distinguish local checkout from GitHub. A commit is local until pushed; PR compares branch to main; review precedes merge; teammates pull afterward.'))
+    ('1 / Branch', 'Update main', 'New branch'), ('2 / Change', 'Edit and test', 'Commit; push'),
+    ('3 / Review', 'Open a PR', 'Teammate tests'), ('4 / Merge', 'Merge on GitHub', 'Everyone pulls')],
+    'Distinguish local checkout from GitHub. A commit is local until pushed; PR compares branch to main; review precedes merge; teammates pull afterward.',
+    flow=True, caption='A local commit becomes shared when you push. Teammates update when they pull.'))
 S.append(code_panel('TEAMWORK / LOCAL TERMINAL', 'A small change, step by step', [
     'git switch main', 'git pull origin main', 'git switch -c feature/start-button',
     '# edit and run the project checks', 'git add .', 'git commit -m "Add start button"', 'git push -u origin feature/start-button',
-], caption='Then open a pull request on GitHub.', notes='Review git status and the staged diff before committing; never stage secrets. Explain each command and which state is local.'))
+], caption='Then open a pull request on GitHub.', lang=None, notes='Review git status and the staged diff before committing; never stage secrets. Explain each command and which state is local.'))
 S.append(content('TEAMWORK / PULL REQUEST', 'Make it easy to review.', [
     'What changed? “Start button opens the first game screen.”', 'How can a teammate run it and try the change?',
     'What did you test? What is still untested?', 'Reviewer checks the diff and tries the interaction before merge.',
 ], body_size=42, notes='Show a real diff and PR if possible. Review feedback may require another commit and another test.'))
-S.append(content('TEAMWORK / CONFLICT', 'Two people changed the same line.', [
-    'Git marks both versions when it cannot combine the edits.', 'Read both intentions with your teammate; choose the correct combined result.',
-    'Remove conflict markers, run the project and tests, then commit the resolution.',
-    'After merge: teammates switch to main and pull.',
-], body_size=42, notes='Worked example: both edit the start button label: one says Play, other Start. Show <<<<<<<, ======= and >>>>>>> in editor. Decide together, delete markers, test, git add and complete merge. Do not blindly choose one side.'))
+S.append(conflict('Worked example: both edit the start button label: one says Play, other Start. '
+    'Git marks both versions when it cannot combine edits. Read both intentions with your teammate. '
+    'The agreed result shown here is Play; Start or a new label could be correct for another team. '
+    'Decide together, delete markers, run the project and tests, git add and complete the merge. '
+    'Do not blindly choose one side. After merge: teammates switch to main and pull.'))
 def collaboration_paths():
-    slide = Slide(bg=WHITE, title='Choose how the team collaborates.', notes=(
+    slide = canvas('TEAMWORK / REPOSITORY ACCESS', 'Choose how the team collaborates.', (
         'The shared team repository is the suggested path: teammates have write access, '
         'push feature branches to that repository, and open a PR into its main branch. '
         'In the fork path, a contributor first creates their own GitHub copy of the team '
@@ -122,32 +125,29 @@ def collaboration_paths():
         'not need write access to the team repository. Both paths need review and '
         'communication. Do not expose secrets in PRs. Git reference: '
         'https://github.com/sd5913/pfad/blob/2026/reference/git.md'))
-    slide.chrome = False
-    slide.els = [
-        T(80, 24, 1760, 34, 'TEAMWORK / REPOSITORY ACCESS', 'monomed', 24, MUTED),
-        T(80, 80, 1760, 100, 'Choose how the team collaborates.', 'xbold', 62, INK),
-        T(120, 215, 1680, 65, '1 / Shared repository', 'xbold', 48, INK),
-        Rect(120, 290, 1680, 230, PAPER),
-        T(150, 305, 1620, 55, 'ONE TEAM REPOSITORY  /  teammates have write access', 'semibold', 40, INK),
-        Rect(155, 385, 400, 90, WHITE),
-        T(175, 400, 360, 58, 'Feature branch', 'semibold', 42, INK),
-        T(580, 395, 90, 70, '→', 'xbold', 56, ORANGE),
-        Rect(685, 385, 400, 90, WHITE),
-        T(705, 400, 360, 58, 'Pull request', 'semibold', 42, INK),
-        T(1110, 395, 90, 70, '→', 'xbold', 56, ORANGE),
-        Rect(1215, 385, 520, 90, INK),
-        T(1235, 400, 480, 58, 'Team main', 'semibold', 42, WHITE),
-        T(120, 570, 1680, 65, '2 / Fork + pull request', 'xbold', 48, INK),
-        Rect(120, 655, 610, 165, PAPER),
-        T(150, 675, 550, 55, 'Contributor’s fork', 'semibold', 44, INK),
-        T(150, 745, 550, 55, 'Their own copy + branch', 'body', 40, INK),
-        T(750, 665, 420, 55, 'PULL REQUEST', 'semibold', 40, INK, align='c'),
-        Rect(810, 758, 240, 5, ORANGE),
-        T(1035, 725, 80, 80, '→', 'xbold', 52, ORANGE),
-        Rect(1190, 655, 610, 165, INK),
-        T(1220, 675, 550, 55, 'Team repository', 'semibold', 44, WHITE),
-        T(1220, 745, 550, 55, 'Review + merge to main', 'body', 40, WHITE),
-        T(120, 895, 1680, 55, '[Git reference](https://github.com/sd5913/pfad/blob/2026/reference/git.md)  /  Both paths need review.', 'body', 36, MUTED),
+    slide.els += [
+        T(120, 325, 1680, 65, '1 / Shared repository', 'xbold', 48, INK),
+        Rect(120, 400, 1680, 205, PAPER),
+        T(150, 415, 1620, 55, 'ONE TEAM REPOSITORY  /  teammates have write access', 'semibold', 40, INK),
+        Rect(155, 490, 400, 90, WHITE),
+        T(175, 505, 360, 58, 'Feature branch', 'semibold', 42, INK),
+        T(580, 500, 90, 70, '→', 'xbold', 56, ORANGE),
+        Rect(685, 490, 400, 90, WHITE),
+        T(705, 505, 360, 58, 'Pull request', 'semibold', 42, INK),
+        T(1110, 500, 90, 70, '→', 'xbold', 56, ORANGE),
+        Rect(1215, 490, 520, 90, INK),
+        T(1235, 505, 480, 58, 'Team main', 'semibold', 42, WHITE),
+        T(120, 655, 1680, 65, '2 / Fork + pull request', 'xbold', 48, INK),
+        Rect(120, 740, 610, 150, PAPER),
+        T(150, 755, 550, 55, 'Contributor’s fork', 'semibold', 44, INK),
+        T(150, 820, 550, 55, 'Their own copy + branch', 'body', 40, INK),
+        T(750, 735, 420, 55, 'PULL REQUEST', 'semibold', 40, INK, align='c'),
+        Rect(810, 828, 240, 5, ORANGE),
+        T(1035, 795, 80, 80, '→', 'xbold', 52, ORANGE),
+        Rect(1190, 740, 610, 150, INK),
+        T(1220, 755, 550, 55, 'Team repository', 'semibold', 44, WHITE),
+        T(1220, 820, 550, 55, 'Review + merge to main', 'body', 40, WHITE),
+        T(120, 925, 1680, 55, '[Git reference](https://github.com/sd5913/pfad/blob/2026/reference/git.md)  /  Both paths need review.', 'body', 36, MUTED),
     ]
     return slide
 
@@ -157,18 +157,14 @@ S.append(section('03', 'Build in the cloud', 'A coding environment is a prepared
 S.append(boxes('ENVIRONMENTS / THREE DISTINCT PLACES', 'Where does the work happen?', [
     ('Codex cloud', 'Develop a change', 'Tools + repository'), ('GitHub Actions', 'Run a fresh job', 'Tests + build'),
     ('Destination', 'Deliver the result', 'Artifact or website')],
-    'A published Codex environment prepares later coding tasks; it does not deploy the app. Actions runner starts from workflow setup. A built artifact is not automatically a live deployment.'))
+    'A published Codex environment prepares later coding tasks; it does not deploy the app. Actions runner starts from workflow setup. A built artifact is not automatically a live deployment.',
+    flow=True, caption='Prepare a workspace → build a change → deliver and try the result.'))
 S.append(content('CODEX / DEMONSTRATION', 'Create a cloud environment.', [
-    'Connect GitHub and choose the repository.', 'Create an environment; inspect its setup and dependency commands.',
-    'Publish the environment, then start a task with it.', 'Ask for one change and checks; review the diff and output.',
+    '**1 / Connect** GitHub and choose the repository.', '**2 / Prepare** an environment; review setup and dependencies.',
+    '**3 / Publish** the environment, then start a task with it.', '**4 / Verify** one change: review the diff and check the result.',
     '[Official Codex cloud guide](https://learn.chatgpt.com/docs/environments/cloud-environments)',
 ], body_size=42, notes='Rehearse actual interface and permissions before class: Work in > Cloud > Select environment > Create environment, select repository, Get started, review setup, save and Publish, then start a task. UI and account availability may vary. Have a pre-created environment as a download-time fallback.'))
-S.append(content('THREE STARTERS / CHOOSE YOUR PROJECT', 'Choose a starting point.', [
-    '[Capacitor app starter](https://github.com/sd5913/capacitor-app-template): web interface and Android build.',
-    '[Godot game starter](https://github.com/sd5913/godot-game-template): 2D game and desktop/web exports.',
-    '[Python + uv app starter](https://github.com/sd5913/python-uv-app-template): Python source and desktop bundles.',
-    'Create a team repository, open it in Codex and check CI.',
-], body_size=42, notes='Demonstrate Capacitor and Godot environment creation and one traceable change within the planned 25 minutes. Python + uv is a third option: run source with uv and bundle desktop apps with PyInstaller; each OS builds on its own runner. Teams may choose other frameworks and targets.'))
+S.append(starters('Demonstrate Capacitor and Godot environment creation and one traceable change within the planned 25 minutes. Python + uv is a third option: run source with uv and bundle desktop apps with PyInstaller; each OS builds on its own runner. Teams may choose other frameworks and targets.'))
 S.append(content('CODEX / A USEFUL TASK', 'Ask for one verifiable change.', [
     '“Make the player move faster after collecting a star.”', 'Name the file or behaviour and the expected result.',
     'Ask for the relevant checks and how to run the result.', 'Inspect the diff, run it, request a teammate review.',
@@ -178,7 +174,8 @@ S.append(section('04', 'From commit to delivery', 'GitHub Actions runs the workf
 S.append(boxes('GITHUB ACTIONS / CHANGE TO OUTPUT', 'Follow the result', [
     ('Push / PR', 'Workflow starts', 'Fresh runner'), ('Checks', 'Install and test', 'Build on each OS'),
     ('Artifact', 'Download and run', 'Or deploy website')],
-    'A CI job uses its own runner and workflow, independent of the Codex environment. A green job is evidence for commands it actually ran, not proof of usability.'))
+    'A CI job uses its own runner and workflow, independent of the Codex environment. A green job is evidence for commands it actually ran, not proof of usability.',
+    flow=True, caption='Open the run → inspect the jobs → download or visit the result.'))
 S.append(content('CASE STUDY / TETRILAUNCH', 'One project, several delivery paths.', [
     '[Desktop workflow](https://github.com/venetanji/tetrilaunch/blob/main/.github/workflows/desktop.yml): Windows, macOS and Linux matrix.',
     '[Android](https://github.com/venetanji/tetrilaunch/blob/main/.github/workflows/android.yml) and [iOS](https://github.com/venetanji/tetrilaunch/blob/main/.github/workflows/ios.yml): mobile builds and signing.',
@@ -186,12 +183,14 @@ S.append(content('CASE STUDY / TETRILAUNCH', 'One project, several delivery path
     'Build artifacts first. Stores and release signing are additional steps.',
 ], body_size=42, notes='Tetrilaunch started as a Python/Pygame prototype; its client uses Capacitor and Electron desktop packaging. The root web build is a marketing site, not the whole game. Explain a matrix and downloaded artifact. Do not trigger releases.'))
 S.append(content('GITHUB / SECRETS', 'Give a job access to a token.', [
-    'Create a scoped provider token for the destination.', 'Repository → Settings → Secrets and variables → Actions → New repository secret.',
-    'Use a placeholder today: CLOUDFLARE_API_TOKEN.', 'The workflow references the secret; the value stays out of Git.',
+    '**1 / Create** a scoped provider token for the destination.',
+    '**2 / Open** repository Settings → Secrets and variables → Actions.',
+    '**3 / Add** a New repository secret: CLOUDFLARE_API_TOKEN.',
+    '**4 / Reference** it in the workflow; keep the value out of Git.',
 ], body_size=42, notes='Show the settings path with fake values only. A GitHub environment can hold environment-scoped secrets; a job must name that environment to access them. Protection rules are configured settings, not guaranteed by the YAML name.'))
 S.append(code_panel('GITHUB ACTIONS / DEPLOYMENT EXAMPLE', 'A secret is supplied to the job', [
     'jobs:', '  deploy:', '    environment: production', '    runs-on: ubuntu-latest', '    steps:', '      # checkout, install and build first', '      - run: npx wrangler deploy', '        env:', '          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}',
-], caption='Configure the destination and token separately.', notes='Illustrative excerpt, not a complete workflow. Compare Tetrilaunch production.yml. GitHub secrets are not source control; do not print them. A token embedded in a public browser bundle is visible to users. Separate deploy tokens, signing credentials and runtime secrets.'))
+], caption='Configure the destination and token separately.', lang=None, notes='Illustrative excerpt, not a complete workflow. Compare Tetrilaunch production.yml. GitHub secrets are not source control; do not print them. A token embedded in a public browser bundle is visible to users. Separate deploy tokens, signing credentials and runtime secrets.'))
 S.append(content('DELIVERY / TROUBLESHOOT', 'The build is green. Is it delivered?', [
     'Open the Actions run: which job ran, and which artifact exists?', 'Download and run the artifact, or open the deployed destination.',
     'Environment-scoped secret missing? Check the job names that environment.', 'Provider tokens need access to the correct destination.',
@@ -200,18 +199,13 @@ S.append(section('05', 'Camera → interaction', 'OpenCV captures frames. MediaP
 S.append(boxes('LIVE DEMO / PIPELINE', 'From light to an action', [
     ('OpenCV', 'Camera → frame', 'BGR → RGB'), ('MediaPipe', 'Model → landmarks', 'Coordinates + confidence'),
     ('Your code', 'Map the result', 'Draw or change state')],
-    'No hand is a valid result: make the response safe when detection disappears. Models can fail under poor light, occlusion or unfamiliar camera angles.'))
-S.append(boxes('COMPUTER VISION / DATA', 'What is a camera frame?', [
-    ('Pixels', 'A grid of tiny', 'colour values'),
-    ('Channels', 'Each pixel has', 'blue, green, red'),
-    ('Video', 'A sequence of', 'frames over time')],
+    'No hand is a valid result: make the response safe when detection disappears. Models can fail under poor light, occlusion or unfamiliar camera angles.',
+    flow=True, caption='A model predicts structure. Your code decides what happens next.'))
+S.append(camera_frame(
     'A frame is a numerical array: rows and columns locate pixels; three channel values describe colour. '
     'OpenCV normally gives this camera image in BGR order; MediaPipe expects an SRGB image, so the example converts to RGB. '
     'Point out that faster frame processing gives more frequent updates, but a model takes time to run.'))
-S.append(boxes('PYTHON / WEEK 7 REVISITED', 'Classes, objects and methods', [
-    ('Week 7', 'Ball is a class', 'red.update(0.1)'),
-    ('Camera', 'VideoCapture class', 'camera.read()'),
-    ('Tracking', 'HandLandmarker', 'tracker.detect_for_video()')],
+S.append(objects(
     'A class describes a kind of object. red was one Ball instance, with its own position; update was its method. '
     'camera is an instance of VideoCapture and read is its method. tracker is a HandLandmarker instance; '
     'detect_for_video is its method. A method is a function accessed through an object; '
@@ -225,6 +219,12 @@ def vision_code(heading, lines, caption, notes):
             for paragraph in element.paras:
                 for run in paragraph.runs:
                     run.size = 40
+    caption_box = slide.els[-1]
+    caption_box.h = 80
+    for paragraph in caption_box.paras:
+        for run in paragraph.runs:
+            run.size = 40
+            run.color = INK
     return slide
 
 
@@ -269,10 +269,7 @@ S.append(content('LIVE / FACE + HAND', 'Look at what the model returns.', [
     'Move closer, rotate your hand, hide it: when does tracking fail?',
     '[Modern source and run commands](https://github.com/sd5913/pfad/blob/c01fcee0adcb517ff09e82d6960d552fef63e685/week08/README.md)',
 ], body_size=42, notes='From the PFAD root, cd week08; run uv run python vision.py face; then hand. Press q to stop. Show vision.py and the model source. Camera demo requires graphical desktop and permission.'))
-S.append(boxes('PYTHON / FOLLOW THE RESULT', 'Find the index fingertip', [
-    ('result', 'hand_landmarks', 'list of hands'),
-    ('[0][8]', 'first hand', 'index fingertip'),
-    ('.x', 'horizontal position', '0 left → 1 right')],
+S.append(fingertip(
     'A result object contains hand_landmarks, a list of detected hands. Each hand is a list of 21 landmark objects; '
     'index 8 is the index fingertip. Its x and y are normalised to image width and height: '
     'x=0 is the left edge and x=1 the right edge; y increases downwards. These are predictions, '
@@ -301,10 +298,8 @@ S.append(vision_code('Turn a position into a choice', [
     'The guards also reject nonnumeric, nonfinite and out-of-frame values. '
     'From the PFAD root, cd week08 and run uv run python hand_tiles.py for the synthetic no-camera examples. '
     'This is an authored threshold, not a gesture classification by the model.'))
-S.append(content('LIVE / HAND TO RESPONSE', 'A coordinate becomes a choice.', [
-    'Read landmark 8: the index fingertip.', 'Map x < 0.5 to blue and x ≥ 0.5 to red.',
-    'If no hand is detected, select neither.', '[Hand-to-tile example](https://github.com/sd5913/pfad/blob/c01fcee0adcb517ff09e82d6960d552fef63e685/week08/hand_tiles.py)',
-], body_size=42, notes='From the PFAD root, cd week08. Run no-camera sample first: uv run python hand_tiles.py. Then if preflighted: uv run python hand_tiles.py --camera --model models/hand.task. Add --camera-index 1 if using the second camera. Check exact command and model before lecture.'))
+S.append(tiles('https://github.com/sd5913/pfad/blob/c01fcee0adcb517ff09e82d6960d552fef63e685/week08/hand_tiles.py',
+    'From the PFAD root, cd week08. Run no-camera sample first: uv run python hand_tiles.py. Then if preflighted: uv run python hand_tiles.py --camera --model models/hand.task. Add --camera-index 1 if using the second camera. Check exact command and model before lecture.'))
 S.append(vision_code('Draw a point on the frame', [
     'height, width = frame.shape[:2]',
     'for point in points:',
@@ -327,13 +322,10 @@ S.append(content('LIVE / SEGMENTATION', 'A mask changes the background.', [
     'The model estimates a person mask for each frame.', 'OpenCV combines foreground with a replacement background.',
     'Try hair, a raised hand and a busy background.', '[All Week 8 vision exercises](https://github.com/sd5913/pfad/tree/c01fcee0adcb517ff09e82d6960d552fef63e685/week08)',
 ], body_size=42, notes='If choosing segmentation, from week08 run uv run python vision.py segment. Otherwise explain the mask briefly and leave the live example for the tutorial. Segmentation estimates pixels, distinct from landmarks. No camera data needs uploading or saving.'))
-S.append(content('TUTORIAL / TWO HOURS', 'Try all nine vision examples.', [
-    'Start with camera setup, face and hand; then pose, mesh and gestures.',
-    'Combine models, try segmentation, and examine expression output critically.',
-    'Could this inspire your project? Computer vision is optional.',
-    '[Try hand tracking in a browser](https://stackblitz.com/github/google-ai-edge/mediapipe-samples-web?file=src%2Ftasks%2Fhand-landmarker.ts).',
-    '[Open the PFAD Week 8 tutorial](https://github.com/sd5913/pfad/blob/c01fcee0adcb517ff09e82d6960d552fef63e685/week08/README.md)',
-], body_size=40, notes='The tutorial is led by the TA using the README, independent of instructor ClassPoint login. '
+S.append(tutorial(
+    f'{PFAD}/README.md',
+    'https://stackblitz.com/github/google-ai-edge/mediapipe-samples-web?file=src%2Ftasks%2Fhand-landmarker.ts',
+    'The tutorial is led by the TA using the README, independent of instructor ClassPoint login. '
     'For each example: run it, observe, change one thing and discuss a limitation. '
     'The project prompt is inspiration only: no team is required to use computer vision. '
     'The linked browser demo is Google’s JavaScript example; the README also links native Android and iOS samples. '

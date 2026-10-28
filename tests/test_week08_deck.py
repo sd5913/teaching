@@ -14,7 +14,8 @@ class Week08DeckTests(unittest.TestCase):
         import week08
         cls.slides = week08.S
         cls.titles = [slide.title for slide in cls.slides]
-        cls.source = (ROOT / 'deck/week08.py').read_text()
+        cls.source = '\n'.join((ROOT / 'deck' / name).read_text()
+                               for name in ('week08.py', 'week08_visuals.py'))
 
     def test_lecture_order(self):
         titles = ['What is your group idea becoming?', 'Register your repository now.',
