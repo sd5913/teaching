@@ -7,7 +7,7 @@ module; do not rename it to match the calendar week.
 | --- | --- | --- |
 | 0–10 | Project, opening and news | Poll: game, app, installation or another direction; brief news discussion; explain Canvas repository submission and 25/50/25 group rubric. |
 | 10–30 | Teamwork | Work through branch, edit, commit, push, PR, teammate review, merge and updating main. Resolve a simple same-line conflict. |
-| 30–55 | Codex cloud | Create environments for both starter repos, review setup, publish and start a small task. Keep a prepared environment available. |
+| 30–55 | Codex cloud | Create environments for the Capacitor and Godot starters, review setup, publish and start a small task; mention the Python option. Keep a prepared environment available. |
 | 55–65 | Break | Set up the camera and light. |
 | 65–85 | Actions and delivery | Follow CI to artifacts; use Tetrilaunch's OS matrix and mobile workflows; show secret creation with fake values and provider deployment token. |
 | 85–115 | OpenCV and MediaPipe | Live camera: preview, face, hand, fingertip-to-tile, gesture, pose or segmentation. Show tracking loss and source links. |

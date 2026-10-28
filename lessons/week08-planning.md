@@ -11,7 +11,7 @@ Teams can submit their shared repository URL on Canvas from Week 8 and keep
 working. Final deadline: 6 December 2026, 23:59 HKT. The Canvas URL must be
 added only when it exists.
 
-The two proposed GitHub template repositories demonstrate Capacitor and Godot
+The GitHub template repositories offer Capacitor, Godot and Python + uv
 without requiring all teams to choose those frameworks or app stores. Their
 coding environment, GitHub runner and delivery destination are separate.
 Tetrilaunch is the multiplatform delivery case study. Do not put credentials
