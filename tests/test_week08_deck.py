@@ -31,6 +31,21 @@ class Week08DeckTests(unittest.TestCase):
                      'assignments/group-project.md'):
             self.assertIn(text, self.source)
 
+    def test_git_walkthrough_has_numbered_order_and_arrows(self):
+        stages = [
+            ('1. Alice starts a change', ('Pull main; branch', 'Push to GitHub', 'Open the PR')),
+            ('2. Bob reviews the PR', ('Read the PR', 'Request a change', 'Fix and test')),
+            ('3. Both update main', ('Approve the PR', 'Merge the PR', 'Pull the update')),
+        ]
+        for title, actions in stages:
+            slide = self.slides[self.titles.index(title)]
+            text = [run.text for element in slide.els
+                    for para in getattr(element, 'paras', []) for run in para.runs]
+            self.assertEqual([item for item in text if item in ('1', '2', '3')], ['1', '2', '3'])
+            self.assertEqual(text.count('→'), 2)
+            self.assertEqual([text.index(action) for action in actions],
+                             sorted(text.index(action) for action in actions))
+
     def test_linked_examples_and_environment_distinctions(self):
         for text in ('week08/vision.py', 'week08/hand_tiles.py',
                      'capacitor-app-template', 'godot-game-template', 'python-uv-app-template',

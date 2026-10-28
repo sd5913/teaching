@@ -55,24 +55,35 @@ S.append(content('PROJECT / FIRST AGREEMENT', 'Make the next step testable.', [
 S.append(section('02', 'Work as a team', 'One shared repository. Small, reviewable changes.', notes='Explain each step using one teammate adding a start button to a shared app.'))
 def git_walkthrough(stage):
     heads = ['1. Alice starts a change', '2. Bob reviews the PR', '3. Both update main']
-    captions = [
-        ('main → feature branch', 'push branch to GitHub', 'Wait for review'),
-        ('Add tests and push fixes', 'PR: start button → main', 'Try it; request changes'),
-        ('Switch to main; pull', 'Merge PR into main', 'Switch to main; pull'),
+    steps = [
+        [('ALICE / LOCAL', 'Pull main; branch', 'Edit, test, commit'),
+         ('ALICE / LOCAL', 'Push to GitHub', 'git push'),
+         ('ALICE / GITHUB', 'Open the PR', 'Request a review')],
+        [('BOB / REVIEW', 'Read the PR', 'Run and test it'),
+         ('BOB / GITHUB', 'Request a change', 'Explain the problem'),
+         ('ALICE / LOCAL', 'Fix and test', 'Commit and push')],
+        [('BOB / GITHUB', 'Check the fix', 'Approve the PR'),
+         ('ALICE / GITHUB', 'Merge the PR', 'Integrate into main'),
+         ('BOTH / LOCAL', 'Switch to main', 'Pull the update')],
     ][stage - 1]
     notes = [
-        'Alice pulls current main, creates feature/start-button, edits, tests and commits. git push publishes her branch to GitHub. Bob still has his own local checkout.',
-        'Alice opens the PR comparing feature/start-button with main. Bob reads the diff and runs it, then requests a fix. Alice commits and pushes again; the PR updates.',
-        'After approval merge on GitHub. Both teammates switch to main and git pull origin main before their next branch. Their local copies do not update automatically.',
+        'In order: Alice pulls current main, creates feature/start-button, edits, tests and commits. She pushes the branch to GitHub, then opens a pull request comparing it with main and requests Bob’s review.',
+        'In order: Bob reads the PR and diff, checks out the branch and tests it. He requests a change on the PR. Alice fixes and tests locally, then commits and pushes; the existing PR updates.',
+        'In order: Bob checks the revised PR and approves it. Alice merges it into main on GitHub. Both teammates switch to main and git pull origin main before their next branch; their local copies do not update automatically.',
     ][stage - 1]
     slide = Slide(bg=WHITE, title=heads[stage - 1], notes=notes)
     slide.chrome = False
     slide.els = [T(80, 24, 1760, 34, 'TEAMWORK / SAME CHANGE / STEP %d OF 3' % stage, 'monomed', 24, MUTED),
                  T(80, 80, 1760, 100, heads[stage - 1], 'xbold', 62, INK)]
-    for y, label, text in zip((280, 485, 690), ('ALICE / LOCAL', 'GITHUB / SHARED', 'BOB / LOCAL'), captions):
-        slide.els += [T(120, y + 35, 420, 80, label, 'xbold', 42, INK),
-                      Rect(550, y, 1230, 145, PAPER),
-                      T(590, y + 40, 1150, 80, text, 'body', 46, INK)]
+    for index, (label, action, detail) in enumerate(steps, start=1):
+        x = 120 + (index - 1) * 590
+        slide.els += [Rect(x, 300, 500, 430, PAPER),
+                      T(x + 30, 325, 440, 95, str(index), 'xbold', 72, ORANGE),
+                      T(x + 30, 435, 440, 75, label, 'xbold', 40, INK),
+                      T(x + 30, 535, 440, 80, action, 'body', 44, INK),
+                      T(x + 30, 635, 440, 75, detail, 'body', 40, INK)]
+        if index < 3:
+            slide.els.append(T(x + 510, 455, 80, 110, '→', 'xbold', 72, ORANGE))
     return slide
 
 for stage in (1, 2, 3):
