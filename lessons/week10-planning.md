@@ -1,87 +1,92 @@
-# SD5913 Week 10 lesson planning
+# Week 10 production design and source crosswalk
 
-Planning draft started 21 October 2026. This is the continuing review home for content `week10`; the draft deck and instructor run sheet now live alongside it in the same teaching PR. Nothing is published or announced to students by editing this PR.
+Status: **independent implementation and complete timing prepared; integrated
+core incomplete, replacement deck gated**. Updated 29 October 2026. The earlier
+artwork/JSON-only draft is superseded by the instructor-approved progression.
+Its source is preserved until feasibility passes, not endorsed as the final
+lesson. The paired run sheet and PFAD README define the intended teaching route.
 
-## Status and source limits
+## Prior knowledge and new ideas
 
-- Teaching date: Thursday 12 November 2026 (confirmed by gio). Content week numbers are not calendar-week numbers after the 1 October holiday; this is not an assignment deadline.
-- Candidate focus: **Classes objects and stored data**. The instructor's later slides and current course sequence take precedence.
-- No 2026 Week 10 deck or complete future timetable was present in the inspected teaching/main or PFAD/2026 trees. The supplied historical PDFs are source evidence, not an approved 2026 timetable.
-- The draft now registers `deck/week10.py` in `deckgen.toml` and adds a Week 10 site card. Registration in source is not publication. It does not set assessment requirements; the class date is not an assignment deadline.
+| Already taught | Use here | New contribution |
+| --- | --- | --- |
+| W7 Ball class/attributes/methods/instances | Read a model and instance without repeating constructors | Inherited ORM methods; model -> SQL -> persistent row -> reloaded object |
+| W8 inspected code, dependencies, testing, teamwork | Run a small local environment and check a purposeful change | Owner-scoped queries, keys/references/indexes, constraints and transactions |
+| W9 requests/messages/process lifetimes | Observe a model request/tool response | Source-backed retrieval plus persisted conversation context |
+| W6 speech input/output | Keep typed input and visible answer | Synthesis/playback/stop as separate checked outputs; microphone optional |
 
-The supplied historical PDF is titled Data storage. It teaches object attributes and relationships before SQL/ORM and RAG, but assumes students can read class-based examples. The current instruction prioritises accessible classes and objects, so add an explicit concrete bridge before any database or agent framework.
+The design/game scenario is one returning user's handbook conversation, not a
+second login app or a generic SQL worksheet. SaveFile, Membership and reply-to
+relationships transfer the modelling idea without adding application builds.
 
-## Supplied historical slide evidence
+## Source-to-lesson crosswalk
 
-SD5913 - PFAD - Week 10.pdf (67 pages): pp. 13–24 object attributes and relationships with short prediction tasks; 25–31 IDs, schema, SQL and Peewee class examples; 32–38 database types and persistence; 39–43 authentication; 44–55 embeddings, retrieval and RAG; 56–67 tutorial and project work. Text extracted throughout; relationship diagrams 16–18 and code/screenshot pages 28–30, 33, 41–43 and 46–54 visually inspected.
+Page numbers are PDF positions, read from the actual archived 2025 Week 10 PDF.
+The archived PFAD source was inspected at `512edb07927c5d77cacc7279ba6be601b33dc601`.
+Week 11 PDF and PPTX numbering differ; do not silently substitute slide numbers.
 
-Page numbers are 1-based PDF pages. These are historical materials supplied for review; the PDF itself is not copied into this public repository. Historical dates, marks and team arrangements are not adopted.
+| Historical source | Purpose | Current destination and status |
+| --- | --- | --- |
+| W10 pp14-19; PFAD `login_app/model.py` | Typed model attributes; one-to-many, many-to-many, self-reference | Retained/updated: real Peewee User/Conversation/Message classes, 10-40 lecture; SaveFile/Membership/reply drills |
+| W10 pp20-24 | Active cardinality questions | Retained: short transfer questions at lecture25-40/tutorial30-50; no extra app |
+| W10 pp25-30 | IDs, ordinary indexes, schema, SQL, inherited ORM persistence/query methods | Restored: `.create()`, `.save()`, `.select()`, explicit SQL/parameters/rows, FK/PK/index distinction, fresh-process reload; lecture10-60/tutorial10-50 |
+| W10 pp35,38 | Related records vs nested/document vs vector retrieval | Retained with corrected modern caveats: lecture115-120/tutorial tutor review; JSON is a representation, document stores may validate schemas |
+| W10 pp39-43 | Account records, registration/login operations | Updated: user ownership of conversations/messages; no separate auth UI and no unsafe bare SHA-256 password hashing |
+| W10 pp44-54 | RAG, word vectors, learned embeddings, chunking, vector store and retriever tool | Core restored: current handbook PDF -> cited chunks -> same-space vectors -> tool -> inspected answer; lecture70-115/tutorial60-100; actual source/model proof still blocked |
+| W10 pp59-64; PFAD `word2vec_example.py` | Learned neighbour/analogy intuition | Updated: brief word-neighbour intuition and real local text-vector probe; no huge fastText download in class |
+| PFAD `qdrant_store.py`, `qdrant_add_pdf.py` | Shared encoder/space, chunk metadata, real semantic query | Updated: bounded local cosine index carries weight/tokenizer hashes, dimension and source IDs; full ingestion prepared before class; real current PDF bundle pending |
+| PFAD `pdf_bot.py` | Retriever exposed as agent tool | Restored and corrected: actual model tool request dispatched; prior ordered messages loaded and passed; ID alone not called memory; live model proof pending |
+| W11 pp14-17,p22 | Reuse the same handbook embedding space | Retained in handbook retriever/agent; no unrelated corpus substituted |
+| W11 pp18-30 | Orange/t-SNE/matrix exploration | **Removed by explicit instructor decision** to give Blender/Godot more time; not a missing prerequisite or quiz requirement |
+| W11 pp31-39 and creative-app examples | Python controls creative applications | Moved/retained in W11 Blender/Godot; this week ends with retrieval as a reusable tool |
+| W6 speech material | Input/output surrounding a bot | Retained/updated: typed input core, live offline TTS, recorded-audio fallback explicitly labeled; microphone optional |
 
-## Proposed learning outcome
+## Implementation choices and evidence boundary
 
-Create two objects from one simple class, explain their separate attributes and one method, then relate those objects to records that can be saved and retrieved.
+Peewee **4.5.3** is the latest upstream release checked 29 October (published
+7 October). It is a real ORM, not a course imitation. `models.py` uses enforced
+SQLite foreign keys, role/nonempty constraints, a compound history index and
+atomic user/assistant writes. Exact row queries and ordered history reload are
+verified, including a separate process. Fictional local profiles are not secure
+accounts; no real passwords or personal student data belong in the examples.
 
-## Proposed classroom sequence
+The cached CLIP text encoder produces normalized 768-dimensional vectors on
+CPU. Two small synthetic sanity queries ranked the intended passages first,
+which proves learned inference and the similarity mechanism only. It does not
+prove retrieval from the actual handbook. This encoder's 77-token limit and
+image/text training objective must be considered when evaluating the real
+passages. Encoder weights/tokenizer/pooling identity travels with the bundle.
+No fabricated numbers are shipped as handbook embeddings.
 
-This is a sequence for discussion, not a timed run sheet. Confirm the class duration and topic before allocating minutes. Preserve substantial explanation, a concrete example, a prediction or inspection activity and project application rather than turning the lesson into a list of tools.
+The instructor supplied the exact official 2026-27 PDF URL. DNS prevents its
+retrieval in this environment. The pipeline therefore refuses missing assets;
+no fake page numbers or invented policy extracts fill the gap. `prepare_index.py`
+can process selected pages once the actual PDF is available. At least two
+prepared query vectors are required for its no-download fixture.
 
-1. Start with one familiar project object such as a player, scene or message. Compare a class definition with two instances and predict which values belong to each instance.
-2. Use a small constructor, attributes and one method; change one object and check that the other is unaffected. Keep inheritance and framework machinery optional.
-3. Draw one-to-many and many-to-many relations using the archive's short prediction format, then introduce stable IDs only when needed.
-4. Save and reload a tiny invented dataset using the simplest selected local route. Explain that in-memory objects and persisted records have different lifetimes.
-5. Offer retrieval/RAG as a teacher demonstration only if the object/storage ideas are secure: inspect retrieved evidence before a response. Teams identify the minimum data their project needs.
+The local-only Ollama adapter follows current tool-calling/embed documentation,
+but this environment cannot access a local model endpoint on port11434. Scripted protocol tests establish
+request/history/dispatch/citation-ID validation and no-write-on-failure, not
+model reasoning or live contextual memory. The bounded loop allows at most
+three retrieval calls/four model requests. No package causes model downloads,
+new accounts or paid API calls.
 
-## Weekly AI news
+Real eSpeak NG synthesis creates PCM WAV files, including an explicitly
+prepared refusal fallback. Audio opening is denied here, so audible playback
+and stopping remain unverified. Speech is not a persistent source/index and
+synthesis cannot establish the truth of the answer.
 
-Reserve an optional short opening discussion, trimmed before core teaching or assessment time. Suggested relevance filter: Agent memory, grounded search or retrieval evaluation. Discussion should test provenance, stale context and unsupported answers rather than repeat benchmark claims.
+## Authoring gate and next handoff
 
-Refresh near the actual class rather than filling future weeks with today's news. For each selected item record: event date and publication date, primary-source URL, exact supported claim, classroom connection, one discussion prompt, and whether the behaviour was personally tested or only reported by the source. If there is no useful verified item, omit the slot. News must not silently become assessed content.
+The long replacement deck waits for real PDF/source/vector results, the actual
+conversation-aware model/tool loop, and spoken output checks. When the gate
+passes, use the approved run sheet, incumbent course fonts/palette/layouts,
+`deckgen.CODE`, >=40-design-pixel primary labels, full-slide relationship diagrams,
+rich notes, dated source links and pinned companion examples. Inspect actual
+HTML/PDF and both PowerPoints with overflow warnings enabled. Do not claim
+those renders or the current incumbent source establish the new endpoint.
 
-## Current teaching direction
-
-Prioritise accessible classes and objects over advanced asyncio. Retain a visible map of Scrum, Git teamwork, Docker and networks before changing their sequence. Include an agent → MCP server → tool explanation and a bounded permission-aware practical at the appropriate point; a model suggestion alone must not be treated as permission to act. This does not require AI inside every team project.
-
-## Materials to develop in this PR
-
-- [x] Reconcile the supplied slide record with the current 2026 sequence; see `lessons/week10-lesson-plan.md` for page-by-page mapping.
-- [ ] Confirm class duration before adding a timed run sheet; class date is Thursday 12 November 2026.
-- [x] Author a draft deck with full-slide diagrams, notes, code traces and a 28-slide teaching route.
-- [x] Include a runnable conceptual two-object example, student prediction, JSON save/restart demo and missing-file/broken-ID limitation.
-- [x] Align executable examples with [PFAD/2026 companion PR #13](https://github.com/sd5913/pfad/pull/13). It now has tested stdlib fictional JSON save/reload code; the draft deck also supplies standalone snippets. Preflight classroom run steps.
-- [ ] Select and verify the week's news using the criteria above.
-- [x] Review the lesson for coherent progression, accuracy, appropriate depth and time for questions; revise in this same PR. Instructor timing approval remains separate.
-- [ ] Obtain instructor approval of timing and content before calling the deck classroom-ready; targeted build and preview checks are part of this draft's review.
-
-## Gaps and decisions
-
-- Confirm the time available for the explicit classes/objects bridge before deciding how much ORM or RAG to keep.
-- Choose one small local persistence route and an invented dataset; do not require students to deploy a database.
-- Decide whether authentication should be omitted or treated only as a security critique; the archived implementation must not become a working student template.
-
-## Guardrails specific to this week
-
-The visually inspected archive pp. 42–43 contain bare SHA-256 password hashing, also flagged by repository ERRATA. Do not copy it or collect credentials. Explain classes and instances independently of ORM inheritance. Keep optional retrieval grounded in teacher-owned material and distinguish matching text from a guaranteed correct answer.
-
-Across every week, preserve the existing assessment weights and confirmed dates. Individual Assignment 3 is separate from the group project. Do not add team-size rules, compulsory AI/audio, new grading criteria, submission formats or deadlines. Never commit student records, private submissions, quiz questions/keys or credentials. Do not merge, publish to Canvas, deploy the course, or change automation as part of this plan.
-
-## Source record
-
-Current-course anchors inspected for this plan:
-
-- [Teaching README](https://github.com/sd5913/teaching/blob/29a92068d2029c1b8c86d9e75cc02f38da71ceac/README.md): source layout, builds, numbering/date caution and privacy rules.
-- [Current Week 1 deck](https://github.com/sd5913/teaching/blob/29a92068d2029c1b8c86d9e75cc02f38da71ceac/deck/week01.py): assessment structure, Week 8 scope agreement and Week 13 final quiz.
-- [Week 6 instructor plan](https://github.com/sd5913/teaching/blob/29a92068d2029c1b8c86d9e75cc02f38da71ceac/lessons/week06-lesson-plan.md): established depth, progression, fallbacks and verification conventions.
-- [Week 7 draft PR](https://github.com/sd5913/teaching/pull/10), reviewed at `31c675b4085f771da6340878f3a54d7018f1015d`: team ideation and separate individual/group assessment framing.
-- [Current student index](https://github.com/sd5913/pfad/blob/2026/README.md): this year's material, not the archive syllabus.
-
-Historical candidates, inspected as source inventory only; not claimed to run on current dependencies:
-
-- [2025 week10/word2vec_example.py](https://github.com/sd5913/pfad/blob/2025/week10/word2vec_example.py)
-- [2025 week10/handbook_app/handbook_app.py](https://github.com/sd5913/pfad/blob/2025/week10/handbook_app/handbook_app.py)
-- [2025 week10/handbook_app/qdrant_store.py](https://github.com/sd5913/pfad/blob/2025/week10/handbook_app/qdrant_store.py)
-- [2025 week10/login_app/app.py](https://github.com/sd5913/pfad/blob/2025/week10/login_app/app.py)
-- [2025 errata](https://github.com/sd5913/pfad/blob/2025/ERRATA.md): known code, slide and assessment inconsistencies.
-
-## Verification record
-
-The archive was read as 2025 evidence; `lessons/week10-lesson-plan.md` maps its PDF pages to this draft. The companion PFAD PR #13 includes tested stdlib fictional JSON save/reload code, including duplicate-ID and broken-link checks. On 22 October, the full course build produced 28 Week 10 HTML/PDF/PPTX slides with no overflow, and key PDF pages were inspected at presentation scale. Physical classroom projection, instructor timing approval and optional live retrieval/model paths remain unverified. A local build is not a student-facing release.
+No shared navigation/registration, root environment, official presenter,
+classes or assessment policy was changed. Reviewers should inspect the new
+companion implementation, test evidence and explicit gaps before authorizing
+replacement slide production. Keep both PRs open; no merge or release is implied.
