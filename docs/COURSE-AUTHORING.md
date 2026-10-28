@@ -21,13 +21,19 @@ retained, updated, moved or removed. Read adjacent weeks for dependencies.
 Current instructor decisions override historical scheduling.
 
 Preserve the planned progression, not just isolated topics. In the later-week
-sequence, objects/classes lead to persistent relational models; embeddings
-lead to semantic retrieval/RAG; those same vectors and source metadata feed
-visual exploration before application APIs and agents. Replacing an outdated
-installation or framework does not justify deleting the computing idea.
-Include substantive removals or changes of scope in the outline for agreement.
-An audit's recommendation and an omission in an existing draft are not proof
-that the instructor approved a deletion.
+sequence, objects/classes lead to persistent relational models; handbook PDF
+embeddings lead to source-backed retrieval/RAG; an agent combines that knowledge
+with conversation memory and tool use, then produces a spoken reply. Indexed
+handbook knowledge and the history of a conversation are different sources of
+context; explain what each contributes.
+
+Preserve the approved concepts, not every original framework or visualization.
+Record instructor-approved removals or redistribution in the source crosswalk.
+Orange is deliberately removed to give Blender/Godot more time; do not restore
+visual exploration as a mandatory dependency of embeddings or agents. Replacing
+an outdated installation does not authorize other conceptual deletions. Include
+proposed substantive scope changes in the outline for agreement; an audit's
+recommendation or an omission in a draft is not approval to remove a concept.
 
 Prepare an outline for agreement containing:
 
@@ -90,11 +96,17 @@ model methods to stored fields/relationships, SQL and a fresh-process reload.
 Clarify that values and relationships persist; Python methods remain code.
 
 An embeddings block needs real model-derived numerical vectors and observable
-similarity-search results. Link results to source IDs/text/metadata, distinguish
-similarity from exact database lookup, and inspect retrieval before generation.
-If a later lesson visualizes those vectors, carry the same corpus, encoder
-identity, dimension and provenance across the handoff. A sourced vector fixture
-can support an honest fallback; keyword matching cannot stand in for embeddings.
+similarity-search results. Link handbook chunks to source IDs/text/page metadata,
+distinguish similarity from exact database lookup, and inspect retrieval before
+generation. Preserve corpus/encoder identity, dimension and provenance across
+the retrieval handoff. A sourced vector fixture can support an honest fallback;
+keyword matching cannot stand in for embeddings.
+
+For the handbook agent, distinguish the indexed PDF knowledge from conversation
+history. Show which previous turns are retained or recalled, then trace retrieved
+sources, conversation context and tool results into the answer and spoken reply.
+Conversation memory is not automatically another embedding index, and audio
+playback is a separate result to verify from the answer's correctness.
 
 Introduce terminology in plain language, then use the correct technical term.
 Ask students to predict outputs, distinguish two mechanisms, locate a fault,

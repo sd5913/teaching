@@ -16,9 +16,11 @@ creating or reviewing a lesson. These instructions apply to the whole repo.
   delivered material and its PFAD companion first. Check the 2025 archive for
   useful content and omissions; it does not determine current policy or APIs.
 - Preserve cross-week conceptual dependencies with a source-to-lesson crosswalk.
-  Persistent model classes, embeddings/semantic retrieval and the subsequent
-  exploration of the same vectors are part of the teaching progression.
-  Modernizing a stack or accepting an audit does not authorize dropping them.
+  Persistent domain models lead to embeddings/source-backed handbook retrieval,
+  then conversation memory, tool use and spoken replies. Distinguish indexed
+  handbook knowledge from conversation history. Record instructor-approved
+  removals or redistribution; no original framework or visualization is
+  automatically mandatory. Modernizing a stack does not authorize other cuts.
 - Preserve verification over memorization: predict a result, trace the code,
   try a change, inspect a failure, explain the evidence. A tool tour and repeated
   project-planning prompts do not substitute for computing concepts.
