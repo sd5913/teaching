@@ -33,7 +33,7 @@ class Week08DeckTests(unittest.TestCase):
 
     def test_linked_examples_and_environment_distinctions(self):
         for text in ('week08/vision.py', 'week08/hand_tiles.py',
-                     'capacitor-app-template', 'godot-game-template',
+                     'capacitor-app-template', 'godot-game-template', 'python-uv-app-template',
                      'CLOUDFLARE_API_TOKEN', 'GitHub Actions', 'Codex cloud',
                      'MediaPipe', 'OpenCV'):
             self.assertIn(text, self.source)

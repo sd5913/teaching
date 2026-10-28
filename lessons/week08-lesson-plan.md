@@ -15,7 +15,7 @@ module; do not rename it to match the calendar week.
 
 ## Preflight
 
-- Verify the two template repos and Actions artifacts, GitHub account permissions,
+- Verify the three template repos and Actions artifacts, GitHub account permissions,
   setup and a pre-created Codex cloud environment. Publishing the environment is
   not a deployment. Check external links and current account UI.
 - Prepare the PFAD Week 8 environment and download models from its README. On
