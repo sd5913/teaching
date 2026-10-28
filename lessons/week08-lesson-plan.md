@@ -6,10 +6,11 @@ module; do not rename it to match the calendar week.
 | Minutes | Lecture | Action |
 | --- | --- | --- |
 | 0–10 | Project, opening and news | Poll: game, app, installation or another direction; brief news discussion; explain Canvas repository submission and 25/50/25 group rubric. |
-| 10–30 | Teamwork | Work through branch, edit, commit, push, PR, teammate review, merge and updating main. Resolve a simple same-line conflict. |
-| 30–55 | Codex cloud | Create environments for the Capacitor and Godot starters, review setup, publish and start a small task; mention the Python option. Keep a prepared environment available. |
-| 55–65 | Break | Set up the camera and light. |
-| 65–85 | Actions and delivery | Follow CI to artifacts; use Tetrilaunch's OS matrix and mobile workflows; show secret creation with fake values and provider deployment token. |
+| 10–30 | Agile, Scrum and tracking | Brief Week 1 Manifesto recap; iterative/incremental development; Scrum pillars, accountabilities, artifacts/commitments and events. Demonstrate the GitHub Projects board and issue-to-PR link. Connect the evidence to the 25% execution mark. |
+| 30–45 | Git teamwork | Work through branch, edit, commit, push, PR, teammate review, merge and updating main. Resolve the simple same-line conflict. |
+| 45–60 | Codex cloud | Use prepared repositories and setup commands: five minutes each to create Capacitor and Godot environments, five minutes for one task/check/review. Mention the Python option; retain a prepared-environment fallback. |
+| 60–70 | Break | Set up the camera and light. |
+| 70–85 | Actions and delivery | Follow CI to artifacts; use Tetrilaunch's OS matrix and mobile workflows; show secret creation with fake values and provider deployment token. |
 | 85–93 | Frames and Python objects | Connect pixels, channels, the camera object and its read method to Week 7 classes; introduce the tracker and model asset. |
 | 93–105 | Landmarks to interaction | Run face/hand and fingertip-to-tile; trace the result, no-hand case, threshold and pixel coordinates. Ask students to predict the threshold outputs. |
 | 105–115 | Other model outputs | Show gesture and pose or segmentation; compare outputs, tracking loss and limitations. Choose the second demo according to time. |
@@ -17,6 +18,11 @@ module; do not rename it to match the calendar week.
 
 ## Preflight
 
+- Prepare a GitHub Projects Board demonstration with repository issues, assignees,
+  Status and optional Iteration. Check board access separately from repository
+  access. The slide board is illustrative. Inspect built-in workflows before
+  claiming automatic status updates; closing keywords apply to PRs targeting the
+  default branch. Do not create or modify student tracking during the lecture.
 - Verify the three template repos and Actions artifacts, GitHub account permissions,
   setup and a pre-created Codex cloud environment. Publishing the environment is
   not a deployment. Check external links and current account UI.
@@ -30,6 +36,34 @@ module; do not rename it to match the calendar week.
   page when available; the public brief is in PFAD. Do not disclose keys.
 - Opening ClassPoint question has a show-of-hands fallback. TA exercises do not
   depend on the instructor's account. No new tutorial submission is required.
+
+## Agile/Scrum learning and quiz scope
+
+The Manifesto's four values appeared in Week 1. Revisit them briefly, including
+the fact that the right-hand items still have value, then apply the concepts to
+the team project. Teach iterative versus incremental development; transparency,
+inspection and adaptation; Product Owner, Developers and Scrum Master; Product
+Backlog/Product Goal, Sprint Backlog/Sprint Goal, Increment/Definition of Done;
+and the Sprint containing Planning, Daily Scrum, Review and Retrospective.
+Distinguish the product review from improving how the team works. A Sprint is
+one month or less; the Daily Scrum is a 15-minute event for Developers.
+
+GitHub Projects and Issues support the process; they do not define Agile or
+Scrum. Show an issue's intended outcome and check, owner, Status, optional
+Iteration, linked PR and review evidence. Use the final scenario to check that
+students can distinguish closed cards from a usable, verified Increment.
+
+Execution remains exactly 25% of the group-project mark: small, steady
+increments and documented weekly progress, explained through planning,
+contributions, review and adaptation. Recommend GitHub tracking or an equivalent
+accessible record linked from the README. Do not grade raw commit/card counts,
+formal job titles or ceremony attendance. No extra Canvas upload is introduced.
+Student revision and setup guide: PFAD `week08/teamwork.md`.
+
+Primary sources: [Agile Manifesto](https://agilemanifesto.org/), its
+[principles](https://agilemanifesto.org/principles.html), the
+[2020 Scrum Guide](https://scrumguides.org/scrum-guide.html), and
+[GitHub Projects quickstart](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/quickstart-for-projects).
 
 ## Tutorial: 120 minutes
 

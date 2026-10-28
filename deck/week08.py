@@ -8,9 +8,10 @@ from deckgen.layouts import title, agenda, section, statement, content, question
 from week08_visuals import (
     canvas, grading, submission, conflict, starters, camera_frame, objects, fingertip, tiles, tutorial,
 )
+from week08_agile import agile_slides
 
 EYE = 'SD5913 / WEEK 08 / 29 OCTOBER 2026'
-PFAD = 'https://github.com/sd5913/pfad/blob/c01fcee0adcb517ff09e82d6960d552fef63e685/week08'
+PFAD = 'https://github.com/sd5913/pfad/blob/837739da064b1a5aca481f2ee2c9e3b80d4f16df/week08'
 S = []
 
 
@@ -38,8 +39,8 @@ S.append(question('multiple_choice', 'What is your group idea becoming?',
     choices=['A game', 'An app or creative tool', 'An installation', 'Something else / still deciding'],
     eyebrow_text='OPENING / YOUR GROUP PROJECT',
     notes='Invite each team to choose the closest direction. These categories overlap and an idea can change. ClassPoint if available; otherwise show of hands. Ask one or two teams what a person will do.'))
-S.append(agenda(EYE, ['Project, assessment and news', 'Teamwork: branch, review, merge', 'Codex cloud: app, game or Python', '10-minute break', 'Actions, builds and deployment secrets', 'Live camera: OpenCV + MediaPipe', 'PFAD: the two-hour tutorial'],
-    notes='Suggested pacing: opening/news/project 10 min; Git 20; cloud 25; break 10; Actions 20; camera demos 30; tutorial handoff 5 = 120 minutes.'))
+S.append(agenda(EYE, ['Project, assessment and news', 'Agile, Scrum and GitHub tracking', 'Git workflow + Codex environments', '10-minute break', 'Actions, builds and deployment secrets', 'Live camera: OpenCV + MediaPipe', 'PFAD: the two-hour tutorial'],
+    notes='Suggested pacing: opening/news/project 10 min; Agile/Scrum 20; Git 15; cloud 15; break 10; Actions 15; camera demos 30; tutorial handoff 5 = 120 minutes.'))
 S.append(content('NEWS / 28 OCTOBER', 'Who gets to build and remix?', [
     '**Switch 2:** [new access enables homebrew and mods](https://www.polygon.com/nintendo-switch-2-hackers-jailbreak-dumping-files-modding/).',
     '**Indie games:** [fear of AI clones delays a demo](https://arstechnica.com/gaming/2026/10/ai-game-clones-are-making-indie-developers-afraid-to-show-their-work/).',
@@ -54,16 +55,17 @@ S.append(content('NEWS / 28 OCTOBER', 'Who gets to build and remix?', [
     'Installed tools and automated monitors do not themselves authorize publishing or sharing data. '
     'The linked OpenAI announcement was inaccessible during the 28 October source check; do not quote its claims without verifying it.'))
 S.append(section('01', 'Your group project', 'An ambitious idea, built and delivered together.', notes='Connect to the Week 7 idea and mock-up.'))
-S.append(submission('https://github.com/sd5913/pfad/blob/c01fcee0adcb517ff09e82d6960d552fef63e685/assignments/group-project.md',
+S.append(submission('https://github.com/sd5913/pfad/blob/837739da064b1a5aca481f2ee2c9e3b80d4f16df/assignments/group-project.md',
     'Canvas repository submissions open this week. Final deadline: Sunday 6 December 2026, 23:59 HKT. '
     'Canvas assignment URL was not supplied. Instructor: add its actual link when available. Website URL submission; ensure the team submission settings match the actual Canvas group set. This does not change individual Assignment 3.'))
 S.append(grading(
-    'These are shares of the group-project mark, not separate course-grade percentages. Code includes handling complexity well. Execution means small steady increments and documented weekly progress.'))
+    'These are shares of the group-project mark, not separate course-grade percentages. Code includes handling complexity well. Execution is 25%: small steady increments, visible team planning and review, and documented weekly progress. The Agile/Scrum and GitHub tracking block makes this concrete.'))
 S.append(content('PROJECT / FIRST AGREEMENT', 'Make the next step testable.', [
     'Who uses it, and what do they do?', 'What visible or audible response makes the idea special?',
     'What is the smallest working interaction your team can test?', 'Agree the scope together; credit code, assets and tools.',
 ], body_size=42, notes='An app, game, installation or another interactive project can use the workflow. AI assistance is allowed but need not be a feature.'))
-S.append(section('02', 'Work as a team', 'One shared repository. Small, reviewable changes.', notes='Explain each step using one teammate adding a start button to a shared app.'))
+S.append(section('02', 'Work as a team', 'Plan together. Build, review and adapt.', notes='Agile/Scrum concepts are quiz material. Connect team planning and progress evidence to the 25% execution criterion, then explain Git using one teammate adding a start button to a shared app.'))
+S.extend(agile_slides(f'{PFAD}/teamwork.md'))
 def git_walkthrough(stage):
     heads = ['1. Alice starts a change', '2. Bob reviews the PR', '3. Both update main']
     steps = [
@@ -164,7 +166,7 @@ S.append(content('CODEX / DEMONSTRATION', 'Create a cloud environment.', [
     '**3 / Publish** the environment, then start a task with it.', '**4 / Verify** one change: review the diff and check the result.',
     '[Official Codex cloud guide](https://learn.chatgpt.com/docs/environments/cloud-environments)',
 ], body_size=42, notes='Rehearse actual interface and permissions before class: Work in > Cloud > Select environment > Create environment, select repository, Get started, review setup, save and Publish, then start a task. UI and account availability may vary. Have a pre-created environment as a download-time fallback.'))
-S.append(starters('Demonstrate Capacitor and Godot environment creation and one traceable change within the planned 25 minutes. Python + uv is a third option: run source with uv and bundle desktop apps with PyInstaller; each OS builds on its own runner. Teams may choose other frameworks and targets.'))
+S.append(starters('Demonstrate Capacitor and Godot environment creation and one traceable change within the planned 15 minutes. Use prepared repositories and setup commands: about five minutes for each environment and five for the task/review. Python + uv is a third option: run source with uv and bundle desktop apps with PyInstaller; each OS builds on its own runner. Teams may choose other frameworks and targets.'))
 S.append(content('CODEX / A USEFUL TASK', 'Ask for one verifiable change.', [
     '“Make the player move faster after collecting a star.”', 'Name the file or behaviour and the expected result.',
     'Ask for the relevant checks and how to run the result.', 'Inspect the diff, run it, request a teammate review.',
@@ -267,7 +269,7 @@ S.append(vision_code('Call a method for each frame', [
 S.append(content('LIVE / FACE + HAND', 'Look at what the model returns.', [
     'Face detector: a box around each detected face.', 'Hand Landmarker: 21 points per hand, including index fingertip 8.',
     'Move closer, rotate your hand, hide it: when does tracking fail?',
-    '[Modern source and run commands](https://github.com/sd5913/pfad/blob/c01fcee0adcb517ff09e82d6960d552fef63e685/week08/README.md)',
+    '[Modern source and run commands](https://github.com/sd5913/pfad/blob/837739da064b1a5aca481f2ee2c9e3b80d4f16df/week08/README.md)',
 ], body_size=42, notes='From the PFAD root, cd week08; run uv run python vision.py face; then hand. Press q to stop. Show vision.py and the model source. Camera demo requires graphical desktop and permission.'))
 S.append(fingertip(
     'A result object contains hand_landmarks, a list of detected hands. Each hand is a list of 21 landmark objects; '
@@ -298,7 +300,7 @@ S.append(vision_code('Turn a position into a choice', [
     'The guards also reject nonnumeric, nonfinite and out-of-frame values. '
     'From the PFAD root, cd week08 and run uv run python hand_tiles.py for the synthetic no-camera examples. '
     'This is an authored threshold, not a gesture classification by the model.'))
-S.append(tiles('https://github.com/sd5913/pfad/blob/c01fcee0adcb517ff09e82d6960d552fef63e685/week08/hand_tiles.py',
+S.append(tiles('https://github.com/sd5913/pfad/blob/837739da064b1a5aca481f2ee2c9e3b80d4f16df/week08/hand_tiles.py',
     'From the PFAD root, cd week08. Run no-camera sample first: uv run python hand_tiles.py. Then if preflighted: uv run python hand_tiles.py --camera --model models/hand.task. Add --camera-index 1 if using the second camera. Check exact command and model before lecture.'))
 S.append(vision_code('Draw a point on the frame', [
     'height, width = frame.shape[:2]',
@@ -316,11 +318,11 @@ S.append(content('LIVE / GESTURE + POSE', 'Compare two kinds of output.', [
     'Gesture Recognizer: a trained model returns a gesture label and score.',
     'Pose Landmarker: body points can drive an interaction.',
     'A score is model confidence, not proof of intent.',
-    '[Examples and source](https://github.com/sd5913/pfad/blob/c01fcee0adcb517ff09e82d6960d552fef63e685/week08/vision.py)',
+    '[Examples and source](https://github.com/sd5913/pfad/blob/837739da064b1a5aca481f2ee2c9e3b80d4f16df/week08/vision.py)',
 ], body_size=42, notes='Run gesture; choose pose or segmentation as the second demo according to time. This modern trained recognizer differs from the 2025 handwritten landmark rules. Discuss what happens when the hand or body leaves view.'))
 S.append(content('LIVE / SEGMENTATION', 'A mask changes the background.', [
     'The model estimates a person mask for each frame.', 'OpenCV combines foreground with a replacement background.',
-    'Try hair, a raised hand and a busy background.', '[All Week 8 vision exercises](https://github.com/sd5913/pfad/tree/c01fcee0adcb517ff09e82d6960d552fef63e685/week08)',
+    'Try hair, a raised hand and a busy background.', '[All Week 8 vision exercises](https://github.com/sd5913/pfad/tree/837739da064b1a5aca481f2ee2c9e3b80d4f16df/week08)',
 ], body_size=42, notes='If choosing segmentation, from week08 run uv run python vision.py segment. Otherwise explain the mask briefly and leave the live example for the tutorial. Segmentation estimates pixels, distinct from landmarks. No camera data needs uploading or saving.'))
 S.append(tutorial(
     f'{PFAD}/README.md',

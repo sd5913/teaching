@@ -15,10 +15,11 @@ class Week08DeckTests(unittest.TestCase):
         cls.slides = week08.S
         cls.titles = [slide.title for slide in cls.slides]
         cls.source = '\n'.join((ROOT / 'deck' / name).read_text()
-                               for name in ('week08.py', 'week08_visuals.py'))
+                               for name in ('week08.py', 'week08_visuals.py', 'week08_agile.py'))
 
     def test_lecture_order(self):
         titles = ['What is your group idea becoming?', 'Register your repository now.',
+                  'The Agile Manifesto: four values', 'Make the work visible in GitHub.',
                   '1. Alice starts a change', 'Create a cloud environment.',
                   'One project, several delivery paths.', 'From light to an action',
                   'Try all nine vision examples.']
@@ -58,6 +59,23 @@ class Week08DeckTests(unittest.TestCase):
         opening = self.slides[self.titles.index('What is your group idea becoming?')]
         self.assertTrue(opening.cp)
         self.assertIn('show of hands', opening.notes)
+
+    def test_agile_quiz_concepts_are_visible_in_the_lesson(self):
+        first = self.titles.index('Three different kinds of support')
+        last = self.titles.index('Does this count as an Increment?')
+        visible = '\n'.join(run.text for slide in self.slides[first:last + 1]
+                            for element in slide.els
+                            for para in getattr(element, 'paras', []) for run in para.runs)
+        for concept in ('Individuals and interactions', 'Working software',
+                        'Customer collaboration', 'Responding to change',
+                        'Transparency', 'Inspection', 'Adaptation',
+                        'Product Owner', 'Developers', 'Scrum Master',
+                        'Product Backlog', 'Sprint Backlog', 'Increment',
+                        'Product Goal', 'Sprint Goal', 'Definition of Done',
+                        'one month or less', '15 min daily', 'Daily Scrum',
+                        'Review', 'Retrospective', 'Closes #12', '25%'):
+            with self.subTest(concept=concept):
+                self.assertIn(concept, visible)
 
     def test_registered_with_week07_and_site_download(self):
         conf = tomllib.loads((ROOT / 'deckgen.toml').read_text())
