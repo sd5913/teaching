@@ -1,40 +1,115 @@
-# SD5913 Week 11: Connecting creative tools
+# Week 11: Python controls creative software
 
-Instructor draft. Content number `week11` only; date and class length are **not confirmed**. The core route uses printed, synthetic values and standard Python. Do not present the companion planning PR as a released runnable tutorial.
+**Thursday 19 November 2026.** Revised 120-minute lecture and separate 120-minute
+PFAD tutorial. This run sheet replaces the old 70-minute simulated-opacity
+lesson. **Draft incomplete:** the existing deck still illustrates that old
+proposal. Replace/render it only after application acceptance; do not use it
+to deliver this run sheet.
 
-## Outcome and evidence
+## Lecture: exact approved blocks
 
-A pair follows one value across a sender/receiver boundary, names its range and meaning, predicts a result and decides what a missing update should do. Collect an informal labelled input/output sketch, a mapping and a safe-stop explanation in discussion only. No new assessment, mandatory AI, paid service, camera or additional installation.
+| Minutes | Teaching work and evidence |
+| --- | --- |
+| 0-10 | Ask which creative operation a program could control. Brief W10 retriever-tool handoff; dated news after source verification. Compare a tool response with the observed artwork. |
+| 10-35 | Live Blender: predict scale, inspect bpy object, change, save and CPU-render. Compare two actual images. Trace camera/light/output and a missing-object error. |
+| 35-60 | Direct API versus actual MCP request: discover schema, inspect JSON, change scale, check saved scene/image and stop. Name course adapter versus unaccepted third-party live bridge. |
+| 60-70 | Ten-minute break. |
+| 70-95 | Live Godot: inspect scene/config, direct Python validation, create/change through real community MCP, run, check behavior. Compare file state and running state. |
+| 95-110 | Fail at speed 120; read actual check fields before adapting. Diagnose missing parent/stale window. Contrast a launch ack, process logs and visual/behavior evidence. |
+| 110-120 | Project possibilities, questions, explain one chosen app path and timed PFAD tutorial. |
 
-The optional opening news slot stays empty until a recent source is verified with event/publication dates, primary link, supported claim, classroom connection and test status. If none passes that filter, omit it.
+Do not fill unaccepted live-demo blocks with invented success. If the host is
+blocked, use inspected Blender image/scene plus truthful tool traces for
+explanation, and a prepared partner desktop for hands-on application changes.
+A trace is not an autonomous model. A recording alone is not a student's core
+application exercise. Rehearse both visible application routes before class.
 
-## Preparation
+## Commands and demonstrations
 
-- Open the targeted HTML/PDF deck and check both diagrams and notes. Have Python available for a scratch file, or use arithmetic and paper only.
-- Trace `0.50 -> 50%`, then `0.75 -> 75%`; test `3` (clamped to 100) and `"oops"` (fallback 0). These are simulated messages: printing `receive ...` does **not** receive OSC.
-- If demonstrating OSC, prepare and rehearse a *local* receiver independently: explicit address `/control`, matched port, known numeric mapping, receiver-side validation and timeout/reset. No receiver is shipped in the Week 11 PFAD companion draft. If anything is unverified, use printed trace; do not open a network port in class by default.
-- If using the Blender alternative, start with a disposable prepared scene with `Cube`, camera and light. The `bpy` excerpt changes scale in Blender only; it does not create the scene or render. Keep students' project files out of reach of any old scene-clearing script.
-- No camera, NDI, GPU or sign-up for the core lesson. If recording/transmitting images on an optional extension, check device permission and participants' consent and stop the stream before leaving the session. For any agent/MCP example, restrict to an explicit read-only capability first; human approval and a narrow target are required before a write.
+Use the [verified companion Week 11 sources](https://github.com/sd5913/pfad/tree/3bbb871d1ba0583c8a2e0391aa286740f4896acb/week11)
+in the companion review checkout. No unmerged sibling PR is a hidden
+installation prerequisite. This commit is an incomplete acceptance draft,
+not a classroom-ready release.
 
-## Pacing (adapt to the confirmed slot)
+```bash
+cd week11
+uv run python -m unittest test_world test_mcp_transport test_engine
+uv run python world.py inspect
+uv run python world.py check
+uv run python world.py play
+```
 
-Suggested **70-minute core**, not a claim about the timetable. If a longer class is confirmed, use remaining time for project work and questions. If shorter, omit optional tools and the opening discussion, not the failure test.
+Godot 4.7.2 is the latest installed verified engine; use latest stable rather
+than the cached 4.5.1. Set GODOT_PATH if not found on PATH. `world.gd.advance`
+implements the shared behavior. Default speed 300 / radius 24 / exit 860 wins with
+three pickups, x=840 at 152 physics steps. Change speed 120: after 180 steps it
+collects 2 and reaches x=440; restore 300 and check recovery. The check uses actual
+Godot/GDScript, without a graphical claim. Restart the window after config edits.
 
-| Minutes | Slides | Move |
-|---|---|---|
-| 0-8 | 1-4 | Ask what changes across programs; identify the goal. |
-| 8-19 | 5-9 | Show name, attribute, method; predict the plain Python `print`. |
-| 19-38 | 10-17 | Build sender/boundary/receiver in successive diagrams; run printed trace; predict 0.75; validate 3 and `"oops"`. |
-| 38-53 | 18-21 | Ask what a silent sender means; run the pair lab (3 min sketch/predict, 5 min edit or calculate, 2 min absence, 2 min share). |
-| 53-62 | 22-24 | Compare local Blender property, local HTTP request and OSC. Skip installs. |
-| 62-70 | 25-29 | Explain optional MCP permission boundary briefly; close with project application and one pair's safe-stop explanation. |
+```bash
+uv run python setup_bridge.py
+uv run python mcp_client.py list
+uv run python mcp_client.py demo
+```
 
-If the room has no devices or Python, students calculate the exact trace on paper. If a local receiver disconnects, its last value may remain: do not claim it reset unless a tested timeout exists. Ask teams for a small independently testable increment rather than turning the old tutorial's team update into an assessed presentation.
+Coding-Solo source 1209744 v0.1.1, adapted SDK 1.30.0/Node 26: actual discovery,
+project metadata, scene creation, Node2D/Label creation passed. Inspect
+`godot/probe.tscn`; the Label text is THREE LIGHTS. run_project responds before
+window readiness. Inspect real display/debug output; stop_project then close
+stdio. Fresh network installation and visible run are not accepted yet.
 
-## Historical-to-current decision
+```bash
+blender --background --factory-startup -noaudio --python-exit-code 1 --python blender_scene.py -- --scale 1
+blender --background --factory-startup -noaudio --python-exit-code 1 --python blender_scene.py -- --scale 1.5
+uv run python mcp_client.py --blender list
+uv run python mcp_client.py --blender render_scene '{"scale":1.25}'
+```
 
-The supplied OneDrive 2025/2025-26 Week 11 PDF (78 pages; archive README/manifest verified, 1-based pages) shows object/storage recap on pp. 4-17; Orange on pp. 18-30; Blender on pp. 31-39; TouchDesigner on pp. 40-44; NDI/OSC and hand tracking on pp. 45-55; networked game/async on pp. 56-60; and tutorial on pp. 61-78. Retain the object's attribute bridge and broad tool map; replace the installation tour with one synthetic, finite input-to-output trace and a stop test. Blender is an alternative. Move Orange, NDI/camera, TouchDesigner and networked game into references or optional extensions; do not teach asyncio as a prerequisite. Historical slides are evidence of an earlier design, not evidence of a 2026 date, project policy or software readiness. The current PFAD Week 11 companion is [draft PR #14](https://github.com/sd5913/pfad/pull/14) at ca66f05: a planning README, not executable code. Site/slide publication awaits teaching review.
+Blender 5.2.3 LTS creates .output/blender/sculpture.blend, inspect.json and
+scale-named PNG files. Visually compare geometry/shadow with fixed camera.
+The actual CPU render was inspected; shutdown currently hangs under restricted
+host audio and the 90-second adapter timeout returns isError. Preserve that failure;
+an existing PNG does not prove a clean end. Missing target errors before save;
+scale 5 is rejected before launching. Do not call the course CLI adapter the
+third-party Blender MCP implementation. The latter's live socket/add-on path
+is a remaining independent acceptance task.
 
-## Review limits
+## Tutorial: separate 120 minutes
 
-Rendered deck and tests verify slide generation only. No OSC packet/receiver, Blender render, actual MCP server, camera, network latency or classroom permission flow has been tested here. Confirm timetable, receiver choice and teaching machine before calling live demonstrations ready. No assessment policy or confirmed deadline is changed.
+| Minutes | Student work |
+| --- | --- |
+| 0-15 | Set up one chosen app and inspect supplied scene; use prepared partner if baseline unavailable. |
+| 15-35 | Predict/inspect/change through actual API/CLI. |
+| 35-55 | Trace real MCP/bridge request; verify saved scene effect. |
+| 55-65 | Break. |
+| 65-85 | Purposeful config/camera change, run/render and compare. |
+| 85-100 | Missing node/object or failed time budget; diagnose and recover. |
+| 100-120 |19 November playtest-feedback tutor review and project support. |
+
+README gives exact commands, expected edits/outputs, platform conditions and
+recovery. Students complete one path. For W12, Blender-only students get Godot
+bootstrap0-20 and prepared partner handoff at 20; preserve break/final support.
+
+## Preflight and review limits
+
+Verify latest installed versions, process startup/discovery/change/result/stop,
+actual desktop output, default paths and clean extraction/bridge installation.
+Current actual evidence: 3 Python tests,4.7.2 engine pass/fail/recovery, actual
+community MCP saved scene edits and stop protocol, inspected Blender CPU image.
+Open: Godot visible play/movie, Blender clean exit/live third-party MCP,
+fresh student setup and cross-platform/classroom rehearsal. Old 4.5.1 crashed
+when appdata/logs could not be written; current helpers keep XDG_DATA_HOME in
+.output for engine subprocesses. No further old-engine GUI attempts are allowed.
+
+The replacement deck still needs rich notes, short readable visible copy,
+large >=40px primary diagram labels, deckgen.CODE, exact source links and a
+source-verified dated news item. Build HTML/plain/ClassPoint PPTX, check overflow
+and inspect actual exports. Browser/PDF is blocked in the current sandbox;
+report that rather than disabling checks or modifying the renderer.
+
+## Project boundary
+
+40% group project; 25% idea / 50% code / 25% execution; 6 December 2026, 23:59 HKT deadline.
+Public sd5913-owned repo with teammate Write; Projects recommended/equivalent
+accessible record valid. Canvas remains submission route. No new upload,
+compulsory engine/AI feature, grade or defence. No live class or presenter action.
