@@ -112,12 +112,47 @@ S.append(content('TEAMWORK / CONFLICT', 'Two people changed the same line.', [
     'Remove conflict markers, run the project and tests, then commit the resolution.',
     'After merge: teammates switch to main and pull.',
 ], body_size=42, notes='Worked example: both edit the start button label: one says Play, other Start. Show <<<<<<<, ======= and >>>>>>> in editor. Decide together, delete markers, test, git add and complete merge. Do not blindly choose one side.'))
-S.append(content('TEAMWORK / REPOSITORY ACCESS', 'Choose how the team collaborates.', [
-    'Shared repository: teammates have access and make feature branches.',
-    'Fork + pull request: contributors propose changes from their own copy.',
-    'Use descriptive commits and review; both routes need communication.',
-    '[Git reference](https://github.com/sd5913/pfad/blob/2026/reference/git.md)',
-], body_size=42, notes='The shared team repository is the suggested path. Do not expose secrets in PRs.'))
+def collaboration_paths():
+    slide = Slide(bg=WHITE, title='Choose how the team collaborates.', notes=(
+        'The shared team repository is the suggested path: teammates have write access, '
+        'push feature branches to that repository, and open a PR into its main branch. '
+        'In the fork path, a contributor first creates their own GitHub copy of the team '
+        'repository, pushes a branch there, then opens a cross-repository PR back to the '
+        'team repository. A maintainer reviews and merges it; a fork contributor does '
+        'not need write access to the team repository. Both paths need review and '
+        'communication. Do not expose secrets in PRs. Git reference: '
+        'https://github.com/sd5913/pfad/blob/2026/reference/git.md'))
+    slide.chrome = False
+    slide.els = [
+        T(80, 24, 1760, 34, 'TEAMWORK / REPOSITORY ACCESS', 'monomed', 24, MUTED),
+        T(80, 80, 1760, 100, 'Choose how the team collaborates.', 'xbold', 62, INK),
+        T(120, 215, 1680, 65, '1 / Shared repository', 'xbold', 48, INK),
+        Rect(120, 290, 1680, 230, PAPER),
+        T(150, 305, 1620, 55, 'ONE TEAM REPOSITORY  /  teammates have write access', 'semibold', 40, INK),
+        Rect(155, 385, 400, 90, WHITE),
+        T(175, 400, 360, 58, 'Feature branch', 'semibold', 42, INK),
+        T(580, 395, 90, 70, '→', 'xbold', 56, ORANGE),
+        Rect(685, 385, 400, 90, WHITE),
+        T(705, 400, 360, 58, 'Pull request', 'semibold', 42, INK),
+        T(1110, 395, 90, 70, '→', 'xbold', 56, ORANGE),
+        Rect(1215, 385, 520, 90, INK),
+        T(1235, 400, 480, 58, 'Team main', 'semibold', 42, WHITE),
+        T(120, 570, 1680, 65, '2 / Fork + pull request', 'xbold', 48, INK),
+        Rect(120, 655, 610, 165, PAPER),
+        T(150, 675, 550, 55, 'Contributor’s fork', 'semibold', 44, INK),
+        T(150, 745, 550, 55, 'Their own copy + branch', 'body', 40, INK),
+        T(750, 665, 420, 55, 'PULL REQUEST', 'semibold', 40, INK, align='c'),
+        Rect(810, 758, 240, 5, ORANGE),
+        T(1035, 725, 80, 80, '→', 'xbold', 52, ORANGE),
+        Rect(1190, 655, 610, 165, INK),
+        T(1220, 675, 550, 55, 'Team repository', 'semibold', 44, WHITE),
+        T(1220, 745, 550, 55, 'Review + merge to main', 'body', 40, WHITE),
+        T(120, 895, 1680, 55, '[Git reference](https://github.com/sd5913/pfad/blob/2026/reference/git.md)  /  Both paths need review.', 'body', 36, MUTED),
+    ]
+    return slide
+
+
+S.append(collaboration_paths())
 S.append(section('03', 'Build in the cloud', 'A coding environment is a prepared workspace.', notes='Demonstrate creating environments for the two starter repositories.'))
 S.append(boxes('ENVIRONMENTS / THREE DISTINCT PLACES', 'Where does the work happen?', [
     ('Codex cloud', 'Develop a change', 'Tools + repository'), ('GitHub Actions', 'Run a fresh job', 'Tests + build'),
