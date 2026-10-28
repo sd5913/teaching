@@ -35,7 +35,7 @@ module; do not rename it to match the calendar week.
 
 TA uses `pfad/week08/README.md`: setup and camera 15 min, face/hand/pose 25,
 mesh/gesture 20, break 10, combined/segmentation 20, multi 10, separate emotion
-classifier 10, application and optional team setup 10. Modern MediaPipe Tasks
+classifier 10, optional inspiration discussion and team setup 10. Modern MediaPipe Tasks
 replace archived `mp.solutions`; 2025 sources are linked for comparison. Explain
 that classifier labels do not establish a person's feelings. If someone has no
 camera, work with a consenting partner and use the sample-coordinate fallback.
