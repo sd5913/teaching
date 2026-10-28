@@ -211,15 +211,20 @@ def agile_slides(teamwork_url):
             f'Sources: {MANIFESTO}, {SCRUM}, {PROJECTS}.'),
         manifesto(), learning_loop(), accountabilities(), artifacts(), sprint(), board(),
         content('GITHUB / ISSUES → PROJECT → PULL REQUEST', 'Set up your team tracking.', [
-            '**1 / Create** a GitHub Project and choose its Board view.',
+            '**1 / Create** your group Project under **sd5913**; choose Board view.',
             '**2 / Add** repository issues with an outcome, assignee and check.',
             '**3 / Track** Status; optionally add a weekly Iteration field.',
             '**4 / Link** the PR to its issue; record review and test evidence.',
             'A PR description with **Closes #12** closes issue #12 on merge to the default branch.',
         ], body_size=42, notes='Demonstrate with prepared material, not a student-owned '
-            'board. Projects belong to a user or organization and can be linked from a '
-            'repository. Add existing repository issues; check project access separately '
-            'from repository access. For a task issue, describe intended behaviour, '
+            'board. Personal-account Projects also exist; this course uses an sd5913 '
+            'organization repository and Project for each group. Students first accept '
+            'the org invitation using their registered account, then choose Owner: '
+            'sd5913 when creating a public repository. Give teammates Write access to '
+            'their own repository and separately to their Project. Set that Project\'s '
+            'base access for other organization members to Read or No access. Link the '
+            'Project from the repository and README; add its repository issues. '
+            'For a task issue, describe intended behaviour, '
             'acceptance checks and who owns it. Shared Definition of Done might require '
             'teammate testing, integration, passing relevant checks and updated run '
             'instructions. Issue acceptance checks describe that feature; Definition '

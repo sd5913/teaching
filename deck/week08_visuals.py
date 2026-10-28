@@ -36,7 +36,7 @@ def grading(notes):
 def submission(brief_url, notes):
     slide = canvas('GROUP PROJECT / CANVAS', 'Register your repository now.', notes)
     for y, number, action in [
-        (350, '1', 'Create one shared GitHub repository for your team.'),
+        (350, '1', 'Join sd5913; create one public repository for your team.'),
         (470, '2', 'Submit its URL on Canvas; an initial README is enough.'),
         (590, '3', 'Keep building and documenting progress in that repository.'),
     ]:
@@ -72,7 +72,7 @@ def starters(notes):
               'semibold', 40, BLUE),
         ]
     slide.els.append(T(120, 865, 1680, 65,
-        'Create a team repository → open it in Codex → check CI.', 'body', 42, INK))
+        'Use this template → Owner: sd5913 → open in Codex → check CI.', 'body', 42, INK))
     return slide
 
 

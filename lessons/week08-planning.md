@@ -11,6 +11,13 @@ Teams can submit their shared repository URL on Canvas from Week 8 and keep
 working. Final deadline: 6 December 2026, 23:59 HKT. The Canvas URL must be
 added only when it exists.
 
+Use one public repository owned by `sd5913` per group. Students accept their
+organization invitation first, choose **Owner: sd5913** when creating a repo,
+and grant teammates Write access. The matching organization Project has its own
+access settings. Existing personal group repos can be transferred with the
+instructor's help, preserving history. Personal-account Projects also exist;
+the organization is this course's shared home rather than a GitHub requirement.
+
 Agile/Scrum is explicit quiz material. The Week 1 Manifesto recap leads into
 iterative/incremental work, Scrum pillars, accountabilities, artifacts and their
 commitments, and Sprint events. GitHub Projects/Issues demonstrate shared

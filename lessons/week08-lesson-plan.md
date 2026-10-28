@@ -18,11 +18,19 @@ module; do not rename it to match the calendar week.
 
 ## Preflight
 
+- Reconcile registered GitHub accounts and submission verification against sd5913
+  membership; have students accept the organization invitation. Members can
+  currently create public repositories. Demonstrate **Owner: sd5913** when
+  using a template and give teammates Write access to their own repository.
+  Preserve history when helping transfer an existing personal repository.
 - Prepare a GitHub Projects Board demonstration with repository issues, assignees,
   Status and optional Iteration. Check board access separately from repository
   access. The slide board is illustrative. Inspect built-in workflows before
   claiming automatic status updates; closing keywords apply to PRs targeting the
   default branch. Do not create or modify student tracking during the lecture.
+  Create the demonstration board under sd5913. Students give their teammates
+  Write access to the group's Project separately from repository access; set
+  each Project's base access for other members to Read or No access.
 - Verify the three template repos and Actions artifacts, GitHub account permissions,
   setup and a pre-created Codex cloud environment. Publishing the environment is
   not a deployment. Check external links and current account UI.
