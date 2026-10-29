@@ -6,9 +6,9 @@ vectors → retriever tool → persisted conversation → spoken-output progress
 The prior artwork/optional-retrieval narrative is superseded; its JSON example
 remains supplementary in PFAD, not the core lesson.
 
-[Companion source](https://github.com/sd5913/pfad/tree/c59fae0/week10),
-[complete tutorial](https://github.com/sd5913/pfad/blob/c59fae0/week10/README.md)
-and [preparation](https://github.com/sd5913/pfad/blob/c59fae0/week10/REHEARSAL.md).
+[Companion source](https://github.com/sd5913/pfad/tree/67f5297dc6f8878ceea51c431d726cfeb1934b4a/week10),
+[complete tutorial](https://github.com/sd5913/pfad/blob/67f5297dc6f8878ceea51c431d726cfeb1934b4a/week10/README.md)
+and [preparation](https://github.com/sd5913/pfad/blob/67f5297dc6f8878ceea51c431d726cfeb1934b4a/week10/REHEARSAL.md).
 Sources are pinned while paired PR #13 remains open. No merge/release is implied.
 
 ## Exact lecture route

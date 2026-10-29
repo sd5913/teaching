@@ -9,7 +9,7 @@ import week10_figures as F
 
 S = []
 EYE = 'SD5913 / WEEK 10 / 12 NOVEMBER 2026'
-PFAD = 'https://github.com/sd5913/pfad/blob/c59fae0/week10'
+PFAD = 'https://github.com/sd5913/pfad/blob/67f5297dc6f8878ceea51c431d726cfeb1934b4a/week10'
 HANDBOOK = ('https://www.polyu.edu.hk/ar/docdrive/polyu-students/student-handbook/'
             'Student_Handbook_2026-27_English.pdf')
 
