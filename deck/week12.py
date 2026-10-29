@@ -108,7 +108,7 @@ S.append(code_panel('HUMAN-DIRECTED ROUTE', 'Who chooses the next action here?',
     'uv run python loop.py set speed 275',
     'uv run python loop.py check',
     'uv run python loop.py status',
-], lang='', notes='39-44 min. Rehearse the exact human-selected sequence on supplied 125. Say who chooses 275: the instructor here, not loop.py. Observe the expected first failure and passing second check. status reports passed, five actions and one mutation for this sequence. Inspect session.json observations and config hashes; then try a further set and show refusal. If an earlier session is active, explicitly stop/retain it before resetting. An optional fresh authorized model demonstration must be labeled separately from this human route and the recorded fixture. Runnable source: https://github.com/sd5913/pfad/tree/4f2864a02ca32a200cbf7da34a02d33ec917e80f/week12'))
+], lang='', notes='39-44 min. Rehearse the exact human-selected sequence on supplied 125. Say who chooses 275: the instructor here, not loop.py. Observe the expected first failure and passing second check. status reports passed, four actions and one mutation for this sequence. Inspect session.json observations and config hashes; then try a further set and show refusal. If an earlier session is active, explicitly stop/retain it before resetting. An optional fresh authorized model demonstration must be labeled separately from this human route and the recorded fixture. Runnable source: https://github.com/sd5913/pfad/tree/4f2864a02ca32a200cbf7da34a02d33ec917e80f/week12'))
 
 S.append(code_panel('PYTHON HOST · ACTUAL EXCERPT', 'Reserve the action before execution', [
     'state["actions"] += 1',
