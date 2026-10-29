@@ -2,9 +2,8 @@
 
 Approved scope: 19 November 2026, 120-minute lecture and separate 120-minute
 PFAD tutorial. The instructor authorized the reviewed Weeks 9-13 design on
-29 October. This replaces the old synthetic-opacity proposal. The old deck is
-retained temporarily as an unreleased historical draft while application
-acceptance remains incomplete; it must not be used as this revised lesson.
+29 October. This replaces the old synthetic-opacity proposal. The replacement deck now follows the accepted real-application spine; the old
+browser exercise remains historical companion material, outside the core route.
 
 ## Outcomes and knowledge ledger
 
@@ -58,15 +57,21 @@ using Godot CLI/GDScript. Its declared SDK 0.6 was adapted to tested SDK 1.30.0
 with Node 26's native TypeScript support. Real discovery/metadata/create/add-node
 passed in actual 4.7.2. Source is unchanged; runtime adaptation is explicit.
 Current mcp-for-blender2.2.6 source 8782963 is a separate third-party Python
-server plus live socket add-on; documentation/source only, not runtime accepted.
-The supplied bounded Blender CLI MCP adapter is course-owned and named as such.
+server plus live socket add-on. It passed real startup/discovery/scene inspection/
+scale1.5/reinspection/CPU render/save/client closure/add-on stop/Blender exit0/
+socket closed. The bounded Blender CLI MCP adapter is course-owned and named
+separately; its actual render and exit0 also pass under full host permissions.
 
-Real4.7.2 headless behavior and failure/recovery pass. Blender produces actual
-640x480 CPU renders and .blend/inspection, visually inspected. Restricted-host
-Blender shutdown remains unaccepted (90-second adapter timeout after render). Godot
-window/movie and first-time graphical bootstrap remain unaccepted. A launch
-acknowledgement is not visual evidence. Do not author the long replacement
-slide deck or claim classroom readiness before closing these gates.
+Godot4.7.2 actual headless behavior passes, speed120 fails and restoring300
+recovers. Its graphical software-rendered Movie Maker route produced a playable
+4s960x540120frame H264 clip, fully decoded with start/middle/end inspected.
+Fresh public installation of Godot bridge (3.606s) and Blender bridge (4.602s)
+passed with empty package caches on29October; applications were already installed.
+These times are not first-time application bootstrap measurements.
+
+Windows/macOS, actual projected keyboard play and classroom rehearsal remain
+instructor checks. Week12 owns first-time Godot bootstrap and actual live-model
+loop acceptance; today's fixed human-directed requests are not model-loop proof.
 
 ## Sources and news
 
@@ -75,18 +80,17 @@ MCP SDK lifecycle/stdio docs through Context7, then primary community README,
 package metadata and source. Godot MIT; Blender GPL; community bridges/SDK MIT.
 No asset-generation calls or paid model APIs were used.
 
-Opening news candidate: the inspected MCP for Blender README announces its
-package rename from blender-mcp to mcp-for-blender and links issue366. Treat
-29 October as source-check date, not an invented announcement date. Before teaching,
-verify a dated primary announcement or refresh with another dated creative-tool
-story. Keep the news discussion outside quiz scope. No verified dated news
-slide has been authored yet.
+Opening news: Godot4.7.2 stable release,18August2026. Primary GitHub tag
+metadata checked29October: published_at2026-08-18T16:12:28Z. Source and claim
+limits in week11-news-20261029.md. Keep outside quiz scope and refresh near class.
 
 ## Completion status
 
-PFAD supplies actual scene, config adapter, direct Blender API, bounded MCP
-adapter, community bridge setup/client, tests and a complete timed README.
-The lecture run sheet below is prepared. Replacement deck, visual application
-acceptance, fresh bridge install, student-platform rehearsal, rendered slide
-inspection and final companion pin remain open. Existing paired PR14 stays
-open for coordinator review. No presenter or shared registrations were changed.
+The full replacement deck covers the approved120-minute lecture with actual
+Blender renders and Godot capture frames, large numbered process diagrams,
+short CODE panels and substantive notes. PFAD supplies a separate complete
+120-minute README and real examples/failure paths, including two controlled
+camera variants. It uses no paid generation/model account. Final exact companion
+commit, builds/render inspection and independent review are recorded in the
+private production report. Paired PR14 remains open; no presenter/shared
+registrations changed.

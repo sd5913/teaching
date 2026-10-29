@@ -1,76 +1,81 @@
-"""Original Week 11 diagrams: synthetic values only; no live tool connection."""
+"""Concrete process/state diagrams in the established SD5913 palette."""
 from deckgen.figures import Canvas, INK, ORANGE, TEAL, MUTED
 
 PAPER = '#FAF8F4'
-VIOLET = '#67518B'
 
 
 def label(c, x, y, text, size=46, color=INK, anchor='start'):
     c.text(x, y, text, size=size, color=color, anchor=anchor, weight=700)
 
 
-def box(c, x, y, w, title, detail, accent=TEAL):
-    c.rect(x, y, w, 290, fill=PAPER, stroke=accent, width=4)
-    c.rect(x, y, 12, 290, fill=accent)
-    label(c, x + 35, y + 82, title, 52)
-    label(c, x + 35, y + 163, detail, 41)
+def node(c, x, number, heading, line1, line2, width=470):
+    c.rect(x, 175, width, 290, fill=PAPER, stroke=TEAL, width=2)
+    label(c, x + 30, 232, f'{number}. {heading}', 46)
+    label(c, x + 30, 325, line1, 42)
+    label(c, x + 30, 400, line2, 42)
 
 
-def arrow(c, x1, x2, y, text, color=ORANGE):
-    c.line(x1, y, x2, y, color=color, width=7)
-    c.poly([(x2, y), (x2 - 25, y - 15), (x2 - 25, y + 15)], fill=color)
-    label(c, (x1+x2)/2, 125, text, 41, color, 'middle')
+def arrow(c, x1, x2, y=325):
+    c.line(x1, y, x2, y, color=ORANGE, width=6)
+    c.poly([(x2, y), (x2 - 20, y - 14), (x2 - 20, y + 14)], fill=ORANGE)
 
 
-def object_step(step):
-    c = Canvas(1680, 690)
-    box(c, 60, 205, 690, 'Python object', ['name = "Cube"', 'scale = 1.0', 'set_scale(2.0)'][step], TEAL)
-    if step:
-        box(c, 930, 205, 690, 'Creative result', 'Larger cube' if step == 2 else 'Visible cube', VIOLET)
-        arrow(c, 775, 905, 350, 'method' if step == 2 else 'attribute')
-    label(c, 840, 615, ['A name identifies one thing', 'An attribute holds a value', 'A method asks for a change'][step], 46, INK, 'middle')
-    return c.finish(f'week11-object-{step}')
+def sequence(name, nodes, conclusion):
+    c = Canvas(1680, 640)
+    for i, (heading, line1, line2) in enumerate(nodes):
+        node(c, 20 + i * 580, i + 1, heading, line1, line2)
+        if i < 2:
+            arrow(c, 510 + i * 580, 570 + i * 580)
+    label(c, 840, 580, conclusion, 46, anchor='middle')
+    return c.finish('week11-' + name)
 
 
-def path(step):
-    c = Canvas(1680, 690)
-    box(c, 30, 185, 470, 'Sender', 'Python', TEAL)
-    if step:
-        box(c, 610, 185, 470, 'Boundary', 'OSC message', ORANGE)
-        arrow(c, 525, 580, 340, '/control 0.50')
-    if step > 1:
-        box(c, 1190, 185, 470, 'Receiver', 'Visual tool', VIOLET)
-        arrow(c, 1095, 1160, 340, 'parsed value')
-    label(c, 840, 610, ['First: decide what to control', 'Next: name the message', 'Finally: map it to a result'][step], 44, INK, 'middle')
-    return c.finish(f'week11-path-{step}')
+def scene_outputs():
+    return sequence('scene-outputs', [('Scene', 'scale = 1.5', 'live memory'),
+        ('Save', 'sculpture.blend', 'scene data'), ('Render', 'sculpture.png', 'camera image')],
+        'Changing, saving and rendering have separate evidence')
 
 
-def mapping():
-    c = Canvas(1680, 690)
-    box(c, 35, 170, 690, 'Control', '0.00 to 1.00', TEAL)
-    box(c, 955, 170, 690, 'Opacity', '0% to 100%', VIOLET)
-    arrow(c, 750, 925, 315, 'x 100')
-    label(c, 840, 575, '0.50 becomes 50% opacity', 48, INK, 'middle')
-    return c.finish('week11-mapping')
+def blender_boundary():
+    return sequence('blender-boundary', [('uv Python', 'start process', 'CLI arguments'),
+        ('Blender', 'bpy + scene', 'owns objects'), ('Files', '.blend + PNG', 'inspect result')],
+        'bpy executes inside Blender, not the uv environment')
 
 
-def silence():
-    c = Canvas(1680, 690)
-    for x, number, action, color in [(40, '0.50', 'new value', TEAL), (610, '...', 'no updates', ORANGE), (1180, '0.00', 'reset to safe', VIOLET)]:
-        box(c, x, 185, 460, number, action, color)
-    arrow(c, 525, 580, 340, 'stop')
-    arrow(c, 1095, 1150, 340, 'timeout')
-    label(c, 840, 615, 'Silence is not the number zero', 47, INK, 'middle')
-    return c.finish('week11-silence')
+def live_mcp():
+    return sequence('live-mcp', [('Our client', 'tools/call', 'stdio JSON'),
+        ('MCP server', 'local socket', '127.0.0.1'), ('Blender', 'add-on -> bpy', 'live scene')],
+        'A request crosses two boundaries before the scene changes')
 
 
-def mcp(step):
-    c = Canvas(1680, 690)
-    box(c, 25, 180, 460, 'Person', 'approves action', TEAL)
-    box(c, 620, 180, 460, 'Agent', 'proposes call', ORANGE)
-    arrow(c, 510, 590, 335, 'scope')
-    if step:
-        box(c, 1195, 180, 460, 'MCP server', 'exposes tool', VIOLET)
-        arrow(c, 1105, 1165, 335, 'tool call')
-    label(c, 840, 608, 'A suggestion is not permission' if not step else 'Read only first; no automatic write', 45, INK, 'middle')
-    return c.finish(f'week11-mcp-{step}')
+def discovery():
+    return sequence('discovery', [('Discover', 'tools/list', 'name + schema'),
+        ('Call', 'tool + inputs', 'request ID'), ('Inspect', 'result + scene', 'isError?')],
+        'A schema describes accepted input; check the application too')
+
+
+def godot_boundary():
+    return sequence('godot-boundary', [('Python', 'validate speed', 'write JSON'),
+        ('Godot', 'read on start', 'GDScript runs'), ('Observe', 'check + window', 'same behavior')],
+        'Editing a file does not update an already-running process')
+
+
+def behavior():
+    return sequence('behavior', [('Move', 'speed * delta', 'distance/step'),
+        ('Collect', 'near a light?', 'count += 1'), ('Exit', 'all 3 + near?', 'won = true')],
+        'advance() is reused by play, deterministic replay and check')
+
+
+def evidence():
+    return sequence('evidence', [('Protocol', 'response ID', 'no tool error'),
+        ('Behavior', '3 pickups', 'won by 180'), ('Experience', 'window + film', 'visible result')],
+        'Each check answers a different question')
+
+
+def failure():
+    c = Canvas(1680, 640)
+    node(c, 60, 1, 'Speed 120', '2 lights / 180', 'x = 440', 690)
+    node(c, 930, 2, 'Speed 300', '3 lights / 152', 'x = 840', 690)
+    arrow(c, 785, 895)
+    label(c, 840, 580, 'Read the failure, then choose a purposeful change', 44, anchor='middle')
+    return c.finish('week11-failure')

@@ -1,34 +1,50 @@
-"""Execute the displayed examples, not copied implementations."""
+"""Primary diagram labels must remain readable and inside their actual canvas."""
 import ast
-import contextlib
-import io
+import importlib.util
+import json
 from pathlib import Path
-import tempfile
-import os
 import unittest
+from unittest.mock import patch
+import xml.etree.ElementTree as ET
 
-SOURCE = Path(__file__).resolve().parents[1] / "deck" / "week11.py"
+from deckgen.core import pil_font
+from deckgen.figures import Canvas
 
-def panel(title, kind="code_panel", index=2):
-    tree = ast.parse(SOURCE.read_text())
-    for node in ast.walk(tree):
-        if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
-                and node.func.id == kind and len(node.args) > index
-                and isinstance(node.args[1], ast.Constant) and node.args[1].value == title):
-            return "\n".join(ast.literal_eval(node.args[index]))
-    raise AssertionError(title)
+ROOT = Path(__file__).resolve().parents[1]
 
-class ReviewExamples(unittest.TestCase):
-    def test_displayed_opacity_rejects_nonfinite_and_boolean_inputs(self):
-        scope = {}
-        with contextlib.redirect_stdout(io.StringIO()):
-            exec(panel("Validate before you use it"), scope)
-        opacity = scope["opacity"]
-        for value in (True, False, None, "oops", float("nan"), float("inf"), -float("inf")):
-            with self.subTest(value=value):
-                self.assertEqual(opacity(value), 0)
-        for value, expected in ((0, 0), (.5, 50), (1, 100), (3, 100), (-1, 0)):
-            self.assertEqual(opacity(value), expected)
 
-if __name__ == "__main__":
+class DiagramTests(unittest.TestCase):
+    def test_projected_tool_request_is_valid_json_and_python(self):
+        tree = ast.parse((ROOT / 'deck/week11.py').read_text())
+        for call in ast.walk(tree):
+            if (isinstance(call, ast.Call) and isinstance(call.func, ast.Name)
+                    and call.func.id == 'code' and call.args
+                    and isinstance(call.args[0], ast.Constant)
+                    and call.args[0].value == 'A tool call carries explicit arguments.'):
+                request = json.loads('\n'.join(ast.literal_eval(call.args[1])))
+                compile(request['params']['arguments']['code'], '<projected-tool>', 'exec')
+                return
+        self.fail('No projected tool request found')
+
+    def test_primary_labels_fit_without_shrinking(self):
+        spec = importlib.util.spec_from_file_location('week11_figures', ROOT / 'deck/week11_figures.py')
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        with patch.object(Canvas, 'finish', lambda self, name: '\n'.join(self.svg) + '</svg>'):
+            for name in ['scene_outputs', 'blender_boundary', 'live_mcp', 'discovery',
+                         'godot_boundary', 'behavior', 'evidence', 'failure']:
+                svg = ET.fromstring(getattr(module, name)())
+                for label in svg.findall('{http://www.w3.org/2000/svg}text'):
+                    with self.subTest(diagram=name, text=label.text):
+                        size = float(label.attrib['font-size'])
+                        self.assertGreaterEqual(size, 40)
+                        width = pil_font('monomed', round(size)).getlength(label.text or '')
+                        x = float(label.attrib['x'])
+                        anchor = label.attrib['text-anchor']
+                        left = x - (width / 2 if anchor == 'middle' else width if anchor == 'end' else 0)
+                        self.assertGreaterEqual(left, 0)
+                        self.assertLessEqual(left + width, float(svg.attrib['width']))
+
+
+if __name__ == '__main__':
     unittest.main()
