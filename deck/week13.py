@@ -8,6 +8,7 @@ from deckgen import Figure, Slide, T, INK, MUTED, WHITE, attach_reports
 from deckgen.layouts import agenda, code_panel, content, end, statement, title
 
 HERE = Path(__file__).resolve().parent
+PRACTICAL = 'https://github.com/sd5913/pfad/blob/cf3c9a40a2645b7d087a289fe65e053e02b61e47/week13/README.md'
 EYE = 'SD5913 / WEEK 13 / FINAL CLASS DATE TBC'
 S = []
 
@@ -172,11 +173,13 @@ S.append(content('PROJECT SUPPORT / PICK A QUEUE', 'What blocks the next person?
     'Starts, but core interaction fails: smallest failing case?',
     'Working: fresh run, boundary case and README check.',
     'One blocker, one owner and one check.',
+    f'[Complete Week 13 support guide]({PRACTICAL})',
 ], body_size=42, notes='Use remainder of 70-100 for actual blockers after selected '
     'revision. Prioritize teams without running core; working teams peer-test. '
     'Reduce scope around useful interaction rather than add stack. No required '
     'AI, camera, engine or account. PFAD Week 13 provides separate full '
-    '120-minute support route, earlier-week recovery and differentiated queues.'))
+    '120-minute support route, earlier-week recovery and differentiated queues. '
+    f'Pinned complete student/TA route: {PRACTICAL}'))
 S.append(diagram('Let another person follow the README.', F.reproduction(),
     notes='100-115: partner gets URL and documented starting point, no hidden '
     'verbal setup. Separate fresh folder/other computer: identify revision, '

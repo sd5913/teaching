@@ -117,7 +117,8 @@ record the limitation; that does not count as a verified fresh/live run.
 
 ## Separate 120-minute final support tutorial
 
-PFAD `week13/README.md` is the complete student/TA route: 0-15 triage; 15-45
+The [pinned complete PFAD Week 13 support guide](https://github.com/sd5913/pfad/blob/cf3c9a40a2645b7d087a289fe65e053e02b61e47/week13/README.md)
+is the complete student/TA route: 0-15 triage; 15-45
 setup/run/core blockers; 45-60 peer fresh-run; 60-70 break; 70-100 final tutor
 review/fixes; 100-115 README/build/access/credits; 115-120 owners/actions.
 Scheduling remains TBC, including possible tutorial moves. Tutors prioritize
