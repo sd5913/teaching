@@ -1,101 +1,75 @@
 # Week 10: persistent objects and a talking handbook agent
 
-**Thursday 12 November 2026. 120-minute lecture, followed by a separate
-120-minute PFAD tutorial.** The approved scope supersedes the earlier JSON-only
-outline. The incumbent deck is deliberately preserved pending feasibility;
-its artwork/optional-retrieval narrative is **not the approved replacement**.
-Do not present that deck as this run sheet or mark this lesson ready.
+**Thursday 12 November 2026. 120-minute lecture; separate 120-minute PFAD tutorial.**
+The replacement deck now follows the approved model-to-row → current handbook
+vectors → retriever tool → persisted conversation → spoken-output progression.
+The prior artwork/optional-retrieval narrative is superseded; its JSON example
+remains supplementary in PFAD, not the core lesson.
 
-## Production gate
+[Companion source](https://github.com/sd5913/pfad/tree/c59fae0/week10),
+[complete tutorial](https://github.com/sd5913/pfad/blob/c59fae0/week10/README.md)
+and [preparation](https://github.com/sd5913/pfad/blob/c59fae0/week10/REHEARSAL.md).
+Sources are pinned while paired PR #13 remains open. No merge/release is implied.
 
-The SQLite/Peewee User/Conversation/Message path and bounded tool/memory plumbing
-are implemented and tested. Real cached CLIP text inference and eSpeak NG WAV
-synthesis work independently. The instructor supplied the exact current
-[2026-27 handbook URL](https://www.polyu.edu.hk/ar/docdrive/polyu-students/student-handbook/Student_Handbook_2026-27_English.pdf),
-but this production host cannot resolve it. There is no verified extracted
-handbook bundle or live local chat model. Playback was denied by the environment.
-The required source-supported/unsupported answers, contextual follow-up,
-fresh-process live recall, isolation and heard/stopped spoken reply therefore
-remain **core feasibility gaps**, not merely final classroom rehearsal.
+## Exact lecture route
 
-The companion implementation and tutorial are reviewable in [PFAD PR #13](https://github.com/sd5913/pfad/pull/13),
-with the [current source pinned](https://github.com/sd5913/pfad/tree/adaf624/week10).
-Refresh this link to the independently reviewed commit before replacement slides are built. Do not write a long
-replacement deck around an unproven endpoint. Do not substitute keyword search,
-invented vectors, an unused thread ID, scripted model outputs or prerecorded
-speech for these gates. The physical playback check is separate from the model
-and index checks.
-
-## Exact lecture run sheet
-
-| Minutes | Teaching sequence | Demonstration / student observation |
+| Minutes | Sequence | Observable teaching work |
 | --- | --- | --- |
-| 0-10 | Opening, short dated news, four kinds of state | Which parts of a talking handbook bot survive closing Python? Separate knowledge, history, prompt and audio. |
-| 10-25 | User/Conversation/Message; model, instance, stable ID, row | Read the actual Peewee class beside one instance and its stored row. Inherited methods issue SQL; method bodies are not stored. |
-| 25-40 | Relations, exact queries, keys/indexes, cardinality | Trace one user to conversations to messages; compare PK, FK and ordinary index. Brief User/SaveFile, Membership/Team and reply-to-message drills. |
-| 40-60 | ORM -> SQL -> rows -> loaded history | Seed, inspect, update, restart; reject orphan/invalid role; explain atomic user/assistant write and rollback. |
-| 60-70 | Break | Keep the inspected source and database available. |
-| 70-80 | Learned representations, dimensions and similarity | Brief word-neighbour intuition; inspect a real cited handbook vector and a compatible query. No arbitrary coordinate cartoon presented as data. |
-| 80-95 | PDF -> chunks -> index -> retriever TOOL | Bounded prepared ingestion/search trace; two queries; inspect actual cited PDF sections and unsupported question. |
-| 95-115 | Typed conversation, memory, reopen/isolation, speech | Actual model chooses retrieval; tool result reaches model; next call receives retained history; fresh process reload; independent conversation; synthesis/playback/stop/failure. |
-| 115-120 | Storage comparison and handoff | Related bot rows, nested scene/save document, semantic vectors; recap four lifetimes and exact PFAD commands. |
+| 0-10 | Opening, dated news, four kinds of state | Returning user's vague follow-up; distinguish knowledge, history, current prompt and audio |
+| 10-25 | User/Conversation/Message model → instance → row | Real Peewee inherited methods, stable ID, `.save()`, new process reconstructs values |
+| 25-40 | Relations, exact queries, keys and ordinary indexes | Owner check, conversation filter/order, PK/FK/index; short SaveFile/Membership/reply transfer drills |
+| 40-60 | SQL/rows/restart/failure/transaction experiment | Seed/inspect/update/new process; rejected orphan/role/empty content; rollback and history window |
+| 60-70 | Break | Ten minutes inside the lecture |
+| 70-80 | Learned representations and compatible search | Real 384D vector excerpt; same encoder; actual fee-query ranking; unknown still has neighbours |
+| 80-95 | Official PDF → chunks → index → retriever TOOL | Inspect source page/metadata, three prepared queries, table/chunk boundary, actual structured tool call |
+| 95-115 | Typed bot, saved history, fresh process, isolation and speech | Source-supported and unsupported answers; inspect previous pair reaching model; reopen/second profile; synthesize/play/stop/failure |
+| 115-120 | Storage comparison and tutorial handoff | Related rows/nested save/vector candidates; four lifetimes; separate exact tutorial route |
 
-### 0-10: opening and news
+## 0-10: opening and current news
 
-Begin with a concrete creative-design scenario: a player returns to a game NPC,
-asks "what about that rule?", and expects the previous conversation to matter.
-The bot needs both current handbook knowledge and the player's particular
-history; a nice voice does not prove either is correct.
+The concrete scenario is a returning user asking “what about the original?”
+after discussing a lost identity card. History resolves the reference; the
+handbook supplies policy evidence. Ask for a game NPC equivalent without making
+AI a project requirement.
 
-Use at most two minutes for the verified [Peewee 4.5.3 release](https://github.com/coleifer/peewee/releases/tag/4.5.3),
-published **7 October 2026**, checked **29 October**. One concrete release-note
-claim: explicitly executing a write query with `RETURNING` now executes again,
-rather than reusing a cached result. Ask: if a save button runs twice, what
-should happen? This is a current maintenance story about observable state, not
-a demand to memorize `RETURNING` or PostgreSQL. We tested the actual version's
-SQLite path; we did not independently reproduce every release-note fix. Keep
-news outside quiz scope and update it near class only from a checked source.
+Use at most two minutes on the verified [Peewee 4.5.3 release](https://github.com/coleifer/peewee/releases/tag/4.5.3),
+published 7 October, checked 29 October. Maintainer claim: explicitly executing
+a write query with `RETURNING` now executes again rather than reusing a cached
+result. Ask what a save button should do if pressed twice. This news is outside
+quiz scope. Our SQLite behavior is tested; the entire release note is not.
 
-Draw four distinct destinations, not one "memory" box: versioned handbook
-chunks/vectors; user-owned messages in SQLite; the assembled request for one
-model call; synthesized audio output. Ask students which survive a restart and
-which are personalized. The exercise trace snapshot is a diagnostic artifact,
-not the authoritative memory store.
+Give the four-state diagram the slide: shared versioned knowledge/index,
+user-owned persistent history, temporary assembled prompt and audio output.
+A diagnostic JSON snapshot is not the memory database.
 
-### 10-25: the class-to-row mapping
+## 10-40: model methods, records and relationships
 
-Use PFAD `week10/models.py` throughout. Show `class User(Record)` and its `name`
-field, then `Conversation.owner = ForeignKeyField(User)` and
-`Message.conversation = ForeignKeyField(Conversation)`. `Record` inherits the
-real ORM's `Model`, which supplies `.create()`, `.save()` and queries. Avoid a
-repeat of Week 7's two-ball constructor lesson. Trace one instance's stable ID
-to the row; a new process reconstructs another Python object with that same ID.
+Use the actual PFAD `models.py`, not another two-object constructor recap.
+`Record` inherits Peewee `Model`; User, Conversation and Message inherit it.
+Trace `.create()`, assignment, `.save()` and `.select()` to INSERT/UPDATE/SELECT,
+affected rows and reconstructed objects. Stable stored IDs are not `id(obj)`.
+Methods remain code; values and references persist.
 
-Prediction: change `chat.title` without calling `.save()`; does SQLite change?
-Run the actual `.save()` version, then a separate inspect process. Point to SQL
-and bound parameters; do not claim Python's in-memory `id()` is the primary key.
-The database stores values and references, not methods or an entire process.
+Prediction: omit `.save()` after changing the title. A fresh process sees the
+previous saved value. Restore `.save()` and inspect the changed title/same ID.
+Explain one-to-many User→Conversation→Message; a foreign key references an ID
+rather than copying a parent. Ownership checking is separate from FK existence.
+These are fictional local profiles, not authenticated accounts.
 
-### 25-40: relationships and indexes
+Trace `history_query()`'s ownership check before its filtered/ordered message
+query. Show actual generated SQL/parameters in the terminal; the slide shows a
+simplified equivalent. A primary key identifies a row, FK references a parent,
+ordinary compound `(conversation_id,id)` index helps lookup/order. Indexes cost
+storage/write work; do not claim an unmeasured speedup on six rows. This is not
+the semantic index used after the break.
 
-Spend six minutes on User -> Conversation -> Message and the precise question
-"which messages belong to this user's selected conversation, in order?"
-Ownership is checked before the message query. Explain the single local CLI
-writer assumption and fictional profiles: this is not an authentication service.
+Use short transfer drills: User/SaveFile one-to-many; User/Membership/Team via a
+junction row; Message replying to Message self-reference. Do not build another
+app or reintroduce unsafe historical bare password hashing.
 
-Use six minutes for PK/FK/index. PK identifies a row; FK stores a reference and
-can enforce existence; an ordinary index helps find/order matching rows. Show
-SQLite's `(conversation_id, id)` index and its storage/write cost. It is neither
-a relational relationship nor the handbook's embedding index.
+## 40-60: persistence experiment
 
-Use three minutes for cardinality predictions: User/SaveFile one-to-many;
-User/Team many-to-many via Membership; Message.reply_to self-reference. Do not
-build another app. A membership record can have attributes of its own, such as
-joined time; the relationship is modelled, not inferred from matching names.
-
-### 40-60: the whole persistence experiment
-
-From PFAD `week10`, run:
+Terminal working directory: PFAD `week10`.
 
 ```bash
 uv run python storage_demo.py seed
@@ -105,98 +79,118 @@ uv run python storage_demo.py inspect
 uv run python storage_demo.py invalid
 ```
 
-Each invocation is a fresh process. On a new `out/chat.sqlite`, expect one
-fictional Ada, one conversation and two prepared messages. The seed assistant
-is explicitly a storage example, not a live model response. Rename keeps the
-same ID; invalid parent ID fails. The first inspect prints SQL/parameters,
-rows, reconstructed message dictionaries and ordinary index names.
+Each command is a new process. A fresh database begins with one Ada, one
+conversation and two explicitly prepared storage messages; no model is called
+by seed. Inspect prints the actual query/parameters, rows, reconstructed role/
+content dictionaries and ordinary index names. Reused files can have different
+IDs; after renaming, seed can create another Handbook title. Use a disposable
+`--db out/experiment.sqlite` for a fresh test; do not erase work to reset it.
 
-Budget five minutes for the update/prediction, five for restart evidence, five
-for rejected role/reference/empty-content checks and five for atomicity/history
-window. `append_turn()` uses a transaction: if assistant insert fails, the user
-insert rolls back too. A failed retrieval/model answer writes no turn.
-History retains four complete pairs in each next prompt; older rows remain in
-SQLite. Students change the window and inspect the actual serialized request.
-Prepared unit-test doubles prove plumbing, not a model's contextual recall.
+Show the FK failure and unchanged previous rows, then inspect role/nonempty
+checks and `append_turn()`'s atomic pair. If assistant insertion fails, the new
+user insertion rolls back. A transaction does not include external model calls:
+model/evidence validation happens before saving. The classroom CLI has one
+active writer, not a production multi-client concurrency contract.
 
-### 70-95: the real handbook representation
+History selects the last four complete pairs in chronological order. Older
+rows remain on disk. Changing four to two changes the selected request, not the
+saved database. Check rows after failures and explain them with a partner.
 
-Preparation must fetch the instructor's official PDF and confirm title/year,
-SHA-256 and PDF-page/printed-page correspondence. Select short useful passages;
-keep full extraction/indexing out of class. Run the bounded prepared command
-`uv run python handbook.py` to print provenance, real numeric vectors and two
-ranked results. Its prepared queries require exact question strings; arbitrary
-new input needs the same live encoder. No keyword substitute is implemented.
+## 70-95: the actual source and learned retrieval
 
-Teach learned vectors as many numeric features useful for comparing text, not
-human-readable policy fields. Similarity is approximate; unknown questions
-still have nearest neighbours. Same dimension is insufficient: name, actual
-weights, tokenizer, pooling and normalization define compatibility. The local
-CLIP feasibility encoder is limited to 77 tokens and was trained for
-image/text relationships; its usefulness for the selected handbook questions
-must be measured. Short chunks may cut a qualification; inspect neighbouring
-text and the full cited section. Do not manufacture a correct result to fit it.
+Official PDF: *Student Handbook for Taught Programmes 2026/27*, Academic Registry,
+July 2026. Downloaded/inspected 29 October: 137 pages, 7,658,316 bytes, SHA-256
+`108956feb2ffac665f8ca0f5a8f68d7150a85fda15e219916785ec50331a4e94`.
+The official URL is on the deck and in the bundle. PDF20=printed9,
+PDF25=printed14, PDF76=printed61. Six short extracts retain source IDs, section,
+text and page. Do not redistribute the full PDF or ingest it during class.
 
-Expose the actual retriever tool request and result before the model answer.
-A tool is a callable capability with structured arguments/results. Here it
-returns passage ID, PDF page, text, score and source metadata. It does not
-return policy truth or change the model's weights. This is the bridge from
-retrieval to a tool-using agent, not another MCP permissions lecture.
+```bash
+uv run python handbook.py
+```
 
-### 95-115: the integrated endpoint
+The real pinned MiniLM encoder yields 384D normalized vectors for passages and
+questions, max 256 tokens. It replaces the earlier cached CLIP feasibility
+candidate; same dimension alone is insufficient compatibility. Word2vec's
+historical neighbour intuition is retained briefly; no huge word-model download
+or Orange/t-SNE practical is required. Orange's removal is an instructor decision.
 
-The prepared machine needs the verified local model and matching encoder.
-The proposed command is `uv run python bot.py --encoder-path /path/to/snapshot`;
-replace the path with the prepared actual snapshot and pin that provenance.
-The default model is currently a candidate, not a verified endpoint.
+Inspect lost-card, leave and fee results. The fee's measured0.892566/0.737337
+cosines rank the exact fee row and replacement rule. A noisy full-table chunk
+initially missed the fee row; the bounded row extract improved this case. HK$
+comes from the table heading in section metadata. Ambiguous flattened leave-table
+columns are excluded; clear prose and decision paragraphs are separate chunks.
+Source checking, not a magic similarity threshold, determines support.
 
-Allocate: first typed question/tool/source inspection (five minutes), follow-up
-and inspected request history (five), fresh-process reopen plus second isolated
-conversation (five), audible reply/stop and one failure (five). For each, retain
-actual evidence. A current Codex conversation alone does not prove this portable
-student application. Unsupported question must visibly refuse without invented
-citations. Programmatic citation membership is necessary but not sufficient:
-a correct source ID can still accompany an unsupported claim.
+Show actual model tool query `student identity card replacement cost` and its
+result. The app requires retrieval; the model composes a query using history.
+Python encodes/searches/returns passage IDs/pages/text/scores/source metadata.
+The model then generates `answer` and `source_ids` under a JSON schema. Empty
+IDs become the standard refusal; bracketed citations are formatted from the
+model's selected IDs. Shape/ID validation does not establish factual correctness.
+This is a bounded RAG/tool workflow, not autonomous arbitrary tool selection.
 
-Synthesis happens after a successful atomic save. A speech error must say text
-is saved but speech failed. `speech.py` produces a live waveform; the supplied
-prepared refusal WAV is explicitly prerecorded fallback. Neither a WAV file
-nor a successful player exit proves that a listener heard intelligible speech.
-Show how Ctrl+C stops playback and how to exit the typed loop. Typed input is
-core; Week 6 microphone recognition is optional reuse only.
+## 95-115: integrated live route
 
-### 115-120: the transfer
+Prepare the public model, encoder and audio before class using REHEARSAL.md.
+Terminal1 runs llama.cpp b11972 with Qwen3.5-2B Q4_K_M on CPU, loopback 11440;
+wait for its listening message. Terminal2:
 
-Compare relational rows for ownership/ordered history, a nested save/config
-for restoring a whole scene, and vector+metadata storage for semantic candidates.
-JSON is one representation; document databases may validate schemas and
-relational databases can store nested data. The choice follows the question,
-not a rigid SQL/NoSQL taxonomy. Finish by identifying the four state lifetimes
-again and linking the exact reviewed PFAD files and commands.
+```bash
+uv run --extra encoder python bot.py
+```
 
-## Separate tutorial and tutor support
+Ask the exact lost-card question then the “original later / keep both?” follow-up.
+Inspect the visible `TOOL TRACE`, cited passages and `out/last-turn.json`.
+The first answer in the recorded real run gives online replacement, HK$150 and
+return-for-cancellation, supported by two cited sections. The follow-up resolves
+the reference and says return/cancel rather than keep both. The model generates
+policy wording; no prepared answer script is used.
 
-The companion README supplies the complete approved 120-minute route:
-0-10 setup; 10-30 related model save/load; 30-50 exact query/index/update/restart/
-constraint; 50-60 break; 60-70 real vectors/two queries; 70-90 typed follow-up and
-speech; 90-100 reload/isolation/failure; 100-120 tutor review/project support.
-The tutor's 12 November meeting follows allocated slots. No ClassPoint login,
-new assessed upload, extra grade or compulsory defence is added.
+Exit/reopen with `--conversation ACTUAL_ID` and the same database. Inspect the
+previous user/assistant pair actually entering the next model call; a thread
+label alone proves nothing. Start `--user Bo` without a conversation ID; ask
+about leave and verify Ada's history is absent. Wrong-owner access is rejected.
+Ask the cafeteria Wi-Fi password: the six-extract corpus cannot support it, so
+the actual model emits no source IDs and the app displays its standard refusal.
 
-Preserve 40% project weighting, 25/50/25 rubric, public sd5913-owned team repo
-with teammate Write access, and 6 December 2026 23:59 HKT deadline. GitHub
-Projects remains recommended; equivalent accessible progress evidence is valid.
+The successful answer is saved before live eSpeak synthesis/ffplay. Verified
+actual cited-answer WAV: mono PCM22050Hz,18.76sec. Player completion and a longer
+Ctrl+C stop passed; invalid driver failure is separate and preserves displayed
+text/history. A physical listener must check room intelligibility/volume before
+class. A completed player is not a listener report. Typed input is core;
+microphone recognition is optional Week6 reuse.
 
-## Feasibility evidence needed before deck replacement
+For a failure, use `--bundle out/missing.json`, stop the prepared model then
+retry, or use the preparation guide's invalid audio driver. Explain which state
+survives. Do not silently substitute the recording for a live result. Public
+recorded trace/audio are useful clearly labelled fallbacks; protocol unit tests
+use doubles and prove different things.
 
-1. Retrieve/inspect current PDF; include exact provenance and a small cited extract.
-2. Run real compatible chunk/query vectors; inspect two meaningful rankings and an irrelevant question.
-3. Run the actual local model/tool/evidence/answer path; check supported and unsupported answers.
-4. Prove follow-up uses prior messages, fresh-process recall and second-conversation isolation.
-5. Prove live synthesis, audible playback, stop and visible failure separately.
-6. Verify simple uv commands from a clean weekly environment and a prepared partner-machine fallback.
-7. Only then author replacement slides with rich notes, large diagrams, real excerpts and pinned links; inspect HTML/PDF/both PPTX with overflow enabled.
+## 115-120: comparison and handoff
 
-Keep offline/protocol tests, actual live behavior and physical classroom checks
-separate in the review evidence. Do not mark core feasibility as an optional
-instructor-only rehearsal or let an attractive render conceal the gap.
+Compare storage by needed retrieval: related rows for ownership/ordered history;
+a nested save/config for a whole scene; vectors+metadata for semantic candidates.
+JSON is a representation; document databases may validate schemas and relational
+systems may hold nested data. No new database installation is needed.
+
+The PFAD tutorial is exactly:0-10 setup;10-30 models;30-50 query/index/update/
+restart/constraints;50-60 break;60-70 vectors;70-90 typed follow-up/speech;
+90-100 reload/isolation/failure;100-120 tutor review/project support. Pair at
+minute10 if setup fails. Tutor12November meetings follow allocated slots.
+Canvas submission; no ClassPoint dependency, new grade/upload or defence.
+
+Group project remains40%, 25/50/25 rubric, public sd5913-owned repository with
+teammate Write access, due 6 December 2026 at 23:59 HKT. GitHub Projects recommended;
+equivalent accessible progress record remains valid.
+
+## Verification boundary
+
+Linux x86_64, Python 3.12.15, Peewee 4.5.3, Torch 2.14.1+cpu,
+Transformers 5.19.0, Sentence Transformers 6.2.0, llama.cpp b11972 and eSpeak NG 1.52.0.1.
+Clean CPU dependency installation, real current PDF/vector fixture, actual
+model/tool/supported/refusal/follow-up/fresh-process/isolation and live synthesis/
+player completion/stop/failure are recorded in the private author report.
+20 PFAD tests distinguish synthetic protocol checks from learned fixtures.
+Physical speaker listening, Windows/macOS and the room's displays remain
+instructor rehearsal checks; small-model semantic mistakes remain possible.
