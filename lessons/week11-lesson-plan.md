@@ -26,7 +26,7 @@ export inspection evidence rather than treating automated tests as rehearsal.
 
 ## Exact companion and environment
 
-[Verified companion Week11 sources](https://github.com/sd5913/pfad/tree/e48a67f0a09b0ae57e71c1e3c25f430bd196dd3d/week11).
+[Verified companion Week11 sources](https://github.com/sd5913/pfad/tree/41108250bcf2ae428dc819363bb32212b8f19fe7/week11).
 Open this exact revision while its paired PR14 is unmerged. All commands below
 run from `week11/`; uv discovers its separate environment/lockfile. Linuxx86_64
 verified29October2026: Godot4.7.2.stable.arch_linux.ed1daf0bf, Blender5.2.3LTS,
@@ -121,6 +121,9 @@ After a launch attempt, stop_project is attempted in finally with a five-second
 deadline; bounded process-group cleanup handles a broken transport without
 replacing the original error. The tutorial's next manual call adds RouteHint
 with text COLLECT THREE, THEN EXIT, preserving the demo's Caption/THREE LIGHTS.
+If bridge close fails after a successful request, the CLI exits nonzero. If a
+request already failed, it keeps the original exception and reports cleanup
+failure separately.
 
 ```bash
 uv run python world.py set speed 120
