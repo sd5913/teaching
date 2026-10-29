@@ -7,7 +7,7 @@ name   = "Programming for Artists and Designers"
 year   = "2026/27"
 school = "PolyU School of Design"
 footer = "SD5913 · PFAD"
-decks  = ["week01", "week02", "week03", "week04", "week05", "week06", "week12"]
+decks  = ["week01", "week02", "week03", "week04", "week05", "week06", "week07", "week08", "week12"]
 
 [[nav]]
 label = "SD5913"
@@ -40,6 +40,14 @@ href  = "week06/"
 [[nav]]
 label = "Week 12 · Review and tool calls (date to be confirmed)"
 href  = "week12/"
+
+[[nav]]
+label = "22 October 2026 · Midterm + teams (week07)"
+href = "week07/"
+
+[[nav]]
+label = "Week 8 · Team workflow · 29 Oct 2026"
+href  = "week08/"
 
 [[nav]]
 label = "Words"
