@@ -1,42 +1,63 @@
-"""Execute the displayed examples, not copied implementations."""
+"""Execute the Python tool excerpts that students see on the slides."""
 import ast
-import contextlib
-import io
 from pathlib import Path
-import tempfile
-import os
 import unittest
 
-SOURCE = Path(__file__).resolve().parents[1] / "deck" / "week12.py"
+SOURCE = Path(__file__).resolve().parents[1] / 'deck/week12.py'
 
-def panel(title, kind="code_panel", index=2):
-    tree = ast.parse(SOURCE.read_text())
-    for node in ast.walk(tree):
+
+def panel(title):
+    for node in ast.walk(ast.parse(SOURCE.read_text())):
         if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
-                and node.func.id == kind and len(node.args) > index
-                and isinstance(node.args[1], ast.Constant) and node.args[1].value == title):
-            return "\n".join(ast.literal_eval(node.args[index]))
+                and node.func.id == 'code_panel' and len(node.args) >= 3
+                and ast.literal_eval(node.args[1]) == title):
+            return '\n'.join(ast.literal_eval(node.args[2]))
     raise AssertionError(title)
 
-class ReviewExamples(unittest.TestCase):
-    def test_displayed_review_executes_success_and_invalid_input(self):
-        code = panel("A review you can explain", "two_col", 3)
-        self.assertIn("except", code)
-        scope, out = {}, io.StringIO()
-        with contextlib.redirect_stdout(out):
-            exec(code, scope)
-        self.assertEqual(out.getvalue().strip(), "Use ints")
-        self.assertEqual(scope["add"](3, 4), 7)
-        for a, b in (("3",4),(True,4),(3,4.0)):
-            with self.assertRaises(ValueError):
-                scope["add"](a,b)
 
-    def test_pure_function_panel_is_the_same_validated_implementation(self):
-        scope = {}
-        exec(panel("Nothing outside the two inputs"), scope)
-        self.assertEqual(scope["add"](-2, 2), 0)
+class ToolExcerpts(unittest.TestCase):
+    def test_displayed_range_check_rejects_before_loading_or_mutation(self):
+        loaded = []
+        config = {'speed': 125, 'exit_x': 860}
+        def load_config(path):
+            loaded.append(path)
+            return config
+        scope = {'BOUNDS': {'speed': (60, 480)}, 'key': 'speed',
+                 'value': 2000, 'path': 'example.json', 'load_config': load_config}
+        code = panel('Reject the write before changing state')
         with self.assertRaises(ValueError):
-            scope["add"]("3", 4)
+            exec(code, scope)
+        self.assertEqual(loaded, [])
+        self.assertEqual(config, {'speed': 125, 'exit_x': 860})
+        scope['value'] = 275
+        exec(code, scope)
+        self.assertEqual(config, {'speed': 275, 'exit_x': 860})
+        self.assertEqual(loaded, ['example.json'])
 
-if __name__ == "__main__":
+    def test_displayed_reservation_counts_check_and_write_differently(self):
+        class Clock:
+            @staticmethod
+            def clock():
+                return 42
+        code = panel('Reserve the action before execution')
+        for action, mutations in [('check', 0), ('set', 1)]:
+            state = {'actions': 0, 'mutations': 0}
+            scope = {'state': state, 'action': action, 'key': 'speed',
+                     'value': 275, 'self': Clock()}
+            exec(code, scope)
+            self.assertEqual(state, {'actions': 1, 'mutations': mutations})
+            self.assertEqual(scope['event']['action'], action)
+            self.assertEqual(scope['event']['time'], 42)
+
+    def test_displayed_capture_uses_finite_real_movie_and_user_replay(self):
+        calls = []
+        def execute(args, timeout):
+            calls.append((args, timeout))
+        exec(panel('Request a finite movie'), {'execute': execute, 'movie': '/tmp/world.avi'})
+        self.assertEqual(calls, [(['--write-movie', '/tmp/world.avi', '--fixed-fps', '30',
+                                  '--quit-after', '120', '--', '--replay'], 90)])
+        self.assertNotIn('--headless', calls[0][0])
+
+
+if __name__ == '__main__':
     unittest.main()
