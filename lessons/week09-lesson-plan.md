@@ -2,24 +2,27 @@
 
 Thursday 5 November 2026: **120-minute lecture**, followed by a separate
 **120-minute PFAD tutorial**. Approved production route, prepared 29 October.
-The existing long deck is retained pending real network/browser acceptance;
-do not mistake its older paper-only/MCP sequence for this final run sheet.
+The replacement35-slide deck follows real current-pin network/browser acceptance.
+It replaces the former paper-only/MCP sequence with the shared live scene.
 
 ## Preflight and materials
 
 Use the paired PFAD source at
-[`cba28cba31826b9e798eca9740a537ff7af993ca/week09`](https://github.com/sd5913/pfad/tree/cba28cba31826b9e798eca9740a537ff7af993ca/week09).
+[`6e5637f56c1179f64d170dc29eecbf312bb41a2f/week09`](https://github.com/sd5913/pfad/tree/6e5637f56c1179f64d170dc29eecbf312bb41a2f/week09).
 From that folder, `uv run python server.py`, then open
 `http://127.0.0.1:8009` twice. Read the server readiness line before showing a
 view. No login, camera, microphone, GPU or remote class is necessary. Stop with
 Ctrl+C. Leave the presenter's 8765 untouched; raw TCP uses 8010.
 
-Before classroom use, independently check latest pinned install and two views,
-HTTP and WS accepted/rejected inputs, disconnect/reconnect, unobserved ack,
-stopped-server recovery and simultaneous presenter use. Run the real socket
-suite and supplied Playwright check. A free-port test or ASGI-only test does
-not establish default-port/browser acceptance. Local sandbox EPERM is recorded;
-do not bypass it or claim a paper trace passed the actual gate.
+Preparation on29October: fresh current-pin install,15Python checks without
+skips,9production-JavaScript regressions and the real two-page Playwright check
+pass. HTTP/WS accepted/rejected inputs, delayed results, disconnect/reconnect,
+unobserved ack and HTTP-only stopped-server recovery were exercised; desktop
+and mobile captures inspected. Public Ubuntu CI also passes:
+https://github.com/sd5913/pfad/actions/runs/40814856731 .
+Repeat classroom/presenter coexistence and learner-platform checks before use.
+A free-port check or ASGI-only test is not browser acceptance. The earlier
+sandbox restrictions were superseded by the instructor's full-permission run.
 
 Prepare a clean `scene.py` copy/diff to restore the 100 boundary. Keep a
 second working machine or printed message cards for failure recovery. A
@@ -94,6 +97,9 @@ meaning and protocol choice. Dated release news, specific version numbers,
 OSC installation, optional LAN configuration and library memorization are
 outside the quiz. No private graded questions or keys are published here.
 
-Before final handoff replace this preparation status with actual live version,
-command, browser/render and CI evidence. Physical classroom screens/audio,
-presenter coexistence and learner platform checks remain separate from CI.
+Tested Python3.13.16, FastAPI0.162.0, uvicorn0.54.0, websockets17.3,
+Pydantic2.14.1; Playwright1.64.1/Chromium156.0.8078.4. The checked-in companion
+lock records transitive versions. HTML/PDF/plain/ClassPoint PowerPoint exports
+build with overflow checks enabled; final render/review evidence belongs in
+the PR handoff. Physical screens, presenter coexistence and Windows/macOS
+execution remain separate operational checks.

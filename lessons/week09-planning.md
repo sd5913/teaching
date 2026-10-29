@@ -8,22 +8,20 @@ paper-only core assumptions. Existing teaching/PFAD PR #12 remain the review pai
 ## Status and feasibility gate
 
 The runnable core and complete tutorial are in PFAD commit
-[`cba28cba31826b9e798eca9740a537ff7af993ca`](https://github.com/sd5913/pfad/tree/cba28cba31826b9e798eca9740a537ff7af993ca/week09).
+[`6e5637f56c1179f64d170dc29eecbf312bb41a2f`](https://github.com/sd5913/pfad/tree/6e5637f56c1179f64d170dc29eecbf312bb41a2f/week09).
 It provides one Python service, two browser views, HTTP snapshots/actions,
 WebSocket broadcasts, validation, reconnect snapshots and an explicit
 unobserved-ack demonstration. Port 8009 is separate from the presenter's 8765;
 the retained raw TCP observation uses 8010.
 
-Four rule tests and four real FastAPI ASGI handler tests pass in memory on the
-cached environment. The host refuses socket creation/binding. Real loopback
-tests therefore report explicit host-policy skips, and the attempted browser
-check exits at server bind, before browser launch. No live/two-browser proof
-is claimed. The coordinator will run the prepared independent socket/browser
-checks in normal CI and inspect retained screenshots/trace before the long
-replacement deck is authored. **The incumbent deck is deliberately preserved
-until that gate passes; its obsolete paper-only/MCP sections are not the final
-approved lesson.** This planning/run sheet is concrete preparation, not a claim
-that the incumbent slides already teach the approved 120-minute route.
+The feasibility gate passed before the replacement lecture was authored:
+15 Python tests with actual sockets and no skips,9 production-JavaScript
+regressions and the real two-page Playwright check pass on current pins.
+Desktop/mobile captures were inspected; delayed-result correlation and HTTP-only
+restart recovery were independently reviewed. The transitive lock is committed.
+[Ubuntu PR CI also passes](https://github.com/sd5913/pfad/actions/runs/40814856731).
+The former paper-only/MCP deck has been replaced with the approved live shared
+scene sequence, numbered message diagrams, actual code and substantive notes.
 
 ## Outcomes and prior-knowledge ledger
 
@@ -104,10 +102,10 @@ process. OSC comparison: `https://opensoundcontrol.stanford.edu/spec-1_0.html`.
 
 Live GitHub primary-release checks on 29 October establish latest direct targets:
 FastAPI **0.162.0**, published 23 October; uvicorn **0.54.0**, 25 September;
-websockets **17.3**, 19 October. These replace older cache-only pins and await
-online CI resolution, lock capture and runtime verification. Cached tests used
-Python 3.13.16, FastAPI 0.142.2, Starlette 1.7.0, uvicorn 0.54.0, websockets
-17.2 and Pydantic 2.10.6; they do not prove the new target versions.
+websockets **17.3**,19October. Fresh online resolution and runtime acceptance
+now pass on Python3.13.16, Starlette1.10.0 and Pydantic2.14.1; `uv.lock`
+records exact transitive versions. Playwright1.64.1/Chromium156.0.8078.4
+passed real browser acceptance. Earlier cache-only tests are historical.
 
 Read current official W7/W8 material and the reviewed authoring contracts at
 teaching `b943695a9b6b40e0340d1153361b3aaf695222dc` and PFAD
@@ -119,10 +117,8 @@ belongs to the coordinator. Dated opening source and limits are in
 
 ## Next production gate
 
-Independent code/teaching review, online latest-pin installation and lock,
-live `test_scene` on 8009, TCP checks, and `check_browser.cjs` must pass before
-replacement slides are described as runnable. Then author the full sequence
-with large numbered message diagrams, actual CODE excerpts, rich notes,
-precisely pinned PFAD links and explicit quiz/news separation. Build with
-overflow checking and inspect all slide renders plus actual PDF and both
-PowerPoints. Local host restrictions are recorded rather than bypassed.
+The core review and real network/browser gate are closed. Final deck review,
+combined integration and remote teaching checks follow the completed exports.
+Build with overflow checking and inspect the actual PDF and both PowerPoints.
+Physical presenter/classroom coexistence and Windows/macOS execution remain
+operational rehearsal items; CI and one Linux machine do not prove them.

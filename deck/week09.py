@@ -1,229 +1,91 @@
-"""Week 09: connected interactions and state. Class: Thursday 5 November 2026."""
+"""Week 9: trace actual HTTP/WebSocket control, shared state and uncertainty."""
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import week09_figures as F
-
 from deckgen import attach_reports
-from deckgen.layouts import (agenda, cards, code_panel, content, end, figure_slide,
-                             question, section, statement, title, two_col)
+from deckgen.layouts import agenda, cards, code_panel, content, end, figure_slide, image_full, section, statement, title, two_col
 
-EYE = 'SD5913 · WEEK 09 · THU 5 NOV 2026'
-PRACTICAL = 'https://github.com/sd5913/pfad/blob/plan/week09-companion-activity/week09/README.md'
+EYE = 'SD5913 / WEEK 09 / 5 NOVEMBER 2026'
+REVISION = '6e5637f56c1179f64d170dc29eecbf312bb41a2f'
+SOURCE = f'https://github.com/sd5913/pfad/tree/{REVISION}/week09'
+PRACTICAL = f'https://github.com/sd5913/pfad/blob/{REVISION}/week09/README.md'
 S = []
 
-S.append(title(EYE, 'Connected interactions', 'Messages, memory and useful failure.',
-    notes='Learning outcome: trace a control through a service and back; say what persists '
-          'between messages and design a visible response when the service fails. '
-          'Class date: Thursday 5 November 2026; duration remains unconfirmed. This is the current teaching draft, '
-          'not an assessment brief. No live service, login, microphone or student data is needed.'))
-S.append(agenda(EYE, [
-    'Recall the Week 4 API request', 'Find an address, a port and a route',
-    'Compare one request with a continuing connection', 'Predict two messages and a disconnect',
-    'Place an agent, MCP server and tool', 'Decide a boundary for your prototype',
-], notes='Run prediction before explanation in each block. Keep the local paper trace '
-          'if no prepared server is available. The optional historical speech-service '
-          'examples are not core asyncio content. No news item is selected without '
-          'near-class primary-source verification.'))
-S.append(statement('What should the screen say when the other program disappears?',
-    eyebrow_text='OPENING QUESTION', size=88,
-    notes='Ask for two short responses. Keep them visible and revisit after the disconnect '
-          'trace. Do not start with command-line networking tools.'))
-
-S.append(section('01', 'Where does a message go?', 'Recall the tide API before adding a new connection',
-    notes='Begin with the Week 4 tide request. First locate the destination; then show the request and response as separate steps.'))
-S.append(content('01 · WEEK 4 RECALL', 'One choice, one request', [
-    'In Week 4, the browser asks a FastAPI service for September tide records.',
-    '', 'The server reads saved data and returns JSON. The browser draws a chart.',
-    '', '**Question:** which program begins the conversation?',
-], notes='Source: current Week 4 deck and pfad/week04. The frontend makes an '
-          'HTTP request; the backend responds. Week 4 already introduced APIs, so '
-          'this is a recall, not a repeat of API installation.'))
-S.append(figure_slide('01 · A DESTINATION', 'A host and a port find a service', F.address(),
-    notes='Conceptual local example, not a public server. 127.0.0.1 is loopback: '
-          'both client and server can be separate programs on the same laptop. '
-          '8000 is an illustrative port, not a requirement of the Week 9 practical. '
-          'Many connections can share a listening port. A URL additionally names a route. '
-          'Do not ask students to open a firewall or expose a listener.'))
-S.append(cards('01 · THREE QUESTIONS', 'When a request fails, ask where', [
-    ('HOST', 'Which machine?', '127.0.0.1 stays on this laptop.'),
-    ('PORT', 'Which service?', 'A listener must be present at that port.'),
-    ('ROUTE', 'Which resource?', 'The service must know the requested path.'),
-], notes='Separate network reachability from application routing. An unreachable '
-          'service is different from a reachable server returning 404 for a wrong route. '
-          'Hostnames may resolve to addresses; these are roles, not one-to-one machines.'))
-S.append(question('multiple_choice', 'The service is running, but /tidess is unknown. What changed?',
-    choices=['A · host', 'B · port', 'C · route', 'D · nothing'],
-    eyebrow_text='01 · PREDICT',
-    notes='C. A server can be reachable and still reject an unknown path, commonly '
-          'with 404. A stopped service usually means connection failure instead. '
-          'This prediction does not require ClassPoint to teach: hands or discussion work.'))
-S.append(figure_slide('01 · REQUEST', 'The browser asks for records', F.request(),
-    notes='First half of one Week 4 exchange. GET requests a resource. The query '
-          'parameter month=9 chooses September. A request goes to the server; '
-          'a route is interpreted by the application, not by the network layer.'))
-S.append(figure_slide('01 · RESPONSE', 'The server sends JSON back', F.response(),
-    notes='Second half with geometry held constant. A successful example uses 200 OK '
-          'and JSON; this does not imply that every request succeeds. The browser '
-          'still has to parse the response and draw something visible.'))
-S.append(two_col('01 · ONE ROUND TRIP', 'A response can still mean failure', [
-    'The server may be reachable but reject a missing or invalid value.',
-    '', 'Read the status and body before you draw a chart.',
-    '', 'A network failure may have no HTTP response at all.',
-], [
-    'GET /tides?month=9',
-    '200 OK  +  JSON data',
-    '',
-    'GET /unknown',
-    '404 Not Found',
-    '',
-    'service stopped',
-    'connection failed',
-], notes='Illustrative outcomes, not captured logs. Distinguish HTTP error status '
-          'from inability to connect. An invalid month may produce a validation error; '
-          'do not assert an exact status without running the current Week 4 service.'))
-
-S.append(section('02', 'What survives?', 'The difference between stored data and connection state',
-    notes='Contrast a self-contained request with the state of an open conversation. Stored data is not the same as an active connection.'))
-S.append(cards('02 · TWO WAYS TO TALK', 'Choose the shape of the exchange', [
-    ('HTTP', 'Ask, then reply', 'Each request carries what it needs. Good for fetching records.'),
-    ('WEBSOCKET', 'Keep talking', 'A live connection can carry messages both ways.'),
-], notes='HTTP can also use persistent transport connections; the contrast is '
-          'request/response semantics versus an ongoing two-way WebSocket exchange, '
-          'not a claim that HTTP always opens a fresh TCP connection. REST statelessness '
-          'does not prohibit a server from storing tide records or other data.'))
-S.append(figure_slide('02 · A CONTINUING CONVERSATION', 'Two messages, one connection', F.echo(),
-    notes='This illustrates a localhost echo service. PFAD PR #12 has a tested stdlib '
-          'loopback TCP starter, not WebSocket. The client sends first. After hello '
-          'returns, send another distinct string without reconnecting and record order. '
-          'A server can track active connections; persistence does not guarantee delivery '
-          'after a disconnect. No asyncio is required to read this trace.'))
-S.append(code_panel('02 · PAPER TRACE', 'Predict before you reveal the replies', [
-    'connect to local echo service',
-    'send("red")',
-    'receive()     # ?',
-    'send("blue")',
-    'receive()     # ?',
-], caption='Pseudocode: not a runnable Python client.', lang=None,
-    notes='Invite students to write the two expected replies and mark the connection '
-          'that remains open. Reveal red, then blue for an ordered echo example. '
-          'A protocol must define where each message begins/ends; a WebSocket message '
-          'is framed. A raw TCP byte stream is not automatically one send per read.'))
-S.append(question('short_answer', 'If the server stops after red, what can you conclude about blue?',
-    hint='What was sent? What was acknowledged? What is unknown?',
-    eyebrow_text='02 · DISCONNECT',
-    notes='Acknowledge several possible timings. A local send call returning does not '
-          'prove the server processed blue. If blue has no reply, its final status is '
-          'unknown without an application-level acknowledgement. Reconnecting does '
-          'not automatically resume the old connection. Ask students for a visible '
-          'screen message instead of silently showing the last data as current.'))
-S.append(cards('02 · NAME THE STATE', 'What must the interface remember?', [
-    ('LOCAL', 'User choice', 'The selected value and unsent input.'),
-    ('CONNECTION', 'Status', 'Connecting, open, closed or failed.'),
-    ('SERVER', 'Shared data', 'Only if the design actually needs it.'),
-], notes='Use the concrete two-message trace. The client should not present a stale '
-          'reply as new. A server can keep records even for REST APIs; what matters '
-          'is what each interaction assumes about previous messages.'))
-S.append(statement('Do not turn a missing reply into a fake success.',
-    eyebrow_text='02 · THE DESIGN RULE', size=88,
-    notes='Use this to bridge the transport trace into UI feedback.'))
-S.append(two_col('02 · FAILURE AS AN INTERACTION', 'Make waiting and failure legible', [
-    'Show that a reply is pending.', '', 'Set a time limit, then show a useful error.',
-    '', 'Offer a manual retry or a local-only alternative.',
-], [
-    'idle',
-    '  -> waiting',
-    '  -> reply OR error',
-    '',
-    'error',
-    '  -> retry (once)',
-    '  -> waiting',
-], lang=None,
-    notes='UI state sketch, not code or a mandatory retry policy. Avoid unbounded '
-          'automatic retries, especially for actions that can have side effects. '
-          'For a mutating action, retry only after deciding how duplicate requests '
-          'will be handled. On paper, draw the error state and retry control.'))
-S.append(content('02 · THE LOCAL ACTIVITY', 'Send, compare, disconnect', [
-    'Draw **client -> server -> client** and label host, port and protocol.',
-    '', 'Predict the replies to red and blue. Keep both on one connection.',
-    '', 'Stop the server after red: show waiting, error and manual retry.',
-    '', f'[Current PFAD Week 9 echo practical]({PRACTICAL})',
-], body_size=32, notes='PFAD PR #12 has a tested stdlib loopback TCP echo starter, not WebSocket. '
-          'Do the paper trace by default; run the local TCP echo only after a '
-          'classroom-machine preflight. For a reproducible interrupted connection, '
-          'run the companion client with --pause-before-blue, wait for received: red, '
-          'stop the server, then press Enter. Blue is not sent before the stop in this '
-          'controlled sequence; this does not prove the fate of arbitrary in-flight '
-          'messages. The client shows No reply, never a received: blue line. '
-          'Have pairs compare traces and sketch waiting, error and manual retry states; '
-          'collect one disconnect observation verbally. No assessed submission, '
-          'external device, firewall change, microphone, account or personal data.'))
-
-S.append(section('03', 'A tool is another boundary', 'An agent suggestion is not permission to act',
-    notes='Shift from network message boundaries to authority boundaries. Keep the example local and invented.'))
-S.append(figure_slide('03 · THREE ROLES', 'Agent, MCP server, tool', F.tool_boundary(),
-    notes='Conceptual extension to the earlier client/service boundary. The agent '
-          'can propose a tool call; an MCP server describes and brokers tools; '
-          'the tool performs a bounded operation when permission/policy allows. '
-          'A proposed call is not itself authorization or evidence of success. '
-          'No live agent, integration or credential is required for this diagram.'))
-S.append(question('multiple_choice', 'The agent suggests reading your local sketch folder. What happens first?',
-    choices=['A · read everything', 'B · check permission and scope',
-             'C · upload it', 'D · declare success'],
-    eyebrow_text='03 · PERMISSION CHECK',
-    notes='B. Ask what scope was approved and whether private files could be included. '
-          'The bounded practical is a role-play: one student is the agent proposing '
-          'list filenames in a made-up sketch folder, one is the server offering '
-          'the operation, one is the human allowing only a harmless named folder. '
-          'On denial, do not run the call; on approval, report only synthetic '
-          'filenames. No actual file access or model account is necessary.'))
-S.append(content('03 · A BOUNDED TOOL TRACE', 'Propose, check, act, report', [
-    '**Propose:** “List names in the example sketches folder.”',
-    '', '**Check:** “Only this invented folder? No file contents?”',
-    '', '**Act:** run the allowed tool, or do nothing if denied.',
-    '', '**Report:** distinguish a returned result from a suggested action.',
-], body_size=33,
-    notes='Use invented names, such as circle.svg and lines.svg, on paper. '
-          'Permission covers a specific action and scope, not unrestricted future calls. '
-          'Connect to the echo example: a message/request must be interpreted '
-          'before any external effect is performed.'))
-
-S.append(section('04', 'Choose the smallest boundary', 'Use a service only when the experience needs one',
-    notes='Return to team prototypes. A local-only interaction is as valid as a service when it meets the design need.'))
-S.append(cards('04 · PROJECT DESIGN', 'Three plausible architectures', [
-    ('LOCAL', 'No network', 'One computer owns controls and data.'),
-    ('HTTP', 'Request data', 'Fetch when a person asks for new records.'),
-    ('LIVE', 'Push updates', 'Share changing events as they happen.'),
-], notes='Scrum: name one small interaction to test. Git: agree who edits what '
-          'and review a change. Docker can package a service later but does not '
-          'make a network boundary necessary or solve permissions. A group project '
-          'does not have to include AI, sound, Docker or live networking.'))
-S.append(content('04 · TEAM CONVERSATION', 'Make the choice visible', [
-    'Sketch **control -> state -> visible response** for one prototype interaction.',
-    '', 'Decide: local-only, an HTTP request, or a continuing connection?',
-    '', 'Name one failure and the feedback a person should see.',
-    '', 'If there is a service: who starts it and what data can cross the boundary?',
-], body_size=33,
-    notes='Give teams time to draw and exchange with another team. Ask for a reason '
-          'for the boundary, not a technology checklist. For a local-only design, '
-          'describe a missing-file or invalid-input failure instead. This is '
-          'design practice, not a new submission format or assessment rule.'))
-S.append(question('short_answer', 'What is the smallest boundary your idea actually needs?',
-    hint='Name the state, one message (or none), and one failure.',
-    eyebrow_text='04 · EXIT TICKET',
-    notes='Ask for one sentence per team, or collect on paper if ClassPoint '
-          'is unavailable. A local-only answer is valid. Do not store names '
-          'or treat this as graded evidence.'))
-S.append(end('Trace the message. Design the silence.',
-    'Keep the state that matters; make failure visible.',
-    'sd5913.github.io/teaching',
-    notes='Recap: address and port find a service, route finds a resource, '
-          'a response may fail, a continuing connection has state, and '
-          'a proposed tool call needs permission. The historical 2025 Week 9 '
-          'PDF pp. 23-45 supplies topics, not 2026 schedules or policies; '
-          'its pp. 46-58 speech/async demo remains optional context.'))
-
+S.append(title(
+    EYE, 'One scene.\nTwo views.', 'Connected interactions / messages, state and useful failure',
+    notes='120-minute lecture plus a separate 120-minute tutorial. Follow the approved timed run sheet: 0-10 opening, 10-30 addresses/layers, 30-50 HTTP/rules, 50-60 TCP, 60-70 break, 70-95 shared WebSocket/await, 95-110 failure, 110-120 transfer/handoff. Reuse the Week 4 API and Week 7 object knowledge. Students trace messages, distinguish local/shared state and explain what an absent acknowledgement proves. Source: https://github.com/sd5913/pfad/tree/6e5637f56c1179f64d170dc29eecbf312bb41a2f/week09'))
+S.append(agenda(EYE, ['Locate the other process.', 'Validate an action before changing state.', 'Share one scene through two views.', 'Inspect failure before deciding to retry.', 'Choose a boundary for your project.'],
+    notes='Use the timed instructor run sheet and leave room for terminal/browser work, predictions and discussion. The tutorial has its own complete two-hour allocation. No assessed activity or instructor ClassPoint login is needed for these checks.'))
+S.append(statement('What should the screen say when the other program disappears?', size=86,
+    notes='0-2 minutes. Ask for two concrete interface responses and revisit them after the missing-ack demonstration. A frozen dot may show old data rather than a current observation. Ask what evidence each proposed status message would require.'))
+S.append(content('OPENING / DATED NEWS', 'A missing value needs a rule.', ['FastAPI 0.162.0 / 23 October 2026', 'Omitted form fields now follow declared defaults or missing-field errors.', '', '[Primary release note](https://github.com/fastapi/fastapi/releases/tag/0.162.0)', 'What should an omitted gallery control mean: false, unchanged or invalid?'], body_size=34,
+    notes='2-5 minutes. The primary release was published on 23 October 2026 at 18:47 UTC. This dated interface-contract example is outside quiz scope. Our application sends JSON, not the affected form-field pathway; do not claim that release changes set_x. Current pins were installed and checked live on 29 October. Refresh the dated item before class.'))
+S.append(content('REUSE / WEEK 4', 'Who starts the tide request?', ['A person chooses September.', 'The browser asks the Python service for records.', 'The response is data; the browser still draws the chart.'],
+    notes='5-10 minutes. Recall the actual Week 4 browser/service boundary and JSON response. An API need not be AI or a commercial remote service. Ask which program initiates the request and what the browser does after receiving data. Today adds a changing shared state rather than repeating framework setup.'))
+S.append(section('01', 'Find the process.', 'Host, port, route and protocol', notes='10-30 minutes. Two processes can run on one laptop. Introduce the exact destination used by the demonstration. No firewall change or deployment is needed. Separate the process receiving a request from the machine hosting it.'))
+S.append(figure_slide('ADDRESS', 'Four parts of one destination', F.address(),
+    notes='http is the application scheme; 127.0.0.1 means this laptop; 8009 selects the listening service; the application interprets /state. Hostnames may resolve to IP addresses. A port is an endpoint number, not a permanent application name. The official presenter uses 8765; the later raw TCP observation uses 8010.'))
+S.append(figure_slide('ONE JOURNEY / DIFFERENT JOBS', 'JSON is not the network.', F.layers(),
+    notes='Follow one concrete message rather than memorizing layer names. The link moves data locally; IP addresses hosts; TCP supplies an ordered byte stream; HTTP and WebSocket define exchanges; JSON represents our action. Loopback stays inside this computer. UDP preserves datagram boundaries without guaranteeing delivery or order. This is a compact working model, not a full OSI course.'))
+S.append(two_col('PREDICT / LOCATE THE FAILURE', 'Wrong route or no listener?', ['Server running:', 'GET /statee', 'HTTP 404 / application answered.', '', 'Server stopped:', 'GET /state', 'Connection failure / no HTTP response.'], ['Same host.', 'Same port.', 'Different failure boundary.', '', 'Read the status and body.', 'A response is not automatically success.'],
+    notes='Ask for a prediction before requesting /statee from the running server. Compare its 404 with a request to /state while no server is listening. An HTTP error is still a response from an application. A connection failure may have no HTTP response. Read the visible status and body rather than calling every problem an internet outage.'))
+S.append(code_panel('LIVE / FROM PFAD WEEK09', 'Start one Python process.', ['cd week09', 'uv run python server.py', '# Open twice: http://127.0.0.1:8009', '', '# A snapshot in another terminal:', 'curl http://127.0.0.1:8009/state'], caption='One process, loopback only. Ctrl+C stops it.', lang=None,
+    notes='30 minutes. From a fresh clone of the pinned companion, enter week09 and run the shown command. Wait for readiness and show both the terminal and browser. A fresh snapshot has type state, x 50 and revision 0. Use HTTP first. Run exactly one process: multiple workers would have separate Scene instances. Source: https://github.com/sd5913/pfad/tree/6e5637f56c1179f64d170dc29eecbf312bb41a2f/week09'))
+S.append(code_panel('READ / ACTUAL DATA SHAPE', 'A snapshot describes state.', ['{"type": "state", "x": 50, "revision": 0}', '', '# Send an action:', '{"id": "a-1", "action": "set_x", "x": 25}'], caption='A read and a command have different jobs.', lang=None,
+    notes='GET /state returns a snapshot. POST /action requests a mutation; the same action can arrive through /ws. id names this request, action selects a permitted rule and x is an integer position. JSON is parsed into a Python dictionary. A syntactically valid dictionary may still violate the application contract.'))
+S.append(figure_slide('1 / SEND', 'The slider is still local input.', F.journey(0),
+    notes='Move the slider in A to 25 without pressing Send. Both dots stay at 50 and B keeps its own unsent slider value. Press Send HTTP and follow the message into Scene.apply. A local input change alone sends nothing. Keep this geometry across the following diagrams.'))
+S.append(code_panel('PYTHON / VALIDATION BEFORE MUTATION', 'Would True be a valid position?', ['if type(message["x"]) is not int or not 0 <= message["x"] <= 100:', '    raise ValueError("x must be a whole number from 0 to 100.")', 'self.x = message["x"]', 'self.revision += 1'], caption='Excerpt from Scene.apply; other field checks precede this.',
+    notes='Actual Scene.apply excerpt; earlier lines check the exact fields, id and action. Python bool is a subclass of int, so strict type comparison deliberately rejects True. Also reject 25.0, a string, missing/extra fields and the wrong action. Ask which line mutates shared state and why validation comes first. Check boundaries 0/100 and invalid 101. This reuses a class method rather than reteaching class syntax. Source: https://github.com/sd5913/pfad/tree/6e5637f56c1179f64d170dc29eecbf312bb41a2f/week09/scene.py'))
+S.append(figure_slide('2 / APPLY', 'One Scene owns the accepted value.', F.journey(1),
+    notes='The one authoritative Scene now has x 25 and revision 1. Revision records server order within this process lifetime, not wall-clock time or a database identity. snapshot returns a copy of the data; it does not create another authoritative world. Ask what another client must receive before it can display this change.'))
+S.append(two_col('COMPARE / ACCEPTED AND REJECTED', 'An invalid action changes nothing.', ['x=0 or 100 / accepted', 'x=101 / rejected', '', 'Valid JSON is not enough.', 'Inspect x and revision after rejection.'], ['HTTP 422', '{"type":"rejected",', ' "id":"a-2",', ' "error":"x must be ..."}', '', 'Same rule over WebSocket.'], lang=None,
+    notes='Run Try invalid 101 and compare x and revision in both tabs. HTTP 422 means the reachable application rejected a parsed value; malformed JSON receives 400 and an unknown route receives 404. WebSocket returns a rejection message on its existing channel rather than a new HTTP response. Recoverable ids correlate rejection with the originating action.'))
+S.append(section('02', 'A stream needs boundaries.', 'A compact raw TCP observation /50-60minutes',
+    notes='50-60 minutes. Keep this transport/framing observation to ten minutes. It preserves the historical networking concept without substituting the echo exercise for the main shared application. Stop the extra listener afterwards.'))
+S.append(code_panel('LIVE / TCP ON 8010', 'One connection, several messages.', ['# Terminal1, inside week09:', 'uv run python echo_server.py', '', '# Terminal2:', 'uv run python echo_client.py'], caption='TCP newline framing; this is not HTTP or WebSocket.', lang=None,
+    notes='The actual client sends red and blue on one connection, then reconnects for green. Its tests combine red/blue in one write and split orange across writes. Optional --pause-before-blue lets the instructor stop the server before blue is sent; that controlled case does not establish the fate of arbitrary in-flight messages. Sources: https://github.com/sd5913/pfad/tree/6e5637f56c1179f64d170dc29eecbf312bb41a2f/week09/echo_server.py and echo_client.py'))
+S.append(figure_slide('BYTES / MESSAGES', 'One send is not one receive.', F.framing(),
+    notes='A buffer accumulates bytes until newline, then extracts a complete message. One read may contain multiple messages or part of one. TCP preserves byte order, not application send boundaries. WebSocket provides message framing before our server parses JSON. Ask what fails if code decodes each recv as one complete color. Framing, reliability and acknowledgement are separate jobs.'))
+S.append(statement('Break / 10 minutes', size=96,
+    notes='60-70 minutes. Stop the raw TCP listener. The main scene may remain available. Take the full ten-minute break; no new material belongs in it.'))
+S.append(section('03', 'Keep both views current.', 'Snapshots, continuing messages and awaiting work',
+    notes='70-95 minutes. Both browsers connect to /ws and receive the current snapshot. This is a real WebSocket connection over TCP. Compare the initial snapshot with later pushed state changes, using the two actual views.'))
+S.append(figure_slide('3 / OBSERVE', 'Both views receive the same revision.', F.journey(2),
+    notes='A sends 25; the server broadcasts state to every connected client, including A. B sees x 25/revision 1 while its unsent slider remains 50. Have B send 80 and trace the reverse direction. This is one shared state and two inputs, not two independent authoritative objects. Inspect the visible message trace.'))
+S.append(figure_slide('4 / ACKNOWLEDGE', 'Which action did the result confirm?', F.journey(3),
+    notes='The sender also receives ack with id a-1 and revision 1. A snapshot describes a current observation; an acknowledgement identifies an applied action. Neither means data was saved to disk. IDs support correlation here, not deduplication: the server stores no completed-ID table. A delayed result for A must not settle a newer pending action B.'))
+S.append(two_col('COMPARE / EXCHANGE SHAPE', 'Ask again, or receive a push?', ['HTTP GET /state', 'One snapshot for this request.', 'Polling repeats those reads.', '', 'HTTP POST /action', 'One command and response.'], ['WebSocket /ws', 'A continuing bidirectional channel.', 'State arrives when server broadcasts.', '', 'HTTP may reuse its TCP connection.', 'Persistent transport is not saved data.'],
+    notes='HTTP may reuse its TCP connection; stateless request semantics do not prohibit stored server data. This app shares one Scene across both handlers. Compare how a view obtains changes: repeated GET requests versus pushed WebSocket messages. WebSocket alone supplies neither shared-state policy nor reconnection recovery.'))
+S.append(code_panel('PYTHON / WAIT WITHOUT BLOCKING EVERYTHING', 'What can happen during await?', ['incoming = await client.receive()', '# Parse and validate this message.', 'async with lock:', '    ack = scene.apply(message)', '    await broadcast()', '    await client.send_json(ack)'], caption='Excerpt from updates(); one server process and event loop.',
+    notes='Actual updates() excerpt. await yields while waiting for I/O, allowing the event loop to progress other connections. It is not a CPU thread and does not make CPU work parallel. The lock orders mutation, broadcast and acknowledgement within this process. broadcast currently awaits clients sequentially, so a slow receiver can delay others. State this teaching limitation. Source: https://github.com/sd5913/pfad/tree/6e5637f56c1179f64d170dc29eecbf312bb41a2f/week09/server.py'))
+S.append(content('PREDICT / TWO CLIENTS', 'A sends 25. B sends 80. Which wins?', ['Inspect the server revisions.', 'The last accepted action determines x.', 'A local clock does not establish server order.', 'A new process starts its revision at0.'],
+    notes='Spend three minutes predicting competing actions. Browser click timestamps do not establish a fixed server order. The server serializes accepted mutations and broadcasts revisioned state. Older stream updates must not roll back a newer observation. While disconnected, a manual HTTP read accepts its latest fresh response only if no newer observation or connection has intervened, including after restart.'))
+S.append(section('04', 'Read the failure.', '95-110 minutes / observed, rejected or unknown',
+    notes='95-110 minutes. Revisit the opening interface question. Use the actual controls, state and logs. Distinguish what was observed from what the person infers, and keep uncertainty visible.'))
+S.append(content('LIVE / DISCONNECT AND RECONNECT', 'A new snapshot is not a retry.', ['Disconnect A.', 'Change the scene from B.', 'Reconnect A: inspect the current snapshot.', 'A does not automatically resend its old action.'],
+    notes='Run the sequence: disconnect A, change the scene in B, then reconnect A. Connect makes a new channel and the server sends its current snapshot. A visibly remains disconnected while B works. Reconnection does not resend the old action or establish exactly-once delivery. Callbacks from an old closed channel must not change the new channel state.'))
+S.append(figure_slide('LIVE / IGNORE REPLIES AFTER SENDING', 'The sender and observer know different things.', F.uncertainty(),
+    notes='Use Send, ignore replies, disconnect with A at 73. This deliberately suppresses the client observation; it is not evidence of random packet loss. B receives the real broadcast and displays 73. A says Unknown because it did not observe its own matching acknowledgement. Reconnect A and inspect without resending. A missing reply alone establishes neither success nor failure.'))
+S.append(image_full(str(Path(__file__).resolve().parent / 'assets/week09-controller.png'),
+    'ACTUAL BROWSER / 29 OCTOBER 2026', 'Connected again; the missing acknowledgement is still unknown.',
+    fit='contain', url=SOURCE,
+    notes='Real desktop capture from the two-page Playwright acceptance run, cropped to the controls and visible result. A has reconnected and observed x73/revision4. Its old action acknowledgement was deliberately ignored, so the outcome remains Unknown. Connection status, observed state and action result answer three different questions. The source link opens the exact tested companion. This is not a mock interface or a student response.'))
+S.append(content('DESIGN / RETRY POLICY', 'An action ID is not a duplicate guard.', ['set_x=73 repeated: same position, another revision.', 'spend_coin repeated: potentially another cost.', '', 'Inspect state before deciding to retry.', 'This teaching server does not deduplicate IDs.'],
+    notes='Compare an idempotent position assignment with a potentially repeated spend. In this implementation repeating set_x still increments revision. A timeout bounds waiting, not server execution. A late acknowledgement may settle only its named action; an older rejection must not settle a newer request. A production retry policy depends on the action and duplicate handling.'))
+S.append(two_col('LIVE / STOP AND RESTART', 'The process forgot. The browser did not.', ['Stop Python / disconnected UI.', 'Last-knownposition stays labeled.', '', 'Restart Python / x50, revision0.', 'Read HTTP snapshot without WS reconnect.'], ['Knowledge of old state', 'is not a current observation.', '', 'RAM is not persistent storage.', 'Week 10 will save related records.'],
+    notes='The actual acceptance check covers HTTP-only restart recovery as well as WebSocket reconnect. A fresh manual GET can adopt revision 0 from the new process while discarding responses overtaken by a newer observation. Show reset RAM and no automatic resend. This motivates Week 10 persistent User/Conversation/Message models without starting a database lesson now.'))
+S.append(cards('TRANSFER / PROTOCOL CHOICES', 'What does this interaction need?', [('EVENT','Spend one coin','Reliable delivery plus application rules.'),('UPDATE','Move an avatar','Frequent position snapshots;freshness matters.'),('READ','Fetch a saved record','HTTP request/response is often enough.')],
+    notes='110-112 minutes. UDP can avoid retransmitting obsolete position updates, but delivery and order require application decisions. Ordered TCP bytes do not prove a game applied an event. Local-only is valid when one program owns the experience. These are design tradeoffs, not required group-project features.'))
+S.append(content('CREATIVE BRIDGE / NO EXTRA SETUP', 'Send coordinates, not camera frames.', ['Week 8 fingertip x -> round(x*100) -> set_x.', 'No hand -> no action; clamp to the allowed range.', '', 'OSC /scene/x could carry one typed value.', 'An adapter would translate it to this JSON contract.'],
+    notes='112-114 minutes. This is a short conceptual handoff, not a new camera or OSC setup. The slider already covers the control boundary. OSC is an address/value protocol, commonly transported by UDP; it is neither UDP itself nor WebSocket. Source: https://opensoundcontrol.stanford.edu/spec-1_0.html . Do not send entire frames when one coordinate meets the need.'))
+S.append(content('TEAM / CHOOSE ONE BOUNDARY', 'What should another person be able to observe?', ['Local-only, request/response, or continuing messages?', 'Name one state, one command and one failure.', 'Explain what the screen can honestly confirm.'],
+    notes='114-117 minutes. A local-only proposal can name an invalid-input or missing-file failure. Ask teams for one reason for their boundary and one observable check. Connect this to a usable increment, evidence and a next fix in the recommended GitHub Project or an equivalent accessible progress record. Networking, AI and a particular engine remain optional project choices.'))
+S.append(content('PFAD / SEPARATE 120-MINUTE TUTORIAL', 'Run it. Change one rule. Prove the boundary.', [f'[Pinned Week 9 source and complete tutorial]({PRACTICAL})', 'uv run python server.py', 'Two views -> invalid 101 -> disconnect/restart.', 'Change the maximum from 100 to 80; check both transports.', 'Final 20 minutes: tutor review / project support.'], body_size=34,
+    notes='117-120 minutes. The README allocates 0-15 setup/pair fallback, 15-35 HTTP, 35-55 shared WebSocket, 55-65 break, 65-85 Python rule change, 85-100 failure/recovery and 100-120 tutor/project support. Predict and test 79/80/81 after changing the maximum to 80, then restore 100. No extra Canvas upload, login or grade. Revision covers roles/addresses/layers/framing, validation, shared/local state, await and uncertainty; dated news, version memorization and optional LAN/OSC setup are outside quiz scope. Source: https://github.com/sd5913/pfad/tree/6e5637f56c1179f64d170dc29eecbf312bb41a2f/week09/README.md'))
+S.append(end('Trace the message.\nDesign the silence.', 'Know what changed, what was observed, and what remains unknown.', 'sd5913.github.io/teaching',
+    notes='Recap: one authoritative Scene, two views; protocol/host/port/route; validation before mutation; state and acknowledgement serve different purposes; TCP needs framing; await waits for I/O; reconnect does not resend; missing acknowledgement means unknown. Next week adds persistent models and the handbook bot. The source crosswalk records historical networking and moved speech. Generic MCP role-play is not repeated.'))
 attach_reports(S, Path(__file__).resolve().parent / 'week09-reports.json')
-DECK = {'title': 'SD5913 · Week 09 — Connected interactions',
-        'pdf': 'SD5913-week09.pdf', 'slides': S}
+DECK = {'title':'SD5913 / Week09 / Connected interactions','pdf':'SD5913-week09.pdf','slides':S}
