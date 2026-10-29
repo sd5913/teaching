@@ -26,7 +26,7 @@ export inspection evidence rather than treating automated tests as rehearsal.
 
 ## Exact companion and environment
 
-[Verified companion Week11 sources](https://github.com/sd5913/pfad/tree/494316a2a6248e92448a2d57a4ebac5eada3b60a/week11).
+[Verified companion Week11 sources](https://github.com/sd5913/pfad/tree/e48a67f0a09b0ae57e71c1e3c25f430bd196dd3d/week11).
 Open this exact revision while its paired PR14 is unmerged. All commands below
 run from `week11/`; uv discovers its separate environment/lockfile. Linuxx86_64
 verified29October2026: Godot4.7.2.stable.arch_linux.ed1daf0bf, Blender5.2.3LTS,
@@ -112,11 +112,15 @@ uv run python mcp_client.py demo
 ```
 
 Third-party Coding-Solo source1209744, version0.1.1. demo saves a separate
-probe.tscn with Marker and CaptionLabel textTHREE LIGHTS; inspect it in the
+probe.tscn with Marker and Caption Label textTHREE LIGHTS; inspect it in the
 editor. The main project it runs is world.tscn, not that probe. CLI/GDScript
 operations are not a live-editor remote-control socket. Read debug output,
 observe actual window, stop_project and close stdio. The helper now treats
 isError as failure. A project-start acknowledgement does not prove readiness.
+After a launch attempt, stop_project is attempted in finally with a five-second
+deadline; bounded process-group cleanup handles a broken transport without
+replacing the original error. The tutorial's next manual call adds RouteHint
+with text COLLECT THREE, THEN EXIT, preserving the demo's Caption/THREE LIGHTS.
 
 ```bash
 uv run python world.py set speed 120

@@ -9,7 +9,7 @@ from deckgen.layouts import (title, agenda, section, statement, content,
 
 E = 'SD5913 / WEEK 11 / 19 NOVEMBER 2026'
 # Coordinator refreshes this only after the companion is verified and committed.
-PFAD = 'https://github.com/sd5913/pfad/tree/494316a2a6248e92448a2d57a4ebac5eada3b60a/week11'
+PFAD = 'https://github.com/sd5913/pfad/tree/e48a67f0a09b0ae57e71c1e3c25f430bd196dd3d/week11'
 SOURCE = PFAD.replace('/tree/', '/blob/')
 BLENDER = 'https://docs.blender.org/api/current/'
 GODOT = 'https://docs.godotengine.org/en/stable/'
@@ -337,6 +337,9 @@ prose('A community bridge can create scene nodes.', [
    'with Node 26 native TypeScript. Fresh public install passed in 3.606s with empty npm cache; '
    'this excludes editor/Node installation. demo discovers project info, creates probe.tscn, '
    'adds Marker and Caption nodes, runs the main world, reads debug output, stops and closes stdio. '
+   'Stop is attempted in finally after a launch attempt; bounded owned-process cleanup handles a '
+   'broken bridge while preserving the original error. The tutorial adds a separate RouteHint '
+   'Label so students can verify a new result after demo rather than repeat Caption. '
    'The added probe is separate from the playable main scene; inspect its saved node/property.')
 code('A node call names its parent and property.', [
     '"name": "add_node",', '"arguments": {', '  "scenePath": "probe.tscn",',
