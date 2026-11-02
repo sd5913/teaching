@@ -1,105 +1,155 @@
 # Week 9 instructor run sheet
 
-Thursday 5 November 2026: **120-minute lecture**, followed by a separate
-**120-minute PFAD tutorial**. Approved production route, prepared 29 October.
-The replacement 36-slide deck follows real current-pin network/browser acceptance.
-It replaces the former paper-only/MCP sequence with the shared live scene.
+Thursday 5 November 2026: **120-minute theory-first lecture**, including a
+10-minute break, followed by a **separate 120-minute PFAD tutorial**.
+Revised 2 November from the instructor's correction of the Week 9 draft.
+The concepts support the **final-course quiz later**. There is no new quiz at
+the end of this lecture and no new graded submission.
 
-## Preflight and materials
+## Opening and connection to previous weeks
 
-Use the paired PFAD source at
-[`6e5637f56c1179f64d170dc29eecbf312bb41a2f/week09`](https://github.com/sd5913/pfad/tree/6e5637f56c1179f64d170dc29eecbf312bb41a2f/week09).
-From that folder, `uv run python server.py`, then open
-`http://127.0.0.1:8009` twice. Read the server readiness line before showing a
-view. No login, camera, microphone, GPU or remote class is necessary. Stop with
-Ctrl+C. Leave the presenter's 8765 untouched; raw TCP uses 8010.
+Start with **one group-project AMA**. Use the deck's existing ClassPoint Short
+Answer activity so students can post their questions. Group related questions,
+answer the shared ones, and carry project-specific follow-ups to tutorial
+support. If the add-in is unavailable, collect the same questions verbally or
+on paper, not through a new external form. Do not publish student questions
+with names or other private details in the public repository.
 
-Preparation on29October: fresh current-pin install,15Python checks without
-skips,9production-JavaScript regressions and the real two-page Playwright check
-pass. HTTP/WS accepted/rejected inputs, delayed results, disconnect/reconnect,
-unobserved ack and HTTP-only stopped-server recovery were exercised; desktop
-and mobile captures inspected. Public Ubuntu CI also passes:
-https://github.com/sd5913/pfad/actions/runs/40814856731 .
-Repeat classroom/presenter coexistence and learner-platform checks before use.
-A free-port check or ASGI-only test is not browser acceptance. The earlier
-sandbox restrictions were superseded by the instructor's full-permission run.
-
-Prepare a clean `scene.py` copy/diff to restore the 100 boundary. Keep a
-second working machine or printed message cards for failure recovery. A
-fallback must be called a paper simulation if no real process runs. Do not
-start a ClassPoint session for automated validation; lecture questions can use
-hands/discussion. The tutorial never depends on an instructor login.
+The bridge follows the actual Week 8 lesson: Agile/Scrum, GitHub Projects,
+branches/pull requests/review, and MediaPipe landmarks mapped to actions.
+A team now wants to send a sensing/control result to another program or device.
+The lecture explains how a client talks to an app through APIs/WebSocket. The tutorial implements that boundary. Next week the app talks to databases and other resources: commonly a network socket plus a database protocol, with embedded SQLite as an exception. Do not teach database implementation details this week.
+The former disconnected opening questions and dated release-news detour are
+removed from the live sequence; their historical source note is unchanged.
+Networking remains optional for the group project.
 
 ## Lecture: exact 0-120 route
 
-| Minutes | Teach, demonstrate and check |
+| Minutes | Teach, represent and check |
 | --- | --- |
-| 0-10 | Ask what other program/person/device the project might talk to (2). Dated software news and claim limits (3). Recall W4 tide request and ask who initiates it (3). Outcomes and route (2). |
-| 10-30 | Draw two processes on one laptop (4). Decompose http://127.0.0.1:8009/state into protocol/host/port/route (5). Distinguish link/IP/transport/application message with the same journey (5). Predict wrong route versus no listener, then reveal concrete failure evidence (6). |
-| 30-50 | Start the actual server, GET /state and identify JSON/status (5). Send HTTP action and follow id/action/x into Scene.apply (5). Compare accepted 0/100 with invalid 101 and unchanged revision (5). Students trace browser, route, Python state and response on one numbered diagram; discuss their prediction (5). |
-| 50-60 | Compact raw TCP observation on 8010: start echo server/client and identify newline framing (4). Show combined red/blue and split orange writes from the test (3). Predict why recv is not one complete application message; distinguish byte stream from WS frames (3). Stop extra listener. |
-| 60-70 | Break. Keep the main scene available; no new material. |
-| 70-95 | Two tabs: first snapshot, A sends25, B observes same revision (7). B sends80; map authoritative server state and local unsent slider (5). GET snapshot/polling versus server push; HTTP may reuse transport connections (5). Read await receive and one-process event-loop/lock excerpt; compare handler wait with another client's work (5). Predict competing actions; use server order/revisions rather than wall-clock assumptions (3). |
-| 95-110 | Reject invalid101 and compare state (3). Disconnect A, change B, reconnect A for current snapshot without resend (4). Deliberately ignore replies after sending; observer and sender have different evidence, so Unknown is honest (4). Stop/restart: disconnected UI and reset RAM, not persistent storage (4). |
-| 110-120 | Reliable coin event versus frequent position snapshots/UDP comparison (2). MediaPipe fingertip or OSC address/value to bounded control message; no camera/OSC setup (2). Teams choose local/HTTP/live boundary and name one failure (3). Recap, quiz scope and exact PFAD tutorial handoff/tutor review (3). |
+| 0-8 | Group-project AMA using Short Answer (5). Connect Agile/Scrum, GitHub PRs/Projects and MediaPipe to a sensing/control boundary (2). Establish the network/API journey (1). |
+| 8-15 | Possible network connections and the limits of a Metcalfe-style value claim (1). Client/server as process roles, including two programs on one laptop (2). Simplex/half/full duplex, compatible protocols, reachability, routing and transport versus application acknowledgement (4). |
+| 15-29 | Seven OSI layers, their jobs and approximate four-layer TCP/IP mapping (6). Trace JSON/WebSocket/TCP/IP/link encapsulation, including segmentation (2). Wired/wireless and sensor-bus choices (2). IPv4/IPv6, prefix/netmask, DHCP and gateway (2). Work same-subnet versus gateway routing example (2). |
+| 29-40 | Separate diagrams for unicast, scoped broadcast and group multicast (2 each). Explain TCP SYN/SYN+ACK/ACK and later ordered bytes (3). Compare TCP stream and UDP datagram guarantees and application choices (2). |
+| 40-49 | Many connections share one listening port (3). Decompose a URL and distinguish scheme/host/port/path (3). Trace localhost versus a remote server and distinguish bind address from client destination (3). |
+| 49-60 | Interface/route/socket tools: ipconfig, ifconfig, ip, netstat/ss and an HTTP probe (3). Nmap versus Wireshark, permissions and privacy (2). Wrong route versus absent listener (2). Paired diagnostic reasoning and discussion (4). No graded quiz. |
+| 60-70 | Full ten-minute break. No new material or tutorial implementation. |
+| 70-80 | Locate DNS, HTTP/HTTPS, WebSocket and WebRTC by purpose (1). Name resolution, local overrides/cache and numeric IP (2). HTTP versus HTTPS, connection reuse and HTTP/3 caveat (3). WebSocket control messages versus WebRTC media/data/signaling (4). |
+| 80-94 | API request/response and examples (3). Trace GET /state into a status/body response, optionally with a two-minute prepared curl observation (3). REST, resources and GET/POST/PUT/PATCH/DELETE semantics (3). Interpret HTTP status/optional body and the actual integer x=0..100 validation rule (3). Separate stateless requests, shared RAM state and durable storage (2). |
+| 94-103 | WebSocket full-duplex capability and framed messages (1). Read the actual historical client send/recv loop (2), echo handler (2), and independent periodic server text push (4). Predict why a single recv after each send can mistake an unsolicited message for the reply. These are short excerpts, not a second installation/demo stack. |
+| 103-115 | TCP byte-stream framing versus WebSocket messages (3). Local input, authoritative state, state snapshot, correlated app ack and per-connection fanout (3). Missing reply and retry uncertainty (3). Reconnect snapshot versus automatic resend (2). Choose protocol by interaction needs (1). |
+| 115-120 | Teams name a useful boundary and an observable failure (2). Separate tutorial outcome, setup/fallback and tutor-review handoff (3). Preserve time for unresolved AMA questions in tutorial support. |
 
-Each major diagram should occupy its slide at the established course scale:
-numbered arrows, real action/state/ack labels, primary text at least 40 design
-pixels. Maintain geometry as the message travels. Use deckgen.CODE for the
-short runnable excerpts; explain validation/state/await and source links in
-speaker notes. Do not turn this into an installation or framework survey.
+Use the diagrams at the established classroom scale. The networking figures
+have primary labels at least 40 design pixels on a 1680 x 640 figure canvas.
+Speaker notes carry explanations, sources and expected reasoning. Ask students
+to predict or justify the observation, not merely repeat an acronym.
 
-## Demo trace and useful questions
+## Small lecture illustrations, not the full tutorial
 
-Fresh process: x50/revision0. A sends
-`{"id":"a-1","action":"set_x","x":25}`. Accepted: both see
-state x25/revision1; A also sees ack a-1/revision1. Invalid101 gets rejected;
-position/revision stay unchanged. Moving a slider without Send changes local
-input only. IDs match acknowledgements but this service stores no dedup table.
+The core lecture can run without starting an application server. If the
+current companion has completed its separate review and is ready, the optional
+HTTP observation uses its documented source:
+[`6e5637f56c1179f64d170dc29eecbf312bb41a2f/week09`](https://github.com/sd5913/pfad/tree/6e5637f56c1179f64d170dc29eecbf312bb41a2f/week09).
+From that folder:
 
-Ask students to point to which line validates, which mutates state, and which
-announces it. In `updates()`, `await client.receive()` lets another handler run
-while this one waits. The in-memory list/Scene belongs to one process; it is
-not a distributed persistence or scalable multiplayer system. Slow-client
-backpressure is a limitation of the deliberately small broadcast loop.
+```bash
+uv run python server.py
+# In a separate terminal:
+curl -i http://127.0.0.1:8009/state
+```
 
-Disconnect A, update B, Connect A: snapshot recovers the view. The explicit
-ignore-replies button demonstrates unavailable acknowledgement observation,
-not proven packet loss. An absolute set position may be safe to repeat in one
-sense, but a second command still advances the revision. Ask what duplicate
-spend/increment commands would do before prescribing retries. No reply alone
-establishes neither definite success nor definite failure.
+Inspect status, Content-Type and body. A fresh process's example snapshot is
+`{"type":"state","x":50,"revision":0}`. Stop with Ctrl+C. If the service is
+not ready, read the documented trace and call it a trace, not a successful
+live demonstration. Do not spend lecture time repairing its environment.
 
-## Separate tutorial and tutor time
+The historical WebSocket excerpts are pinned to
+[`venetanji/pfad@7eb4077d508866ce0d95bbbd489ee64e9badb78b/week09`](https://github.com/venetanji/pfad/tree/7eb4077d508866ce0d95bbbd489ee64e9badb78b/week09):
 
-The complete student/TA instructions are the pinned PFAD README. Preserve
-their exact allocations: 0-15 setup; 15-35 trace; 35-55 edit/check; 55-65 break;
-65-85 two clients; 85-100 failure/recovery; 100-120 first-working-interaction
-tutor review/project support. At minute15, move blocked setup to a prepared
-partner machine and alternate roles. The 100-to-80 boundary edit includes
-explicit predicted acceptance cases, restart, verification and baseline restore.
+- `websocket_client_example.py`: one persistent connection, send/recv/sleep loop.
+- `websocket_server_echo.py`: one text response for each incoming message.
+- `websocket_server_echo_ping.py`: `asyncio.gather` runs `respond` alongside a
+  five-second ordinary text `"Ping!"` push. This is **not** a WebSocket Ping
+  control frame or ICMP ping. The client can receive this unsolicited message
+  before its echo, motivating message types and an independent receive path.
 
-The tutor's 5 November first-working-interaction delivery uses the allocated
-tutorial slot; exact team time is tutor-confirmed. Networking, AI or a camera
-is not a project requirement. Keep accessible progress/run/test evidence and
-the next goal in the existing team record, with GitHub Projects recommended
-and an equivalent accessible record valid. No new upload/attendance score or
-compulsory defence. Preserve public sd5913 repository/teammate Write access,
-Canvas submission, 40% weighting, 25/50/25 rubric and 6 December 2026,
-23:59 HKT deadline.
+These sources are inspected examples, **not** the current installation guide.
+Do not run them: their port 8765 conflicts with the presenter, the push variant
+binds all IPv4 interfaces, and the old dependencies are not the tested tutorial
+pins. The modern scene uses 127.0.0.1:8009; optional raw TCP uses 8010.
 
-## Quiz scope and evidence limits
+## Diagnostic demonstration and safety
 
-Core revision: roles/processes/address/port/route; JSON validation; HTTP
-methods/status versus connection failure; TCP framing; continuing WS updates;
-shared versus local state; ack uncertainty/reconnect; brief await/event-loop
-meaning and protocol choice. Dated release news, specific version numbers,
-OSC installation, optional LAN configuration and library memorization are
-outside the quiz. No private graded questions or keys are published here.
+Use only the instructor's own prepared loopback service. Interface commands
+are platform-specific. `ipconfig /all` is Windows, `ifconfig` shows macOS interfaces; `route -n get default` shows its default gateway. On Linux, `ip addr`, `ip route`, `ss -ltn` are modern Linux tools. `netstat -an`
+exists on Windows/macOS, with platform-dependent output. No installation is
+required just to learn the purpose of each tool.
 
-Tested Python3.13.16, FastAPI0.162.0, uvicorn0.54.0, websockets17.3,
-Pydantic2.14.1; Playwright1.64.1/Chromium156.0.8078.4. The checked-in companion
-lock records transitive versions. HTML/PDF/plain/ClassPoint PowerPoint exports
-build with overflow checks enabled; final render/review evidence belongs in
-the PR handoff. Physical screens, presenter coexistence and Windows/macOS
-execution remain separate operational checks.
+The only shown scan target is `nmap -sT -p 8009 127.0.0.1`. Do not scan campus,
+classmates or remote hosts without explicit owner permission and scope.
+Wireshark's `tcp.port == 8009` is a **display filter**, not a capture filter.
+Capture only synthetic own-demo traffic; protect credentials, cookies, personal
+content and identifiers. Encrypted traffic does not expose application bodies
+without authorized decryption. A prepared capture is an observation fallback,
+not a claim that live capture ran. No captures enter the public repository.
+
+## Separate tutorial: preserved 120-minute allocation
+
+The existing student/TA README is the starting implementation. Its current
+example needs a separate review/fix under the instructor's latest request;
+this lecture correction does not certify that repair or edit PFAD code.
+Preserve this independent budget while that review is completed:
+
+| Minutes | Tutorial work and observed outcome |
+| --- | --- |
+| 0-15 | Setup, read the readiness line, open two loopback views. At minute 15, move blocked setup to a prepared partner machine and alternate roles. |
+| 15-35 | Trace one accepted action, authoritative Scene, two state observations and sender acknowledgement. Distinguish unsent local slider input. |
+| 35-55 | Read `Scene.apply`, predict acceptance boundaries, change maximum 100 to 80, restart/check both transports, then restore baseline. Invalid input must not mutate position/revision. |
+| 55-65 | Break. |
+| 65-85 | Compare HTTP polling and continuing WebSocket updates. Read `updates()`, receive, validation, lock, broadcast and acknowledgement. Predict two-client ordering and inspect revisions. |
+| 85-100 | Disconnect/reconnect, unknown acknowledgement, stop/restart and recovery. Distinguish observed state from an action outcome; do not automatically replay uncertain commands. |
+| 100-120 | Tutor review / project support, including unresolved opening AMA questions and the next usable increment. |
+
+The previously lengthy lecture demonstration moves here: JSON parsing and exact
+field checks; bool/int distinction; accepted/rejected states; revision order;
+`await` and the one-process lock; slow-client fanout limitation; delayed replies;
+HTTP-only restart recovery; and the 100-to-80 code edit. Keep the raw TCP
+red/blue/orange framing example as optional tutor-led support, not a second
+mandatory setup. The conceptual framing distinction remains in the lecture.
+
+The tutorial's known example uses IDs for correlation, not deduplication.
+Repeating set_x can retain the same position while advancing revision;
+repeating spend_coin could charge again. Ignore-replies deliberately suppresses
+observation and does not prove random packet loss. Restart resets RAM, not
+persistent storage. These are behaviors to recheck during the separate fix.
+
+## Core revision scope and policy
+
+Students should be able to reason about roles, duplex/protocol/reachability,
+OSI and TCP/IP jobs, IP/subnet/gateway/DHCP, delivery modes, TCP/UDP, names and
+ports, diagnostic evidence, HTTP/HTTPS/WebRTC/WebSocket, request/response and
+REST methods, framing, app acknowledgements, shared/local state and recovery.
+The planning file maps those outcomes to taught representations.
+
+Do not assess command-flag or library-version memorization, economic proof of
+Metcalfe's law, optional LAN/OSC configuration or the deprecated API imports.
+No private final-quiz questions or answer keys belong in these public sources.
+Networking, AI and a camera are not group-project requirements. Preserve the
+existing 40% weight, 25/50/25 rubric, public sd5913 team repository, Canvas
+submission and 6 December 2026 23:59 HKT deadline. Tutor timing remains
+confirmed by tutors within allocated tutorial slots; no new upload or defence.
+
+## Preflight and validation boundaries
+
+Rehearse the ClassPoint AMA on the classroom add-in without publishing student
+responses. Keep a non-add-in fallback. Confirm fonts, projector readability and
+presenter port 8765. Do not expose a loopback service just to enable a LAN demo.
+
+Deckgen HTML, PDF and plain/ClassPoint PowerPoints must build with overflow
+checks enabled and actual slides must be visually inspected. Record that
+verification in the PR handoff, not as an unsupported assertion here. Earlier
+29 October companion test/browser evidence is historical evidence for its
+pinned commit, not proof that the newly requested tutorial repair is complete.
+Physical classroom/add-in and Windows/macOS runtime rehearsals are separate
+checks from Linux source/build validation.
