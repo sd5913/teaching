@@ -101,7 +101,7 @@ def network_growth():
         for x, y in points:
             c.circle(x, y, 31, fill=PAPER, stroke=ORANGE, width=5)
         text(c, center, 505, count, 40, anchor='middle')
-    text(c, 840, 610, 'More possible links do not guarantee more value.', 44, anchor='middle')
+    text(c, 840, 610, 'The idea: value grows roughly with n squared.', 44, anchor='middle')
     return c.finish('week09-network-growth')
 
 

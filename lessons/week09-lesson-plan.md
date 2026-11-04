@@ -2,7 +2,9 @@
 
 Thursday 5 November 2026: **120-minute theory-first lecture**, including a
 10-minute break, followed by a **separate 120-minute PFAD tutorial**.
-Revised 2 November from the instructor's correction of the Week 9 draft.
+Revised 4 November for clarity and presentation, following the instructor's
+2 November correction. The 53-slide sequence splits crowded explanations;
+the lecture and tutorial budgets stay at 120 minutes each.
 The concepts support the **final-course quiz later**. There is no new quiz at
 the end of this lecture and no new graded submission.
 
@@ -28,7 +30,7 @@ Networking remains optional for the group project.
 | Minutes | Teach, represent and check |
 | --- | --- |
 | 0-8 | Group-project AMA using Short Answer (5). Connect Agile/Scrum, GitHub PRs/Projects and MediaPipe to a sensing/control boundary (2). Establish the network/API journey (1). |
-| 8-15 | Possible network connections and the limits of a Metcalfe-style value claim (1). Client/server as process roles, including two programs on one laptop (2). Simplex/half/full duplex, compatible protocols, reachability, routing and transport versus application acknowledgement (4). |
+| 8-15 | Introduce Metcalfe's law and the growing number of possible links (2), then question how participation affects value (1). Client/server as process roles on one laptop (1). Simplex/half/full duplex and agreed message rules (3); return to reachability, routing and acknowledgement in their later examples. |
 | 15-29 | Seven OSI layers, their jobs and approximate four-layer TCP/IP mapping (6). Trace JSON/WebSocket/TCP/IP/link encapsulation, including segmentation (2). Wired/wireless and sensor-bus choices (2). IPv4/IPv6, prefix/netmask, DHCP and gateway (2). Work same-subnet versus gateway routing example (2). |
 | 29-40 | Separate diagrams for unicast, scoped broadcast and group multicast (2 each). Explain TCP SYN/SYN+ACK/ACK and later ordered bytes (3). Compare TCP stream and UDP datagram guarantees and application choices (2). |
 | 40-49 | Many connections share one listening port (3). Decompose a URL and distinguish scheme/host/port/path (3). Trace localhost versus a remote server and distinguish bind address from client destination (3). |
@@ -45,12 +47,56 @@ have primary labels at least 40 design pixels on a 1680 x 640 figure canvas.
 Speaker notes carry explanations, sources and expected reasoning. Ask students
 to predict or justify the observation, not merely repeat an acronym.
 
+## Presentation and explanation order
+
+- Explain Metcalfe's law on slide 5 before asking about its limits on slide 6.
+  The exact possible-pair count motivates the proposed quadratic value model;
+  the follow-up compares equally sized silent and active groups.
+- Compare equivalent ideas at the same height on the same white surface.
+  Use the numbered diagrams only when order matters, such as sending a message
+  or reconnecting. Keep each slide to one question or relationship.
+- Read the bold URL as a whole, then its labeled parts: blue host, dark teal
+  port, burnt-orange path. Labels accompany color so the meaning does not
+  depend on color perception. The DNS mapping is an illustrative example.
+- After the break, introduce DNS, HTTP and WebSocket by their different jobs.
+  Explain REST through an artwork address, read/create, then change/remove;
+  status and validation have separate slides. State and action acknowledgement
+  also have separate explanations. Transport-version details, DNS record types,
+  authentication qualifications and implementation limits remain in notes.
+- Highlight the operative lines of the three historical code excerpts. The
+  examples remain read-only sources on the old port; the tutorial uses 8009.
+
+The local draft can be reviewed as ordinary HTML without starting the presenter
+or a remote ClassPoint session. Export and classroom evidence are recorded
+separately from this explanation plan.
+
+### Multiboxes tutorial reference
+
+Finish the existing 117-120 handoff with the concrete
+[Multiboxes source](https://github.com/venetanji/multiboxes/tree/2977be17b35790dd7b31f1f242b0dc86113d5350),
+[two-hour study guide](https://github.com/venetanji/multiboxes/blob/2977be17b35790dd7b31f1f242b0dc86113d5350/STUDY_GUIDE.md)
+and [setup](https://github.com/venetanji/multiboxes/blob/2977be17b35790dd7b31f1f242b0dc86113d5350/README.md).
+Two tabs share a Python/Pymunk physics and territory-painting world; the browser
+renders server-owned state. Trace controls, validation, physics, snapshots and
+rendering, then distinguish a Python rule from local drawing in
+[simulation.py](https://github.com/venetanji/multiboxes/blob/2977be17b35790dd7b31f1f242b0dc86113d5350/src/multibox/simulation.py).
+
+The current [protocol](https://github.com/venetanji/multiboxes/blob/2977be17b35790dd7b31f1f242b0dc86113d5350/docs/protocol.md)
+uses JSON controls/metadata and complete binary gameplay snapshots, with a
+supplied decoder. It is distinct from the minimal Scene's JSON state messages.
+Use the PFAD README's **30-minute observation**: two players (10), input to
+shared physics and a snapshot (10), rules versus rendering (10). The external
+two-hour study guide is further reading. Prepare the instance before class;
+students observe two local tabs, pair at a prepared machine or follow the
+demonstration. No second installation or code edit is required. Stop at tutorial
+minute 80 to protect group/TA time. Shared-campus play requires its own prepared
+endpoint and device/network rehearsal.
+
 ## Small lecture illustrations, not the full tutorial
 
-The core lecture can run without starting an application server. If the
-current companion has completed its separate review and is ready, the optional
-HTTP observation uses its documented source:
-[`6e5637f56c1179f64d170dc29eecbf312bb41a2f/week09`](https://github.com/sd5913/pfad/tree/6e5637f56c1179f64d170dc29eecbf312bb41a2f/week09).
+The core lecture can run without starting an application server. A prepared
+optional HTTP observation uses the companion's documented source:
+[`66067e191bd1c58b9c8d530dbc3fa8b50d69657a/week09`](https://github.com/sd5913/pfad/tree/66067e191bd1c58b9c8d530dbc3fa8b50d69657a/week09).
 From that folder:
 
 ```bash
@@ -94,35 +140,29 @@ content and identifiers. Encrypted traffic does not expose application bodies
 without authorized decryption. A prepared capture is an observation fallback,
 not a claim that live capture ran. No captures enter the public repository.
 
-## Separate tutorial: preserved 120-minute allocation
+## Separate tutorial: 30 minutes, 30 minutes, 40 minutes
 
-The existing student/TA README is the starting implementation. Its current
-example needs a separate review/fix under the instructor's latest request;
-this lecture correction does not certify that repair or edit PFAD code.
-Preserve this independent budget while that review is completed:
+The [complete PFAD tutorial](https://github.com/sd5913/pfad/blob/66067e191bd1c58b9c8d530dbc3fa8b50d69657a/week09/README.md)
+uses the instructor's revised allocation. Keep setup and break to ten minutes
+each and protect the final 40 minutes for project work and TA feedback.
 
 | Minutes | Tutorial work and observed outcome |
 | --- | --- |
-| 0-15 | Setup, read the readiness line, open two loopback views. At minute 15, move blocked setup to a prepared partner machine and alternate roles. |
-| 15-35 | Trace one accepted action, authoritative Scene, two state observations and sender acknowledgement. Distinguish unsent local slider input. |
-| 35-55 | Read `Scene.apply`, predict acceptance boundaries, change maximum 100 to 80, restart/check both transports, then restore baseline. Invalid input must not mutate position/revision. |
-| 55-65 | Break. |
-| 65-85 | Compare HTTP polling and continuing WebSocket updates. Read `updates()`, receive, validation, lock, broadcast and acknowledgement. Predict two-client ordering and inspect revisions. |
-| 85-100 | Disconnect/reconnect, unknown acknowledgement, stop/restart and recovery. Distinguish observed state from an action outcome; do not automatically replay uncertain commands. |
-| 100-120 | Tutor review / project support, including unresolved opening AMA questions and the next usable increment. |
+| 0-10 | Setup two loopback tabs. Move blocked setup to a prepared partner machine at minute 10 and alternate roles. |
+| 10-40 | WebSockets: send 25 and trace state/ack (10); change the maximum 100 to 80, restart, test 80/81 and restore 100 (10); disconnect A, send 35 from B and reconnect A (10). |
+| 40-50 | Full ten-minute break. |
+| 50-80 | Observe prepared Multiboxes: two players and shared scores (10); input -> Python physics -> snapshot -> drawing (10); shared rules versus local rendering (10). |
+| 80-120 | Group work and TA feedback: show a runnable increment or blocker, get focused advice, make a small fix, and record the next owner/action/check. Include unresolved opening AMA questions and teams still getting started. |
 
-The previously lengthy lecture demonstration moves here: JSON parsing and exact
-field checks; bool/int distinction; accepted/rejected states; revision order;
-`await` and the one-process lock; slow-client fanout limitation; delayed replies;
-HTTP-only restart recovery; and the 100-to-80 code edit. Keep the raw TCP
-red/blue/orange framing example as optional tutor-led support, not a second
-mandatory setup. The conceptual framing distinction remains in the lecture.
+WebSocket work has one small Python edit and one recovery sequence. Advanced
+JSON checks, `await`, locking, slow-client fanout, uncertain replies and raw TCP
+remain optional code references. Do not let them consume the protected group/TA
+block. The lecture retains the conceptual framing and acknowledgement limits.
 
-The tutorial's known example uses IDs for correlation, not deduplication.
-Repeating set_x can retain the same position while advancing revision;
-repeating spend_coin could charge again. Ignore-replies deliberately suppresses
-observation and does not prove random packet loss. Restart resets RAM, not
-persistent storage. These are behaviors to recheck during the separate fix.
+IDs correlate replies; they do not deduplicate commands. A fresh process resets
+RAM. Multiboxes uses binary state snapshots with a supplied decoder, unlike
+the small Scene's JSON messages. Observe those distinctions without adding
+another implementation exercise or database setup.
 
 ## Core revision scope and policy
 
@@ -148,8 +188,10 @@ presenter port 8765. Do not expose a loopback service just to enable a LAN demo.
 
 Deckgen HTML, PDF and plain/ClassPoint PowerPoints must build with overflow
 checks enabled and actual slides must be visually inspected. Record that
-verification in the PR handoff, not as an unsupported assertion here. Earlier
-29 October companion test/browser evidence is historical evidence for its
-pinned commit, not proof that the newly requested tutorial repair is complete.
+verification in the PR handoff. The revised PFAD README changes allocation,
+instructions and references; its runtime code is unchanged. Earlier 29 October
+companion test/browser evidence remains dated runtime evidence. Link/source and
+timetable checks on 4 November verify this documentation revision, not a fresh
+Multiboxes runtime or classroom rehearsal.
 Physical classroom/add-in and Windows/macOS runtime rehearsals are separate
 checks from Linux source/build validation.
