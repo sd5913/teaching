@@ -128,4 +128,9 @@ See `week10/VALIDATION.md` in the paired PFAD draft for current checks and hones
 limits. Re-run room/projector/audio and the actual LM Studio model before class;
 old recorded evidence isn't proof of a fresh Pip run. Keep both PRs draft/open.
 
-Paired companion source pinned for review: https://github.com/sd5913/pfad/tree/fbf904a3832c94cd912fd81c4a001aeea809182c/week10 .
+Paired companion source pinned for review: https://github.com/sd5913/pfad/tree/58139f79270f5dc095655c87d8489f938c64e363/week10 .
+
+Final source refresh: the official PDF changed on 10 November; all six extracts
+remain exact matches on the same pages. Re-downloaded, inspected and re-embedded
+11 November. Current source hash: `43ac3a6a7697b2ce78f1964f673dae0aa2ccf79ba7c58fb310b469dc2b380a1b`.
+Old CLI recordings retain their original October provenance.

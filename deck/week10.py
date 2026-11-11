@@ -9,7 +9,7 @@ import week10_figures as F
 
 S = []
 EYE = 'SD5913 / WEEK 10 / 12 NOVEMBER 2026'
-PFAD = 'https://github.com/sd5913/pfad/blob/fbf904a3832c94cd912fd81c4a001aeea809182c/week10'
+PFAD = 'https://github.com/sd5913/pfad/blob/58139f79270f5dc095655c87d8489f938c64e363/week10'
 HANDBOOK = ('https://www.polyu.edu.hk/ar/docdrive/polyu-students/student-handbook/'
             'Student_Handbook_2026-27_English.pdf')
 
@@ -284,9 +284,9 @@ S.append(statement('An unrelated question\nstill has a\nnearest neighbour.', siz
 
 # 80-95: provenance, extraction, retriever tool and bounded context.
 S.append(diagram('From the current official PDF to cited vectors', F.ingestion(),
-    f'80-82 minutes. Official source {HANDBOOK}. Verified29October: Student Handbook for Taught '
-    'Programmes2026/27, Academic Registry, July2026,137PDF pages,7,658,316bytes, SHA256 '
-    '108956feb2ffac665f8ca0f5a8f68d7150a85fda15e219916785ec50331a4e94. '
+    f'80-82 minutes. Official source {HANDBOOK}. Verified11November: Student Handbook for Taught '
+    'Programmes2026/27, Academic Registry, PDF modified10November,137PDF pages,7,809,020bytes, SHA256 '
+    '43ac3a6a7697b2ce78f1964f673dae0aa2ccf79ba7c58fb310b469dc2b380a1b. '
     'Six short whitespace-normalized extracts from PDF positions20,25,76. PDF20 is printed9; '
     'PDF25 printed14; PDF76 printed61. The full PDF is downloaded only into ignored output. '
     'Preparation verifies each extract against pdftotext for its page; class inspects the small bundle.'))
