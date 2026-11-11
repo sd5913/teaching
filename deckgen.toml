@@ -42,16 +42,16 @@ label = "22 October 2026 · Midterm + teams (week07)"
 href  = "week07/"
 
 [[nav]]
-label = "12 November 2026 · Persistent models and a talking handbook (week10)"
-href  = "week10/"
-
-[[nav]]
 label = "Week 8 · Team workflow · 29 Oct 2026"
 href  = "week08/"
 
 [[nav]]
 label = "5 November 2026 · Connected interactions (week09)"
 href  = "week09/"
+
+[[nav]]
+label = "12 November 2026 · Persistent models and a talking handbook (week10)"
+href  = "week10/"
 
 [[nav]]
 label = "Words"

@@ -138,5 +138,8 @@ boundaries. The PFAD README budgets its own 120 minutes with break/recovery/tuto
 support and supplies a conceptual revision section. Render/build/review evidence belongs in the private report;
 source alone is not proof of visual readability.
 
-No shared navigation/registration,root environment,official presenter,classes
-or assessment policy was changed. Keep both PRs open; no merge/release is implied.
+The 11 November conceptual polish did not change shared navigation/registration,
+the root environment, official presenter, classes or assessment policy.
+On 12 November the instructor authorized merging both Week 10 PRs. Merge
+preparation refreshes the companion pin after the Qdrant port review fix and
+places Week 10 after Week 9 in the shared navigation and course index.

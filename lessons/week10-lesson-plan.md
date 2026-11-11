@@ -229,9 +229,9 @@ record. Canvas remains submission. No new compulsory technology, grade or upload
 
 See `week10/VALIDATION.md` in the paired PFAD PR for current checks and honest
 limits. Re-run room/projector/audio and the actual LM Studio model before class;
-old recorded evidence isn't proof of a fresh Pip run. Both PRs are open for review.
+old recorded evidence isn't proof of a fresh Pip run. Review does not replace rehearsal.
 
-Paired companion source pinned for review: https://github.com/sd5913/pfad/tree/c177bff158426b0ed2f285fb61a6630db80909b4/week10 .
+Paired companion source pinned for review: https://github.com/sd5913/pfad/tree/ef4fd16bc1df69fd7f2d51f8184a48a3e130afc5/week10 .
 
 Final source refresh: the official PDF changed on 10 November; all six extracts
 remain exact matches on the same pages. Re-downloaded, inspected and re-embedded
