@@ -1,196 +1,131 @@
-# Week 10: persistent objects and a talking handbook agent
+# Week 10: relational storage, APIs and a talking handbook
 
 **Thursday 12 November 2026. 120-minute lecture; separate 120-minute PFAD tutorial.**
-The replacement deck now follows the approved model-to-row → current handbook
-vectors → retriever tool → persisted conversation → spoken-output progression.
-The prior artwork/optional-retrieval narrative is superseded; its JSON example
-remains supplementary in PFAD, not the core lesson.
+Relational databases remain the centre: tables, relationships, keys, SQL, indexes,
+constraints and persistence. Qdrant is a complementary similarity-search example;
+Cloudflare D1 shows related SQL rows behind an API.
 
-[Companion source](https://github.com/sd5913/pfad/tree/67f5297dc6f8878ceea51c431d726cfeb1934b4a/week10),
-[complete tutorial](https://github.com/sd5913/pfad/blob/67f5297dc6f8878ceea51c431d726cfeb1934b4a/week10/README.md)
-and [preparation](https://github.com/sd5913/pfad/blob/67f5297dc6f8878ceea51c431d726cfeb1934b4a/week10/REHEARSAL.md).
-Sources are pinned while paired PR #13 remains open. No merge/release is implied.
+## Teaching continuity and source choices
+
+Keep this year's deckgen layouts, large diagrams, short visible claims and fuller
+speaker notes. Continue the practical rhythm: predict → run → inspect → change →
+check → recover. Week 7 supplies classes; Week 8 supplies inspection/team workflow;
+Week 9 supplies HTTP/WebSockets and Multiboxes. Its in-memory Scene resets on
+server restart. The reusable talking bot is **Week 6 Pip**, not Week 9.
+
+Both private historical references were materialized and inspected separately:
+67 slides each, matching lecture/tutorial sequence. Retain their progression from
+object relations and keys to SQL/Peewee, storage and PDF/vector retrieval, adapted
+to this year's code and visual language. Do not publish either source file. Avoid
+the historical HTTP UPDATE verb, blanket 'NoSQL is schemaless' claim and bare
+password-hash/login exercise. Keep fictional local profiles and explicit limits.
+
+Recent completed Week 8 and Week 9 decks/notes/practicals supply the level,
+large-canvas figures and theory → concrete code → observation → project transfer
+rhythm. Existing Week 10 and November 11 news files remain intact; optional news
+replaces at most two opening minutes, not another teaching block or quiz topic.
 
 ## Exact lecture route
 
-| Minutes | Sequence | Observable teaching work |
+| Minutes | Work | Observable evidence |
 | --- | --- | --- |
-| 0-10 | Opening, dated news, four kinds of state | Returning user's vague follow-up; distinguish knowledge, history, current prompt and audio |
-| 10-25 | User/Conversation/Message model → instance → row | Real Peewee inherited methods, stable ID, `.save()`, new process reconstructs values |
-| 25-40 | Relations, exact queries, keys and ordinary indexes | Owner check, conversation filter/order, PK/FK/index; short SaveFile/Membership/reply transfer drills |
-| 40-60 | SQL/rows/restart/failure/transaction experiment | Seed/inspect/update/new process; rejected orphan/role/empty content; rollback and history window |
-| 60-70 | Break | Ten minutes inside the lecture |
-| 70-80 | Learned representations and compatible search | Real 384D vector excerpt; same encoder; actual fee-query ranking; unknown still has neighbours |
-| 80-95 | Official PDF → chunks → index → retriever TOOL | Inspect source page/metadata, three prepared queries, table/chunk boundary, actual structured tool call |
-| 95-115 | Typed bot, saved history, fresh process, isolation and speech | Source-supported and unsupported answers; inspect previous pair reaching model; reopen/second profile; synthesize/play/stop/failure |
-| 115-120 | Storage comparison and tutorial handoff | Related rows/nested save/vector candidates; four lifetimes; separate exact tutorial route |
+| 0-10 | Returning-user question, dated news, four lifetimes | Distinguish knowledge, saved history, current prompt and audio |
+| 10-25 | Model → instance → row | Peewee create/save/select; values persist, methods remain code |
+| 25-40 | Relationships, exact queries, PK/FK/index | User → Conversation → Message; scoped ordered SQL; junction/self-reference transfer |
+| 40-54 | Seed, rename, restart, invalid write and transaction | Same ID/new title; rejected orphan; failed pair rolls back |
+| 54-60 | Prepared D1 API demo and check | HTTP → Python Worker → bound SQL/JOIN → JSON; changed title survives restart |
+| 60-70 | Break | Ten minutes |
+| 70-80 | Embeddings and similarity | Real compatible 384D vectors, ranking, unknown question still has neighbours |
+| 80-95 | PDF provenance, Qdrant API/dashboard and tool | Page/text/ID; six persisted points; API returns cited passages |
+| 95-115 | Pip question/follow-up, history, speech and recovery | Actual request trace, saved rows, reopened owner, Kokoro audio, visible failures |
+| 115-120 | Storage comparison and tutorial handoff | Choose by the query; keep relational relationships distinct from similarity |
 
-## 0-10: opening and current news
+## Relational first half
 
-The concrete scenario is a returning user asking “what about the original?”
-after discussing a lost identity card. History resolves the reference; the
-handbook supplies policy evidence. Ask for a game NPC equivalent without making
-AI a project requirement.
+Run PFAD `week10/storage_demo.py` seed/inspect/rename/inspect/invalid, each in a
+new process. `Record` inherits Peewee `Model`; three subclasses define fields.
+A primary key identifies a row; a foreign key references a parent; an ordinary
+compound index helps filter/order and costs storage/write work. Avoid claiming
+an unmeasured speedup. `id(obj)` is not a database ID. Assignment needs `.save()`.
+An ORM maps operations; the database still enforces constraints.
 
-Use at most two minutes on the verified [Peewee 4.5.3 release](https://github.com/coleifer/peewee/releases/tag/4.5.3),
-published 7 October, checked 29 October. Maintainer claim: explicitly executing
-a write query with `RETURNING` now executes again rather than reusing a cached
-result. Ask what a save button should do if pressed twice. This news is outside
-quiz scope. Our SQLite behavior is tested; the entire release note is not.
+Inspect the actual query and bound parameters. Ownership is checked before
+history retrieval; FK existence alone is not authorization. `append_turn()`
+saves a complete user/assistant pair inside a transaction. A failed second
+insert rolls back the first. Model/network calls happen before that transaction.
+The prompt receives four complete recent pairs; older rows remain in SQLite.
+Use a new disposable filename for experiments, never erase needed work.
 
-Give the four-state diagram the slide: shared versioned knowledge/index,
-user-owned persistent history, temporary assembled prompt and audio output.
-A diagnostic JSON snapshot is not the memory database.
+D1 is new: Week 4's `api.py` read a tide JSON file and had no D1 binding.
+The small `week10/d1/src/worker.py` uses a configured `DB` binding and a prepared
+JOIN. Prepare `npm ci`, `npm run seed`, `npm run dev` beforehand. GET
+`/messages?conversation=1`, change the title through local SQL, restart, GET
+again. Local emulation needs no cloud account/credentials; no remote flag or
+deployment. The read-only API exposes fictional teaching rows, not private
+history/authentication. D1 is a SQLite-based relational service, not a Peewee
+local file or vector store. Keep this to six lecture minutes and five tutorial
+minutes inside the relational block.
 
-## 10-40: model methods, records and relationships
+## PDF, Qdrant and the existing Pip
 
-Use the actual PFAD `models.py`, not another two-object constructor recap.
-`Record` inherits Peewee `Model`; User, Conversation and Message inherit it.
-Trace `.create()`, assignment, `.save()` and `.select()` to INSERT/UPDATE/SELECT,
-affected rows and reconstructed objects. Stable stored IDs are not `id(obj)`.
-Methods remain code; values and references persist.
+Use the supplied six short extracts of the official 2026/27 handbook with PDF
+page, printed page, section, source URL/hash and chunk ID. The historical source
+decks do not become the bot corpus. `download_handbook.py` and `prepare_index.py`
+show the rebuild path; full ingestion/model downloads happen before class.
 
-Prediction: omit `.save()` after changing the title. A fresh process sees the
-previous saved value. Restore `.save()` and inspect the changed title/same ID.
-Explain one-to-many User→Conversation→Message; a foreign key references an ID
-rather than copying a parent. Ownership checking is separate from FK existence.
-These are fictional local profiles, not authenticated accounts.
+`QDRANT-PIP.md` is the second-half route. Docker Compose pins Qdrant, binds
+6333 to loopback and mounts a named volume. `qdrant_index.py` seeds deterministic
+UUID points into a content-addressed collection; repeat seeding doesn't create
+duplicates. Compare three actual prepared query rankings with the in-process
+reference. Open `/dashboard`, inspect six points/384D Cosine config/payloads.
+Explain GET collections, PUT collection/points, POST points/query. The encoder
+creates vectors; Qdrant stores/ranks them. Restart then query without reseeding.
+Keep the volume; don't use `down -v`. No Docker? Observe a prepared machine;
+the in-process reference is labelled as a different route.
 
-Trace `history_query()`'s ownership check before its filtered/ordered message
-query. Show actual generated SQL/parameters in the terminal; the slide shows a
-simplified equivalent. A primary key identifies a row, FK references a parent,
-ordinary compound `(conversation_id,id)` index helps lookup/order. Indexes cost
-storage/write work; do not claim an unmeasured speedup on six rows. This is not
-the semantic index used after the break.
+Source IDs and database UUIDs do different jobs. Matching dimension is not
+matching encoder identity. Keep table units/headings and exceptions with chunks;
+nearest neighbours are not policy truth, probabilities or declared SQL links.
 
-Use short transfer drills: User/SaveFile one-to-many; User/Membership/Team via a
-junction row; Message replying to Message self-reference. Do not build another
-app or reintroduce unsafe historical bare password hashing.
+Pip reuses `week06/speech/local_reply.py` for local HTTP and
+`synthesise_onnx.py` for Kokoro. `pip_adapter.py` retains Week 10's bounded
+retrieval/tool/structured-answer loop. `pip_app.py` uses Streamlit, the same
+related SQLite store and Qdrant. Typed input is core; existing WebRTC/microphone
+code is an optional later addition. No second mandatory model/speech stack.
 
-## 40-60: persistence experiment
+The exact loaded LM Studio model must support tools and JSON-schema output;
+simple Week 6 chat capability alone is insufficient. Prepare encoder/Kokoro
+assets and model before class. Read `QDRANT-PIP.md` for commands. The original
+llama.cpp/eSpeak CLI remains an alternate reference, with its old recordings
+clearly labelled as evidence of that earlier route only.
 
-Terminal working directory: PFAD `week10`.
+Ask the lost-card question and the original-card follow-up. Expand the actual
+request trace; check the earlier pair, model-composed query, Qdrant text and
+citations. The model composes the answer; citation membership doesn't prove
+support. Save after validation; synthesize after save. Browser autoplay may
+need a click; a physical listener must check room audibility. Unsupported
+questions should receive a source-limited refusal; inspect actual behavior.
+Stop/restart the app, reopen the printed ID, use a second profile and verify
+isolation. Stop Qdrant and verify no new turn is saved; restart without reseeding.
+Speech failures retain completed saved text. Local profiles aren't authentication.
 
-```bash
-uv run python storage_demo.py seed
-uv run python storage_demo.py inspect
-uv run python storage_demo.py rename
-uv run python storage_demo.py inspect
-uv run python storage_demo.py invalid
-```
+## Separate 120-minute tutorial
 
-Each command is a new process. A fresh database begins with one Ada, one
-conversation and two explicitly prepared storage messages; no model is called
-by seed. Inspect prints the actual query/parameters, rows, reconstructed role/
-content dictionaries and ordinary index names. Reused files can have different
-IDs; after renaming, seed can create another Handbook title. Use a disposable
-`--db out/experiment.sqlite` for a fresh test; do not erase work to reset it.
+0-10 setup/pair fallback; 10-30 models/tables; 30-50 exact queries, constraints,
+restart and a prepared five-minute D1 demonstration; 50-60 break; 60-70 Qdrant
+API/dashboard and rankings; 70-90 Pip question/follow-up/trace/voice; 90-100
+reopen/isolate/failure/recovery; **100-120 tutor review and project support**.
+Keep the allocated tutor slots. No surprise installations in support time.
 
-Show the FK failure and unchanged previous rows, then inspect role/nonempty
-checks and `append_turn()`'s atomic pair. If assistant insertion fails, the new
-user insertion rolls back. A transaction does not include external model calls:
-model/evidence validation happens before saving. The classroom CLI has one
-active writer, not a production multi-client concurrency contract.
-
-History selects the last four complete pairs in chronological order. Older
-rows remain on disk. Changing four to two changes the selected request, not the
-saved database. Check rows after failures and explain them with a partner.
-
-## 70-95: the actual source and learned retrieval
-
-Official PDF: *Student Handbook for Taught Programmes 2026/27*, Academic Registry,
-July 2026. Downloaded/inspected 29 October: 137 pages, 7,658,316 bytes, SHA-256
-`108956feb2ffac665f8ca0f5a8f68d7150a85fda15e219916785ec50331a4e94`.
-The official URL is on the deck and in the bundle. PDF20=printed9,
-PDF25=printed14, PDF76=printed61. Six short extracts retain source IDs, section,
-text and page. Do not redistribute the full PDF or ingest it during class.
-
-```bash
-uv run python handbook.py
-```
-
-The real pinned MiniLM encoder yields 384D normalized vectors for passages and
-questions, max 256 tokens. It replaces the earlier cached CLIP feasibility
-candidate; same dimension alone is insufficient compatibility. Word2vec's
-historical neighbour intuition is retained briefly; no huge word-model download
-or Orange/t-SNE practical is required. Orange's removal is an instructor decision.
-
-Inspect lost-card, leave and fee results. The fee's measured0.892566/0.737337
-cosines rank the exact fee row and replacement rule. A noisy full-table chunk
-initially missed the fee row; the bounded row extract improved this case. HK$
-comes from the table heading in section metadata. Ambiguous flattened leave-table
-columns are excluded; clear prose and decision paragraphs are separate chunks.
-Source checking, not a magic similarity threshold, determines support.
-
-Show actual model tool query `student identity card replacement cost` and its
-result. The app requires retrieval; the model composes a query using history.
-Python encodes/searches/returns passage IDs/pages/text/scores/source metadata.
-The model then generates `answer` and `source_ids` under a JSON schema. Empty
-IDs become the standard refusal; bracketed citations are formatted from the
-model's selected IDs. Shape/ID validation does not establish factual correctness.
-This is a bounded RAG/tool workflow, not autonomous arbitrary tool selection.
-
-## 95-115: integrated live route
-
-Prepare the public model, encoder and audio before class using REHEARSAL.md.
-Terminal1 runs llama.cpp b11972 with Qwen3.5-2B Q4_K_M on CPU, loopback 11440;
-wait for its listening message. Terminal2:
-
-```bash
-uv run --extra encoder python bot.py
-```
-
-Ask the exact lost-card question then the “original later / keep both?” follow-up.
-Inspect the visible `TOOL TRACE`, cited passages and `out/last-turn.json`.
-The first answer in the recorded real run gives online replacement, HK$150 and
-return-for-cancellation, supported by two cited sections. The follow-up resolves
-the reference and says return/cancel rather than keep both. The model generates
-policy wording; no prepared answer script is used.
-
-Exit/reopen with `--conversation ACTUAL_ID` and the same database. Inspect the
-previous user/assistant pair actually entering the next model call; a thread
-label alone proves nothing. Start `--user Bo` without a conversation ID; ask
-about leave and verify Ada's history is absent. Wrong-owner access is rejected.
-Ask the cafeteria Wi-Fi password: the six-extract corpus cannot support it, so
-the actual model emits no source IDs and the app displays its standard refusal.
-
-The successful answer is saved before live eSpeak synthesis/ffplay. Verified
-actual cited-answer WAV: mono PCM22050Hz,18.76sec. Player completion and a longer
-Ctrl+C stop passed; invalid driver failure is separate and preserves displayed
-text/history. A physical listener must check room intelligibility/volume before
-class. A completed player is not a listener report. Typed input is core;
-microphone recognition is optional Week6 reuse.
-
-For a failure, use `--bundle out/missing.json`, stop the prepared model then
-retry, or use the preparation guide's invalid audio driver. Explain which state
-survives. Do not silently substitute the recording for a live result. Public
-recorded trace/audio are useful clearly labelled fallbacks; protocol unit tests
-use doubles and prove different things.
-
-## 115-120: comparison and handoff
-
-Compare storage by needed retrieval: related rows for ownership/ordered history;
-a nested save/config for a whole scene; vectors+metadata for semantic candidates.
-JSON is a representation; document databases may validate schemas and relational
-systems may hold nested data. No new database installation is needed.
-
-The PFAD tutorial is exactly:0-10 setup;10-30 models;30-50 query/index/update/
-restart/constraints;50-60 break;60-70 vectors;70-90 typed follow-up/speech;
-90-100 reload/isolation/failure;100-120 tutor review/project support. Pair at
-minute10 if setup fails. Tutor12November meetings follow allocated slots.
-Canvas submission; no ClassPoint dependency, new grade/upload or defence.
-
-Group project remains40%, 25/50/25 rubric, public sd5913-owned repository with
-teammate Write access, due 6 December 2026 at 23:59 HKT. GitHub Projects recommended;
-equivalent accessible progress record remains valid.
+Project policy stays **40%**, **25% idea / 50% code / 25% execution**, deadline
+**6 December 2026 23:59 HKT**; public **sd5913-owned** team repository, teammate
+Write access; GitHub Projects recommended or an equivalent accessible progress
+record. Canvas remains submission. No new compulsory technology, grade or upload.
 
 ## Verification boundary
 
-Linux x86_64, Python 3.12.15, Peewee 4.5.3, Torch 2.14.1+cpu,
-Transformers 5.19.0, Sentence Transformers 6.2.0, llama.cpp b11972 and eSpeak NG 1.52.0.1.
-Clean CPU dependency installation, real current PDF/vector fixture, actual
-model/tool/supported/refusal/follow-up/fresh-process/isolation and live synthesis/
-player completion/stop/failure are recorded in the private author report.
-20 PFAD tests distinguish synthetic protocol checks from learned fixtures.
-Physical speaker listening, Windows/macOS and the room's displays remain
-instructor rehearsal checks; small-model semantic mistakes remain possible.
+See `week10/VALIDATION.md` in the paired PFAD draft for current checks and honest
+limits. Re-run room/projector/audio and the actual LM Studio model before class;
+old recorded evidence isn't proof of a fresh Pip run. Keep both PRs draft/open.
+
+Paired companion source pinned for review: https://github.com/sd5913/pfad/tree/9ffd54ded5cd240e6fa353e8ef595dcb7850f451/week10 .

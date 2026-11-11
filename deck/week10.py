@@ -9,7 +9,7 @@ import week10_figures as F
 
 S = []
 EYE = 'SD5913 / WEEK 10 / 12 NOVEMBER 2026'
-PFAD = 'https://github.com/sd5913/pfad/blob/67f5297dc6f8878ceea51c431d726cfeb1934b4a/week10'
+PFAD = 'https://github.com/sd5913/pfad/blob/9ffd54ded5cd240e6fa353e8ef595dcb7850f451/week10'
 HANDBOOK = ('https://www.polyu.edu.hk/ar/docdrive/polyu-students/student-handbook/'
             'Student_Handbook_2026-27_English.pdf')
 
@@ -25,12 +25,12 @@ def diagram(heading, figure, notes):
 
 # 0-10: opening, current news and a precise system boundary.
 S.append(title(EYE, 'What survives\na conversation?',
-    'Persistent objects, handbook evidence and a spoken reply.', size=130,
+    'Relational databases, API resources and a source-backed Pip.', size=130,
     notes='0-2 minutes. A player returns to a game NPC and asks: what if I find the original later? '
     'A convincing voice is easy to mistake for reliable memory. Today we inspect one small system '
     'in enough detail to distinguish remembered conversation from handbook evidence. Week 7 classes, '
     'Week 8 verification and Week 9 request/process ideas are prerequisites; do not repeat constructors. '
-    'Lecture120 minutes including a10-minute break; the PFAD tutorial is another120 minutes.'))
+    'Week 9’s Scene and Multiboxes motivate shared state; Scene resets after restart. Reuse Week 6 Pip for speech. Lecture120 minutes including a10-minute break; the PFAD tutorial is another120 minutes.'))
 S.append(statement('A returning user asks:\n“What about the original?”', size=100,
     notes='2-4 minutes. Ask what the word original refers to. Without the preceding discussion it is '
     'ambiguous. In our later real example the user lost a student identity card. The assistant needs '
@@ -212,30 +212,37 @@ S.append(statement('Check the rows\nafter the error.\nWhat survived?', size=105,
     'previous older turns survive. In the failed two-row transaction neither new row persists; '
     'previous committed rows remain. Run the actual behavior checks or inspect a disposable '
     'database. Do not delete students’ work to reset this experiment.'))
-S.append(content('HISTORY POLICY / a deliberate limit', 'Keep four complete turns in context.', [
-    'Select the newest eight message rows.',
-    'Restore chronological order for the model.',
-    'Older rows remain saved in SQLite.',
-], body_size=46,
-    notes='54-57 minutes. history() sorts descending, limits turns*2, then reverses that window. '
-    'append_turn guarantees complete pairs for this single-writer path. The policy prevents '
-    'unbounded prompt growth but is not unlimited memory or a summary. Students can change '
-    'four to two in Bot, compare the next prompt and explain which rows still exist on disk. '
-    'A conversation ID alone does not send any history.'))
-S.append(content('CHECK / predict, inspect, recover', 'Explain a restart to a partner.', [
-    'Name one model method and its SQL action.',
-    'Find the same ID in a fresh process.',
-    'Show an invalid write and the unchanged rows.',
-], body_size=46,
-    notes='57-60 minutes. Pause for explanations rather than more vocabulary. Ask a student to '
-    'point to .save(), the SQL UPDATE, the stored title and a fresh loaded instance. Another '
-    'distinguishes primary key, FK and ordinary index. Recover by restoring the one title edit; '
-    'keep disposable files separate. This completes the first-half acceptance, not the bot.'))
+S.append(code_panel('D1 / the Week 4 Worker gains related storage', 'An HTTP request becomes a bound SQL query', [
+    '# Simplified shape of week10/d1/src/worker.py',
+    'SQL = "SELECT * FROM message WHERE conversation_id = ?1"',
+    'result = await self.env.DB.prepare(SQL).bind(conversation).all()',
+    'return Response.json(result)',
+], lang=None, caption='D1 is relational: the complete example joins message and conversation.',
+    notes='54-57 minutes. Tutor-prepared local D1 demo: GET /messages?conversation=1 on port 8010. '
+    'Week 4’s Python Worker read tides from JSON; it had no D1 binding. This new Python Worker '
+    'uses DB, a configured database binding. Trace request, checked ID, parameter binding, SQL '
+    'and JSON result. The complete worker.py has imports, route checking, validation and a JOIN; '
+    'this async excerpt belongs inside fetch, not a standalone script. D1 is Cloudflare’s managed '
+    'SQLite-based relational service, distinct from opening a local SQLite file through Peewee. '
+    'The prepared local emulator needs no account, credentials or payment; no deployment today. '
+    'Reference https://developers.cloudflare.com/d1/examples/query-d1-from-python-workers/ .'))
+S.append(content('CHECK / restart the API, keep the rows', 'Where does the data live?', [
+    'Week 9 Scene: live memory resets on server restart.',
+    'SQLite / local D1: stored rows survive a process restart.',
+    'Query by ID; join related rows; inspect the changed title.',
+], body_size=45,
+    notes='57-60 minutes. Follow week10/d1/README.md on a prepared machine: update conversation '
+    'title through the local SQL command, stop/restart the Worker and GET again. Both joined '
+    'messages retain the changed title. Point to .wrangler/state; local data is separate from '
+    'hosted D1. Do not use --remote or deploy the fictional configuration. Restore the title '
+    'with a bound/constant UPDATE, not by deleting needed work. Students explain one key, one '
+    'query and where persistence lives. The API is read-only public fictional data, not auth. '
+    'History still selects four complete pairs; older SQLite rows remain saved.'))
 S.append(section('60-70 / BREAK', '10-minute break',
     'Next: what can the handbook actually support?', bg=INK,
     notes='60-70 minutes. Ten-minute break inside the120-minute lecture. Keep the inspected '
-    'database and source available. Before resuming, verify the prepared local model is healthy '
-    'on127.0.0.1:11440; no remote class, paid API or automatic model download is involved.'))
+    'database and source available. Before resuming, verify Qdrant and the prepared LM Studio model are healthy '
+    'on127.0.0.1:1234/v1; no remote class, paid API or automatic model download is involved.'))
 
 # 70-80: learned representations and honest numerical evidence.
 S.append(section('2 / REPRESENTATION', 'Similar meaning,\ndifferent words.',
@@ -294,28 +301,32 @@ S.append(content('SOURCE / inspect the citation', 'Lost card: what does the sour
     'The amount comes from the separate fee row on PDF76, not from this paragraph. These are '
     'teaching extracts, not institutional advice or the whole handbook; direct students to the '
     'current official source for actual decisions.'))
-S.append(code_panel('LIVE / no model download needed', 'Inspect the prepared search', [
-    'uv run python handbook.py', '',
-    '# Inspect: source URL / hash / PDF page / chunk ID',
-    '# Query 1: lost student identity card',
-    '# Query 2: requesting leave from class',
-    '# Query 3: replacement fee',
-], lang=None, caption='The fixture supplies real vectors for three exact prepared questions.',
-    notes='84-87 minutes. Run the command from pfad/week10. Read the three exact question strings '
-    'printed by the program; the comment labels on this slide abbreviate their topics. Lost-card '
-    'first result is replacement; leave is the leave section; fee is the row on PDF76. Inspect '
-    'scores and text, not only the order. Fixture mode supports only the exact stored question '
-    'vectors; arbitrary typed questions need Encoder. A missing or unknown query fails visibly.'))
-S.append(content('CHUNKING / what can disappear?', 'A short extract can lose context.', [
-    'Keep source ID, page and section with the text.',
-    'Check headings, table columns and exceptions.',
-    'Rebuild both passage and query vectors after encoder changes.',
-], body_size=45,
-    notes='87-89 minutes. The fee row uses HK$ from its table heading, retained in section metadata. '
-    'The leave form table had two columns; naive flattening made the location unclear, so the '
-    'prepared extracts retain unambiguous prose and separate the decision paragraph. Do not '
-    'invent the missing column relationship. Show actual neighbouring PDF text. A changed chunk '
-    'needs a new vector; a changed encoder requires all stored and query vectors to be rebuilt.'))
+S.append(code_panel('QDRANT / API over the same learned vectors', 'Store, query, inspect', [
+    'docker compose up -d qdrant',
+    'uv run python qdrant_index.py seed',
+    'uv run python qdrant_index.py query',
+    '# Open http://127.0.0.1:6333/dashboard',
+], lang=None, caption='Run from pfad/week10; Docker and the image are prepared before class.',
+    notes='84-87 minutes. Inspect three real fixture queries against Qdrant, comparing the same '
+    'rankings as the in-process reference. Read the payload: source ID, page, section, original '
+    'text. Six points, 384 dimensions, Cosine distance. A named Docker volume persists vectors; '
+    'restart the service then query without reseeding. Don’t use down -v. Content-addressed '
+    'collections prevent a changed encoder/corpus silently overwriting another set. Missing '
+    'server or unseeded collection fails visibly. No Docker? Pair with the prepared tutor; '
+    'handbook.py is explicitly an in-process fallback, not evidence of a Qdrant API call.'))
+S.append(content('QDRANT / connect the visual interface to HTTP', 'A database is also an API resource.', [
+    'PUT collection: define 384D vectors and Cosine distance.',
+    'PUT points: store vectors with passage metadata.',
+    'POST points/query: send a vector; get ranked passages.',
+], body_size=43,
+    notes='87-89 minutes. Open the dashboard and select the printed collection; inspect a point '
+    'and its original text. The point UUID identifies a stored point; payload id identifies a '
+    'citation. GET /collections lists collections. Python uses POST '
+    '/collections/NAME/points/query with query, limit=2 and with_payload=true. The matching '
+    'MiniLM encoder embeds text before Qdrant receives it; Qdrant does not do that in this example. '
+    'The dashboard and Python talk to the same server. Keep source headings/table units and '
+    'exceptions: a chunk can lose context. Similarity is not a foreign key or a truth check. '
+    'Official API: https://api.qdrant.tech/api-reference/search/query-points .'))
 S.append(code_panel('TOOL / structured arguments', 'Expose retrieval as a capability', [
     '{', '  "name": "retrieve_handbook",',
     '  "arguments": {', '    "query": "student identity card replacement cost"',
@@ -324,7 +335,7 @@ S.append(code_panel('TOOL / structured arguments', 'Expose retrieval as a capabi
     notes='89-92 minutes. A tool is a callable operation with structured arguments and results. '
     'The adapter requires retrieval on every turn; the model composes a standalone query using '
     'history. Python validates the query, encodes it and searches the index. This is the native '
-    'tool-call route of local llama.cpp, not an MCP server or a keyword script. The forced '
+    'tool-call route through Pip’s OpenAI-compatible local HTTP client, not an MCP server or a keyword script. The forced '
     'retrieval policy is deliberate; do not describe it as the model independently choosing '
     'whether evidence is necessary. Later weeks add creative application actions.'))
 S.append(diagram('Model request → tool result → inspected answer', F.tool_loop(),
@@ -337,45 +348,43 @@ S.append(diagram('Model request → tool result → inspected answer', F.tool_lo
 
 # 95-115: integrated endpoint and evidence, including independent speech checks.
 S.append(code_panel('LIVE / prepared local machine', 'Type a question; inspect the answer', [
-    'uv run --extra encoder python bot.py', '',
+    'uv run --extra encoder --extra pip python -m streamlit run pip_app.py', '',
     'What should I do if I lose my student identity card?',
     'If I find the original later, should I keep both?',
-], lang=None, caption='Terminal 1 runs the prepared model server; terminal 2 runs the bot.',
-    notes=f'95-98 minutes. Setup/server commands are in {PFAD}/REHEARSAL.md; all public weights '
-    'are prepared before class. Loopback port11440, CPU-only Qwen3.5-2B Q4_K_M, no paid model API. '
-    'The CLI prints the user/conversation ID, trace and answer, then synthesizes and plays it. '
-    'Type the two questions in sequence. An empty line exits; Ctrl+C during speech stops the player. '
-    'If setup fails, pair with a prepared machine; trace replay is explicitly a fallback, not live proof.'))
+], lang=None, caption='Keep LM Studio and Qdrant running; use Pip’s typed chat and audio widget.',
+    notes=f'95-98 minutes. Follow {PFAD}/QDRANT-PIP.md. LM Studio is the familiar Week 6 '
+    'server, normally loopback1234/v1; choose the exact loaded tool/JSON-capable model. Qdrant '
+    'and encoder/Kokoro assets are prepared before class. Pip’s local_reply client carries the '
+    'requests; Week 10’s bounded agent adds evidence and saved history. Type both questions in '
+    'Streamlit, expand the real request/tool trace and listen to the Kokoro audio widget. '
+    'Browser autoplay may require a click. A failed model or index must not save a turn. '
+    'A speech failure retains the displayed saved answer. Pair if setup fails.'))
 S.append(content('OBSERVED / supported answer', 'Two sources support one answer.', [
     'Submit the replacement application online.',
     'Replacement fee: HK$150.',
     'Found the original? Return it for cancellation.',
 ], body_size=48,
-    notes='98-100 minutes. Actual verified Qwen3.5-2B output on29October: Submit an online '
+    notes='98-100 minutes. Recorded alternate CLI output on29October, not a fresh Pip result: Submit an online '
     'application for a replacement. A non-refundable fee of HK$150 will be charged. If the '
     'original card is found, return it to the Academic Registry for cancellation. Sources '
     '[hb2026-p020-replacement] [hb2026-p076-fees]. This slide is a recorded result for inspection; '
     'the terminal run is live. Open each passage and compare every claim. The app adds the '
     'bracket formatting from the source_ids actually generated by the model.'))
 S.append(diagram('The follow-up receives selected conversation history', F.prompt(),
-    '100-102 minutes. Open out/last-turn.json after the follow-up. It contains the actual user '
-    'and assistant pair, the current question, model tool call and returned evidence. The '
-    'reopened real run composed return original card if found and answered to return/cancel '
-    'rather than keep both. Do not substitute the conversation number for this evidence. '
-    'History resolves the reference; it is not authoritative policy. The diagram is a readable '
-    'summary, with exact serialized content available in the trace.'))
+    '100-102 minutes. Expand the Pip trace or open out/pip-last-turn.json after the follow-up. '
+    'Find the actual earlier pair, current question, tool call and returned evidence. The '
+    'historical CLI recording demonstrates its own earlier run, not a fresh Pip response. '
+    'History resolves references; it is not authoritative handbook policy.'))
 S.append(code_panel('LIVE / a new Python process', 'Reopen the printed conversation ID', [
-    'uv run --extra encoder python bot.py --conversation 1',
-    '# Replace 1 with the ID printed by your own first run.', '',
-    'uv run --extra encoder python bot.py --user Bo',
-    '# Omitting --conversation creates a separate conversation.',
-], lang=None, caption='Use a fresh terminal process and inspect its selected history.',
-    notes='102-105 minutes. The1 is an example for a fresh file, not a universal ID. The actual '
-    'rehearsal reopened a saved conversation in a new process, included the earlier pair and '
-    'resolved a vague follow-up. Bo’s separate conversation starts without Ada’s prior turns. '
-    'Ask a specific leave question and compare prompts; a correct answer alone does not prove '
-    'isolation. Wrong-owner --user Bo --conversation AdaID is rejected. Missing IDs now give '
-    'a recoverable error; names in this local app are profiles, not authentication.'))
+    '# Pip sidebar: same profile + printed conversation ID',
+    '# Restart Streamlit; enter your actual saved ID.', '',
+    '# Pip sidebar: profile Bo + conversation ID 0',
+    '# ID 0 creates a separate conversation.',
+], lang=None, caption='Restart the app; inspect the reloaded history in its trace.',
+    notes='102-105 minutes. Record the app’s printed ID. Stop/restart Streamlit and use the '
+    'same profile and ID in the sidebar; ID0 creates a new conversation. Show the prior pair '
+    'entering the next model call. Select Bo and ID0; Ada’s prior turns must be absent. Select '
+    'Ada’s ID under Bo and observe the ownership rejection. Local profiles are not auth.'))
 S.append(statement('Ask: what is the\nWi-Fi password at\nthe campus cafeteria?', size=95,
     notes='105-107 minutes. This is unsupported by our six-extract corpus. The real model '
     'composes a retrieval query, receives nearest neighbours, then emits an empty source_ids list '
@@ -383,23 +392,21 @@ S.append(statement('Ask: what is the\nWi-Fi password at\nthe campus cafeteria?',
     'claim the entire university handbook lacks that fact; it is a claim about the evidence '
     'available to this answer. The model’s source selection can still be wrong; inspect sources.'))
 S.append(diagram('Displayed, synthesized and heard are separate checks', F.speech(),
-    '107-110 minutes. Real eSpeak NG synthesis runs after the successful two-row save. The '
-    'prepared machine verified a PCM22050Hz mono WAV from the actual cited answer and ffplay '
-    'completion. A longer live speech test was stopped with Ctrl+C and the player exited. '
-    'Physical intelligibility, room speakers and volume still need a listener at class preflight. '
-    'The supplied prerecorded refusal WAV is only a fallback; it does not prove live retrieval '
-    'or memory. Typed input is core; microphone recognition is optional Week6 reuse.'))
+    '107-110 minutes. Week 6’s synthesise_onnx.synthesise_reply uses prepared Kokoro assets, '
+    'after the successful two-row save. Inspect the browser audio widget, listen and stop '
+    'playback. Synthesis and audible room playback are separate checks; autoplay may require '
+    'a click. Speech failure retains the displayed saved turn. The recorded alternate eSpeak '
+    'WAV is not evidence of live Kokoro. Typed input is core; Week 6 microphone is optional.'))
 S.append(content('RECOVER / preserve the successful work', 'One component fails. What remains?', [
     'Missing index or model → no answer saved.',
     'Unsupported evidence → explicit refusal.',
     'Speech failure → answer and history remain.',
 ], body_size=46,
-    notes='110-113 minutes. Show --bundle out/missing.json: visible missing-index error. Stop the '
-    'prepared local model only when needed, retry, inspect unchanged message count, then restart. '
-    'Speech-only invalid text fails visibly; a playback device failure reports SPEECH FAILED '
-    'while retaining the saved displayed answer. The prepared audio is not a silent substitute. '
-    'A player exit code alone can be misleading: the code also checks the file exists before '
-    'starting ffplay; a tested missing-file regression originally returned player success.'))
+    notes='110-113 minutes. Stop Qdrant, ask a fictional question and inspect unchanged history; '
+    'restart it then retry without reseeding. A missing model, incompatible tool response or '
+    'unseeded collection gives a visible error before a new turn is saved. A Kokoro failure '
+    'preserves a completed saved answer. The speech checkbox is an explicit text-only fallback. '
+    'Keep out/pip.sqlite and the Qdrant named volume; the trace is temporary diagnostic data.'))
 S.append(content('CHECK / explain the complete path', 'Follow one question through the system.', [
     'Which rows entered this model request?',
     'Which source text supports this claim?',
@@ -425,12 +432,12 @@ S.append(content('STORAGE / choose by the question', 'Different questions need d
     'every access pattern. Ordinary B-tree lookup and semantic vector ranking are different.'))
 S.append(content('PFAD / separate 120-minute tutorial', 'Run, change, check and recover.', [
     '[Complete tutorial and exact commands](%s/README.md).' % PFAD,
-    '0-50: models, rows, exact queries and restart.',
-    '50-60 break; 60-100 retrieval, memory and speech.',
+    '0-50: related rows, SQL, restart; prepared D1 API demo.',
+    '50-60 break; 60-100 Qdrant API, Pip, memory and speech.',
     '100-120: tutor review and project support.',
 ], body_size=42,
     notes='117-119 minutes. The separate README has setup/recovery within0-10, model work10-30, '
-    'query/index/update/restart30-50, break50-60, real vectors60-70, typed follow-up/speech70-90, '
+    'query/index/update/restart/D1 demo30-50, break50-60, real vectors60-70, typed follow-up/speech70-90, '
     'reload/isolation/failure90-100 and tutor/project support100-120. Pair at minute10 if model '
     'setup is not ready. Tutor12November meetings use allocated slots. No ClassPoint login or '
     'new assessment upload is required. Quiz revision includes models/keys/queries, real vector '

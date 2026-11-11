@@ -136,8 +136,8 @@ def prompt():
 def speech():
     c=Canvas(1600,720,bg=PAPER)
     box(c,25,155,430,395,'1. Answer',['Source checked','Saved turn','Visible text'],TEAL)
-    box(c,585,155,430,395,'2. Voice',['eSpeak NG','PCM WAV file','No paid API'],VIOLET)
-    box(c,1145,155,430,395,'3. Playback',['ffplay','Hear / stop?','Check device'],ORANGE)
+    box(c,585,155,430,395,'2. Voice',['Kokoro / Week 6','PCM WAV data','No paid API'],VIOLET)
+    box(c,1145,155,430,395,'3. Playback',['Browser audio','Hear / stop?','Check volume'],ORANGE)
     arrow(c,470,350,570,350);arrow(c,1030,350,1130,350)
     text(c,800,650,'Speech failure keeps the displayed answer and saved history.',44,INK,'middle')
     return c.finish('week10-speech-boundaries')
