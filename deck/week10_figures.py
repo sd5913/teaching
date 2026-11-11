@@ -36,24 +36,43 @@ def four_states():
 
 
 def relations():
-    c=Canvas(1600,720,bg=PAPER)
-    box(c,25,170,430,365,'User',['id: 1','name: Ada'],VIOLET)
-    box(c,585,170,430,365,'Conversation',['id: 3','owner_id: 1'],TEAL)
-    box(c,1145,170,430,365,'Message',['id: 7','conversation_id', '3'],ORANGE)
-    arrow(c,470,345,570,345);arrow(c,1030,345,1130,345)
-    text(c,520,580,'1 : many',40,INK,'middle')
-    text(c,1080,580,'1 : many',40,INK,'middle')
-    text(c,800,640,'References store IDs; they do not copy parent objects.',44,INK,'middle')
+    c = Canvas(1600, 720, bg=PAPER)
+    c.rect(30, 130, 430, 460, fill=WHITE, stroke=VIOLET, width=4)
+    c.rect(770, 130, 800, 460, fill=WHITE, stroke=TEAL, width=4)
+    text(c, 60, 205, 'user', 48)
+    text(c, 800, 205, 'conversation', 48)
+    for x, label in ((60, 'id'), (230, 'name'), (800, 'id'),
+                     (930, 'owner_id'), (1220, 'title')):
+        text(c, x, 290, label, 40, MUTED)
+    for y, user_id, name in ((370, '1', 'Ada'), (530, '2', 'Bo')):
+        text(c, 60, y, user_id, 44)
+        text(c, 230, y, name, 44)
+    for y, chat_id, owner_id, title in (
+        (370, '3', '1', 'Handbook'), (450, '4', '1', 'Game notes'),
+        (530, '5', '2', 'Leave'),
+    ):
+        text(c, 800, y, chat_id, 44)
+        text(c, 930, y, owner_id, 44)
+        text(c, 1220, y, title, 44)
+    c.line(480, 355, 610, 355, VIOLET, 7)
+    c.line(610, 355, 610, 435, VIOLET, 7)
+    arrow(c, 610, 355, 750, 355, VIOLET)
+    arrow(c, 610, 435, 750, 435, VIOLET)
+    arrow(c, 480, 515, 750, 515, TEAL)
+    text(c, 800, 680, 'Match conversation.owner_id to user.id.', 44, INK, 'middle')
     return c.finish('week10-related-records')
 
 
 def mapping():
     c=Canvas(1600,720,bg=PAPER)
-    box(c,35,135,650,430,'Python object',['chat.id = 3','chat.owner_id = 1','chat.title = Handbook'],TEAL)
-    box(c,915,135,650,430,'conversation row',['id | owner_id | title','3  | 1        | Handbook','in out/chat.sqlite'],VIOLET)
-    arrow(c,710,305,890,305);text(c,800,260,'.save()',42,ORANGE,'middle')
-    arrow(c,890,445,710,445,TEAL);text(c,800,520,'query',42,INK,'middle')
-    text(c,800,650,'Method bodies remain in models.py.',46,INK,'middle')
+    text(c,800,70,'Object-Relational Mapper',48,INK,'middle')
+    box(c,25,150,430,350,'Python',['Model methods','Query objects'],TEAL)
+    box(c,585,150,430,350,'ORM / Peewee',['Build SQL','Bind values'],VIOLET)
+    box(c,1145,150,430,350,'Database',['Execute SQL','Return rows'],ORANGE)
+    arrow(c,470,345,570,345);arrow(c,1030,345,1130,345)
+    arrow(c,1360,555,240,555,TEAL)
+    text(c,800,630,'SELECT rows become new Python model instances.',44,INK,'middle')
+    text(c,800,700,'The database stores data and enforces constraints.',42,INK,'middle')
     return c.finish('week10-model-to-row')
 
 
@@ -68,12 +87,191 @@ def keys():
 
 def restart():
     c=Canvas(1600,720,bg=PAPER)
-    box(c,25,170,430,360,'1. Process A',['chat.save()','Exit Python'],TEAL)
-    box(c,585,170,430,360,'2. SQLite file',['Saved ID','Saved title','Data remains'],VIOLET)
-    box(c,1145,170,430,360,'3. Process B',['Query saved ID','New object'],ORANGE)
+    box(c,25,170,430,360,'1. Process A',['Save values','Process stops'],TEAL)
+    box(c,585,170,430,360,'2. SQLite',['ID: 3','Owner: 1'],VIOLET)
+    text(c,613,442,'Title: Handbook',40)
+    box(c,1145,170,430,360,'3. Process B',['Load ID: 3','New object'],ORANGE)
     arrow(c,470,350,570,350);arrow(c,1030,350,1130,350)
-    text(c,800,640,'Same stored identity; a different running object.',46,INK,'middle')
+    text(c,800,640,'Change the title without saving. What reloads?',46,INK,'middle')
     return c.finish('week10-fresh-process')
+
+
+def one_to_one():
+    c = Canvas(1600, 720, bg=PAPER)
+    box(c, 30, 150, 550, 380, 'User 1', ['Name: Ada'], VIOLET)
+    box(c, 940, 150, 630, 380, 'Profile 6', [
+        'user_id: 1', 'Display: AdaCreates'], TEAL)
+    arrow(c, 600, 340, 920, 340)
+    text(c, 760, 265, '1 : 1', 48, INK, 'middle')
+    text(c, 1255, 605, 'user_id must be UNIQUE', 42, INK, 'middle')
+    text(c, 800, 700, 'User: zero or one profile. Profile: exactly one user.', 42, INK, 'middle')
+    return c.finish('week10-one-to-one')
+
+
+def one_to_many():
+    c = Canvas(1600, 720, bg=PAPER)
+    box(c, 30, 215, 500, 260, 'User 1', ['Name: Ada'], VIOLET)
+    box(c, 960, 30, 610, 260, 'Conversation 3', ['Owner: User 1'], TEAL)
+    box(c, 960, 385, 610, 260, 'Conversation 4', ['Owner: User 1'], TEAL)
+    c.line(550, 345, 740, 345, ORANGE, 7)
+    c.line(740, 160, 740, 515, ORANGE, 7)
+    arrow(c, 740, 160, 940, 160)
+    arrow(c, 740, 515, 940, 515)
+    text(c, 675, 95, '1 : many', 46, INK, 'middle')
+    text(c, 800, 700, 'Each conversation has one owner; one owner can have many.', 42, INK, 'middle')
+    return c.finish('week10-one-to-many')
+
+
+def many_to_many():
+    c = Canvas(1600, 720, bg=PAPER)
+    for y1, y2 in ((160, 160), (160, 515), (515, 160)):
+        c.line(550, y1, 1050, y2, ORANGE, 7)
+    box(c, 30, 30, 500, 260, 'User 1', ['Ada'], VIOLET)
+    box(c, 30, 385, 500, 260, 'User 2', ['Bo'], VIOLET)
+    box(c, 1070, 30, 500, 260, 'Team 7', ['Lantern'], TEAL)
+    box(c, 1070, 385, 500, 260, 'Team 9', ['Orbit'], TEAL)
+    text(c, 800, 700, 'A user can join many teams; a team can contain many users.', 42, INK, 'middle')
+    return c.finish('week10-many-to-many')
+
+
+def junction():
+    c = Canvas(1600, 720, bg=PAPER)
+    box(c, 20, 180, 360, 365, 'User', ['1: Ada', '2: Bo'], VIOLET)
+    box(c, 500, 110, 600, 440, 'Membership', [
+        'user | team | role', '1    | 7    | lead',
+        '2    | 7    | artist', '1    | 9    | artist'], ORANGE)
+    box(c, 1220, 180, 360, 365, 'Team', ['7: Lantern', '9: Orbit'], TEAL)
+    arrow(c, 400, 345, 480, 345)
+    arrow(c, 1200, 345, 1120, 345)
+    text(c, 440, 620, '1 : many', 40, INK, 'middle')
+    text(c, 1160, 620, 'many : 1', 40, INK, 'middle')
+    text(c, 800, 700, 'The relationship has its own record and attributes.', 44, INK, 'middle')
+    return c.finish('week10-junction-records')
+
+
+def self_reference():
+    c = Canvas(1600, 720, bg=PAPER)
+    box(c, 25, 180, 430, 365, 'Message 7', ['Lost card?', 'Reply to: none'], VIOLET)
+    box(c, 585, 180, 430, 365, 'Message 8', ['Apply online.', 'Reply to: 7'], TEAL)
+    box(c, 1145, 180, 430, 365, 'Message 9', ['What fee?', 'Reply to: 8'], ORANGE)
+    arrow(c, 570, 345, 470, 345)
+    arrow(c, 1130, 345, 1030, 345)
+    text(c, 800, 640, 'A message refers to another record of the same type.', 44, INK, 'middle')
+    return c.finish('week10-self-reference')
+
+
+def schema():
+    c = Canvas(1600, 720, bg=PAPER)
+    box(c, 30, 110, 740, 455, 'Schema: allowed data', [
+        'ID: integer, unique', 'Owner: valid User ID', 'Title: text, required'], VIOLET)
+    box(c, 830, 110, 740, 455, 'Rows: actual data', [
+        'ID | owner | title', '3  | 1     | Handbook',
+        '4  | 1     | Game notes', '5  | 2     | Leave'], TEAL)
+    text(c, 800, 660, 'The schema describes the structure and constraints.', 44, INK, 'middle')
+    return c.finish('week10-schema-and-rows')
+
+
+def sql_history():
+    c = Canvas(800, 640, bg=PAPER)
+    text(c, 35, 60, 'message / source IDs', 44)
+    c.rect(25, 90, 750, 280, fill=WHITE, stroke=TEAL, width=4)
+    text(c, 55, 145, 'id', 40, MUTED)
+    text(c, 190, 145, 'conversation_id (FK)', 40, MUTED)
+    for y, message_id, conversation_id in ((210, '7', '3'), (275, '8', '3'), (340, '9', '5')):
+        if conversation_id == '3':
+            c.rect(40, y - 43, 720, 58, fill=PAPER)
+        text(c, 55, y, message_id, 44)
+        text(c, 190, y, conversation_id, 44, INK if conversation_id == '3' else MUTED)
+    arrow(c, 400, 385, 400, 425)
+    text(c, 35, 485, 'Result / id + content', 44)
+    text(c, 55, 550, '7 | Lost card?', 42)
+    text(c, 55, 615, '8 | Apply online.', 42)
+    return c.finish('week10-sql-history')
+
+
+def sql_join():
+    c = Canvas(800, 640, bg=PAPER)
+    text(c, 35, 65, 'Bind: 1 (Ada)', 40, MUTED)
+    text(c, 35, 145, 'Returned rows', 48)
+    c.rect(25, 190, 750, 330, fill=WHITE, stroke=TEAL, width=4)
+    for y, line in ((265, 'id | name | title'),
+                    (365, '3  | Ada  | Handbook'),
+                    (465, '4  | Ada  | Game notes')):
+        text(c, 55, y, line, 42)
+    text(c, 35, 620, 'Bo\'s conversation excluded.', 40)
+    return c.finish('week10-sql-join')
+
+
+def sql_update():
+    c = Canvas(800, 640, bg=PAPER)
+    text(c, 35, 65, "Bind: 'Game ideas', 3", 40, MUTED)
+    box(c, 25, 110, 750, 170, 'Before / row 3', ['Owner 1 | Handbook'], VIOLET)
+    arrow(c, 400, 300, 400, 350)
+    box(c, 25, 375, 750, 170, 'After commit / row 3', ['Owner 1 | Game ideas'], TEAL)
+    text(c, 35, 620, 'Same ID and owner; new title.', 40)
+    return c.finish('week10-sql-update')
+
+
+def orm_check():
+    c = Canvas(800, 640, bg=PAPER)
+    text(c, 35, 65, 'Fresh example', 44)
+    text(c, 35, 130, 'Saved title: Handbook', 40)
+    text(c, 35, 220, 'Another process loads row 3.', 40)
+    text(c, 35, 280, 'Which title does it read?', 40)
+    for y, choice in ((385, 'A / Game ideas'), (475, 'B / Handbook'),
+                      (565, 'C / No row remains')):
+        text(c, 35, y, choice, 44)
+    return c.finish('week10-orm-check')
+
+
+def database_taxonomy():
+    c = Canvas(1600, 720, bg=PAPER)
+    box(c, 30, 80, 500, 470, 'Relational', [
+        'Rows + columns', 'Keys + joins', 'SQLite / D1', 'PostgreSQL'], TEAL)
+    c.rect(600, 80, 970, 470, fill=WHITE, stroke=VIOLET, width=4)
+    text(c, 630, 148, 'NoSQL / non-relational', 48)
+    text(c, 630, 198, 'Common model families', 40, MUTED)
+    for x, y, heading, shape in (
+        (630, 220, 'Key-value', 'Key -> value'),
+        (1100, 220, 'Document', 'Nested records'),
+        (630, 380, 'Wide-column', 'Column families'),
+        (1100, 380, 'Graph', 'Nodes + edges'),
+    ):
+        c.rect(x, y, 440, 140, fill=PAPER, stroke=VIOLET, width=3)
+        text(c, x + 20, y + 50, heading, 44)
+        text(c, x + 20, y + 106, shape, 40)
+    c.rect(30, 590, 1540, 110, fill=WHITE, stroke=ORANGE, width=4)
+    text(c, 800, 635, 'Vector databases specialize in similarity search.', 44, INK, 'middle')
+    text(c, 800, 683, 'That capability can also be added to other databases.', 40, INK, 'middle')
+    return c.finish('week10-database-taxonomy')
+
+
+def word_embedding():
+    c = Canvas(1600, 720, bg=PAPER)
+    box(c, 25, 170, 430, 350, 'Word', ['cat'], TEAL)
+    box(c, 585, 170, 430, 350, 'Word model', ['word2vec', 'Trained model'], VIOLET)
+    box(c, 1145, 170, 430, 350, 'Embedding', ['A vector', 'Fixed length'], ORANGE)
+    arrow(c, 470, 345, 570, 345)
+    arrow(c, 1030, 345, 1130, 345)
+    text(c, 800, 645, 'Related contexts can give similar vectors.', 44, INK, 'middle')
+    return c.finish('week10-word-embedding')
+
+
+def text_embeddings():
+    c = Canvas(1600, 720, bg=PAPER)
+    box(c, 25, 45, 580, 265, 'Question', [
+        'What does a new', 'student card cost?'], TEAL)
+    box(c, 25, 395, 580, 265, 'Passage', [
+        'Replacement fee:', 'HK$150'], VIOLET)
+    box(c, 735, 175, 430, 380, 'Same encoder', ['MiniLM', '384 numbers'], ORANGE)
+    box(c, 1280, 45, 295, 265, 'Q vector', ['[...]', '384D'], TEAL)
+    box(c, 1280, 395, 295, 265, 'P vector', ['[...]', '384D'], VIOLET)
+    arrow(c, 625, 175, 715, 300)
+    arrow(c, 625, 525, 715, 430)
+    arrow(c, 1180, 300, 1260, 175)
+    arrow(c, 1180, 430, 1260, 525)
+    text(c, 800, 710, 'Same trained encoder. Two compatible 384D vectors.', 42, INK, 'middle')
+    return c.finish('week10-text-embeddings')
 
 
 def ingestion():

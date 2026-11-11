@@ -10,7 +10,8 @@ class DisplayedPythonTests(unittest.TestCase):
     def test_python_panels_compile_in_their_documented_method_context(self):
         for node in ast.walk(ast.parse(SOURCE.read_text())):
             if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
-                    and node.func.id == 'code_panel'):
+                    and node.func.id in ('code_panel', 'code_slide', 'orm_example')
+                    and isinstance(node.args[1], ast.Constant)):
                 continue
             if any(k.arg == 'lang' and ast.literal_eval(k.value) is None for k in node.keywords):
                 continue
