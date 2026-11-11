@@ -128,4 +128,4 @@ See `week10/VALIDATION.md` in the paired PFAD draft for current checks and hones
 limits. Re-run room/projector/audio and the actual LM Studio model before class;
 old recorded evidence isn't proof of a fresh Pip run. Keep both PRs draft/open.
 
-Paired companion source pinned for review: https://github.com/sd5913/pfad/tree/9ffd54ded5cd240e6fa353e8ef595dcb7850f451/week10 .
+Paired companion source pinned for review: https://github.com/sd5913/pfad/tree/fbf904a3832c94cd912fd81c4a001aeea809182c/week10 .
