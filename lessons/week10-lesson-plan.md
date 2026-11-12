@@ -5,7 +5,7 @@ The first hour explains persistent objects, relationships and database choices
 before showing code. Relational databases remain the centre: schema, keys, SQL,
 indexes and constraints. Qdrant is a complementary similarity-search example;
 Cloudflare D1 briefly shows related SQL rows behind an API. Use one saved
-conversation throughout; the deck has 65 slides, including six numbered section
+conversation throughout; the deck has 69 slides, including six numbered section
 dividers and worked query results. Dividers mark transitions inside each block.
 
 ## Teaching continuity and source choices
@@ -32,9 +32,9 @@ replaces at most two opening minutes, not another teaching block or quiz topic.
 
 | Minutes | Work | Observable evidence |
 | --- | --- | --- |
-| 0-10 | Returning-user question and route | What should the app remember after closing? Optional news stays in opening notes |
+| 0-10 | Group-project AMA, returning-user question and route | Collect one project question per team or individual, then ask what the app should remember after closing; optional news stays in opening notes |
 | 10-20 | Memory, persistence, identity and reconstruction | Explain saved values/references versus live objects and imported methods; restart prediction |
-| 20-34 | Cardinality, optionality, junction records and self-reference | Explain the conversation model, then discuss three transfer cases |
+| 20-34 | Cardinality, optionality, junction records and self-reference | Explain the conversation model, then run four formative ClassPoint relationship checks |
 | 34-46 | Database taxonomy, storage choice, schema and keys | Place the four NoSQL families and vector search; justify a choice; distinguish PK/FK/index |
 | 46-54 | SQL, related rows, ORM and transactions | Explain keywords and a foreign-key filter; pair Python with generated SQL; predict when a write happens |
 | 54-58 | Prepared SQLite reload and brief D1 demo | Same stored ID/new object; rejected orphan; HTTP → bound SQL → JSON |
@@ -58,13 +58,13 @@ optionality. Explain one-to-one, one-to-many, many-to-many through Membership,
 and Message reply-to as a self-reference. Use the one-to-one diagram at 23-25,
 many-to-many links at 25-26, then the same three Membership rows at 26-28.
 A role belongs to a membership rather
-than to a user globally. Use Player/Score, Player/Team and Tag/Post on one
-discussion slide; nouns alone do not determine the answer. User/Group and
-Conversation/Message remain in the PFAD guide, keeping all five historical
-practice cases available. Membership/reply-to are transfer diagrams, not
-additions to the implemented app. Profile is also an illustrative extension;
-its unique user reference enforces at most one profile, not a requirement that
-every user has one.
+than to a user globally. Use Player/Score and Tag/Post as ClassPoint cases,
+with Player/Team as a follow-up in the speaker notes; nouns alone do not
+determine the answer. User/Group and Conversation/Message remain in the PFAD
+guide, keeping all five historical practice cases available. Membership/reply-to
+are transfer diagrams, not additions to the implemented app. Profile is also
+an illustrative extension; its unique user reference enforces at most one
+profile, not a requirement that every user has one.
 
 Use three slides within the existing 34-39 block: taxonomy map at 34-35; four
 NoSQL families at 35-37; vector search at 37-39. Relational is a data model;
@@ -76,9 +76,16 @@ Do not imply NoSQL means no rules or relational systems cannot store JSON.
 The same application uses related rows for exact history and vectors for
 similarity. Show schema versus particular rows before introducing keys/SQL/ORM.
 
-An embedded restart prediction and three short discussion slides ask students
-to classify relationships, choose storage and identify PK/FK/index jobs. These are
-revision material, not official quiz items. Quiz preparation includes applying
+An opening Short Answer activity collects group-project questions; answer shared
+ones against the current brief and carry individual blockers into the allocated
+tutorial support time. If ClassPoint is unavailable, collect them verbally or
+on paper. Do not publish identifiable responses. At 30-34 minutes, four
+multiple-choice checks classify one-to-one, one-to-many and many-to-many links
+and identify a self-reference; ask pairs or use a show of hands if ClassPoint is
+unavailable. Keep the stated relationship rules visible in each question:
+nouns alone do not determine cardinality. The embedded restart prediction and
+short storage/keys discussions remain. These activities are revision material,
+not official quiz items. Quiz preparation includes applying
 persistence, identity, cardinality, schema, queries, ORM and transactions to a
 new scenario; package installation and dated news are outside that scope.
 

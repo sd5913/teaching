@@ -5,7 +5,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from deckgen import Figure, INK, MUTED, Slide, T, WHITE, attach_reports
 from deckgen.core import PAPER, Rect, Text
-from deckgen.layouts import agenda, code_panel, code_paras, code_slide, content, end, section, statement, title, finalize
+from deckgen.layouts import agenda, code_panel, code_paras, code_slide, content, end, question, section, statement, title, finalize
 import week10_figures as F
 import week09_layouts as L
 
@@ -58,8 +58,16 @@ S.append(title(EYE, 'What survives\na conversation?',
     'Week 8 verification and Week 9 request/process ideas are prerequisites; do not repeat constructors. '
     'Week 9’s Scene resets after restart. Reuse Week 6 Pip for speech. '
     'Lecture: 120 minutes including a 10-minute break; separate tutorial: 120 minutes.'))
+S.append(question('short_answer', 'Ask me anything about the group project',
+    hint='Post one question your team wants to resolve.', eyebrow_text='OPENING / GROUP PROJECT AMA',
+    notes='2-5 minutes. Invite one question per team or individual about scope, teamwork, '
+    'requirements, technical choices or blockers. Group related questions and answer the '
+    'shared ones using the current project brief; carry individual follow-ups to the '
+    'allocated tutorial support time. This is an ungraded AMA, not a new assessment. '
+    'If ClassPoint is unavailable, collect questions verbally or on paper. Do not '
+    'publish identifying responses or private student information.'))
 S.append(statement('A returning user asks:\n“What about the original?”', size=100,
-    notes='2-6 minutes. Ask what the word original refers to. Without the preceding discussion it is '
+    notes='5-8 minutes. Ask what the word original refers to. Without the preceding discussion it is '
     'ambiguous. In our later real example the user lost a student identity card. The assistant needs '
     'the previous conversation to understand the reference and current handbook passages to answer '
     'the policy question. Ask what should survive closing the app, then reopening it. '
@@ -67,7 +75,7 @@ S.append(statement('A returning user asks:\n“What about the original?”', siz
 S.append(agenda(EYE, ['Save an object', 'Connect related records',
     'Choose and query a database', '10-minute break',
     'Find handbook evidence', 'Give Pip history and a voice'],
-    notes='6-10 minutes. First-half outcomes: explain persistence and identity; model relationships; '
+    notes='8-10 minutes. First-half outcomes: explain persistence and identity; model relationships; '
     'choose storage from the data and access pattern; distinguish schema, keys, indexes and ORM. '
     'These are conceptual quiz/revision topics, not just code-reading tasks. Exact timing: '
     '10-20 persistence; 20-34 relationships; 34-46 database choices/schema/keys; 46-60 SQL/ORM and '
@@ -161,17 +169,35 @@ S.append(diagram('Self-reference: a message replies to a message.', F.self_refer
     'differ from symmetric friendship; additional application rules may be needed for '
     'cycles or symmetry. This is an illustrative modelling transfer, not a field claimed '
     'to be implemented by the supplied Message class. Historical page 19.'))
-S.append(L.rows('Try it: name the relationship.', [
-    ('Player / Score', 'A player has many scores; each score has one player.'),
-    ('Player / Team', 'Each player joins at most one team; a team can have many players.'),
-    ('Tag / Post', 'Posts can have many tags; a tag can label many posts.'),
-], notes='30-34 minutes. Pair discussion: state the cardinality and where references '
-    'or a junction belong. Player/Score is one-to-many. A team may have many players, '
-    'so the second rule gives '
-    'Team-to-Player one-to-many; do not memorize Player/Team as always many-to-many. '
-    'Tag/Post needs a joining relation. Ask what changes if players can join several teams. '
-    'User/Group and Conversation/Message are further cases in the PFAD revision section; '
-    'all five historical 2025 exercises remain available without repeating them on slides.'))
+S.append(question('multiple_choice', 'One user may have one profile. Each profile has one user. Which type?',
+    choices=['One-to-one', 'One-to-many', 'Many-to-many', 'Self-reference'],
+    eyebrow_text='CHECK / RELATIONSHIP TYPES',
+    notes='30-31 minutes. Answer: one-to-one. The user may have zero profiles; optionality '
+    'does not change the maximum of one. A unique user reference on Profile enforces '
+    'that maximum. This is an ungraded ClassPoint check; if unavailable, ask for a '
+    'show of hands or pair vote.'))
+S.append(question('multiple_choice', 'A player has many scores. Each score has one player. Which type?',
+    choices=['One-to-one', 'One-to-many', 'Many-to-many', 'Self-reference'],
+    eyebrow_text='CHECK / RELATIONSHIP TYPES',
+    notes='31-32 minutes. Answer: one-to-many from Player to Score. Each score stores '
+    'one player reference. Ask whether a player with no scores is allowed; the rule '
+    'as stated does not require a score. If ClassPoint is unavailable, use a pair vote.'))
+S.append(question('multiple_choice', 'Posts can have many tags. A tag can label many posts. Which type?',
+    choices=['One-to-one', 'One-to-many', 'Many-to-many', 'Self-reference'],
+    eyebrow_text='CHECK / RELATIONSHIP TYPES',
+    notes='32-33 minutes. Answer: many-to-many. A Post/Tag junction represents links '
+    'and can hold link-specific details. Contrast Player/Team: if each player joins at '
+    'most one team, Team-to-Player is one-to-many; if players can join several, it '
+    'becomes many-to-many. If ClassPoint is unavailable, use a pair vote.'))
+S.append(question('multiple_choice', 'A message may reply to another message. What makes this a self-reference?',
+    choices=['Both records are Messages', 'Each message has exactly one reply',
+             'The messages share an owner', 'The reply is stored in the same row'],
+    eyebrow_text='CHECK / RELATIONSHIP TYPES',
+    notes='33-34 minutes. Answer: both records are Messages. A reply-to foreign key '
+    'points to the same record type; multiple replies may point to one parent, so '
+    'self-reference alone does not specify one-to-one cardinality. If ClassPoint is '
+    'unavailable, ask pairs. User/Group and Conversation/Message remain in the PFAD '
+    'revision section. These four checks are formative, not an official quiz.'))
 
 # 34-46: database families, schema and keys are visible conceptual material.
 S.append(section('03 / DATABASE TYPES', 'Database types',
