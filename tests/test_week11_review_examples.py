@@ -32,7 +32,9 @@ class DiagramTests(unittest.TestCase):
         spec.loader.exec_module(module)
         with patch.object(Canvas, 'finish', lambda self, name: '\n'.join(self.svg) + '</svg>'):
             for name in ['scene_outputs', 'blender_boundary', 'live_mcp', 'discovery',
-                         'godot_boundary', 'behavior', 'evidence', 'failure']:
+                         'godot_boundary', 'behavior', 'evidence', 'failure',
+                         'agent', 'pull_request', 'oauth_redirect', 'oauth_session',
+                         'session_request', 'ownership', 'deploy', 'credential_transfer']:
                 svg = ET.fromstring(getattr(module, name)())
                 for label in svg.findall('{http://www.w3.org/2000/svg}text'):
                     with self.subTest(diagram=name, text=label.text):

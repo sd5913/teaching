@@ -79,3 +79,66 @@ def failure():
     arrow(c, 785, 895)
     label(c, 840, 580, 'Read the failure, then choose a purposeful change', 44, anchor='middle')
     return c.finish('week11-failure')
+
+
+def agent():
+    return sequence('agent', [('Goal', 'two useful views', 'keep sculpture'),
+        ('Action', 'edit camera pair', 'run Blender'),
+        ('Observe', 'diff + PNGs', 'revise or stop')],
+        'An agent chooses its next action from the observation')
+
+
+def pull_request():
+    return sequence('pull-request', [('Branch', 'camera-study', 'diff + renders'),
+        ('Review', 'show more front', 'keep target'),
+        ('Revise', 'same PR', 'rerun + compare')],
+        'Checks and a human review precede the human merge')
+
+
+def oauth_redirect():
+    return sequence('oauth-redirect', [('Our app', 'make state', 'remember it'),
+        ('GitHub', 'sign in + allow', 'code + state'),
+        ('Callback', 'match state', 'reject mismatch')],
+        'The client secret stays on the server')
+
+
+def oauth_session():
+    return sequence('oauth-session', [('Worker', 'code + secret', 'server request'),
+        ('GitHub API', 'verified user', 'numeric ID'),
+        ('Our session', 'signed cookie', 'ID + expiry')],
+        'Use the GitHub token for identity; then discard it')
+
+
+def session_request():
+    return sequence('session-request', [('Browser', 'session cookie', 'GET /api/note'),
+        ('Worker', 'signature valid?', 'not expired?'),
+        ('D1 query', 'session user ID', 'owner filter')],
+        'The verified session determines the owner')
+
+
+def ownership():
+    c = Canvas(1680, 640)
+    for y, user_id, body in [(135, '101', 'camera plan'), (360, '202', 'sound plan')]:
+        c.rect(40, y, 530, 165, fill=PAPER, stroke=TEAL, width=2)
+        c.rect(880, y, 760, 165, fill=PAPER, stroke=TEAL, width=2)
+        label(c, 70, y + 65, 'Session ID: ' + user_id, 46)
+        label(c, 70, y + 125, 'verified by server', 42)
+        arrow(c, 610, 830, y + 85)
+        label(c, 910, y + 65, 'notes.github_id = ' + user_id, 46)
+        label(c, 910, y + 125, 'body: ' + body, 42)
+    label(c, 840, 610, 'Signed-in 101: WHERE github_id = 101', 46, anchor='middle')
+    return c.finish('week11-ownership')
+
+
+def deploy():
+    return sequence('deploy', [('PR checks', 'tests + types', 'build artifact'),
+        ('Main / manual', 'migrate D1', 'deploy + secrets'),
+        ('Live Worker', 'DB binding', 'runtime secrets')],
+        'A green check does not establish a working public sign-in')
+
+
+def credential_transfer():
+    return sequence('credential-transfer', [('Repo secrets', 'GitHub Actions', '8 setup values'),
+        ('Deploy job', 'temporary file', '--secrets-file'),
+        ('Worker', 'OAuth + session', 'runtime env')],
+        'The deploy job installs Worker runtime secrets')

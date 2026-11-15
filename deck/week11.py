@@ -1,4 +1,4 @@
-"""19 November 2026: Python, application state, real creative-tool APIs and MCP."""
+"""19 November 2026: agents, Blender PRs and authenticated D1 applications."""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -12,7 +12,9 @@ E = 'SD5913 / WEEK 11 / 19 NOVEMBER 2026'
 PFAD = 'https://github.com/sd5913/pfad/tree/41108250bcf2ae428dc819363bb32212b8f19fe7/week11'
 SOURCE = PFAD.replace('/tree/', '/blob/')
 BLENDER = 'https://docs.blender.org/api/current/'
-GODOT = 'https://docs.godotengine.org/en/stable/'
+TEMPLATE = 'https://github.com/sd5913/github-oauth-d1-template'
+OAUTH = 'https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps'
+CF = 'https://developers.cloudflare.com/'
 ASSETS = Path(__file__).resolve().parent / 'assets/week11'
 S = []
 
@@ -36,8 +38,8 @@ def photo(heading, filename, notes):
     S.append(slide)
 
 
-def compare(heading, left, right, labels, notes):
-    slide = content('ACTUAL APPLICATION OUTPUT / 29 OCTOBER 2026', heading, [], notes=notes)
+def compare(heading, left, right, labels, notes, date='29 OCTOBER 2026'):
+    slide = content('ACTUAL APPLICATION OUTPUT / ' + date, heading, [], notes=notes)
     slide.els.extend([Image(120, 355, 790, 545, str(ASSETS / left), 'contain'),
                       Image(1010, 355, 790, 545, str(ASSETS / right), 'contain'),
                       T(120, 905, 790, 65, labels[0], 'semibold', 42, '#000B1C'),
@@ -45,44 +47,53 @@ def compare(heading, left, right, labels, notes):
     S.append(slide)
 
 
-S.append(title(E, 'Python controls\ncreative software.',
-    'Inspect a scene. Change it. Check what actually happened.', size=130,
-    notes='Thursday 19 November 2026. Complete 120-minute lecture, then a separate 120-minute PFAD tutorial. '
-    'Both Blender and Godot appear in the lecture; students choose one application for the tutorial. '
-    'Use the exact run sheet in lessons/week11-lesson-plan.md. The core examples use no model account, '
-    'paid generation, downloaded artwork, camera or microphone. They show real application operations, '
-    'not the earlier browser-opacity simulation. Source: ' + PFAD))
-S.append(agenda(E, ['0-10 / opening, news and tool handoff',
-    '10-35 / Blender: data, camera, save, render', '35-60 / real MCP: request to live scene',
-    '60-70 / break', '70-95 / Godot: Python, files and behavior',
-    '95-110 / failure, recovery and visible evidence', '110-120 / questions and tutorial handoff'],
-    notes='Protect the full break and the two live-application blocks. Budget terminal/window switching, '
-    'predictions and questions inside these times. The tutorial is another 120 minutes; do not collapse '
-    'its tasks into the lecture. Outcomes: trace an API/tool request, distinguish scene/file/image, '
-    'predict one parameter change and diagnose a failed application check.'))
-S.append(statement('Which creative task\nwould you automate?', size=110,
-    notes='0-3 minutes. Ask for a concrete operation: repositioning a camera, rendering variants, '
-    'adding a label, checking that an exit opens. Take two examples. Identify an input, a target and '
-    'a visible result. Reuse existing knowledge of objects and messages; do not reteach basic classes. '
-    'A good answer names what a human would inspect afterwards. This is an informal discussion.'))
-prose('News: a stable engine still needs checking.', [
-    '[Godot 4.7.2 stable / 18 August 2026](https://github.com/godotengine/godot/releases/tag/4.7.2-stable)',
-    'Our 29 October check uses Godot 4.7.2.',
-    'What would you rerun after an engine update?',
-], '3-6 minutes. Verified the release tag and GitHub published_at 2026-08-18T16:12:28Z on 29 October. '
-   'This is a dated maintenance-release news item, not a claim about unverified new features. '
-   'Connect the release to creative practice: a project and its automation bridge have separate '
-   'compatibility boundaries. Inspect a saved scene, run its behavior check and verify graphics after '
-   'updating. Refresh this brief story near class. Dated product news is outside quiz scope.', label='DATED NEWS / OUTSIDE QUIZ SCOPE')
-prose('A tool can retrieve knowledge or change a scene.', [
-    'Week 10: a handbook query returns sources.', 'Today: a scene action changes application state.',
-    'Both need named inputs and a result we can inspect.',
-], '6-10 minutes. Brief handoff from the same Week 10 handbook retriever and conversation-aware talking '
-   'agent. Its handbook embedding index, saved conversation history, per-call prompt and spoken output '
-   'remain distinct. We keep that knowledge path; we are not exporting it into Orange. Orange, t-SNE '
-   'and required matrix/projection visualization were removed by the instructor. This week adds external '
-   'application operations. The client used today is human-directed; the agent choosing next actions '
-   'belongs to Week 12. Ask: does a successful retrieval prove the answer, or a tool response prove the artwork?')
+S.append(title(E, 'Agents, tools\nand evidence.',
+    'Two cases: Blender scenes and an authenticated web app.', size=130,
+    notes='0-2 minutes. Thursday 19 November 2026. This lecture is 120 minutes including a 55-65 break; '
+    'the separate PFAD tutorial is another 120 minutes. Students choose Blender or the authentication '
+    'template for tutorial practice. Explain an agent goal/action/observation/stop, inspect a Blender '
+    'change through a reviewed PR, trace OAuth identity into owner-scoped D1 rows and distinguish '
+    'CI evidence from a working deployment. Godot moves to Week 12 preparation, preserving its '
+    'existing runnable files. No live autonomous episode is claimed today. Companion: ' + PFAD))
+S.append(agenda(E, ['0-10 / agent goals, tools and evidence',
+    '10-35 / Blender: inspect, change and render', '35-55 / branch, PR, review and revision',
+    '55-65 / break', '65-90 / GitHub OAuth: redirects, state and session',
+    '90-110 / private D1 notes and deployment', '110-120 / tutorial handoff and questions'],
+    notes='Keep terminal/UI work and discussion inside each block. The same evidence loop connects '
+    'both cases: a small brief, allowed changes, a result, review and a stopping condition. The '
+    'tutorial completes one route, with its own 55-65 break and 100-120 project/tutor support. '
+    'Do not add a third Godot practical or remove the W10 handbook retrieval/memory progression.'))
+S.append(statement('Which result would\nyou accept?', size=112,
+    notes='2-4 minutes. Ask for one concrete creative task: two useful camera views, or a private '
+    'project note that survives restart. Have students name the observation that would convince '
+    'them. A model saying done is a claim; a diff, current render, failed ownership attempt or '
+    'fresh-process reload supplies evidence. Hear two answers; no new submission is required.'))
+diagram('An agent chooses the next action.', F.agent(),
+    '4-6 minutes. An agent pursues a goal by choosing actions using observations, subject to limits '
+    'and a stopping condition. For our Blender example: preserve sculpture/material/light; change '
+    'only the camera pair; inspect the diff and actual renders; revise if the second view is too '
+    'similar; stop after the accepted comparison or ask a human when the tool fails. Tool execution '
+    'and action selection are different responsibilities. Next week examines an actual recorded '
+    'model/check/revise/stop episode in Godot; today we use a human-directed worked example.')
+prose('A script and an agent can use the same tool.', [
+    'A script can run a fixed list of camera poses.',
+    'An agent can choose a new pose after seeing a result.',
+    'Both still need checks and a human acceptance decision.',
+], '6-8 minutes. A loop over two coordinates is deterministic automation, not proof of agentic '
+   'decision-making. Our supplied Blender client executes a fixed reviewed sequence; call it '
+   'that. In an agent-assisted coding task the model may propose edits, run tools and revise '
+   'using observations, while the student owns the brief, review and merge. Do not fake a live '
+   'autonomous run or attribute an instructor-selected coordinate to a model.')
+prose('The handbook agent keeps its knowledge path.', [
+    'Week 10: retrieve handbook sources and retain conversation history.',
+    'Today: call a creative tool or build a signed-in application.',
+    'A source, a tool result and a session have different jobs.',
+], '8-10 minutes. Preserve the same handbook embedding index/retriever, isolated persisted '
+   'conversation rows, assembled prompt and spoken reply from Week 10. They are not replaced '
+   'by Blender or a login page. An authenticated identity could later choose a conversation '
+   'owner; it does not turn a cookie into knowledge or make a retrieved answer correct. Week '
+   '10 local User rows used fictional names and were not authentication. Orange/t-SNE/matrix '
+   'projection was removed by explicit instructor decision, outside revision scope.')
 S.append(section('10-35 / BLENDER', 'Work on the scene.',
     'Application data -> saved scene -> rendered image', bg='#000B1C',
     notes='Start Blender block at minute 10. Show a simple actual scene before any protocol diagram. '
@@ -120,14 +131,6 @@ code('Find a named object before changing it.', [
    'the assignment changes the named object. Explain tuple values x,y,z and why z changes to preserve '
    'floor contact. Direct data access avoids relying on which object is selected in the interface. '
    'API source: ' + BLENDER + 'info_quickstart.html')
-prose('A property assignment changes live data.', [
-    'The object name chooses the target.', 'The three scale values affect its local axes.',
-    'Saving and rendering are separate operations.',
-], 'Pause for prediction around minute 20. Ask what remains after setting scale if Blender exits '
-   'before saving. The running scene held the edit, but the previous .blend on disk still contains '
-   'its earlier state. Relate to Week 10 persistence without repeating ORM mechanics: data survives '
-   'only when saved; Python method definitions are still code. bpy.ops invokes Blender operations '
-   'that may depend on application context; named data access is usually easier to trace for properties.')
 diagram('Three results, three places to check.', F.scene_outputs(),
     'The arrows show a workflow, not one atomic operation. Inspect target.scale for the current object; '
     'open the saved .blend for persisted scene data; view the PNG for the camera/render result. A render '
@@ -170,289 +173,384 @@ code('A short list becomes repeatable views.', [
    'tuple unpacking supplies coordinates; separate folders prevent the two image/scene results '
    'overwriting each other. A loop makes systematic changes, but never decides whether a view is '
    'good. Human review and a check of the recorded camera coordinates complete the experiment.')
-prose('Run the actual camera comparison.', [
-    'cd week11', 'uv run python blender_variants.py',
-    'Compare angle-1 and angle-2 in .output/blender.',
-    '[Inspect the runnable source](' + SOURCE + '/blender_variants.py)',
-], 'Approximately minutes 27-31: run two quick CPU renders, open both PNGs and each inspect.json. '
-   'If Blender is not found, fix PATH or use the prepared machine; uv cannot install the desktop '
-   'application. A successful helper exit confirms subprocess completion, not visual composition. '
-   'Ask for a deliberate alternate camera pair, such as (5,-10), then restore the supplied pair. '
-   'Keep outputs ignored; students retain their own evidence locally.')
 code('A useful failure names the missing target.', [
     'blender --background --factory-startup -noaudio',
     '  --python-exit-code 1 --python blender_scene.py',
     '  -- --target MissingObject',
 ], 'Projection wraps one shell command across lines for legibility; copy the single-line command '
-   'from the README. Around minutes 31-34, run it and read "Missing object: MissingObject; use '
+   'from the README. Around minutes 27-29, run it and read "Missing object: MissingObject; use '
    'Sculpture". Expect nonzero exit before saving/rendering. A previous image remains on disk, so '
    'do not present it as this failed run\'s result. Restore the target to Sculpture. Distinguish '
    'a missing object from a missing Blender executable or a renderer failure.', lang=None)
 S.append(statement('The file exists.\nDid this run succeed?', size=112,
-    notes='Minute 34-35 checkpoint. Give students 20 seconds to explain the stale-output trap. '
+    notes='Minute 29 checkpoint. Give students 20 seconds to explain the stale-output trap. '
     'Look for a process status, current inspection and the new image. A green exit alone cannot '
     'judge composition; an old picture alone cannot establish a successful new process. Transition '
     'to MCP: wrapping an operation in a protocol does not remove these checks.'))
-S.append(section('35-60 / MCP', 'Follow the request.',
-    'Discovery -> call -> live scene -> checked result', bg='#000B1C',
-    notes='Start second block at minute 35. No general permissions-card lesson: build directly on '
-    'Week 9 process/messages and the Week 10 retriever tool. MCP supplies a shared interface for '
-    'discovery and tool calls. The Blender/Godot bridges are community projects, not official '
-    'application features. The supplied clients make a fixed human-directed sequence of calls.'))
-prose('Three interfaces, different jobs.', [
-    'API: Python reads or changes Blender data.', 'CLI: another process starts Blender with arguments.',
+prose('API, CLI and MCP expose different boundaries.', [
+    'API: bpy reads or changes scene objects.', 'CLI: our helper starts a Blender process.',
     'MCP: a client discovers and calls named tools.',
-], 'Define API as the programming interface exposed by an application; CLI as its command-line '
-   'interface; MCP as a protocol between client and server. They can be layered together. The '
-   'bounded course adapter launches Blender CLI; the community MCP for Blender uses a live socket '
-   'add-on which calls bpy. The protocol does not decide the next action and does not guarantee '
-   'semantic correctness. Ask which layer knows that the object is called Sculpture.')
-diagram('Ask what tools exist, then call one.', F.discovery(),
-    'Actual MCP lifecycle: initialize, notifications/initialized, tools/list, tools/call, close. '
-    'tools/list returns a tool name, description and JSON input schema; tools/call names a tool '
-    'and arguments. A request ID correlates its response. Tool errors may arrive in a normal '
-    'response with isError true; a JSON-RPC envelope alone is not success. The stdlib teaching '
-    'client shows these messages directly. Source: official MCP Python SDK v1.30 client docs and '
-    'our mcp_client.py. No model or network model API is used.')
+], '29-31 minutes. These interfaces can be layered. The bounded course adapter starts Blender CLI '
+   'and returns saved inspection JSON. The community MCP for Blender has a stdio server plus a '
+   'loopback socket add-on in live Blender. Both ultimately use bpy. Neither protocol decides '
+   'whether the composition meets the brief. The bridges are community/course software, not '
+   'official Blender Foundation MCP features. Source: ' + SOURCE + '/blender_tools.py')
+diagram('Discover a schema before calling a tool.', F.discovery(),
+    '31-32 minutes. Reuse the W9 message boundary: initialize, tools/list, tools/call, close. A '
+    'tool name and input schema describe accepted arguments. The request ID correlates the '
+    'response; isError true is a failure even inside a valid JSON-RPC response. Source: official '
+    'MCP tools specification https://modelcontextprotocol.io/specification/2025-06-18/server/tools '
+    'and the pinned course mcp_client.py. This fixed client is not a model choosing actions.')
 code('A tool call carries explicit arguments.', [
     '{"method": "tools/call",', ' "params": {"name": "execute_blender_code",',
     '   "arguments": {"code":',
     '     "bpy.data.objects.get(\'Sculpture\').scale = (1.5, 1.5, 1.5)"}}}',
-], 'JSON shape shown without the outer jsonrpc/id fields added by Session.send. Real demo code '
-   'imports bpy and also adjusts center z to keep the cube on the floor. Read the tool schema '
-   'before making a call. execute_blender_code accepts Python code for the live application, '
-   'which is much broader than a bounded scale-only function. Today\'s reviewed script targets '
-   'only the disposable supplied scene. Source: ' + SOURCE + '/blender_live.py', lang=None)
-diagram('Where does the request become bpy?', F.live_mcp(),
-    'The actual third-party mcp-for-blender 2.2.6 has a Python stdio MCP server and an add-on loaded '
-    'inside the live Blender window. The server sends requests to a loopback TCP socket; the '
-    'add-on runs the scene action in Blender. Our disposable session chooses a free port rather '
-    'than assuming default 9876 is available. Our Python client and the server are separate '
-    'processes. Identify which hop fails if the add-on is stopped but the stdio server remains.')
-prose('Watch the real application change.', [
-    'uv run python setup_blender.py', 'uv run python blender_live.py',
-    'Inspect Sculpture. Press Enter to close the session.',
-    '[Live bridge source](' + SOURCE + '/blender_live.py)',
-], 'Approximately minutes 42-50. Setup downloads pinned MIT add-on source and installs the community '
-   'package in .tools/blender-env; it changes no global Blender/client preferences. Actual Linux '
-   'cold install measured 4.602s with empty uv cache on 29 October, excluding Blender installation. '
-   'The helper creates a baseline, opens disposable GUI Blender, discovers tools, reads scene scale, '
-   'sets 1.5, reinspects, renders/saves, then waits. Show the actual object and PNG. Press Enter '
-   'to close stdio, stop/unregister add-on and quit Blender. No assets/generation tools or model '
-   'calls are invoked; telemetry/update checks are disabled.')
-code('Check the result and the cleanup.', [
-    '"scale": [1.5, 1.5, 1.5],', '"blender_exit": 0,',
-    '"socket_closed": true',
-], 'Selected actual fields in .output/blender-live-result.json. Show both live reinspection in the '
-   'trace and the actual image/scene output. The result is only accepted after the application exits '
-   'and the loopback port stops listening. Automatic --verify uses the same real GUI/change/render '
-   'path but closes without waiting for Enter. It is useful for a tutor preflight, not evidence that '
-   'a student inspected the artwork. The live community server exposes more tools than the course '
-   'adapter; do not call asset/generation services.', lang=None)
-prose('The smaller adapter answers a narrower question.', [
-    'uv run python mcp_client.py --blender list',
-    'uv run python mcp_client.py --blender inspect_scene',
-    'Course adapter: saved JSON. Community bridge: live scene.',
-], 'Minutes 50-54. The course-owned Blender CLI adapter provides render_scene with a 0.5-2 scale '
-   'range and inspect_scene for the latest saved inspection. It starts a fresh background Blender '
-   'process per render, unlike the live community add-on. After a previous render, inspect_scene '
-   'can succeed while a different open editor contains another state. Demonstrate a rejected scale '
-   '5 using the exact README command; isError true should arrive before Blender starts. Name both '
-   'implementations accurately. Source: ' + SOURCE + '/blender_tools.py')
-diagram('A response is one layer of evidence.', F.evidence(),
-    'Minutes 54-57. Protocol evidence: the expected request ID and no isError. Behavior evidence: '
-    'the requested target/scale changed and later Godot conditions pass. Experience evidence: a '
-    'human sees the correct image/window and the clip plays. None substitutes for the others. '
-    'Ask which check would detect the wrong active camera, a misspelled object, an old PNG or a '
-    'running process that never stops. Use these as ordinary debugging questions, not new assessment.')
-S.append(statement('Who owns the value\nat each step?', size=112,
-    notes='Minutes 57-60. Pair explanation for one minute, then hear one trace: JSON code string '
-    'in client memory -> server -> add-on -> bpy object property -> saved scene/image. Distinguish '
-    'the model from the client: today no model chooses an action. A Week 12 agent can use tool '
-    'results to choose another bounded action; the application still needs independent checks.'))
-S.append(statement('Ten-minute break.\nBack at minute 70.', size=108,
-    notes='Protect lecture minutes 60-70. Close the disposable Blender session first. Keep the '
-    'prepared Godot project ready for after the break. This is the lecture break; the separate '
-    'tutorial keeps its own 55-65 break.'))
-S.append(section('70-95 / GODOT', 'Make a tiny world.',
-    'Python validates; Godot runs the game', bg='#000B1C',
-    notes='Resume at minute 70. Godot 4.7.2 latest stable is the verified runtime. Use the standard '
-    'editor rather than .NET; no export templates or purchased assets are needed. Today\'s scene '
-    'uses GDScript inside Godot, with Python controlling configuration and process execution. '
-    'Students who choose Blender today receive first-time Godot setup/orientation in Week 12 '
-    'minutes 0-20, with a prepared partner-machine handoff at minute 20 if necessary.'))
-photo('Three lights. One locked exit.', 'world-start.png',
-    'Actual Godot 4.7.2 rendered frame from the supplied world. Arrow keys move the white player. '
-    'The three yellow pickups must be collected before reaching the exit at the right. Ask what '
-    'the visible interface tells a player before any movement. The frame is extracted from a '
-    'deterministic replay, not a photograph of keyboard play and not an agent-generated level. '
-    'Source: ' + SOURCE + '/godot/world.gd')
-diagram('Python and Godot have different jobs.', F.godot_boundary(),
-    'world.py validates bounded values and writes world.json. On startup, world.gd loads that '
-    'file and implements the world. Python starts the separate Godot executable for play/check/film. '
-    'GDScript is Godot\'s scripting language, not Python. Saved config is inspectable even with '
-    'the engine stopped; it is not a live editor observation. A running window keeps its loaded '
-    'config until restarted. This is the same process/state distinction students saw with Blender.')
-code('Validate before writing the file.', [
-    'low, high = BOUNDS[key]', 'if not low <= value <= high:',
-    '    raise ValueError("value outside allowed range")', 'config = load_config(path)',
-    'config[key] = value', 'Path(path).write_text(json.dumps(config, indent=2))',
-], 'Actual update_config excerpt, error text shortened. Before these lines, the function rejects '
-   'unknown keys and types other than int/float, including bool. speed accepts 60-480; pickup_radius '
-   '8-48; exit_x 720-880. NaN/infinity fail the bounds condition. Values are rejected rather than '
-   'silently clamped, so the old file remains intact. These are deliberate course design limits, '
-   'not limits imposed by the Godot API. Inspect the exact implementation: ' + SOURCE + '/world.py')
-code('Speed becomes distance each time step.', [
-    'if automatic:',
-    '    player = player.move_toward(', '        target, float(config.speed) * delta)',
-], 'GDScript excerpt from advance(delta, automatic). speed is pixels per simulated second; delta '
-   'is seconds for this step. At speed 300 and delta 1/60, the maximum movement is 5 pixels. '
-   'move_toward approaches the current target without overshooting. The manual branch uses '
-   'Input.get_vector and the same speed*delta relationship. Ask students to predict maximum step '
-   'distance at speed 120: 2 pixels. The check\'s fixed timestep is simulated time, not a claim '
-   'that this machine computes 60 updates in one real second.', lang=None)
-diagram('One behavior function serves three routes.', F.behavior(),
-    'advance() moves toward the next pickup during automatic replay/check, counts a pickup within '
-    'pickup_radius and sets won only when all three have been collected and the player is near '
-    'the exit. In manual play it reads arrow-key input instead. The engine check disables automatic '
-    'physics and calls advance 180 times at 1/60. The film uses actual graphical frame rendering. '
-    'A shared implementation reduces divergent test logic, but a deterministic check does not '
-    'verify keyboard feel, graphic legibility or whether the game is enjoyable.')
-prose('Inspect, check and play the same world.', [
-    'uv run python world.py inspect', 'uv run python world.py check',
-    'uv run python world.py play', '[World source](' + SOURCE + '/world.py)',
-], 'Approximately minutes 78-85. Run from week11. inspect says file_state_only true and prints '
-   'the exact absolute project/config path. check runs real Godot/GDScript and writes '
-   '.output/check.json; default speed 300 yields three pickups, player_x 840 and a win at tick 152. '
-   'play opens the actual window for arrow keys; close it to stop. Set GODOT_PATH if the standard '
-   'executable is not on PATH. Rehearse projected keyboard play separately; the verified film '
-   'establishes graphical rendering, not a completed classroom rehearsal.')
-prose('A community bridge can create scene nodes.', [
-    'uv run python setup_bridge.py', 'uv run python mcp_client.py demo',
-    'Inspect godot/probe.tscn in the editor.',
-    '[Coding-Solo/godot-mcp](https://github.com/Coding-Solo/godot-mcp)',
-], 'Minutes 85-90. Actual third-party Coding-Solo source commit 1209744, version 0.1.1; not an '
-   'official Godot feature. It uses stdio and separate Godot CLI/GDScript operations, not a generic '
-   'live editor socket. The course explicitly adapts its declared SDK 0.6 to tested JS SDK 1.30.0 '
-   'with Node 26 native TypeScript. Fresh public install passed in 3.606s with empty npm cache; '
-   'this excludes editor/Node installation. demo discovers project info, creates probe.tscn, '
-   'adds Marker and Caption nodes, runs the main world, reads debug output, stops and closes stdio. '
-   'Stop is attempted in finally after a launch attempt; bounded owned-process cleanup handles a '
-   'broken bridge while preserving the original error. '
-   'A bridge close failure after a successful request exits nonzero; a prior request failure '
-   'keeps its original exception, with cleanup failure reported separately. '
-   'The tutorial adds a separate RouteHint Label so students can verify a new result after demo '
-   'rather than repeat Caption. '
-   'The added probe is separate from the playable main scene; inspect its saved node/property.')
-code('A node call names its parent and property.', [
-    '"name": "add_node",', '"arguments": {', '  "scenePath": "probe.tscn",',
-    '  "parentNodePath": ".", "nodeType": "Label",',
-    '  "nodeName": "Caption",', '  "properties": {"text": "THREE LIGHTS"}}',
-], 'Selected fields from a real tools/call; projectPath must also contain the absolute supplied '
-   'Godot project path. Read the full request in mcp_client.py. A scene file is a tree: . refers '
-   'to its root. The server creates a Label child called Caption with the text property. '
-   'Saving this node does not automatically display it in a different main scene. Inspect the '
-   'actual .tscn and open probe.tscn in the editor. A MissingParent experiment should fail; read '
-   'the error rather than assuming the new node exists.', lang=None)
-prose('Which state did you inspect?', [
-    'The config file can change while the window stays old.',
-    'A saved probe scene can differ from the main scene.',
-    'Restart the right scene, then observe it.',
-], 'Minutes 90-95: ask two pairs to name a plausible stale-state failure. world.py inspect only '
-   'reads files. The community server\'s project metadata is also not a complete live viewport '
-   'observation. A run_project acknowledgement occurs before useful visual readiness; examine '
-   'debug output and the actual rendered result. Stop the process before changing/resetting '
-   'for the next demo. Contrast this with live Blender get_scene_info from the add-on.')
-diagram('A running engine can fail the design check.', F.failure(),
-    'Minutes 95-99: predict the slow-speed result first. Set speed 120 and run check. The actual '
-    'engine still executes successfully, but fails the declared requirement to collect all three '
-    'and win within 180 steps. It reaches x440 and collects two. Restore 300: three pickups and '
-    'win by tick152 at x840. These values are recorded actual Godot 4.7.2 results. The failure '
-    'shows why process completion and behavior acceptance are different.')
-code('Read the failing fields before changing code.', [
-    '"collected": 2,', '"player_x": 440.0,', '"ticks": 180,',
-    '"won_by_180_frames": false,', '"passed": false',
-], 'Selected fields from the actual speed120 failure. Ask what the result supports: movement '
-   'occurred; two lights were collected; the time-budget condition failed. It does not imply a '
-   'network error, a missing engine or a broken display. The automatic route was used rather '
-   'than keyboard input. At 120 pixels/second, three simulated seconds allow 360 pixels from '
-   'x80 to x440. Choose the next action from the evidence rather than editing several settings.', lang=None)
-prose('Make one change and verify recovery.', [
-    'uv run python world.py set speed 300', 'uv run python world.py check',
-    'uv run python world.py set exit_x 2000',
-    'The last request must fail without changing the file.',
-], 'Minutes 99-103. Restore the passing baseline, then demonstrate validation before mutation. '
-   'exit_x2000 is outside 720-880 and should raise a readable ValueError with nonzero exit. '
-   'Compare the file before/after: exit stays860. A human chooses this recovery; it is not an '
-   'autonomous model loop. In Week12 a bounded agent will observe/check/adapt/stop using the same '
-   'kind of evidence, with explicit mutation/time limits and an actual playable capture.')
-compare('The film shows collection and completion.', 'world-middle.png', 'world-complete.png',
-    ['Three lights -> exit opens', 'Player reaches exit -> COMPLETE'],
-    'Actual extracted frames from the 29 October Godot4.7.2 clip: four seconds, 960x540,120 frames. '
-    'The start frame earlier showed all three pickups and a locked exit; these frames show the '
-    'changed state and final outcome. Full MP4 decode passed. Xvfb with Mesa software rendering '
-    'was the verified Linux graphical path, not a dummy headless renderer. A film establishes '
-    'visible playback; it does not replace manual playtesting or show a model making decisions.')
-prose('Capture is another operation to check.', [
-    'uv run python world.py capture',
-    '120 rendered frames / 30 fps / four seconds',
-    'Play .output/world.mp4 and inspect the ending.',
-], 'Minutes 103-107. Optional Week11 extension and Week12 preparation. Needs FFmpeg/ffprobe and '
-   'working graphical rendering; no dedicated GPU required. world.py uses official --write-movie '
-   'with an absolute AVI path, --fixed-fps30 and --quit-after120, then converts to H264/yuv420p. '
-   'Graceful quit matters: Ctrl+C can leave AVI duration metadata incomplete. The three-second '
-   'behavior check and four-second recording have different purposes. Verified Linux command '
-   'can be prefixed xvfb-run -a for CI. Source: ' + GODOT + 'tutorials/animation/creating_movies.html')
-prose('Creative connections carry different data.', [
-    'MCP: named tools, arguments and returned results.',
-    'OSC: addressed control messages between programs.',
-    'NDI: networked audio/video transport.',
-], 'Minutes 107-110. Preserve the archive\'s TouchDesigner/Python, OSC/MediaPipe and NDI examples '
-   'as linked creative extensions; no extra installation today. Week9 handles the networking/vision '
-   'message bridge and server-owned state. A numeric OSC send does not prove a receiver changed '
-   'a property, just as MCP acknowledgement does not prove a scene is correct. NDI carries media '
-   'rather than replacing a semantic tool API. Archive: https://github.com/sd5913/pfad/tree/2025/week11')
-S.append(statement('What would count\nas proof for your project?', size=112,
-    notes='Minutes 110-113. Ask about one real team idea: a camera variant, a scene-building action '
-    'or a game interaction. Name a small accepted result, a useful failure and a recovery. '
-    'Do not require every project to use Blender, Godot, AI or MCP. Existing code tests plus '
-    'human feedback can support a small usable increment. Give one concrete example then questions.'))
-prose('Tutorial: choose one real application.', [
-    '0-55 / setup, inspect, change and trace a tool request',
-    '55-65 / break', '65-100 / purposeful edit, failure and recovery',
-    '100-120 / tutor playtest, feedback and project support',
-    '[Complete two-hour tutorial](' + SOURCE + '/README.md)',
-], 'Minutes113-116. Blender and Godot are alternatives today, not two required installations. '
-   'Follow README with exact working directory, outputs and troubleshooting. If no baseline by '
-   'minute15, join a prepared partner, take turns and retain your own change/check/result. '
-   'Blender-only students get Godot first-time setup/orientation next week in minutes0-20; '
-   'at20 use the prepared partner if necessary. Tutorial runs independently of instructor '
-   'ClassPoint/login. Practice evidence is not a new upload or grade.')
-prose('Use the tutor time for the next useful step.', [
-    '19 November / show an increment, playtest and discuss feedback.',
+], '32-33 minutes. Request body without the outer jsonrpc/id fields. Actual demo code imports bpy '
+   'and adjusts center z too. execute_blender_code can run arbitrary Python inside the disposable '
+   'application, unlike the smaller scale-only course adapter. Read the schema and review the '
+   'code before execution. The request is an input, not evidence of a changed scene. Source: '
+   + SOURCE + '/blender_live.py', lang=None)
+diagram('The live bridge still needs inspection.', F.live_mcp(),
+    '33-35 minutes. Trace client -> stdio server -> loopback add-on -> bpy. The optional actual '
+    'community bridge is mcp-for-blender 2.2.6, pinned source 8782963. From week11 run uv run python '
+    'setup_blender.py, then uv run python blender_live.py. It opens a disposable Blender window, '
+    'discovers tools, inspects, changes scale, reinspects and renders/saves. Press Enter to close. '
+    'No model or paid asset service is called. Use uv run python blender_live.py --verify for '
+    'automatic closure preflight. Expect scale [1.5,1.5,1.5], blender_exit 0 and socket_closed true. '
+    'This optional longer demo belongs in tutorial/preflight; keep the lecture on schedule. '
+    'A saved JSON file, a live object and the rendered camera image are separate observations.')
+S.append(section('35-55 / AGENT WORK IN A PR', 'A change worth reviewing.',
+    'Brief -> branch -> diff -> render -> review -> revision', bg='#000B1C',
+    notes='35-36 minutes. A worked example using the actual supplied camera script and real Blender '
+    'outputs. The brief/reviewer messages are an instructional example, not a claim that a public '
+    'PR conversation or fresh autonomous episode took place. A student can use a configured '
+    'coding agent, but remains responsible for the diff, evidence and human merge.'))
+prose('Acceptance criterion: two useful views.', [
+    'Keep sculpture scale 1.25, material, light and target fixed.',
+    'Save each camera view in its own output folder.',
+    'Show a visibly different face without cutting off the sculpture.',
+], '36-38 minutes. This is a specific brief for an agent-assisted camera study. Scope the edit to '
+   'blender_variants.py; do not change blender_scene.py, the sculpture or the acceptance rule to '
+   'manufacture success. Ask students which part can be tested numerically and which needs a '
+   'person looking at the image. The model can propose a pose, but a human decides whether the '
+   'views are useful. No credentials, personal scenes or ignored local files belong in a prompt.')
+code('A focused branch keeps the evidence together.', [
+    '# branch: agent/camera-study',
+    '# Supplied first attempt: inspect and render it.',
+    'poses = [(7, -9), (9, -7)]',
+    'for number, (x, y) in enumerate(poses, start=1):',
+    '    # Render into angle-1/ and angle-2/.',
+], '38-40 minutes. Projected excerpt/branch name for the worked PR. The first attempt is already '
+   'supplied. Ask the agent to inspect it, render it and write a small credential-free evidence '
+   'note; that note is the first PR diff. Preserve the first pose and run uv run python '
+   'blender_variants.py from week11. Open the actual source and its subprocess arguments. The '
+   'PR description should give the criterion, source file, exact command, current inspect.json '
+   'coordinates, before/after images and limitations. An agent commit is a proposal for review, '
+   'not authority to merge. Runnable source: ' + SOURCE + '/blender_variants.py')
+compare('The initial comparison is reviewable.', 'camera-one.png', 'camera-two.png',
+    ['First view (7, -9, 6)', 'Proposed second (9, -7, 6)'],
+    '40-42 minutes. Actual course renders from 29 October, same scale 1.25, material, light and '
+    'look target. These supply the proposed comparison in the worked PR. Inspect image and '
+    'coordinates together. The second view changes face visibility, but the reviewer can still '
+    'ask for stronger contrast. A PNG alone does not establish which source produced it; retain '
+    'the exact commit/command and inspection alongside your own evidence. No invented GitHub UI.')
+diagram('Review changes the next action.', F.pull_request(),
+    '42-44 minutes. 1 agent/camera-study initially contains the evidence note for the supplied '
+    'views. 2 a human '
+    'reviews against the fixed criterion and asks for a precise revision. 3 the author/agent '
+    'commits the revision on the same branch, so the same PR keeps the discussion and updated '
+    'checks. Review is not a new disconnected branch/PR. Human approval and merge come only '
+    'after the updated diff, current images and checks have been inspected.')
+prose('Reviewer request: make the views less similar.', [
+    'Keep the first pose and the sculpture unchanged.',
+    'Try second camera (5, -10, 6), aimed at the same target.',
+    'Rerender both; attach the new comparison to this PR.',
+], '44-46 minutes. Read this concrete worked reviewer request aloud. It gives a target change '
+   'and things to preserve, rather than a vague improve it. The agent may explain a different '
+   'pose, but must provide comparable evidence and keep scope. Ask students why changing the '
+   'cube too would weaken the comparison. The coordinate is an instructor-selected revision '
+   'example, not a claimed model choice or a student requirement to use this exact composition.')
+compare('The revision has a visible result.', 'camera-two.png', 'camera-revision.png',
+    ['Before: second (9, -7, 6)', 'Revised: second (5, -10, 6)'],
+    '46-49 minutes. Left: actual 29 October course render. Right: actual 15 November CPU Blender '
+    'render using the unchanged blender_scene.py, scale 1.25, camera x5/y-10, same target. The '
+    'right-hand view shows a different face balance. Keep the original first view (7,-9,6) for '
+    'the acceptance comparison; this slide isolates the revised second view. Run uv run python '
+    'blender_variants.py after changing only the second pose. Actual image provenance is in '
+    'deck/assets/week11/camera-revision-source.md. This is a worked PR example, not live agent proof.',
+    date='29 OCT / 15 NOV 2026')
+prose('Checks, review and merge answer different questions.', [
+    'Diff: only the intended camera pair changed.',
+    'Command and inspect.json: this source produced current outputs.',
+    'Images: the views meet the visual criterion.',
+    'Human: approve the revision, then merge the same PR.',
+], '49-52 minutes. Look at the one-line diff and the new render timestamps/coordinates; rerun '
+   'relevant tests if code changed beyond data. A passing check cannot judge composition. A '
+   'human should request another revision or stop if the result is wrong. Record a failed '
+   'MissingObject attempt and useful recovery if it occurred; do not erase the failure by '
+   'showing an older PNG. The branch/check/PR approach transfers to auth changes after the break.')
+S.append(statement('A green check.\nA useful result?', size=112,
+    notes='52-55 minutes. Pairs name one result a CI test can establish and one result requiring '
+    'human inspection for this PR. Then use the private-note case: tests can check forged cookies '
+    'and owner filters, but a real sign-in needs actual GitHub/Cloudflare configuration. Keep '
+    'the brief and limits visible while deciding whether to revise, merge or ask for help.'))
+S.append(statement('Ten-minute break.\nBack at minute 65.', size=108,
+    notes='Protect lecture minutes 55-65. Close any disposable Blender session and stop its loopback '
+    'bridge. Prepare the template README and browser tabs after the break. Never project secret '
+    'values or account settings containing credentials. The separate tutorial has its own break.'))
+S.append(section('65-90 / AUTHENTICATED IDENTITY', 'Who is making the request?',
+    'GitHub OAuth -> our session -> owner-scoped data', bg='#000B1C',
+    notes='65-66 minutes. Introduce the second approved case: adapt the existing course registry '
+    'architecture into a small private project-note app. The new template uses personal GitHub '
+    'OAuth Apps for sign-in, Cloudflare Workers for server code and D1 for stored rows. It does '
+    'not request repository access, use a PAT or create/install a GitHub App. Source: ' + TEMPLATE))
+prose('A local User row was not a login.', [
+    'Week 10 stored fictional local User IDs and relationships.',
+    'A browser can type any name into an ordinary form.',
+    'Today GitHub confirms identity; our server checks the session.',
+], '66-68 minutes. Persistent identity within a database is not authentication. The W10 demo '
+   'used selected local profiles to teach owner-scoped conversation/message queries; it did '
+   'not prove who was at the keyboard. Authentication establishes the caller. Authorization '
+   'then decides which note that caller may access. GitHub login names can change; the '
+   'template uses GitHub numeric user ID as its stable owner identity. Do not invent passwords '
+   'or add a password database to this lesson.')
+prose('One private project note per signed-in user.', [
+    'Sign in with GitHub; write a short project note.',
+    'Save, reload and restart: the note remains.',
+    'A second account sees only its own note.',
+    '[Use the course template](' + TEMPLATE + ')',
+], '68-70 minutes. These are the observable acceptance criteria. GET /api/note and POST /api/note '
+   'require a valid session. POST accepts JSON body with one body string of at most 2000 '
+   'characters; it never accepts an owner chosen by the browser. Use an invented project note, '
+   'not student records. The template is a teaching adaptation of github-student-registry, '
+   'with roster/assessment/admin features removed. Do not touch the production registry.')
+diagram('The browser follows the authorization redirects.', F.oauth_redirect(),
+    '70-73 minutes. 1 GET /api/auth/github generates unpredictable state and remembers it in '
+    'a protected short-lived cookie. The template also uses PKCE: send a hashed challenge, '
+    'retain the verifier and prove it during exchange. 2 the browser visits GitHub authorization with client_id, '
+    'the configured redirect_uri and state. The person signs in/authorizes on github.com. '
+    '3 GitHub redirects the browser to APP_URL/api/auth/github/callback with a temporary code '
+    'and state. The callback must compare state before proceeding; mismatch or missing/expired '
+    'state aborts. This binds the callback to the flow this browser began. Source: ' + OAUTH)
+code('The callback belongs to this application.', [
+    'APP_URL + "/api/auth/github/callback"',
+    '',
+    'GET /api/auth/github',
+    'GET /api/auth/github/callback?code=...&state=...',
+], '73-74 minutes. These are URL/route shapes, not runnable standalone JavaScript. APP_URL is '
+   'the exact origin configured for this environment, including localhost port or deployed '
+   'https origin. Use the same callback value in the personal OAuth App and template. Do '
+   'not derive the destination from an arbitrary incoming Host header. The code is temporary '
+   'and must not be pasted into an issue, prompt or screenshot. Source: template README and '
+   + OAUTH, lang=None)
+prose('A wrong state must stop the flow.', [
+    'Missing or mismatched state: reject the callback.',
+    'Wrong callback URL: fix configuration and begin sign-in again.',
+    'Cancel authorization: show a useful failure, never a session.',
+], '74-76 minutes. Ask what would happen if a callback from another browser were accepted. '
+   'A fresh random state value is checked against the initiating browser before code exchange. '
+   'A successful HTTP response or the presence of a code parameter is not proof of a valid '
+   'flow. Tests can simulate wrong state and denied consent. Use a fresh sign-in after '
+   'correcting callback configuration; never try to reuse a displayed temporary code. '
+   'Source: ' + OAUTH)
+diagram('The server exchanges the code and verifies identity.', F.oauth_session(),
+    '76-79 minutes. The Worker sends code/client ID/client secret/configured redirect_uri to '
+    'GitHub over HTTPS, then uses the returned access token to request the authenticated user '
+    'profile. It validates the profile shape and numeric ID before issuing our signed session '
+    'cookie. The token is not our session and is not stored in D1. The browser never receives '
+    'the client secret. No private-repository scope is requested. The app needs identity, '
+    'not permission to change a repository. Source: ' + OAUTH + ' and '
+    'https://docs.github.com/en/rest/users/users#get-the-authenticated-user')
+diagram('Later requests carry our session cookie.', F.session_request(),
+    '79-81 minutes. Our signed session contains identity and expiry. HttpOnly prevents ordinary '
+    'page JavaScript reading the cookie; SameSite controls cross-site sending; Secure is used '
+    'in production HTTPS. The signature detects tampering but does not encrypt the payload, '
+    'so store no token or private note in it. Every API request verifies signature and expiry. '
+    'Logout clears the cookie. A valid cookie can remain after a server restart; the note '
+    'survives in D1. Mutations also reject a mismatched Origin. Template source: ' + TEMPLATE)
+prose('Create a personal GitHub OAuth App.', [
+    'GitHub personal Settings > Developer settings > OAuth Apps.',
+    'Set Homepage URL to this environment\'s APP_URL.',
+    'Set callback to APP_URL + /api/auth/github/callback.',
+    'Keep the client secret private; use no PAT or repo scope.',
+], '81-83 minutes. Open the real GitHub UI/docs; no fictional screenshot is supplied. Use '
+   'https://github.com/settings/applications/new . The student owns this OAuth App and their '
+   'Cloudflare account. Separate local and deployed OAuth Apps make the two environments '
+   'easy to reason about; do not claim GitHub supports only one callback. Copy values directly '
+   'to ignored .dev.vars or repository secret fields, never into prompts/source. Local APP_URL is '
+   'http://127.0.0.1:3000; callback adds /api/auth/github/callback. Source: '
+   'https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app')
+prose('Repository setup values: Cloudflare.', [
+    'CLOUDFLARE_API_TOKEN / deployment permission',
+    'CLOUDFLARE_ACCOUNT_ID / which account',
+    'CLOUDFLARE_D1_DATABASE_ID / which D1 database',
+    'CLOUDFLARE_WORKER_NAME / which Worker',
+], '83-85 minutes. All eight template setup values are entered at repository Settings > '
+   'Secrets and variables > Actions > Repository secrets. Some are public identifiers, '
+   'but we use one consistent setup location in this classroom flow. The Cloudflare API '
+   'token authorizes the deploy job for the student account; it is not a browser key or '
+   'an app user session. Use the README\'s least-required Workers/D1 permissions. Never '
+   'project any value. Source: https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/')
+prose('Repository setup values: app and sign-in.', [
+    'APP_URL / exact app origin',
+    'OAUTH_CLIENT_ID / identifies the OAuth App',
+    'OAUTH_CLIENT_SECRET / server-only OAuth credential',
+    'SESSION_SECRET / signs our app\'s session cookies',
+], '85-87 minutes. Add the remaining four values as repository secrets, matching names exactly. '
+   'Client ID and APP_URL identify configuration; client secret and session secret must stay '
+   'confidential. A random session secret is unrelated to the GitHub password/access token '
+   'and Cloudflare deployment token. Local .dev.vars holds GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET '
+   'and SESSION_SECRET. Optional .env holds public local configuration. Both filled files are ignored. '
+   'Source: template README and https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions')
+code('Actions names map to runtime names.', [
+    'OAUTH_CLIENT_ID     -> GITHUB_CLIENT_ID',
+    'OAUTH_CLIENT_SECRET -> GITHUB_CLIENT_SECRET',
+    'SESSION_SECRET     -> SESSION_SECRET',
+], '87 minutes. These are name mappings, not secret values or shell commands. GitHub reserves '
+   'repository-secret names beginning GITHUB_, so use OAUTH_CLIENT_ID and OAUTH_CLIENT_SECRET '
+   'in Actions. The Worker keeps the original registry runtime names. The mapping in deploy.yml '
+   'writes the temporary secrets file without logging its contents. Source: template deploy.yml '
+   'and https://docs.github.com/en/actions/reference/security/secrets#naming-your-secrets', lang=None)
+diagram('Repository secrets need a deployment step.', F.credential_transfer(),
+    '87-90 minutes. A repository secret exists in GitHub Actions; creating it does not magically '
+    'create a Worker runtime binding. The deploy job writes the three OAuth/session runtime '
+    'values to an unlogged temporary file: OAUTH_CLIENT_ID becomes GITHUB_CLIENT_ID; OAUTH_CLIENT_SECRET '
+    'becomes GITHUB_CLIENT_SECRET. SESSION_SECRET keeps its name. wrangler deploy --secrets-file '
+    'installs that file as runtime env bindings. APP_URL and the D1 binding are separate configuration. The Cloudflare '
+    'API token stays with the deployment job. Never log or commit the temporary file. '
+    'Current docs checked through Context7 15 November: ' + CF + 'workers/configuration/secrets/#upload-secrets-alongside-code')
+S.append(section('90-110 / D1 AND DEPLOYMENT', 'Keep the note with its owner.',
+    'Authenticated request -> server filter -> persistent row', bg='#000B1C',
+    notes='90-91 minutes. Reuse W10 SQL/relationships instead of repeating a database taxonomy. '
+    'D1 is the hosted SQL database bound to the Worker. The important new boundary is a '
+    'server-verified session ID becoming the owner filter on every read and write.'))
+diagram('The owner ID comes from the verified session.', F.ownership(),
+    '91-94 minutes. Schematic example IDs 101/202 and invented note bodies, not actual accounts. '
+    'The session carries the GitHub numeric identity; notes.github_id is that owner key. '
+    'Authentication says the request is from 101. Authorization limits the query to 101. '
+    'Never trust a user_id/owner_id hidden input, query parameter or JSON property supplied '
+    'by the browser. The API route supports only the current session user\'s note. An ordinary '
+    'SQL row or foreign key does not enforce this policy by itself.')
+code('A parameter carries the current owner.', [
+    'SELECT body FROM notes WHERE github_id = ?;',
+    '',
+    'INSERT INTO notes (github_id, body, updated_at)',
+    'VALUES (?, ?, ?) ON CONFLICT(github_id)',
+    'DO UPDATE SET body = excluded.body,',
+    '              updated_at = excluded.updated_at;',
+], '94-96 minutes. Projected SQL shape for one-note-per-owner storage. The server binds the '
+   'verified session ID as github_id, never concatenates request text into SQL. body and the '
+   'timestamp are other bound values. The unique/primary owner constraint makes an upsert replace that owner\'s '
+   'existing note. Both GET and POST need session checks; checking only the UI button is '
+   'insufficient. The template adds request/schema/origin checks around this query. Read '
+   'the exact lib/handlers.ts source; this SQL panel is not a full API route. Source: ' + TEMPLATE + ' and '
+   'https://developers.cloudflare.com/d1/worker-api/prepared-statements/', lang=None)
+prose('Reload and restart test different lifetimes.', [
+    'Save a note; reload the browser and read it again.',
+    'Stop and restart the local server; read it again.',
+    'D1 stores the row; server memory is not the database.',
+], '96-98 minutes. Use the documented local D1 directory and migrate it before starting dev. '
+   'Restart the same environment without deleting .wrangler state. A page reload alone '
+   'may still be reading an in-memory server, so restart is additional evidence. Local and '
+   'remote D1 are different databases; a successful local reload does not prove production '
+   'migrations or binding. The browser session may expire or be cleared, requiring sign-in '
+   'again; the owner\'s note should still exist after that. No real note/identity data in logs.')
+diagram('PR checks and deployment have different authority.', F.deploy(),
+    '98-101 minutes. PR checks run npm ci, tests, typecheck and build without deployment '
+    'credentials or real OAuth. A human reviews/merges the PR. The main/manual deploy job '
+    'uses repository secrets, applies remote D1 migrations and installs code/runtime secrets '
+    'with Wrangler. A main-branch push is already a consequential action: review the changes '
+    'before merging. Green CI is not evidence that APP_URL, callback, permissions or live '
+    'GitHub sign-in work. Source: template .github/workflows and ' + CF + 'd1/reference/migrations/')
+code('Use the template\'s checked commands.', [
+    'npm ci', 'npm test', 'npm run typecheck', 'npm run build',
+    'npm run db:migrate:local', 'npm run dev',
+], '101-103 minutes. Run from a new repository created with Use this template; follow its README '
+   'for ignored local config and personal OAuth App. npm ci uses the committed lockfile. '
+   'Migrate local D1 before dev; open http://127.0.0.1:3000. npm run deploy is '
+   'the documented deploy path after credential/config setup, while GitHub Actions supplies '
+   'the classroom main/manual deployment. Inspect the workflow rather than guessing which '
+   'secret reaches which process. All commands belong to the new template, not PFAD. '
+   'Source: ' + TEMPLATE, lang=None)
+prose('Diagnose the boundary that failed.', [
+    'Callback mismatch: compare APP_URL and OAuth App callback.',
+    'Missing runtime credential: inspect the deploy step, not the PR check.',
+    'No such table: check migration and the selected D1 database.',
+    'Another user\'s note: stop and inspect server owner filters.',
+], '103-106 minutes. Read status/error category without printing credentials, cookies or OAuth '
+   'codes. Wrong state/forged/expired session should be refused. A database binding error '
+   'is different from an absent migration. A successful local migration does not migrate '
+   'remote D1. For any data isolation failure, stop using real data, preserve a sanitized '
+   'reproduction and fix the server check before further deployment. A model suggestion '
+   'to disable state or remove the owner filter evades acceptance, just as editing a checker would.')
+prose('Live acceptance needs two separate sessions.', [
+    'Account A: sign in, save a harmless note, reload.',
+    'Account B: use a separate browser profile and sign in.',
+    'B sees its own note; A\'s note remains unchanged.',
+    'Sign out: the note API refuses anonymous requests.',
+], '106-108 minutes. Use two willing students\' own accounts/browser profiles, never ask for '
+   'their passwords or print their records. B should see an empty/own note, and saving B\'s '
+   'note must not change A\'s. Reopen A to verify. Front-end screenshots alone do not prove '
+   'authorization: automated tests also exercise anonymous/forged/expired cookies and owner '
+   'queries. Real GitHub/Cloudflare acceptance remains credential-dependent and must be '
+   'reported separately from mock OAuth/unit tests. Do not claim a deployment was rehearsed '
+   'when only build/tests ran.')
+prose('A useful fallback keeps the boundary visible.', [
+    'No deployment access: inspect routes and run local tests.',
+    'Mock OAuth is labelled; it does not verify GitHub sign-in.',
+    'Use a prepared partner for the real application step.',
+], '108-110 minutes. Core tutorial is independent of the instructor login. The authentication '
+   'route needs students\' personal GitHub OAuth App and Cloudflare account for a live deployment. '
+   'If setup is unavailable, run the credential-free tests, trace state/session/owner paths '
+   'and pair with a prepared machine; alternatively choose Blender. Do not force paid plans, '
+   'API billing or a repository-access token to complete course practice. Record exactly '
+   'which checks are local, mock or live.')
+prose('Tutorial: choose one of the two cases.', [
+    'Blender: brief, focused edit, renders, PR review and revision.',
+    'Authentication: personal OAuth App, private D1 note and checks.',
+    '55-65 / break; 100-120 / tutor and project support.',
+    '[Complete separate two-hour tutorial](' + SOURCE + '/README.md)',
+], '110-113 minutes. The README provides setup, timed tasks, expected observations, failure '
+   'and recovery for one selected route. Agent assistance is optional if no configured '
+   'account is available; human-directed edits still teach the same computing boundaries. '
+   'A prepared partner handoff preserves hands-on work. Evidence is practice, not a new '
+   'upload/grade. Authentication uses the separate template repository; Blender stays in PFAD.')
+prose('Godot preparation remains for Week 12.', [
+    'Keep the supplied world, checks and capture helpers.',
+    'Week 12: bounded agent, failure, revision, check and film.',
+    'First-time Godot setup and partner handoff are already budgeted.',
+], '113-115 minutes. Godot practical work moves out of Week 11 by explicit instructor decision '
+   '15 November; its files and existing Week 12 0-20 first-time setup/prepared-partner path '
+   'remain. Do not modify the Week 12 lesson here. The full handbook retrieval/memory/spoken '
+   'reply arc stays intact. Historical TouchDesigner/Python, OSC control messages and NDI '
+   'audio/video transport remain optional archive extensions; Week 9 retains networking/vision. '
+   'Archive: https://github.com/sd5913/pfad/tree/2025/week11')
+prose('Use tutor time for the next useful increment.', [
+    '19 November / show working evidence, feedback and a blocker.',
     'Project: 40% / idea 25%, code 50%, execution 25%.',
     'Due 6 December 2026 / 23:59 HKT / Canvas instructions.',
-], 'Minutes116-118. Preserve the reviewed group-project policy: shared public sd5913-owned team '
-   'repository with teammate Write access. GitHub Projects recommended; an equivalent accessible '
-   'progress record is valid. Tutor times sit inside the allocated tutorial slot. This is not '
-   'a new defence, additional grade or requirement to add today\'s tools. Existing Canvas '
-   'submission instructions remain authoritative. Source brief: '
+], '115-117 minutes. Shared public sd5913-owned group repository with teammate Write access '
+   'remains required; personal ownership of the OAuth App does not change that. GitHub '
+   'Projects is recommended; an equivalent accessible progress record is valid. Tutor support '
+   'stays in the allocated tutorial slot. No new defence, grade, upload or requirement to '
+   'add Blender/AI/authentication to the group project. Source brief: '
    'https://github.com/sd5913/pfad/blob/4358b4e47b874ef40c120e63b2f6329acbe9b7d5/assignments/group-project.md')
-prose('Explain the chain before adding an agent.', [
-    'Which process owns the scene?', 'Which input chooses the target?',
-    'What survives after the process stops?', 'What observation proves the requested result?',
-], 'Minutes118-120. Invite a concise chain using one of the real routes. Core revision concepts: '
-   'API/CLI/MCP boundaries, named data/property operations, scene/file/image distinction, '
-   'validation before mutation, fixed-step behavior versus graphical evidence, and failure/recovery. '
-   'Dated news and optional OSC/NDI/TouchDesigner installations are not quiz scope. Orange/tSNE/ '
-   'matrix projection is removed by instructor decision. Do not display assessment answers or keys.')
-S.append(end('Make the change.\nCheck the result.', 'Then explain why the evidence is enough.',
+prose('Explain the evidence and its limit.', [
+    'Why is a fixed tool script not itself an agent episode?',
+    'Why do state, session signature and owner filter all matter?',
+    'Why can green PR checks coexist with failed live sign-in?',
+], '117-120 minutes. Core revision: goal/action/observation/stop; API/CLI/MCP boundaries; '
+   'scene/file/render; focused PR review/revision; authentication versus authorization; '
+   'OAuth browser redirects/server exchange/state; signed expiring cookie; server-derived '
+   'ownership; persistent rows; CI versus deploy; credential locations. Current syntax is '
+   'available in source/docs, not a memorization requirement. Optional archive tools and '
+   'dated product news are outside quiz scope. Do not project private assessment answers.')
+S.append(end('Make a small change.\nKeep the evidence.', 'Review, revise and let a human accept it.',
     'SD5913 / PFAD / WEEK 11',
-    notes='Close at minute120. Sources and commands live in the pinned companion README and this '
-    'deck\'s notes. Leave questions for tutorial support where appropriate. Next week adds a bounded '
-    'agent choosing tool actions and stopping after verified results; today\'s fixed client sequence '
-    'must not be relabeled as a live model loop. No remote class, paid generation or account access '
-    'is necessary for the tutorial. Companion: ' + PFAD))
+    notes='Close at minute 120. The lecture teaches both cases; the separate tutorial chooses one '
+    'and reserves 100-120 for project support. No new credentials, remote class or registry '
+    'production action is used for authoring. Keep live OAuth/Cloudflare and classroom display '
+    'rehearsal distinct from exported slides and offline tests. Sources: ' + PFAD + ' and ' + TEMPLATE))
 
-DECK = {'title': 'SD5913 · Week 11 — Python controls creative software',
+DECK = {'title': 'SD5913 · Week 11 — Agents, tools and evidence',
         'pdf': 'SD5913-week11.pdf', 'slides': S}
