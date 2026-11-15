@@ -9,7 +9,7 @@ from deckgen.layouts import (title, agenda, section, statement, content,
 
 E = 'SD5913 / WEEK 11 / 19 NOVEMBER 2026'
 # Coordinator refreshes this only after the companion is verified and committed.
-PFAD = 'https://github.com/sd5913/pfad/tree/41108250bcf2ae428dc819363bb32212b8f19fe7/week11'
+PFAD = 'https://github.com/sd5913/pfad/tree/e02fd99bc51c5df2b46c89eb4491b9da591b843d/week11'
 SOURCE = PFAD.replace('/tree/', '/blob/')
 BLENDER = 'https://docs.blender.org/api/current/'
 TEMPLATE = 'https://github.com/sd5913/github-oauth-d1-template'
