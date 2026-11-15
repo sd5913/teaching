@@ -60,8 +60,9 @@ rerender; an old PNG does not establish that the failed run succeeded.
 
 ## Concrete PR sequence, 35-55
 
-1. State the fixed acceptance criterion: two useful distinct views, no cropped
-   sculpture; keep scale 1.25, sculpture/material/light/look target unchanged.
+1. State the fixed acceptance criterion: two uncropped views, with the second
+   showing more front and less side; keep scale 1.25, sculpture/material/light/
+   look target unchanged. Judge face visibility rather than angular separation.
 2. Create `agent/camera-study`. Ask the agent to inspect and render the supplied
    variants, then write a small credential-free evidence note. The first code
    already exists; do not ask the agent to recreate it. The note is the first

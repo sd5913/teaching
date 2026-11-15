@@ -55,8 +55,9 @@ The supplied `blender_variants.py` already renders `(7,-9,6)` and `(9,-7,6)` at
 scale 1.25. The first branch task asks an agent to inspect/render the existing
 code and add a small credential-free evidence note, not to recreate the same
 function. The first PR diff is that note. Acceptance: keep scale, sculpture,
-material, light and look target fixed; output two useful distinct camera views
-in separate folders without cropping the sculpture.
+material, light and look target fixed; output two uncropped camera views in
+separate folders. The reviewer asks the second view to show more front and less
+side; increasing the angular separation between the two cameras is not the goal.
 
 Worked reviewer request: keep the first pose and scene unchanged; try second
 camera `(5,-10,6)` aimed at the same target; rerender and attach the comparison

@@ -71,8 +71,8 @@ S.append(statement('Which result would\nyou accept?', size=112,
 diagram('An agent chooses the next action.', F.agent(),
     '4-6 minutes. An agent pursues a goal by choosing actions using observations, subject to limits '
     'and a stopping condition. For our Blender example: preserve sculpture/material/light; change '
-    'only the camera pair; inspect the diff and actual renders; revise if the second view is too '
-    'similar; stop after the accepted comparison or ask a human when the tool fails. Tool execution '
+    'only the camera pair; inspect the diff and actual renders; revise if the second view needs '
+    'more of the front face; stop after the accepted comparison or ask a human when the tool fails. Tool execution '
     'and action selection are different responsibilities. Next week examines an actual recorded '
     'model/check/revise/stop episode in Godot; today we use a human-directed worked example.')
 prose('A script and an agent can use the same tool.', [
@@ -228,7 +228,7 @@ S.append(section('35-55 / AGENT WORK IN A PR', 'A change worth reviewing.',
 prose('Acceptance criterion: two useful views.', [
     'Keep sculpture scale 1.25, material, light and target fixed.',
     'Save each camera view in its own output folder.',
-    'Show a visibly different face without cutting off the sculpture.',
+    'Show more front and less side in the second view; keep it uncropped.',
 ], '36-38 minutes. This is a specific brief for an agent-assisted camera study. Scope the edit to '
    'blender_variants.py; do not change blender_scene.py, the sculpture or the acceptance rule to '
    'manufacture success. Ask students which part can be tested numerically and which needs a '
@@ -252,7 +252,7 @@ compare('The initial comparison is reviewable.', 'camera-one.png', 'camera-two.p
     '40-42 minutes. Actual course renders from 29 October, same scale 1.25, material, light and '
     'look target. These supply the proposed comparison in the worked PR. Inspect image and '
     'coordinates together. The second view changes face visibility, but the reviewer can still '
-    'ask for stronger contrast. A PNG alone does not establish which source produced it; retain '
+    'ask to see more of the front face. A PNG alone does not establish which source produced it; retain '
     'the exact commit/command and inspection alongside your own evidence. No invented GitHub UI.')
 diagram('Review changes the next action.', F.pull_request(),
     '42-44 minutes. 1 agent/camera-study initially contains the evidence note for the supplied '
@@ -261,7 +261,7 @@ diagram('Review changes the next action.', F.pull_request(),
     'commits the revision on the same branch, so the same PR keeps the discussion and updated '
     'checks. Review is not a new disconnected branch/PR. Human approval and merge come only '
     'after the updated diff, current images and checks have been inspected.')
-prose('Reviewer request: make the views less similar.', [
+prose('Reviewer request: show more of the front face.', [
     'Keep the first pose and the sculpture unchanged.',
     'Try second camera (5, -10, 6), aimed at the same target.',
     'Rerender both; attach the new comparison to this PR.',
