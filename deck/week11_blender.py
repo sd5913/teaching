@@ -6,6 +6,9 @@ from week11_layouts import capture, comparison
 
 BLENDER = 'https://docs.blender.org/api/current/'
 GODOT = 'https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/importing_3d_scenes/index.html'
+LAB_MCP = 'https://www.blender.org/lab/mcp-server/'
+LAB_SOURCE = 'https://projects.blender.org/lab/blender_mcp'
+CODEX_MCP = 'https://developers.openai.com/codex/extend/mcp'
 
 
 def build(source):
@@ -103,33 +106,61 @@ def build(source):
        'may still exist after failure. Ask why its existence cannot prove this run succeeded.', lang=None)
     s.append(section('04 / AGENT-ASSISTED WORK', 'Give a visual goal.',
         'Inspect -> act -> observe -> revise or stop',
-        notes='85-86 minutes. This is where the model enters. It can read the script, make a focused '
-        'edit, run the real application, read errors/JSON and open the image, then choose its next '
-        'action from that observation. The deterministic scene script itself is not an agent. The '
-        'human remains responsible for the brief, review and acceptance.'))
-    s.append(L.rows('Ask the agent to use Blender.', [
-        ('Goal', 'Make Sculpture wider and shallower.'),
-        ('Keep fixed', 'Name, material, camera, light and floor contact.'),
-        ('Finish with', 'A small diff, fresh render and explained dimensions.')],
-        notes='86-88 minutes. Give the full bounded prompt in agent-pr-workflow.md. Allow the agent to '
-        'inspect/edit blender_scene.py, run disposable Blender, read JSON and view PNGs. First x '
-        'scale=1.6*s, y=.75*s, z=s. Render scale 1.25 into .output/blender/first and compare with before. '
-        'If cropped/floating, diagnose and revise before stopping. No downloads, personal scene or '
-        'merge is required. Ask students which files and observations they would include in a request. '
-        'Source: ' + source + '/agent-pr-workflow.md#ask-an-agent-to-use-blender'))
+        notes='85-86 minutes. This is where the model enters. Codex can inspect the running Blender '
+        'scene, choose an MCP tool, read its result and view the actual application before choosing '
+        'its next action. The Python API explains how the change happens inside Blender. The '
+        'deterministic scene script is not itself an agent. The human sets the goal and accepts '
+        'the result. Keep the prepared script route for a failed connection or unavailable model.'))
+    s.append(L.diagram('Codex can drive the open Blender scene.', F.live_mcp(),
+        '86-87 minutes. Blender Lab provides two pieces: an add-on executing inside Blender and '
+        'a separate blender-mcp process launched by Codex. Codex uses MCP over stdio; that process '
+        'talks to the add-on at loopback TCP port9876. The add-on socket is not an HTTP MCP URL. '
+        'The Lab guide uses Llama.cpp as one client example; we use Codex. Python remains the '
+        'execution API, while the model chooses which action to request next. This is the Lab '
+        'project, distinct from the older Ahuja community bridge. Sources, checked19 November2026: '
+        + LAB_MCP + ' and ' + LAB_SOURCE))
+    s.append(L.rows('The add-on and the Codex connection.', [
+        ('Blender', 'Install MCP from lab.blender.org; start its bridge.'),
+        ('Connection', 'Host 127.0.0.1 and port 9876 on both sides.'),
+        ('Codex', 'Register the stdio server, reopen, inspect the scene.')],
+        notes='87-88 minutes. Preconfigure before class. Blender Preferences > Get Extensions: add '
+        'https://lab.blender.org/, install MCP, allow online access and expand its Add-ons '
+        'preferences. Start MCP Bridge Server; expect Server is running. PFAD README supplies '
+        'the pinned uvx-based codex mcp add command and equivalent config.toml. Codex launches '
+        'blender-mcp --transport stdio; BLENDER_MCP_HOST/PORT must match the add-on. Use local '
+        'Codex on the same machine, not a remote environment whose localhost is elsewhere. '
+        'Reopen the client; /mcp in the CLI lists tools. Ask for a read-only get_objects_summary '
+        'and compare its names with the Outliner before an edit. Keep another agent\'s scene '
+        'untouched and use a disposable course file for the exercise. No Llama.cpp installation '
+        'is needed. Sources: ' + CODEX_MCP + ' and ' + source + '/README.md#connect-blender-lab-mcp-to-codex-before-class'))
+    s.append(L.rows('A prompt for direct control in Codex.', [
+        ('Inspect', 'Read Sculpture and report its current dimensions.'),
+        ('Change', 'Make it wider and shallower; keep it grounded.'),
+        ('Check', 'Show the result, save a new copy, stop for review.')],
+        notes='88-90 minutes. Open the saved disposable baseline in Blender first; do not reset '
+        'a personal or shared scene. Give the complete live MCP prompt from PFAD README. Codex '
+        'should inspect the named object, preserve mesh/material/camera/light and set scale '
+        '(2,.9375,1.25), centre z1.25. It requests the available tools, reads before/after '
+        'values and inspects a fresh screenshot or render before deciding to revise or stop. '
+        'Save a NEW first/sculpture.blend using an absolute output path; Blender and Codex '
+        'may have different working directories. Also make the matching source edit for '
+        'reproduction. At class, show the actual tool calls and changing application. A typed '
+        'success claim is insufficient. Source: ' + source + '/README.md#35-55-let-the-agent-use-blender'))
     code('The first change has a predictable result.', [
         's = options.scale',
         'target.scale = (1.6 * s, 0.75 * s, s)',
         'target.location.z = s',
         '# At s=1.25: scale = (2, 0.9375, 1.25)',
         '# Dimensions = (4, 1.875, 2.5)',
-    ], '88-90 minutes. A small proposed edit to the existing two assignment lines. The first width is 4, '
+    ], '90-91 minutes. The same assignments can be applied through the live MCP Python tool or '
+       'retained as a small source edit. The first width is 4, '
        'depth 1.875, height 2.5. The vertical centre/height are unchanged, so bottom remains0. Read '
        'the diff before executing it. The agent should discover/reuse existing scene/material/camera '
        'code rather than replace it. A calculation predicts state; the render judges the visual goal.')
     s.append(comparison('Observe the result before accepting it.', 'blender-baseline.png', 'blender-first.png',
         ['Before / dimensions 2.5, 2.5, 2.5', 'First / dimensions 4, 1.875, 2.5'],
-        '90-92 minutes. Actual prepared Blender renders18 November 2026 using temporary copies of the '
+        '91-92 minutes. Inspect the fresh live result before showing this prepared comparison. '
+        'These are actual prepared Blender renders18 November 2026 using temporary copies of the '
         'same source. They are author rehearsal, not model session evidence. Camera/material/light '
         'are fixed. Ask what changed in silhouette and whether it stays grounded/uncropped. In the '
         'student exercise the agent must open its own fresh image; a text success report cannot '
@@ -137,37 +168,43 @@ def build(source):
     s.append(L.compare('A script repeats. An agent chooses.',
         ('Fixed automation', 'Run these\nknown steps.', 'A loop can render a supplied list of camera poses.'),
         ('Agent', 'Choose the next\naction from results.', 'Inspect an error/image, then revise or stop.'),
-        notes='92-94 minutes. Same API/CLI can support either. Model-directed tool use is the distinction '
+        notes='92-93 minutes. The same Python API and MCP tools can support either. Model-directed tool use is the distinction '
         'we want to observe. Ask students to retain a short real action/observation log, not invent '
         'an autonomous story around a fixed helper. With no model access, a partner can perform '
         'the same Python/render/review exercise and label the work human-directed.'))
-    s.append(L.rows('Tools expose actions the agent can request.', [
-        ('Blender API', 'bpy reads and changes application data.'),
-        ('Command line', 'Start Blender with a script and arguments.'),
-        ('MCP tool', 'Discover a named operation and send structured arguments.')],
-        notes='94-96 minutes. MCP is an optional interface, not a prerequisite for an agent using '
-        'Blender. Our bounded CLI adapter launches disposable Blender; the community bridge uses '
-        'a server/add-on and live loopback socket. Both ultimately execute Blender Python. A tool '
-        'description/schema says what may be called, not whether the art is good. Existing community '
-        'bridge is pinned and tested; do not install a random replacement during the lecture.'))
+    s.append(L.rows('The tools return different observations.', [
+        ('Read state', 'get_objects_summary'),
+        ('See the view', 'get_screenshot_of_window_as_image'),
+        ('Change state', 'execute_blender_code runs bpy inside Blender')],
+        notes='93-94 minutes. Actual tools exposed by the configured Blender Lab server. Prefer '
+        'the dedicated inspection tools, including get_object_detail_summary. Use Python execution '
+        'when a required edit has no more specific tool. It has broad application access, so keep '
+        'the change scoped to the named object. A returned object/scale and a screenshot answer '
+        'different questions. A screenshot shows the current view, which may differ from a camera '
+        'render. Listing tools proves discovery; a successful read also proves the connection to '
+        'Blender. A good changed/saved result needs further observations. Source: ' + LAB_SOURCE))
     code('A tool call carries explicit arguments.', [
         '{"jsonrpc":"2.0", "id":3, "method":"tools/call",',
         ' "params":{"name":"execute_blender_code",',
         ' "arguments":{"code":',
-        ' "import bpy; print(bpy.data.objects.get(\\"Sculpture\\"))"}}}',
-    ], '96-97 minutes. Syntactically valid illustrative MCP JSON request to the community server. '
-       'The code string is valid embedded Python and prints the named object. Our real client '
-       'builds requests through the SDK rather than hand-typing JSON. Request id correlates a '
-       'response; a successful response is not proof of a saved scene/render. Do not confuse '
-       'this community tool name with the course adapter\'s render_scene/inspect_scene. Source: '
-       + source + '/blender_live.py', lang=None)
+        ' "import bpy; result = {\\"count\\": len(bpy.data.objects)}"}}}',
+    ], '94-96 minutes. Valid illustrative MCP request using the Blender Lab execute_blender_code '
+       'schema. Assign a JSON-compatible dictionary to result to return data; printing alone is '
+       'not the Lab tool\'s structured return convention. This read-only code counts objects to '
+       'show the API boundary; normally prefer the dedicated object-inspection tool. Codex '
+       'constructs calls from the tool schema, not from a user typing JSON. Request id correlates '
+       'the response. Execution, saving a .blend and inspecting an image remain separate. Source: '
+       + LAB_SOURCE + '/src/commit/dbbf836ad4b1025f14a2b3b504c43903f39e0b04/mcp/blmcp/tools/execute_blender_code.py', lang=None)
     s.append(L.rows('Review the result in the same PR.', [
         ('First PR', 'A focused diff plus the actual before/after result.'),
         ('Review', 'Reduce x to 1.3 * s. Keep everything else fixed.'),
         ('Revision', 'Rerender, compare, update the existing branch.')],
-        notes='97-99 minutes. Human reviewer requests less width while preserving height/depth/camera. '
-        'Give that request back to the agent on the same branch. Run git diff --check, read the '
-        'diff and attach current observations to the existing PR. Generated scenes/caches stay '
+        notes='96-99 minutes. Human reviewer requests less width while preserving height/depth/camera. '
+        'In the same Codex session, reinspect live Sculpture, set x scale to1.625 and preserve y/z, '
+        'then inspect a new screenshot/render and save revised/sculpture.blend. Update the matching '
+        'source and evidence note on the same branch. Run git diff --check, read the diff and '
+        'attach current observations to the existing PR. Live scene memory, the saved file and '
+        'source code can disagree; verify which one Godot will receive. Generated scenes/caches stay '
         'ignored. A person makes the merge decision; a practice PR can remain open. The teaching '
         'example is a rehearsed request, not a fabricated GitHub PR screenshot.'))
     s.append(comparison('One requested revision: less width.', 'blender-first.png', 'blender-revised.png',
