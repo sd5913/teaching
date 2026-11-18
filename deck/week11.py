@@ -9,7 +9,7 @@ import week11_blender
 
 E = 'SD5913 / WEEK 11 / 19 NOVEMBER 2026'
 # Refresh only after the paired companion is tested and committed.
-PFAD = 'https://github.com/sd5913/pfad/tree/08b75a5dd953ac73238fe80a3ee8c0d973552fe1/week11'
+PFAD = 'https://github.com/sd5913/pfad/tree/b42f5fde0da478fe3932f997e324efd063299fb5/week11'
 SOURCE = PFAD.replace('/tree/', '/blob/')
 S = []
 
