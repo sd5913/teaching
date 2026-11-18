@@ -49,27 +49,70 @@ def compare(heading, left, right, labels, notes, date='29 OCTOBER 2026'):
 
 S.append(title(E, 'Agents, tools\nand evidence.',
     'Two cases: Blender scenes and an authenticated web app.', size=130,
-    notes='0-2 minutes. Thursday 19 November 2026. This lecture is 120 minutes including a 55-65 break; '
+    notes='0-1 minutes. Thursday 19 November 2026. This lecture is 120 minutes including a 55-65 break; '
     'the separate PFAD tutorial is another 120 minutes. Students choose Blender or the authentication '
     'template for tutorial practice. Explain an agent goal/action/observation/stop, inspect a Blender '
     'change through a reviewed PR, trace OAuth identity into owner-scoped D1 rows and distinguish '
     'CI evidence from a working deployment. Godot moves to Week 12 preparation, preserving its '
     'existing runnable files. No live autonomous episode is claimed today. Companion: ' + PFAD))
-S.append(agenda(E, ['0-10 / agent goals, tools and evidence',
+# Four dated news items fit within the existing ten-minute opening.
+prose('GPT-6.2 Astra and Sol', [
+    '17 November / OpenAI releases new coding and work models.',
+    'OpenAI reports better outputs, but also omitted blockers in two tests.',
+    'What should an agent say when the scene file is missing?',
+], '1-2 minutes. Available in ChatGPT Work/Codex for Plus, Pro, Enterprise and Edu, and API. '
+   'OpenAI reports a Codex instruction mitigation for obstacle omissions. These are vendor '
+   'observations, not an independent classroom comparison. Ask for an honest stop and evidence '
+   'before changing the scene. No new model run or account is required. Source, checked '
+   '18 November 2026: https://openai.com/index/introducing-gpt-6-2-astra-sol/',
+   label='AI NEWS / 17 NOVEMBER 2026 / OPENAI')
+prose('Gemini 4 Hydrogen', [
+    '12 November / Google releases a model for fast agent execution.',
+    'An orchestrator can switch between Carbon and Hydrogen.',
+    'What must an editing agent hand to a separate verifier?',
+], '2-3 minutes. Google article updated 16 November, checked 18 November 2026. '
+   'Available across Gemini, AI Studio and API tiers; Antigravity requires Pro or Ultra. '
+   'Google reports near-Carbon task success with 24% less quota and 19% faster completion '
+   'on Terminal-Bench 4.0. This vendor benchmark does not establish our camera task quality. '
+   'Keep the same brief and acceptance criterion; inspect the diff and current render. Source: '
+   'https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/',
+   label='AI NEWS / 12 NOVEMBER 2026 / GOOGLE')
+prose('Qwen4-Max', [
+    '16 November / Alibaba releases vision and tool use with long context.',
+    'Available through QwenCloud, QwenWork and QwenStudio.',
+    'Which intermediate result would you review before the next action?',
+], '3-4 minutes. Alibaba announces a one-million-token context window. Long context and '
+   'vendor demonstrations do not guarantee a correct long-running task. Ask for a small diff, '
+   'a current render and a clear stop condition. Smaller open-weight Qwen4 models are promised; '
+   'this announcement does not establish Max as open source. Checked 18 November 2026. Source: '
+   'https://www.alibabacloud.com/en/press-room/alibaba-unveils-qwen4-max?_p_lc=1',
+   label='AI NEWS / 16 NOVEMBER 2026 / ALIBABA')
+prose('Seedream 5.5 and Layers', [
+    '12 November / Runway Dev adds image generation and layer extraction.',
+    'Layers returns a base image and transparent PNG layers.',
+    'After moving one object, which edges and hidden areas need checking?',
+], '4-5 minutes. Runway documents source-image decomposition into raster layers, not native '
+   'vector objects. Compare a selective edit with whole-image regeneration in discussion; '
+   'do not add another live practical. maxImages caps returned images (2-100, default 30); '
+   'billing is per returned image after a credit reservation. Use an instructor-owned synthetic '
+   'image only if preparing an optional later example; no upload or paid call is needed today. '
+   'Checked 18 November 2026. Source: https://docs.dev.runwayml.com/api-details/api_changelog/',
+   label='AI NEWS / 12 NOVEMBER 2026 / RUNWAY DEV')
+S.append(agenda(E, ['0-10 / news, agent goals, tools and evidence',
     '10-35 / Blender: inspect, change and render', '35-55 / branch, PR, review and revision',
     '55-65 / break', '65-90 / GitHub OAuth: redirects, state and session',
     '90-110 / private D1 notes and deployment', '110-120 / tutorial handoff and questions'],
-    notes='Keep terminal/UI work and discussion inside each block. The same evidence loop connects '
+    notes='5-6 minutes. Keep terminal/UI work and discussion inside each block. The same evidence loop connects '
     'both cases: a small brief, allowed changes, a result, review and a stopping condition. The '
     'tutorial completes one route, with its own 55-65 break and 100-120 project/tutor support. '
     'Do not add a third Godot practical or remove the W10 handbook retrieval/memory progression.'))
 S.append(statement('Which result would\nyou accept?', size=112,
-    notes='2-4 minutes. Ask for one concrete creative task: two useful camera views, or a private '
+    notes='6-7 minutes. Ask for one concrete creative task: two useful camera views, or a private '
     'project note that survives restart. Have students name the observation that would convince '
     'them. A model saying done is a claim; a diff, current render, failed ownership attempt or '
     'fresh-process reload supplies evidence. Hear two answers; no new submission is required.'))
 diagram('An agent chooses the next action.', F.agent(),
-    '4-6 minutes. An agent pursues a goal by choosing actions using observations, subject to limits '
+    '7-8 minutes. An agent pursues a goal by choosing actions using observations, subject to limits '
     'and a stopping condition. For our Blender example: preserve sculpture/material/light; change '
     'only the camera pair; inspect the diff and actual renders; revise if the second view needs '
     'more of the front face; stop after the accepted comparison or ask a human when the tool fails. Tool execution '
@@ -79,7 +122,7 @@ prose('A script and an agent can use the same tool.', [
     'A script can run a fixed list of camera poses.',
     'An agent can choose a new pose after seeing a result.',
     'Both still need checks and a human acceptance decision.',
-], '6-8 minutes. A loop over two coordinates is deterministic automation, not proof of agentic '
+], '8-9 minutes. A loop over two coordinates is deterministic automation, not proof of agentic '
    'decision-making. Our supplied Blender client executes a fixed reviewed sequence; call it '
    'that. In an agent-assisted coding task the model may propose edits, run tools and revise '
    'using observations, while the student owns the brief, review and merge. Do not fake a live '
@@ -88,7 +131,7 @@ prose('The handbook agent keeps its knowledge path.', [
     'Week 10: retrieve handbook sources and retain conversation history.',
     'Today: call a creative tool or build a signed-in application.',
     'A source, a tool result and a session have different jobs.',
-], '8-10 minutes. Preserve the same handbook embedding index/retriever, isolated persisted '
+], '9-10 minutes. Preserve the same handbook embedding index/retriever, isolated persisted '
    'conversation rows, assembled prompt and spoken reply from Week 10. They are not replaced '
    'by Blender or a login page. An authenticated identity could later choose a conversation '
    'owner; it does not turn a cookie into knowledge or make a retrieved answer correct. Week '

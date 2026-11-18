@@ -9,7 +9,7 @@ do not add a third Week 11 installation or change the Week 12 lesson.
 
 | Minutes | Teaching work and observable evidence |
 | --- | --- |
-| 0-10 | Ask which result students would accept. Explain agent goal/action/observation/stop versus fixed script. Keep W10 handbook sources, conversation history, prompt and spoken reply distinct. |
+| 0-10 | Title 0-1; four dated news items 1-5 (one minute each); agenda 5-6; acceptance question 6-7; agent loop 7-8; script/agent distinction 8-9; W10 bridge 9-10. Ask which result students would accept. Explain agent goal/action/observation/stop versus fixed script. Keep W10 handbook sources, conversation history, prompt and spoken reply distinct. |
 | 10-35 | Actual Blender scale/camera renders, named object/property, CLI/API/process boundary and save/render distinction. Run one short render/failure; trace MCP discovery/call/result. Optional live bridge is preflight/tutorial work, not another unbudgeted lecture demo. |
 | 35-55 | Worked camera PR: criterion, `agent/camera-study`, existing first-attempt renders/evidence note, reviewer request, second-camera revision, current comparison, relevant checks and human review/merge in same PR. |
 | 55-65 | Full break. Close disposable Blender/bridge first. |
@@ -236,3 +236,13 @@ Preserve existing engine/bridge notices and licensing; Blender is GPL, the
 community bridges and MCP SDK are MIT. No downloaded artwork. Crosswalk and
 knowledge ledger: `week11-planning.md`. Detailed test/build/render evidence
 and remaining classroom/live checks live in the private integration report.
+
+## News opener refreshed 18 November 2026
+
+Four actual deck slides follow the title: GPT-6.2 Astra/Sol, Gemini 4 Hydrogen,
+Qwen4-Max, and Seedream 5.5/Layers. Use one minute per item inside 0-10,
+not an extra demonstration block. The deck now contains 63 slides.
+The previous October news note is historical; do not add it to this schedule.
+Sources, dates, availability and limitations are in the slide notes and
+`week11-news-20261118.md`. No paid calls, new accounts, student data or
+new practical/assessment are required. Keep both later cases and all breaks unchanged.
