@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class DiagramTests(unittest.TestCase):
     def test_projected_tool_request_is_valid_json_and_python(self):
-        tree = ast.parse((ROOT / 'deck/week11.py').read_text())
+        tree = ast.parse((ROOT / 'deck/week11_blender.py').read_text())
         for call in ast.walk(tree):
             if (isinstance(call, ast.Call) and isinstance(call.func, ast.Name)
                     and call.func.id == 'code' and call.args
@@ -34,7 +34,10 @@ class DiagramTests(unittest.TestCase):
             for name in ['scene_outputs', 'blender_boundary', 'live_mcp', 'discovery',
                          'godot_boundary', 'behavior', 'evidence', 'failure',
                          'agent', 'pull_request', 'oauth_redirect', 'oauth_session',
-                         'session_request', 'ownership', 'deploy', 'credential_transfer']:
+                         'session_request', 'ownership', 'deploy', 'credential_transfer',
+                         'registration', 'password_login', 'salts', 'local_identity',
+                         'session_cycle', 'oauth_code', 'oauth_identity', 'app_stack',
+                         'asset_path', 'scene_parts']:
                 svg = ET.fromstring(getattr(module, name)())
                 for label in svg.findall('{http://www.w3.org/2000/svg}text'):
                     with self.subTest(diagram=name, text=label.text):

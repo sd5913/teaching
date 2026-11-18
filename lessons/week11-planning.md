@@ -1,115 +1,49 @@
-# Week 11: agents, Blender and authenticated applications
+# Week 11 redesign and source crosswalk
 
-Approved direction: 15 November 2026, for 19 November. The instructor has
-approved exactly two cases: Blender through the existing PFAD examples, and
-authentication/deployment through `sd5913/github-oauth-d1-template`, adapted
-from the existing registry. Personal GitHub OAuth Apps are confirmed. This
-supersedes the earlier Week 11 Blender/Godot allocation. The lecture lasts
-120 minutes; the separate 120-minute tutorial completes one selected case.
-Godot practical work remains supplied as Week 12 preparation.
+Current instructor direction:18 November 2026, for19 November. Authentication theory
+and visible GitHub deployment first; Blender Python and asking an agent to operate
+the application second; SAME saved object imported into Godot. This supersedes the
+15 November tool-first draft and its blanket deferral of Godot. The new Godot work
+is a small asset handoff within Blender, not a third tutorial or replacement for W12.
 
-## Outcomes and knowledge ledger
+See [the run sheet](week11-lesson-plan.md) for timing, exact config, demos and limits.
+Follow the accepted W9/W10 pattern: define -> diagram -> data/code -> demo/check.
+Full120-minute lecture and separate 120-minute tutorial;55-65 break in both, 100-120
+tutorial project/tutor support. Four dated news items stay inside the opening 1-5.
 
-Students should be able to:
+## Outcomes and progression
 
-1. Explain a goal, available actions, observation, revision and stopping rule;
-   distinguish a fixed tool script from an agent choosing the next action.
-2. Trace a Blender property change through API/CLI/MCP boundaries to a saved
-   scene and actual render, then review a focused camera change in one PR.
-3. Trace browser redirects, state validation, server code exchange and a signed
-   session into a server-derived owner filter on a persistent D1 note.
-4. Distinguish repository setup values, runtime bindings, credential-free PR
-   checks, deployment and credential-dependent live acceptance.
+1. Separate stored record identity from authentication and authorization.
+2. Explain registration, salted slow password hashing, login verification and
+   session lifecycle; compare opaque and signed sessions accurately.
+3. Trace GitHub state/code/PKCE/profile into an app session and server-derived
+   D1 owner query; follow the actual GitHub configuration/Actions deployment path.
+4. Explain Blender object/mesh/material/transform/camera/save/render concepts;
+   ask an agent to inspect, edit, use Blender, observe and revise with a clear stop.
+5. Export the SAME saved Sculpture to GLB, instantiate it in Godot and check
+   axes/dimensions/pivot/material while separating visible mesh from collision.
 
-| Already taught | Reused here | New this week |
-| --- | --- | --- |
-| W7 objects, methods, state and multiple views | Named scene object/property; code versus stored values | Application-owned scene state, saved scene and camera render |
-| W8 focused changes, branch/PR/check/review | A criterion, diff, evidence, reviewer request and revision | Actual Blender evidence; same workflow applied to deployment |
-| W9 processes/messages and server authority | CLI/stdio/socket/request/result | API/CLI/MCP boundaries in a creative application |
-| W10 fictional local User/Conversation/Message rows | Parameterized owner filters and persistence/restart | Authenticated GitHub identity, signed session and per-request authorization |
-| W10 handbook embeddings/retriever/memory/spoken reply | Same source-backed knowledge path; tool result as context | An external creative action is a different kind of tool; login does not replace retrieval |
-
-## Lecture and separate tutorial
-
-| Lecture minutes | Work |
+| Prior learning | Reuse and extension |
 | --- | --- |
-| 0-10 | Agent goal/action/observation/stop; fixed workflow distinction; W10 handoff |
-| 10-35 | Existing Blender scale/camera scene, API/process/save/render; failure; concise MCP trace |
-| 35-55 | Concrete camera PR: acceptance, branch, initial renders, reviewer request, revision, checks and human merge |
-| 55-65 | Break |
-| 65-90 | Private-note brief; local rows versus identity; OAuth redirect/state/server exchange/session; personal OAuth App; credential locations |
-| 90-110 | D1 owner key/query, reload/restart, PR CI versus deployment, failures and second-account isolation |
-| 110-120 | Choose one tutorial route, Week 12 preparation, project support/policy and questions |
+| W7 classes, objects, methods, state/views | Named scene objects and transforms versus mesh/material; same object in different views/apps |
+| W8 branch/PR/check/review and cloud dev | Focused visual goal, same-PR revision; deployment is separate from a prepared coding workspace |
+| W9 processes/requests/server authority | Blender embedded Python/CLI/tool boundaries; browser/Worker/GitHub/D1 roles |
+| W10 User/Conversation/Message persistence | User row is not caller proof; verify session then scope owner queries; fresh-process persistence |
+| W10 handbook embedding retrieval/memory/spoken reply | Same corpus/index and knowledge path retained; identity and creative tool action extend the agent |
 
-The PFAD tutorial has its own 120-minute allocation and 55-65 break. Students
-choose Blender or authentication; 100-120 remains scheduled tutor/project
-support. A student does not need both applications or the instructor's login.
-Blender uses existing scene/variants/tool examples. Authentication uses the
-separate template, students' personal OAuth Apps and Cloudflare accounts. If
-setup fails, preserve useful code/test tracing and use a prepared partner or
-choose Blender; mock OAuth does not establish working GitHub sign-in.
+## Reuse and sources
 
-## Worked PR and concrete evidence
-
-The supplied `blender_variants.py` already renders `(7,-9,6)` and `(9,-7,6)` at
-scale 1.25. The first branch task asks an agent to inspect/render the existing
-code and add a small credential-free evidence note, not to recreate the same
-function. The first PR diff is that note. Acceptance: keep scale, sculpture,
-material, light and look target fixed; output two uncropped camera views in
-separate folders. The reviewer asks the second view to show more front and less
-side; increasing the angular separation between the two cameras is not the goal.
-
-Worked reviewer request: keep the first pose and scene unchanged; try second
-camera `(5,-10,6)` aimed at the same target; rerender and attach the comparison
-to the same PR. The revision changes only the second coordinate pair. The
-reviewer inspects diff, recorded camera coordinates and actual images, then a
-human approves/merges after relevant checks. The source/images are real; the
-brief/reviewer wording is an instructional example, not an invented public PR
-or a claimed live autonomous episode. New render provenance is in
-`deck/assets/week11/camera-revision-source.md`.
-
-## Authentication case and exact contract
-
-Template: https://github.com/sd5913/github-oauth-d1-template . Reuse source:
-registry `531980151fd4aa1e37baacdc9223e4f69d61721c`, retaining its
-Vinext/React/Vite, Worker/D1 and Web Crypto session approach while removing
-roster/assessment/admin features. Preserve provenance and upstream notices.
-Week 10's fictional local profile IDs were database identities, not login.
-The template confirms a GitHub numeric ID and uses it as the note owner key.
-It never trusts an owner ID from the browser or stores a GitHub access token.
-
-Local app: `http://127.0.0.1:3000`. Callback:
-`APP_URL` plus `/api/auth/github/callback`. Use the exact configured URL for
-each demonstrated environment; separate local and deployed personal OAuth Apps
-make environment ownership clear. No PAT, repo scope or installable GitHub App.
-
-| Repository secret name | Destination/purpose |
-| --- | --- |
-| `CLOUDFLARE_API_TOKEN` | Actions deployment authorization |
-| `CLOUDFLARE_ACCOUNT_ID` | Deployment account |
-| `CLOUDFLARE_D1_DATABASE_ID` | Generated D1 binding configuration |
-| `CLOUDFLARE_WORKER_NAME` | Worker configuration |
-| `APP_URL` | Fixed public app origin/callback configuration |
-| `OAUTH_CLIENT_ID` | Mapped to runtime `GITHUB_CLIENT_ID` |
-| `OAUTH_CLIENT_SECRET` | Mapped to runtime `GITHUB_CLIENT_SECRET` |
-| `SESSION_SECRET` | Runtime session/state signing secret |
-
-All eight go in repository Settings > Secrets and variables > Actions.
-GitHub reserves secret names beginning `GITHUB_`; the aliases are deliberate.
-Some values are public identifiers, but one repository-secrets setup route is
-the approved classroom flow. Actions writes an unlogged temporary secrets file;
-`wrangler deploy --secrets-file` installs the three OAuth/session bindings in
-the Worker. Storing a repository secret alone does not install a runtime secret.
-Locally, copy `.dev.vars.example` to ignored `.dev.vars` for the runtime names;
-optional `.env.example`/`.env` holds public build configuration.
-
-Routes: GET `/api/auth/github`, GET `/api/auth/github/callback`, POST
-`/api/auth/logout`, GET/POST `/api/note`. Notes accept only `{ "body": "..." }`,
-at most 2000 characters. `lib/handlers.ts` verifies state/profile/session,
-request origin and schema, and binds `session.githubId` in every note query.
-`lib/session.ts` signs/verifies expiry; `migrations/0001_notes.sql` stores one
-row per `notes.github_id`. The SQL panel includes the timestamp required by the schema; the surrounding
-route handles session/origin checks and binds the verified owner ID.
+- Course layout: existing week09_layouts and Week 10 concept/diagram/code/demo sequence.
+- PFAD: existing blender_scene.py, variants, bounded tools and pinned community bridge;
+  reuse world.engine() for a separate small Godot3D preview. No replacement 2D world.
+- Template pinned69cbed7363412daa4a7e8c2c8fc4ed02a3f1afa5. Registry-derived session/
+  owner-query implementation and notices retained; no new credentials subsystem.
+- Actual GitHub public repository captures and attributed GitHub Docs control images.
+  Production deployment is unconfigured/skipped; screenshots never claim otherwise.
+- Actual Blender/Godot renders18 November; temporary source variants label author rehearsal,
+  not a model transcript. Student agent prompt permits real CLI operation and image review.
+- Password concepts restore2025 Week 10 slides39-43 and Week11 slides13-14, modernized
+  to a per-password salt and slow supported password library; never copy old unsalted code.
 
 ## Source-to-lesson crosswalk
 
@@ -122,14 +56,14 @@ crosswalk is retained, with the instructor-approved redistribution recorded.
 | W11 pp4-17 objects/storage recap | Reused, shortened | Scene/property/save/render; W10 owner-query and restart concepts reused in D1 |
 | W11 p22; W10 retrieval/Pip | Retained dependency | Same handbook embedding space, source-backed retriever, conversation history and spoken reply; opening handoff, no replacement corpus |
 | W11 pp18-30 Orange/t-SNE/projection | Removed by instructor | No Orange/matrix/projection requirement; explicit scope decision retained |
-| W11 pp31-33 Python-enabled Blender | Updated | Actual bpy inspect/change/save/render, API/process boundaries |
-| W11 pp34-39 multi-angle dataset | Retained/updated | Two controlled camera variants and concrete agent-assisted PR revision; no generated mesh requirement |
+| W11 pp31-33 Python-enabled Blender | Updated | Scene/object/mesh/material and transforms, actual bpy inspect/change/save/render, API/process boundaries |
+| W11 pp34-39 multi-angle dataset | Retained/updated | Camera position/aim, optional two-view loop; main task is agent-assisted proportions/review, then same asset to Godot |
 | W11 pp40-44 TouchDesigner/Python | Retained as extension | Linked archive; operators/data mapping, no extra install |
 | W11 pp45-48 NDI | Retained as extension | Networked audio/video contrasted with named tools/control messages |
 | W11 pp49-55 MediaPipe/OSC | Moved/retained | W9 vision-to-message bridge; optional W11 archive extension |
 | W11 pp56-60 physics server/clients/async | Moved/retained | W9 server-owned state; creative application owns its scene, Worker owns authorization |
 | W11 pp61-78 tutorial/project update | Updated | Complete two-route timed PFAD README; 19 November tutor support; no new assessment |
-| Accepted W11 Godot world/bridge/check/failure/capture | Moved by instructor, 15 November | Existing PFAD files preserved as preparation; existing W12 0-20 first-time setup and prepared-partner handoff, then bounded agent/check/revise/film |
+| Accepted W11 Godot world/bridge/check/failure/capture | Moved by instructor, 15 November | Existing2D world preserved for W12; instructor18 November adds small Blender GLB -> Node3D preview in W11; W12 full agent/check/revise/film unchanged |
 | W10 local account rows / registry auth architecture | Extended with approval | Personal OAuth App, server session, D1 private note, CI/deploy/credential boundaries; no roster features |
 
 Archive source inspected in the accepted plan: PFAD `origin/2025` at
@@ -138,24 +72,20 @@ OSC demo and Blender datasetbuilder inventory. The archive has no standalone
 Python file for its embedded Blender script. Current W10 and W12 planning/decks
 were read before this revision. No W12 source is modified here.
 
-## Sources, versions and evidence limits
+## Current evidence and boundaries
 
-Current documentation fetched through Context7 on 15 November: GitHub OAuth
-App web flow/state/code exchange; Cloudflare Wrangler remote D1 migrations;
-`wrangler deploy --secrets-file` runtime installation. Exact primary URLs are
-in the run sheet and relevant slide notes. GitHub repository-secret prefix
-restriction was independently checked during integration; the template names
-use `OAUTH_` aliases. No release-news claim is needed for this lesson.
+Current primary documentation checked through Context718 November: OWASP password/
+session guidance, GitHub OAuth/App creation/Secrets/workflow_dispatch, Cloudflare
+runtime secrets/D1 deployment, Blender Python and Godot GLB/scene instantiation.
+Exact URLs and attribution are in notes and asset manifests. The verified companion
+pin in deck/week11.py is refreshed after integration; no floating-branch claim.
 
-Blender scene output was rerendered on 15 November with Blender 5.2.3 LTS.
-The old verified community-bridge paths/pins remain supplied, accurately
-labelled as previous checks; a fixed client is never called a live model loop.
-The new template's tests use mock OAuth; built-Worker/local-D1 integration
-and actual GitHub/Cloudflare acceptance are separate evidence categories.
-No credentials, account captures or identifiable student notes are published.
-Full build/render/test evidence belongs in the private author report.
+Linux Blender 5.3.0/Godot 4.7.2 outputs, actual engine import/instantiation, source
+preservation and size/material/floor checks support the new handoff. Bridge earlier
+acceptance used 5.2.3. No live model episode, live OAuth/cloud deployment, private
+account capture or student data is claimed. Classroom projection/Windows/macOS
+remain manual checks. Mock OAuth and local fixtures are clearly labelled.
 
-The group project remains 40%, 25/50/25, due 6 December 2026 at 23:59 HKT.
-Use a public sd5913-owned group repository; personal OAuth App ownership does
-not change that policy. GitHub Projects or an equivalent accessible shared
-progress record is valid. Canvas submission instructions remain authoritative.
+Orange/t-SNE remains removed by instructor. Public sd5913 group repo,40% project,
+25/50/25 rubric and 6 December 2026 23:59HKT deadline remain. Canvas is submission;
+GitHub Projects recommended or equivalent accessible progress record.

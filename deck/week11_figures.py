@@ -121,7 +121,7 @@ def ownership():
     for y, user_id, body in [(135, '101', 'camera plan'), (360, '202', 'sound plan')]:
         c.rect(40, y, 530, 165, fill=PAPER, stroke=TEAL, width=2)
         c.rect(880, y, 760, 165, fill=PAPER, stroke=TEAL, width=2)
-        label(c, 70, y + 65, 'Session ID: ' + user_id, 46)
+        label(c, 70, y + 65, 'Session user: ' + user_id, 46)
         label(c, 70, y + 125, 'verified by server', 42)
         arrow(c, 610, 830, y + 85)
         label(c, 910, y + 65, 'notes.github_id = ' + user_id, 46)
@@ -142,3 +142,93 @@ def credential_transfer():
         ('Deploy job', 'temporary file', '--secrets-file'),
         ('Worker', 'OAuth + session', 'runtime env')],
         'The deploy job installs Worker runtime secrets')
+
+
+def registration():
+    return sequence('registration', [('Person', 'choose account', 'send password'),
+        ('Server', 'salt + slow hash', 'Argon2id'),
+        ('User row', 'ID + identity', 'salt + hash')],
+        'Registration creates a record that later login can verify')
+
+
+def password_login():
+    return sequence('password-login', [('Login request', 'account name', 'candidate secret'),
+        ('Verification', 'load saved hash', 'library verifies'),
+        ('Decision', 'match: session', 'else: reject')],
+        'The server verifies a guess without recovering the password')
+
+
+def salts():
+    c = Canvas(1680, 640)
+    for y, user, salt, value in [(110, 'Ada', 'salt A', 'hash A'), (330, 'Bo', 'salt B', 'hash B')]:
+        c.rect(20, y, 480, 150, fill=PAPER, stroke=TEAL, width=2)
+        label(c, 50, y + 62, user + ': same password', 40)
+        label(c, 50, y + 120, '"paper-lantern"', 42)
+        arrow(c, 535, 615, y + 80)
+        label(c, 660, y + 94, salt, 48)
+        arrow(c, 955, 1045, y + 80)
+        c.rect(1090, y, 565, 150, fill=PAPER, stroke=TEAL, width=2)
+        label(c, 1120, y + 62, 'Argon2id result', 42)
+        label(c, 1120, y + 120, value, 46)
+    label(c, 840, 600, 'Different random salts give different stored results', 42, anchor='middle')
+    return c.finish('week11-password-salts')
+
+
+def local_identity():
+    c = Canvas(1680, 640)
+    node(c, 30, 1, 'User row', 'id = 101', 'name = Ada', 640)
+    node(c, 990, 2, 'Browser request', 'user_id = 101', 'anyone can type it', 660)
+    label(c, 830, 325, '?', 100, color=ORANGE, anchor='middle')
+    label(c, 840, 590, 'A stored ID identifies a record. Login identifies the caller.', 40, anchor='middle')
+    return c.finish('week11-local-identity')
+
+
+def session_cycle():
+    c = Canvas(1680, 640)
+    node(c, 20, 1, 'Browser', 'session cookie', 'sent on requests', 470)
+    node(c, 600, 2, 'App server', 'verify signature', 'check expiry', 470)
+    node(c, 1180, 3, 'Private note', 'owner = 101', 'query this row', 470)
+    arrow(c, 510, 570)
+    arrow(c, 1090, 1150)
+    label(c, 840, 580, 'Login starts a session; later requests prove possession', 42, anchor='middle')
+    return c.finish('week11-session-cycle')
+
+
+def oauth_code():
+    return sequence('oauth-code', [('Browser', 'visit GitHub', 'sign in + allow'),
+        ('GitHub', 'return to app', 'code + state'),
+        ('Our Worker', 'check state', 'exchange code')],
+        'The callback returns a temporary code, not a password')
+
+
+def oauth_identity():
+    return sequence('oauth-identity', [('Our Worker', 'code + verifier', 'client credential'),
+        ('GitHub API', 'token then /user', 'id = 101'),
+        ('Our app', 'create session', 'owner = 101')],
+        'Our app verifies identity before creating a session')
+
+
+def app_stack():
+    return sequence('app-stack', [('Browser', 'page + cookies', 'HTTPS requests'),
+        ('Worker', 'routes + checks', 'server code'),
+        ('D1 database', 'notes table', 'persistent rows')],
+        'GitHub hosts source; Cloudflare runs the application')
+
+
+def asset_path():
+    return sequence('asset-path', [('Blender', 'Sculpture mesh', '.blend source'),
+        ('glTF binary', 'mesh + material', 'sculpture.glb'),
+        ('Godot', 'scene instance', 'Node3D children')],
+        'Source document -> portable asset -> scene instance')
+
+
+def scene_parts():
+    c = Canvas(1680, 640)
+    for x, heading, first, second in [(25, 'Object', 'location + scale', 'references mesh'),
+                                     (605, 'Mesh', 'vertices + faces', 'surface geometry'),
+                                     (1185, 'Material', 'base color', 'surface response')]:
+        node(c, x, (x // 580) + 1, heading, first, second, 460)
+    arrow(c, 510, 575)
+    arrow(c, 1090, 1155)
+    label(c, 840, 585, 'Moving an object changes its transform, not its mesh vertices', 40, anchor='middle')
+    return c.finish('week11-scene-parts')
