@@ -24,7 +24,7 @@ pattern. Do not lead with protocol plumbing or a generic PR workflow.
 | 85-97 | Give an agent a bounded visual goal; first proportion change; actual before/after; action/observation/revision versus a fixed script; API/CLI/MCP as interfaces. |
 | 97-103 | Focused reviewer request on the same PR; rerender less width with everything else fixed; accept/revise/stop. |
 | 103-115 | SAME saved Sculpture -> GLB -> Godot PackedScene/Node3D instance; axes, dimensions, pivot, material; actual two-application images; rendering versus collision. |
-| 115-120 | Choose one tutorial route; 100-120 tutor/project support; project policy and questions. |
+| 115-120 | Choose one tutorial route; 100-120 tutor/project support; project policy, then AMA at 118-120. |
 
 Speaker notes supply explanations, predictions and exact sources. Primary diagram
 labels remain at least 40 design pixels on a 1920x1080 canvas. Protect discussion

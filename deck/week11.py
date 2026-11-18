@@ -2,7 +2,7 @@
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from deckgen.layouts import title, agenda, section, content, end
+from deckgen.layouts import title, agenda, section, statement, content, end
 import week09_layouts as L
 import week11_auth
 import week11_blender
@@ -102,12 +102,15 @@ S.append(L.rows('Keep the project support time.', [
     'exercise/OAuth ownership does not change the group repository rule. No requirement to use '
     'today\'s tools in the project. Week 12 retains the complete bounded Godot agent/check/revise/film '
     'episode; today\'s import prepares the asset concept without replacing it.'))
-S.append(end('Questions?', 'Trace the identity. Inspect the result. Decide what to accept.',
-    'SD5913 / PFAD / WEEK 11',
-    notes='118-120 minutes. Invite questions on password verification versus sessions, state/code '
+S.append(statement('AMA.\nAsk me anything.', size=130,
+    notes='118-120 minutes. Open the floor for questions about the lecture, the project or using '
+    'agents in creative work. Invite questions on password verification versus sessions, state/code '
     'versus app session, GitHub CI versus a deployed Worker, or editable scene versus imported '
     'asset. Ask students which observation would let them accept their next change. Protect the '
     'separate tutorial and tutor support allocation.'))
+S.append(end('Make it yours.', 'Trace the identity. Inspect the result. Decide what to accept.',
+    'SD5913 / PFAD / WEEK 11', notes='Close at minute 120 after the AMA. Continue with the selected '
+    'route in the separate tutorial and keep the scheduled tutor/project support time.'))
 
 DECK = {'title': 'SD5913 / Week 11 / Identity, deployment and creative tools',
         'pdf': 'SD5913-week11.pdf', 'slides': S}
