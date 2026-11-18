@@ -21,8 +21,9 @@ pattern. Do not lead with protocol plumbing or a generic PR workflow.
 | 55-65 | Full break. |
 | 65-74 | Actual Blender render; scene/object/mesh/material; transforms, centre/pivot and dimensions; calculate floor contact. |
 | 74-85 | Embedded Blender Python; named collection lookup, property assignment, camera position/aim; save versus render; missing-object failure and recovery. |
-| 85-97 | Give an agent a bounded visual goal; first proportion change; actual before/after; action/observation/revision versus a fixed script; API/CLI/MCP as interfaces. |
-| 97-103 | Focused reviewer request on the same PR; rerender less width with everything else fixed; accept/revise/stop. |
+| 85-88 | Codex -> Lab MCP server -> running Blender add-on; two-part setup and a read-only connection check. |
+| 88-96 | Give Codex a bounded live-scene goal; inspect, edit through MCP, check a fresh image; connect returned data to bpy and distinguish an agent from a fixed script. |
+| 96-103 | Reviewer requests less width in the same session/PR; inspect the live result, save the revised copy and retain a matching source edit. |
 | 103-115 | SAME saved Sculpture -> GLB -> Godot PackedScene/Node3D instance; axes, dimensions, pivot, material; actual two-application images; rendering versus collision. |
 | 115-120 | Choose one tutorial route; 100-120 tutor/project support; project policy, then AMA at 118-120. |
 
@@ -122,14 +123,63 @@ bpy. Camera aim is derived from target minus position. Saving .blend and renderi
 PNG are distinct. --target MissingObject must fail nonzero before a new save/render;
 restore Sculpture. An old PNG cannot establish a successful new run.
 
-Give the full prompt in agent-pr-workflow.md. First proposed scale is
+### Direct control through Blender Lab MCP
+
+The instructor's 19 November addition uses
+[Blender Lab MCP](https://www.blender.org/lab/mcp-server/), not the separate
+Ahuja community bridge in the older optional exercise. Retain the Python API
+concept sequence: the agent chooses tools, while the add-on executes bpy in
+the running application. The guide's Llama.cpp client example also works with
+Codex acting as the client; no local-model install is needed for this route.
+
+Preconfigure the two pieces using the PFAD README's copyable instructions:
+
+1. Blender Preferences > Get Extensions: add `https://lab.blender.org/`, install
+   MCP, allow online access and start the bridge from its Add-ons preferences.
+   Keep Host `127.0.0.1`, Port `9876`; expect **Server is running**.
+2. Register the pinned `blender-mcp --transport stdio` server with Codex using
+   the README's `codex mcp add`/uvx command or equivalent TOML. The server's
+   `BLENDER_MCP_HOST`/`BLENDER_MCP_PORT` must match the add-on. Reopen the client.
+
+Codex -> MCP/stdio -> Lab server -> local TCP -> Blender add-on -> bpy/scene.
+The socket at 9876 is not an HTTP MCP endpoint. Keep Codex local to the computer
+running Blender. The checked Lab revision is
+`dbbf836ad4b1025f14a2b3b504c43903f39e0b04` (server 1.0.2, add-on 1.0.0,
+minimum Blender 5.1); its source revision matches the observed upstream HEAD.
+
+Open the disposable saved baseline yourself. Ask Codex to call
+`get_objects_summary` and compare the response with the Outliner, then inspect
+Sculpture using `get_object_detail_summary`. Keep any concurrently driven
+personal/demo scene untouched. Give the README's live-edit prompt: preserve
+mesh/material/camera/light, change only the requested scale, inspect a fresh
+screenshot/render and save a new first copy. Show the actual tools and application
+to the room. Use the dedicated read tools before general Python execution.
+`execute_blender_code` returns structured data through a dictionary named
+`result`; its tool schema accepts `code`. Discovery, live state, camera image
+and saved file answer different questions.
+
+Resolve output paths to absolute paths before sending them to Blender. The
+application and the agent may have different working directories. Live changes
+do not automatically alter the script or save the document. Keep a matching
+source edit and actual tool/image evidence in the practice PR. For the review,
+reinspect, set x scale to 1.625 and save a separate revised copy. Carry that
+saved file into the existing Godot export below. Stop only after checking both
+the requested visible result and the saved source used by the handoff.
+
+### Script route and prepared comparisons
+
+With a failed connection or unavailable model, give the script-route prompt in
+agent-pr-workflow.md. First proposed scale is
 (1.6*s, .75*s, s); dimensions at s = 1.25 are (4,1.875,2.5). Let the agent inspect,
 edit, run Blender, view JSON/PNG and revise from observations. Open a practice PR.
 Human review requests x1.3*s with everything else fixed; revised dimensions are
 (3.25,1.875,2.5). Update the SAME PR, rerender and judge. Actual lecture images
 are author rehearsal from temporary source copies, not a model-session transcript.
 Students retain their own real action/observation record or label partner fallback.
-MCP is an optional tool interface; CLI also lets an agent use the application.
+The script route also operates the application, but does not demonstrate direct
+control of the open Blender window. Label a partner's work human-directed.
+The existing paired images remain prepared rehearsals, not a live MCP transcript.
+Do not install a replacement bridge or stop another session during a demo.
 
 ```bash
 uv run python asset_handoff.py export .output/blender/revised/sculpture.blend

@@ -43,9 +43,10 @@ def blender_boundary():
 
 
 def live_mcp():
-    return sequence('live-mcp', [('Our client', 'tools/call', 'stdio JSON'),
-        ('MCP server', 'local socket', '127.0.0.1'), ('Blender', 'add-on -> bpy', 'live scene')],
-        'A request crosses two boundaries before the scene changes')
+    return sequence('live-mcp', [('Codex', 'tool + result', 'stdio MCP'),
+        ('Lab server', '127.0.0.1', 'TCP :9876'),
+        ('Blender', 'MCP add-on', 'Python + scene')],
+        'Codex chooses tools; Blender owns the live scene')
 
 
 def discovery():

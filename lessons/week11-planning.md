@@ -11,6 +11,13 @@ Follow the accepted W9/W10 pattern: define -> diagram -> data/code -> demo/check
 Full120-minute lecture and separate 120-minute tutorial;55-65 break in both, 100-120
 tutorial project/tutor support. Four dated news items stay inside the opening 1-5.
 
+19 November addition: the instructor configured Blender Lab MCP in Codex and
+requested an explicit demonstration of an agent driving the open application.
+Retain the Python API theory, add the Lab add-on/server connection and actual
+Codex tool/observation loop within 85-103. The PFAD README supplies installation,
+Codex configuration, connection checks, live-edit/review prompts and recovery.
+Authentication, Godot handoff, the 120-minute budgets and closing AMA stay intact.
+
 ## Outcomes and progression
 
 1. Separate stored record identity from authentication and authorization.
@@ -19,7 +26,8 @@ tutorial project/tutor support. Four dated news items stay inside the opening 1-
 3. Trace GitHub state/code/PKCE/profile into an app session and server-derived
    D1 owner query; follow the actual GitHub configuration/Actions deployment path.
 4. Explain Blender object/mesh/material/transform/camera/save/render concepts;
-   ask an agent to inspect, edit, use Blender, observe and revise with a clear stop.
+   connect Codex through Blender Lab MCP, then inspect/change the live scene,
+   observe and revise with a clear stop and a separately saved source file.
 5. Export the SAME saved Sculpture to GLB, instantiate it in Godot and check
    axes/dimensions/pivot/material while separating visible mesh from collision.
 
@@ -42,6 +50,12 @@ tutorial project/tutor support. Four dated news items stay inside the opening 1-
   Production deployment is unconfigured/skipped; screenshots never claim otherwise.
 - Actual Blender/Godot renders18 November; temporary source variants label author rehearsal,
   not a model transcript. Student agent prompt permits real CLI operation and image review.
+- Blender Lab MCP at dbbf836ad4b1025f14a2b3b504c43903f39e0b04, matching observed
+  upstream HEAD on 19 November. Reuse the instructor's installed Lab server/add-on,
+  not a parallel replacement of that setup. Codex reads and images the connected
+  Blender 5.3.0 scene successfully. These checks are read-only because another
+  session is driving the scene; they do not claim a completed Sculpture edit.
+  The older community bridge is retained as a clearly separate optional example.
 - Password concepts restore2025 Week 10 slides39-43 and Week11 slides13-14, modernized
   to a per-password salt and slow supported password library; never copy old unsalted code.
 
