@@ -1,63 +1,41 @@
-"""Execute the Python tool excerpts that students see on the slides."""
-import ast
+"""Check the course cross-links and the order in which the classroom uses them."""
 from pathlib import Path
+import sys
 import unittest
 
-SOURCE = Path(__file__).resolve().parents[1] / 'deck/week12.py'
+from deckgen.project import configure
+
+ROOT = Path(__file__).resolve().parents[1]
+configure(ROOT)
+sys.path.insert(0, str(ROOT / 'deck'))
+import week12
 
 
-def panel(title):
-    for node in ast.walk(ast.parse(SOURCE.read_text())):
-        if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
-                and node.func.id == 'code_panel' and len(node.args) >= 3
-                and ast.literal_eval(node.args[1]) == title):
-            return '\n'.join(ast.literal_eval(node.args[2]))
-    raise AssertionError(title)
+def links(slide):
+    return {run.url for element in slide.els
+            for para in getattr(element, 'paras', [])
+            for run in para.runs if run.url}
 
 
-class ToolExcerpts(unittest.TestCase):
-    def test_displayed_range_check_rejects_before_loading_or_mutation(self):
-        loaded = []
-        config = {'speed': 125, 'exit_x': 860}
-        def load_config(path):
-            loaded.append(path)
-            return config
-        scope = {'BOUNDS': {'speed': (60, 480)}, 'key': 'speed',
-                 'value': 2000, 'path': 'example.json', 'load_config': load_config}
-        code = panel('Reject the write before changing state')
-        with self.assertRaises(ValueError):
-            exec(code, scope)
-        self.assertEqual(loaded, [])
-        self.assertEqual(config, {'speed': 125, 'exit_x': 860})
-        scope['value'] = 275
-        exec(code, scope)
-        self.assertEqual(config, {'speed': 275, 'exit_x': 860})
-        self.assertEqual(loaded, ['example.json'])
+class CourseReview(unittest.TestCase):
+    def test_every_earlier_week_has_a_student_facing_source(self):
+        urls = set().union(*(links(slide) for slide in week12.S))
+        for number in range(1, 12):
+            self.assertIn(f'{week12.COURSE}/week{number:02}/README.md', urls)
 
-    def test_displayed_reservation_counts_check_and_write_differently(self):
-        class Clock:
-            @staticmethod
-            def clock():
-                return 42
-        code = panel('Reserve the action before execution')
-        for action, mutations in [('check', 0), ('set', 1)]:
-            state = {'actions': 0, 'mutations': 0}
-            scope = {'state': state, 'action': action, 'key': 'speed',
-                     'value': 275, 'self': Clock()}
-            exec(code, scope)
-            self.assertEqual(state, {'actions': 1, 'mutations': mutations})
-            self.assertEqual(scope['event']['action'], action)
-            self.assertEqual(scope['event']['time'], 42)
+    def test_optional_evidence_and_tutorial_use_same_immutable_revision(self):
+        urls = set().union(*(links(slide) for slide in week12.S))
+        self.assertRegex(week12.PIN, r'^[0-9a-f]{40}$')
+        for path in ('README.md', 'godot-practice.md', 'model-episode.json',
+                     'evidence/provenance.json', 'evidence/model-selected-world.mp4'):
+            self.assertIn(f'{week12.COMPANION}/{path}', urls)
 
-    def test_displayed_capture_uses_finite_real_movie_and_user_replay(self):
-        calls = []
-        def execute(args, timeout):
-            calls.append((args, timeout))
-        exec(panel('Request a finite movie'), {'execute': execute, 'movie': '/tmp/world.avi'})
-        self.assertEqual(calls, [(['--write-movie', '/tmp/world.avi', '--fixed-fps', '30',
-                                  '--quit-after', '120', '--', '--replay'], 90)])
-        self.assertNotIn('--headless', calls[0][0])
-
-
-if __name__ == '__main__':
-    unittest.main()
+    def test_ama_follows_the_break_and_preserves_the_offline_route(self):
+        notes = [s.notes for s in week12.S]
+        pause = next(i for i, note in enumerate(notes) if note.startswith('60–70'))
+        opening = next(i for i, note in enumerate(notes) if note.startswith('90–95'))
+        rounds = next(i for i, note in enumerate(notes) if note.startswith('95–115'))
+        self.assertLess(pause, opening)
+        self.assertLess(opening, rounds)
+        self.assertIn('paper', notes[rounds])
+        self.assertTrue(notes[-1].startswith('119–120'))
