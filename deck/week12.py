@@ -4,15 +4,13 @@ import sys
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
+from deckgen.core import DEEP_TEAL, LINE, Rect, T, eyebrow
 from deckgen.layouts import content, end, figure_slide, question, statement, title
-from figures import schotter
 from week05_figures import frame_sequence
-from week06_figures import w06_waveform
 import week09_figures as NETWORK
 import week09_layouts as L
 import week10_figures as DATA
 import week11_figures as TOOLS
-import week12_figures as F
 
 EYE = 'SD5913 · THURSDAY 26 NOVEMBER 2026'
 PIN = '362ad2318e1bf42bee28a3ab43dec89d6e8a17ec'
@@ -34,7 +32,7 @@ def page(label, heading, lines, notes):
     S.append(content(label, heading, lines, body_size=44, notes=notes))
 
 
-S.append(title(EYE, 'What makes it work?', 'The ideas behind eleven weeks of programming, followed by a group AMA.',
+S.append(title(EYE, 'Programming concepts', 'Week-by-week reference and group AMA',
                size=112, notes='0–1. Today we revisit the ideas that let us explain a program, predict what it will do and check the result. Keep one interaction from your team project in mind for the AMA.'))
 page('NEWS · OUTSIDE QUIZ SCOPE', 'What did the companies announce?', [
     f'[Anthropic]({ANT}) began trading Nov 19. The offer price was $83.',
@@ -51,152 +49,314 @@ page('NEWS · OUTSIDE QUIZ SCOPE', 'What does a pull request count?', [
     '24 Nov, 00:25 to 00:35 HKT (end excluded). Counts submissions.',
     f'At inspection, [Leonida’s README]({LEONIDA}/blob/c646bf836777ef63587ecdbea44bd62df827c433/README.md#project-status) said the game did not boot.',
 ], '3–4. Counted created_at timestamps from GitHub for Nov 23, 16:25–16:35 UTC. PR volume establishes neither the number of agents nor a working game. Return to this distinction when reviewing team evidence.')
-S.append(content('WEEK 1 · RULES AND REPRODUCIBILITY', 'Code makes a design rule repeatable', [
-    'Schotter uses one rule to increase disorder down a grid.',
-    'A parameter changes the rule’s effect. A seed repeats a sequence of random choices.',
-    week(1, 'Week 1 · the sketch, its commit and README'),
-], figure=schotter(), body_size=40, notes='4–7. Point to the order at the top and variation at the bottom. Fix the seed and vary chaos to compare the effect of one parameter. A commit identifies the version and the README explains how to run it. Ask what information another person needs to reproduce the drawing.'))
+def recap(number, heading, rows, notes):
+    slide = L.page(heading, notes)
+    if number < 12:
+        source = week(number, f'Week {number:02} · Class material')
+    else:
+        source = 'Week 12 · Review'
+    slide.els.append(eyebrow(120, 94, source))
 
-page('WEEK 2 · READING A PROGRAM', 'Types, rules and expected results', [
-    'Types affect what an operation means. With strings, + joins text.',
-    'A condition chooses a path. A loop applies a rule repeatedly.',
-    'A list records a sequence. A dictionary gives values meaningful keys.',
-    week(2, 'Week 2 · predict, break, fix'),
-], '7–11. Use the tide exercise to trace an ordered list through a loop and a choice. Ask what happens for an empty list or a quoted height. Give the expected result before inspecting implementation. Distinguish a runtime error from a plausible value that violates the brief. A dependency declaration helps another person run the same checks.')
+    row_height = 140 if len(rows) == 4 else 176
+    for index, (term, definition) in enumerate(rows):
+        y = 320 + row_height * index
+        slide.els.extend((
+            Rect(120, y, 1680, 2, LINE),
+            T(120, y + 18, 443, row_height - 28, term, 'bold', 48, DEEP_TEAL, lh=1.10),
+            T(600, y + 19, 1200, row_height - 30, definition, size=44, lh=1.16),
+        ))
+    S.append(slide)
 
-page('WEEK 3 · DATA AND VISUAL ENCODING', 'One day of tides, several pictures', [
-    'Save the measurements with their source, time and units.',
-    'Use position, length or angle to encode a value.',
-    'A line chart and a tide clock can show the same 24 readings.',
-    week(3, 'Week 3 · tide plots and their source data'),
-], '11–15. Ask which picture makes it easier to see when today repeats yesterday’s pattern, and which makes it easier to compare exact heights. Changing the plot can change what a person notices even when the data stays the same. A missing hour must remain identifiable rather than being silently interpreted as zero.')
 
-page('WEEK 4 · INTERACTION AND TESTING', 'A control changes state', [
-    'An event changes the selected day. The view shows that day’s chart and caption.',
-    'An API supplies data. A view decides how to present it.',
-    'A test states the expected response and checks it with known input.',
-    week(4, 'Week 4 · the day selector and red/green test'),
-], '15–19. Predict the valid selection after switching from January 31 to February. Then ask what the chart and caption should show. Compare an event callback with polling and a Streamlit rerun. Recall the lesson on making a test fail for the expected reason before implementing a rule. A saved sample lets the test run without the live service.')
+recap(1, 'Source code and the tools that run it', [
+    ('Source code', 'Instructions written in a programming language'),
+    ('Editor', 'Tool for editing source files'),
+    ('Terminal', 'Text interface for running commands'),
+    ('Interpreter', 'Program that executes the source, e.g. Python'),
+], '4–5. Have students point to the editor, terminal and Python interpreter they used in the first lab.')
 
-page('WEEK 5 · VISUAL REPRESENTATION', 'A picture is a grid. A clip orders grids in time.', [
-    'A pixel has a position and channel values. Resolution fixes the size of the grid.',
-    'Frame order and duration change how motion appears.',
-    'An edge map can guide a generator. Check the result against the intended shape.',
-    week(5, 'Week 5 · pixels, frames and image generation'),
-], '19–22. Reverse three frames of the moving dot. Ask why motion reverses even though every pixel stays the same within its frame. Connect the earlier numbers-to-pictures principle to a renderer interpreting the values. Recall that a diffusion model iteratively denoises a representation under guidance. An edge guide constrains structure without certifying that the generated result meets the brief.')
+recap(1, 'Git, GitHub and reproducibility', [
+    ('Git', 'Version history: working files → stage changes → commit'),
+    ('GitHub', 'Remote repository: clone a copy, push commits, pull updates'),
+    ('README', 'Run instructions and prerequisites for another person'),
+    ('Generative rule', 'Schotter: more disorder by row. Parameter = amount. Seed = repeatable random sequence.'),
+], '5–7. Ask what another person needs to repeat the sketch from a specific commit.')
 
-S.append(figure_slide('WEEK 5 · FRAME SEQUENCE', 'How does order change what you see?', frame_sequence(),
-    notes='22–23. Have students predict how the movement changes if they exchange the first and last frames. Ask what property changes if they halve every frame duration. Keep the same images for both predictions.'))
+recap(2, 'Python values and types', [
+    ('{mono:int} / {mono:float}', 'Whole number / floating-point approximation\n{mono:2 + 3} → {mono:5}'),
+    ('{mono:str}', 'Text. {mono:"2" + "3"} → {mono:"23"}. {mono:int("2")} → {mono:2}.'),
+    ('{mono:bool}', '{mono:True} or {mono:False}. {mono:2 < 3} → {mono:True}.'),
+    ('{mono:None}', 'Value representing absence. A function without an explicit return result gives {mono:None}.'),
+], '7–8. Cover the right-hand column verbally, then ask for the result of each expression.')
 
-page('WEEK 6 · SOUND AND SPEECH', 'Sound is a signal sampled in time', [
-    'Frequency changes pitch. Amplitude changes signal strength.',
-    'A spectrum shows frequency content. A waveform shows change over time.',
-    'Speech recognition turns sound into text. Synthesis turns text into sound.',
-    week(6, 'Week 6 · sound, music and speech'),
-], '23–26. Ask students to predict what doubling 220 Hz to 440 Hz changes if amplitude stays fixed. Link the time axis to last week’s ordered frames. Ask which artifact to inspect first if an installation reacts to the wrong spoken word. Check the transcript before changing the response rule. Voice output will return in the Week 10 agent. Recall that a Strudel pattern schedules events, which are rendered as sound.')
-S.append(figure_slide('WEEK 6 · WAVEFORM', 'What would an octave higher look like?', w06_waveform(),
-    notes='26–27. Point to the horizontal time axis and vertical amplitude. With a pure tone, doubling frequency fits twice as many cycles into the same time. At fixed amplitude the peak height stays the same.'))
+recap(2, 'Containers, lookup and assignment', [
+    ('List', 'Ordered, mutable sequence. {mono:[10, 20][0]} → {mono:10}.'),
+    ('Tuple', 'Ordered, immutable sequence. {mono:(hour, height)}.'),
+    ('Dictionary', 'Keys map to values. In {"day": 17}, the key {mono:"day"} maps to {mono:17}.'),
+    ('Aliasing', '{mono:b = a} names the same object. {mono:a.copy()} makes a shallow copy.'),
+], '8–9. Ask what b shows when a is a list and an element is changed through a. A shallow copy still shares nested objects.')
 
-S.append(L.compare('A class defines behavior for its instances',
-    ('Model', 'Each Ball has its own position.', 'A method changes the state of that Ball.'),
-    ('Views', 'Terminal and Pygame draw it.', 'Both read the same simulation state.'),
-    '27–29. Advance the red Ball once. Ask what happens to the blue Ball and why. Then ask what changes if we replace the renderer. Discuss which values must be owned by each instance.',
-    'Where would you put the rule for bouncing off a wall?'))
-page('WEEK 7 · OBJECTS AND VIEWS', 'One rule can serve multiple views', [
-    'The model owns the state and updates it.',
-    'A renderer reads that state to make it visible.',
-    'A project can test the rule and its presentation independently.',
-    week(7, 'Week 7 · one moving model, two renderers'),
-], '29–31. If red bounces at the wrong place in both views, inspect the model rule first. If one view alone draws the wall at the wrong position, compare the coordinate conversion and display layout. Reuse this distinction for clients and servers next.')
+recap(2, 'Control flow and verification', [
+    ('Branch', '{mono:if} / {mono:elif} / {mono:else}: choose a block by condition'),
+    ('Loop', '{mono:for}: each item in a sequence. {mono:while}: repeat while a condition holds.'),
+    ('Indentation', 'Indented lines form the body of a branch, loop or function.'),
+    ('Verification', 'Expected result → run typical and boundary cases → compare actual result'),
+], '9–11. Use one normal tide list and an empty list. Ask what the specification should require for each.')
 
-page('WEEK 8 · COLLABORATION', 'A PR makes a change reviewable', [
-    'Make one usable increment with a visible acceptance check.',
-    'A branch contains a proposed change. The PR exposes the diff and checks.',
-    'A prepared environment runs tasks. CI checks a revision. Delivery reaches a user.',
-    week(8, 'Week 8 · teamwork, CI and camera inputs'),
-], '31–34. Distinguish a goal in the backlog from evidence of a usable increment. Ask someone what they would check on an agent-authored PR before merge. A passing CI job can establish that its checks ran on that revision. It takes a further observation to establish that a visitor can use the delivered build.')
+recap(3, 'Functions, modules and libraries', [
+    ('Function', 'Named operation. {mono:def bar(height):} defines it. {mono:bar(1.2)} calls it.'),
+    ('Input and result', 'Parameter = name in the definition. Argument = value passed in. {mono:return} sends a result to the caller.'),
+    ('Module', 'Importable code unit. {mono:from math import sin} loads a name from a module.'),
+    ('Library', 'Reusable code for a task. {mono:math}: standard library. Matplotlib: external plotting library.'),
+], '11–13. Contrast displaying a bar with print and returning the bar for another function to use. An external library must be available in the project environment.')
 
-S.append(L.steps('Vision produces observations for a rule', [
-    ('Capture', 'Read a camera frame.'),
-    ('Detect', 'Estimate hand landmarks.'),
-    ('Decide', 'Map a landmark to a tile or clear the selection.'),
-], '34–38. Recall normalized coordinates and rescaling to image position. Distinguish a landmark (a point) from a segmentation mask (which pixels belong in a region). Ask what input the application receives when no hand is detected, and what should be visible then. A recorded frame can test the decision without a live camera.',
-    'What should the interaction do when the hand leaves the frame?'))
+recap(3, 'Dimensions, vectors and transforms', [
+    ('1 dimension', 'One value per observation, e.g. tide height in metres'),
+    ('2 dimensions', 'Vector: ordered values with meaning per position. {mono:(hour, height)} → x and y.'),
+    ('3 dimensions', '{mono:(longitude, latitude, magnitude)} → x, y and marker size'),
+    ('Transformation', 'Map input to output. Translate {mono:(x, y)} → {mono:(x + dx, y + dy)}.'),
+], '13–14. Name each coordinate and its unit before assigning a visual channel.')
 
-page('WEEK 9 · NETWORKS', 'An address gets a message to a service', [
-    'IP identifies a network destination. A port selects a service endpoint.',
-    'TCP gives an ordered byte stream. UDP carries individual datagrams.',
-    'The application protocol defines how to interpret the messages.',
-    week(9, 'Week 9 · the connected scene and Multiboxes'),
-], '38–41. Follow a request by name, address, port and path. DNS resolves a host name and localhost reaches this machine. Mention that TCP can split or combine writes when exposing bytes to a reader. UDP preserves datagram boundaries and leaves delivery and ordering guarantees to the application if it needs them. Ask what layer to check when the server works on its own laptop but another computer cannot reach it.')
+recap(3, 'Data source and visual encoding', [
+    ('Source record', 'Source + timestamp + numeric value + units'),
+    ('Visual encoding', 'Tide line: hour → horizontal position. Height → vertical position.'),
+    ('Polar encoding', 'Tide clock: hour → angle. Height → radius.'),
+], '14–15. The same day can produce both plots. Ask which plot makes it easier to spot the hour of high tide.')
 
-S.append(L.compare('A snapshot or continuing updates?',
-    ('HTTP', 'Request a snapshot.', 'A later request can get a newer one.'),
-    ('WebSocket', 'Keep a connection open.', 'Either side can send a message.'),
-    '41–43. In the connected scene an HTTP GET asks for current state once. The open WebSocket receives later changes. Polling uses repeated requests. TLS protects data in transit on HTTPS or WSS. Ask which exchange fits a gallery entry and which fits a shared live scene.',
-    'Choose the exchange that fits the interaction.'))
-S.append(L.diagram('The server owns the shared scene', NETWORK.journey(2),
-    '43–45. Browser A asks to set x to 25. The server checks the action, updates the shared Scene, and sends revision 1 to both tabs. A state message describes the world. An ack names the accepted action, and a rejection leaves state unchanged. A slider edit alone changes only local input.'))
-page('WEEK 9 · RECOVERY', 'A reconnect recovers the current view', [
-    'A disconnected tab may show an old revision.',
-    'On reconnect, read the server’s current snapshot.',
-    'After a server restart, recovery depends on what was saved.',
-], '45–47. Disconnect A, move the object from B, then predict A’s value when it reconnects. Contrast losing the connection with losing the authoritative process. A missing reply leaves the sender uncertain about whether an action was applied. Check an updated snapshot or action result before repeating an action that might run twice.')
+recap(4, 'Event, state, view and handler', [
+    ('Event', 'An occurrence, e.g. the user selects day 17'),
+    ('State', 'Current values the interaction depends on, e.g. selected month and day'),
+    ('Handler', 'Code run in response to an event. Update the selected day.'),
+    ('View', 'Rendered output derived from state: chart and caption for day 17'),
+], '15–17. Ask where a selection can be valid in January but invalid in February.')
 
-S.append(figure_slide('WEEK 10 · PERSISTENCE', 'Persistence means surviving a restart', DATA.restart(),
-    notes='47–49. The saved title is Handbook. Change an attribute in memory and quit without saving. Which title reloads? A fresh process creates a new instance from saved values and an ID. Its methods come from the program. The file or database gives the record a longer lifetime than the process.'))
-S.append(figure_slide('WEEK 10 · RELATIONAL DATA', 'Related rows represent ownership', DATA.relations(),
-    notes='49–52. Ada owns conversations 3 and 4. Bo owns 5. Each conversation can have many ordered messages. Read the relationship in both directions. Ask where to put a role when one person belongs to many teams and each team contains many people. The role belongs to the membership row. Distinguish a primary key from a foreign key that refers to a parent.'))
-page('WEEK 10 · QUERIES AND STORAGE', 'How should a program find what it needs?', [
-    'A model method can issue SQL and map result rows into objects.',
-    'Keys identify and relate rows. An index speeds a lookup. A transaction groups writes.',
-    'Use a nested document for a scene snapshot and exact row queries for an owner’s messages.',
-    week(10, 'Week 10 · model classes, storage and query examples'),
-], '52–55. Contrast ORDER BY for message history with loading a nested game save. A relational system can also store a document. In the talking handbook, writing a question and reply together avoids half-saved turns. Ask what should happen if the second insert fails. Then ask which index job differs from finding a passage by meaning.')
+recap(4, 'Interfaces, APIs and tests', [
+    ('API', 'Contract between programs. Browser requests a month. Service returns tide records.'),
+    ('Callback', 'Run when an event occurs. Polling asks at intervals. Streamlit reruns on a widget change.'),
+    ('Fixture', 'Known input with a known expected result, e.g. saved tide records'),
+    ('TDD cycle', 'Red: failing test → green: make it pass → refactor: preserve behavior'),
+], '17–19. Trace the request and response, then check the selector rule using a saved fixture.')
 
-S.append(figure_slide('WEEK 10 · EMBEDDINGS', 'An encoder represents text as vectors', DATA.text_embeddings(),
-    notes='55–57. An embedding is a learned numerical representation. The same compatible encoder must encode the passages and the question. The course model returns 384 numbers for a short text. A different model with the same number of dimensions can still define a different space. Ask what could make replacement fee close to new student card cost without an exact word match.'))
-S.append(figure_slide('WEEK 10 · SEMANTIC RETRIEVAL', 'Similarity ranks passages for inspection', DATA.ranking(),
-    notes='57–60. Follow the two ranked results from the course’s six-passage fixture. The index retains IDs, page information and the source text alongside vectors. A similarity score ranks candidates. Read the fee row and rule to check what they support. Ask what to do with a nearby passage that concerns a different fee. Bring that answer back after the break.'))
+recap(5, 'Image and video dimensions', [
+    ('Grayscale', '{mono:(H, W)}. Access a value with {mono:image[y][x]}.'),
+    ('RGB / RGBA', '{mono:(H, W, C)}. Three color channels, with a fourth for alpha if present.'),
+    ('Raw size', '{mono:H × W × C × bytes per channel}. 512 × 512 RGB at 8 bits = 768 KiB.'),
+    ('Video array', '{mono:(frames, H, W, C)}. Playback time = frames ÷ frames per second at constant rate.'),
+], '19–21. H is rows, W is columns. Explain that Pillow reports size as W by H, and encoded files use compression.')
+
+recap(5, 'Image libraries and generation', [
+    ('NumPy', 'Array shape and dtype. {mono:uint8} holds integers from 0 to 255.'),
+    ('Pillow / OpenCV', 'Pillow reads, converts and saves images. OpenCV handles image operations and video capture.'),
+    ('Diffusion', 'Repeated denoising under guidance, e.g. a prompt or edge map'),
+], '21–22. In the course example NumPy holds pixels and Pillow interprets them. Check channel order when moving between libraries.')
+
+S.append(figure_slide('WEEK 5 · FRAME SEQUENCE', 'Frame order and playback speed', frame_sequence(),
+    notes='22–23. Reverse the frames for opposite motion. Halve the duration per frame for faster playback.'))
+
+recap(6, 'Sampling and synthesis', [
+    ('Sample rate', 'Samples per second. At 44,100 Hz, sample {mono:i} is at {mono:i / 44100} seconds.'),
+    ('Frequency', 'Cycles per second (Hz). A 440 Hz tone is an octave above 220 Hz.'),
+    ('Amplitude', 'Signal magnitude. A sine wave has peak amplitude {mono:A}.'),
+    ('Sine wave', '{mono:sample = A × sin(2π × frequency × time)}'),
+], '23–25. Compare sample rate with the frequency of the tone. Doubling tone frequency doubles cycles in the same span.')
+
+recap(6, 'Waveform, spectrum and speech', [
+    ('Waveform', 'Signal amplitude by time'),
+    ('Spectrum', 'Frequency content. A spectrogram shows how it changes over time.'),
+    ('Music pattern', 'Timed events. The renderer produces audio for the notes or samples.'),
+    ('Speech pipeline', 'Audio → speech recognition → transcript → response text → speech synthesis → audio'),
+], '25–27. Follow sound through the recognizer and the response rule. Ask which output to inspect first when a control reacts to the wrong word.')
+
+recap(7, 'Classes, objects and methods', [
+    ('Class', 'Definition of a type and its behavior, e.g. {mono:Ball}'),
+    ('Instance', 'One object created from the class, e.g. {mono:Ball(5, 6, 1, 0)}'),
+    ('Attribute', 'Value stored on the instance, e.g. {mono:red.x} or {mono:red.vx}'),
+    ('Method', 'Function accessed through an object. {mono:red.update(dt)} acts on {mono:self = red}.'),
+], '27–29. Ask which position changes when red updates and blue has its own instance.')
+
+recap(7, 'Simulation and rendering', [
+    ('Model', 'Ball state: position + velocity. Update: {mono:x ← x + vx × dt}.'),
+    ('Simulation', 'Advance all instances by the elapsed time. Apply the bounce rule.'),
+    ('View', 'Translate state into a screen representation. Terminal and Pygame read the same model.'),
+], '29–31. Ask where to inspect a bad bounce seen in both renderers.')
+
+recap(8, 'Agile and Scrum', [
+    ('Agile', 'Adaptive development through usable software, collaboration and feedback'),
+    ('Iterative', 'Improve the same feature over repeated cycles.'),
+    ('Incremental', 'Add a usable piece to the product.'),
+    ('Scrum', 'Sprint-based framework. Transparency → inspection → adaptation.'),
+], '31–32. A pause menu can be a usable increment. Revising it after a playtest is iteration.')
+
+recap(8, 'Scrum artifacts and commitments', [
+    ('Product Backlog', 'Ordered work for the product → Product Goal'),
+    ('Sprint Backlog', 'Selected work + delivery plan → Sprint Goal'),
+    ('Increment', 'Usable, integrated work → Definition of Done'),
+    ('Project board', 'Tool for making work, owners and progress visible'),
+], '32–33. Match each artifact to its commitment. Notice which one contains usable work.')
+
+recap(8, 'Scrum accountabilities and events', [
+    ('Product Owner', 'Maximize value and order the Product Backlog.'),
+    ('Developers', 'Plan and create a usable Increment.'),
+    ('Scrum Master', 'Help the team use Scrum effectively.'),
+    ('Sprint events', 'Plan the work. Adapt daily. Review the product. Retrospect on how the team works.'),
+], '33–34. Distinguish the Sprint Review of the product from the Retrospective about the way the team works.')
+
+recap(8, 'Pull requests and coding agents', [
+    ('Git workflow', 'Branch → commit → push → PR → review → merge → pull'),
+    ('Pull request', 'Proposed change, diff, discussion and checks against a base branch'),
+    ('Agent task', 'Goal + repo context + tools + acceptance criteria'),
+    ('Review evidence', 'Inspect the diff, check the revision and try the result.'),
+], '34–35. The agent uses its configured environment. Reviewers judge the submitted change and its evidence.')
+
+recap(8, 'GitHub Actions, CI and delivery', [
+    ('Workflow', 'YAML in {mono:.github/workflows/}. Event (push, PR) → jobs → steps.'),
+    ('CI', 'Continuous integration: automatically test changes. A runner executes each job.'),
+    ('Artifact', 'Output saved by a job, e.g. a build or test report'),
+    ('Deployment', 'Publish or install a build at its destination. Verify the running result.'),
+], '35–36. Distinguish the agent environment from the workflow runner and the public service.')
+
+recap(8, 'Computer vision outputs', [
+    ('Frame', 'One image from the camera stream'),
+    ('Landmark', 'Estimated feature point. Normalized x and y scale by frame width and height.'),
+    ('Mask', 'Per-pixel region membership or confidence'),
+    ('Interaction', 'Observation → application rule → action. Handle missing detection explicitly.'),
+], '36–38. Trace a hand landmark to a selected tile. Ask which valid fallback the app should use when the detector returns no hand.')
+
+recap(9, 'Network addresses and layers', [
+    ('Link', 'Local transfer, e.g. Wi-Fi, Ethernet or loopback'),
+    ('IP and DNS', 'IP addresses a host/interface. DNS resolves names. {mono:127.0.0.1} is loopback.'),
+    ('Transport', 'TCP / UDP. Destination port identifies an endpoint on the host.'),
+    ('Application', '{mono:http://127.0.0.1:8009/state}\nScheme + host + port + path'),
+], '38–40. Label every part of the loopback URL before explaining what the endpoint returns.')
+
+recap(9, 'TCP, UDP and TLS', [
+    ('TCP', 'Reliable ordered byte stream. The app needs message framing.'),
+    ('UDP', 'Datagrams. Delivery and order have no guarantee.'),
+    ('TLS', 'Protects data in transit and authenticates the server in HTTPS and WSS.'),
+], '40–41. Two writes on TCP can appear as one read or several reads. Application framing and application acknowledgement serve different jobs.')
+
+recap(9, 'HTTP and WebSocket', [
+    ('HTTP request', 'Method + resource path. {mono:GET /state} requests a snapshot.'),
+    ('HTTP response', 'Status + headers + optional body. {mono:2xx} success, {mono:4xx} request error, {mono:5xx} server error.'),
+    ('REST', 'Resource-oriented API. Use methods such as GET, POST and PATCH to operate on resources.'),
+    ('WebSocket', 'Open connection with message framing. Both endpoints can send.'),
+], '41–43. Compare loading one gallery item with synchronizing a live scene.')
+
+S.append(figure_slide('WEEK 9 · SERVER AUTHORITY', 'One shared scene, two clients', NETWORK.journey(2),
+    notes='43–45. Browser A proposes a change. The server validates it and broadcasts the updated snapshot. A browser slider also has private local state.'))
+
+recap(9, 'Actions, acknowledgements and recovery', [
+    ('Action', 'Request to change state. Action ID correlates the request and result.'),
+    ('State', 'Snapshot with values and a revision. The server owns the shared state.'),
+    ('Acknowledgement', 'Result for a specific action. A missing reply leaves the outcome uncertain.'),
+    ('Recovery', 'Reconnect → fetch current snapshot. Process restart → reload saved state if available.'),
+], '45–47. The Week 9 scene starts fresh after a server restart. Ask what a tab should display while it is disconnected.')
+
+S.append(figure_slide('WEEK 10 · PERSISTENCE', 'Saved data and fresh objects', DATA.restart(),
+    notes='47–49. The persistent ID and saved values survive the process. The new instance gets its methods from Python.'))
+
+recap(10, 'Relational models and keys', [
+    ('One-to-many', 'User → conversations → messages. Each child row stores a parent reference.'),
+    ('Many-to-many', 'Membership row links one user and one team. Put the team role on that row.'),
+    ('Primary key', 'Unique row identity, e.g. {mono:User.id}'),
+    ('Foreign key', 'Reference to a parent row, e.g. {mono:Conversation.owner_id → User.id}'),
+], '49–51. Read the relationship in both directions. A many-to-many relationship uses two foreign keys on its junction table.')
+
+recap(10, 'SQL, ORM, indexes and transactions', [
+    ('SQL', '{mono:SELECT} columns {mono:FROM} table {mono:WHERE} predicate {mono:ORDER BY} column'),
+    ('ORM', 'Maps classes and queries to tables and SQL, and rows back to objects.'),
+    ('Lookup index', 'Data structure for finding or ordering rows efficiently'),
+    ('Transaction', 'Group writes so they commit together or roll back together.'),
+], '51–53. Use an owner filter and order by message ID. A question and reply can be written in one transaction.')
+
+recap(10, 'Storage models and access patterns', [
+    ('Relational', 'Keys, constraints, filters and joins. Example: account and conversation rows.'),
+    ('Document', 'Nested record. Example: a game save with inventory and player state.'),
+    ('Key-value', 'Value looked up by an exact key. Example: saved preferences.'),
+    ('Graph / wide-column', 'Follow relationships / query rows organized around keys.'),
+], '53–55. A storage product can support more than one access pattern. SQLite is a database in a file. Graph and wide-column databases are further NoSQL families. Vector search can be added to multiple database models.')
+
+recap(10, 'Embeddings and semantic search', [
+    ('Embedding', 'Learned numeric vector, e.g. 384 values for one passage in the course model'),
+    ('Indexing', 'PDF → passages → embed → store vector with text, page and source ID'),
+    ('Query', 'Question → same compatible encoder → compare query vector with passage vectors'),
+    ('Similarity', 'Cosine similarity ranks candidates. Inspect the returned passages for support.'),
+], '55–57. A different model with 384 outputs can define a different vector space. Ask why student card cost and replacement fee might be close.')
+
+S.append(figure_slide('WEEK 10 · SEMANTIC RETRIEVAL', 'Ranked results and source pages', DATA.ranking(),
+    notes='57–60. These scores are from the six-passage fixture. Ask which passage provides the amount and which provides the rule.'))
 
 S.append(statement('Ten-minute break', '60–70 MINUTES', size=112,
-    notes='60–70. Resume with the difference between finding sources and remembering a conversation.'))
+    notes='60–70. Resume with retrieval, conversation history and generation.'))
 
-S.append(figure_slide('WEEK 10 · RETRIEVAL-AUGMENTED GENERATION', 'Pip calls a tool to retrieve evidence', DATA.tool_loop(),
-    notes='70–73. The agent uses the question and available history to form a retrieval query. The tool returns source IDs, page numbers and passage text. The model composes an answer with those sources. RAG means supplying retrieved evidence for generation. Ask what the answer should say when the retrieved passages fail to support the claim.'))
-S.append(figure_slide('WEEK 10 · HISTORY AND VOICE', 'Knowledge, memory and voice have different jobs', DATA.four_states(),
-    notes='73–75. Handbook passages are shared source knowledge. Ordered conversation rows belong to one conversation and user. The request assembles selected prior turns and retrieved evidence for this response. The speech component reads the answer. A correct citation, a private history and audible output each require their own check. Ask what should change when a different user opens the same question.'))
+S.append(figure_slide('WEEK 10 · RETRIEVAL-AUGMENTED GENERATION', 'The retrieval tool call', DATA.tool_loop(),
+    notes='70–73. Follow the retrieval request and returned evidence. The model uses the passages when composing its response.'))
 
-S.append(L.compare('Identity and permission are separate checks',
-    ('Authentication', 'Who made the request?', 'Verify credentials or a session.'),
-    ('Authorization', 'What may they access?', 'Apply permission to the requested resource.'),
-    '75–77. An account row represents an identity. A credential supplies proof. Registration creates an account and login verifies a returning user. Compare a salted password verifier with reversible encryption. Ask whether a successful sign-in permits access to every conversation or note.',
-    'A signed-in visitor can read their own private note.'))
-S.append(L.diagram('GitHub sign-in starts an app session', TOOLS.oauth_identity(),
-    '77–79. In class the browser went to GitHub and returned to the app with temporary code and state. State ties the callback to the login attempt. The server exchanges the code, verifies the profile and issues the app’s signed session cookie. Later requests present the app session. The server uses its verified ID to select the owner’s row. Ask which step fails when the browser is signed out.'))
-page('WEEK 11 · DEPLOYMENT', 'Source, running service and data live apart', [
-    'GitHub holds the source and runs workflow jobs. A Worker serves requests.',
-    'Runtime secrets, the callback address and the database belong to an environment.',
-    'A migration prepares the schema. A two-account test checks owner isolation.',
-    week(11, 'Week 11 · OAuth, deployment and creative tools'),
-], '79–81. Ask where to look if sign-in works locally but fails after deployment. Trace the callback origin and remote runtime configuration before diagnosing storage. A correct build and a correct deployment can coexist with a missing remote migration. Explain why the browser sends a session and the server holds the signing secret.')
+recap(10, 'RAG, conversation memory and speech', [
+    ('RAG', 'Retrieval-augmented generation: supply source passages to the model for the current answer.'),
+    ('Conversation memory', 'Ordered past messages scoped to the owner and conversation. Reload and select relevant history.'),
+    ('Model context', 'Instructions + current question + selected history + retrieved sources'),
+    ('Text-to-speech', 'Synthesizes audio from the answer text. Check the citations and playback.'),
+], '73–75. Ask which inputs change if a new conversation asks the same question. The handbook index and per-user message store have different lifetimes.')
 
-S.append(L.diagram('A Blender object places a mesh in a scene', TOOLS.scene_parts(),
-    '81–82. Move or scale an object and predict what stays true about the stored mesh. Distinguish geometry, material and transform. Camera framing and light determine what a render shows, so inspect the scene and the picture. Blender owns these objects and runs the bpy calls.'))
-S.append(L.diagram('The agent reaches Blender through MCP', TOOLS.live_mcp(),
-    '82–84. Follow Codex to the Blender Lab server and the add-on inside Blender. The model chooses a tool and passes structured input. Blender performs the operation. The tool returns observations. A script specifies the actions in advance. Ask what evidence confirms the object changed and the camera can see it.'))
-S.append(L.diagram('An asset crosses into a different runtime', TOOLS.asset_path(),
-    '84–86. A GLB can carry geometry and materials into Godot. Compare the mesh, transform, scale, axes and pivot in the actual scene. Collision and interaction belong to the game logic and need separate checks. A figure can look correct in the engine and still fail to block a player.'))
+recap(11, 'Identity, credentials and permissions', [
+    ('Identity', 'Account identifier. Registration creates the account.'),
+    ('Authentication', 'Verify who is making the request using credentials or a session.'),
+    ('Authorization', 'Check the authenticated caller’s permission for the requested resource.'),
+    ('Permission rule', 'Private note: use the verified session ID to select its owner’s row.'),
+], '75–76. A successful sign-in gives the app a caller identity. The server must still enforce the note access rule.')
 
-S.append(figure_slide('WEEK 12 · AGENT FEEDBACK', 'The check gives the agent its next observation',
-    F.feedback(), notes='86–88. The recorded model saw two lights at speed 125 after 180 ticks. It chose 275; the same engine check reached the exit with three lights at tick 166. Edits stopped. A useful loop has a goal, permitted actions, observations and stop rules for a pass or exhausted budget. Replaying the trace runs the recorded decisions.'))
-S.append(figure_slide('WEEK 12 · RECORDED RESULT', 'The replay shows the visible ending',
-    F.screenshot('frame-end.png'), notes='88–89. This is the final frame from the later deterministic replay of the model-selected world. Point out the ending state. Ask what a person would need to try to show whether the controls are understandable.'))
-page('WEEK 12 · EVIDENCE', 'What did the checker and film establish?', [
-    f'[Recorded decision and engine observations]({COMPANION}/model-episode.json) show the goal and result.',
-    f'[Later film]({COMPANION}/evidence/model-selected-world.mp4) shows the ending from the same final source. [Provenance]({COMPANION}/evidence/provenance.json)',
-    f'[Optional Godot practical]({COMPANION}/godot-practice.md) reproduces the check.',
-], '89–90. Ask which form of evidence the team lacks. Today’s tutor focus is a delivery candidate: build, deployment or installation. Bring the last working interaction if the current version is broken.')
+recap(11, 'Password hashing, encryption and sessions', [
+    ('Password verifier', 'Store a slow salted hash. Verify a candidate using the same salt and settings.'),
+    ('Encryption', 'Recover plaintext with a key. Protects confidentiality.'),
+    ('Session', 'Credential issued after login and sent with later requests, e.g. a browser cookie.'),
+    ('Signed cookie', 'App verifies signature and expiry. The signature protects integrity.'),
+], '76–77. Compare a password verifier, encrypted content and a signed session.')
+
+recap(11, 'GitHub OAuth and app sessions', [
+    ('Authorize', 'OAuth delegates access. GitHub sends an authorization code and state to the app callback.'),
+    ('Verify and exchange', 'Check state. Server exchanges code + app credentials + PKCE verifier for an access token.'),
+    ('Identify', 'Server calls GitHub’s user API with the access token and obtains the stable user ID.'),
+    ('Create session', 'App issues its own signed cookie. Later requests use that cookie.'),
+], '77–79. OAuth delegates access. In the course app that access lets the app verify the GitHub profile and establish its own session.')
+
+recap(11, 'Deployment configuration and data', [
+    ('GitHub Actions', 'Workflow runs checks and deploys with a deployment credential.'),
+    ('Worker', 'Runtime for the server routes. Use the environment’s callback URL and runtime secrets.'),
+    ('D1', 'Persistent database. Apply migrations to create or update its schema.'),
+    ('Environment', 'Local and deployed versions each have configuration, credentials and data.'),
+], '79–81. Distinguish deployment token, OAuth client secret and session signing secret. The two-account check exercises the deployed authorization rule.')
+
+S.append(figure_slide('WEEK 11 · BLENDER PYTHON', 'Objects, meshes and materials', TOOLS.scene_parts(),
+    notes='81–82. A transform sets position, rotation and scale. A mesh stores geometry. bpy reads and changes scene data inside Blender.'))
+
+recap(11, 'MCP and creative tools', [
+    ('MCP', 'Model Context Protocol. The host uses a client to connect to a tool server.'),
+    ('Discover', '{mono:tools/list} exposes tool names and input schemas.'),
+    ('Call and observe', '{mono:tools/call} sends arguments and returns a result. Verify the change in the application.'),
+    ('Blender Lab', 'Codex → MCP server → Blender add-on → scene. Blender owns the scene state.'),
+], '82–84. The model chooses a tool. The server exposes operations. The Blender add-on performs an action in the scene. Ask which result proves that the correct object changed.')
+
+recap(11, 'From Blender source to Godot runtime', [
+    ('Source', 'Blender object = transform + referenced mesh + materials.'),
+    ('Export', '{mono:.glb} carries mesh, materials and transforms to another application.'),
+    ('Import', 'Godot instantiates the asset in a scene. Check axes, scale and pivot.'),
+    ('Game behavior', 'Collision shapes and gameplay logic live in the Godot project.'),
+], '84–86. Compare the asset’s appearance with the player’s ability to collide with it.')
+
+recap(12, 'Agents, tools and stop conditions', [
+    ('Agent', 'Model uses a goal, state and tool observations to choose the next action.'),
+    ('Tool', 'Defined operation with inputs and a result, e.g. set speed or check level'),
+    ('Feedback loop', 'Observe → choose action → run tool → inspect result → continue or stop'),
+    ('Limits', 'Stop on success, tool failure or exhausted action, write or time budget.'),
+], '86–88. In the recorded episode the check failed at speed 125 and passed after the model chose 275. The checker and goal stayed fixed.')
+
+page('WEEK 12 · RECORDED EVIDENCE', 'Behavior, replay and playtest', [
+    f'**Behavior check:** 3 lights and exit at tick 166. [Model episode]({COMPANION}/model-episode.json)',
+    f'**Visible result:** deterministic capture from the final source. [Film]({COMPANION}/evidence/model-selected-world.mp4) · [Provenance]({COMPANION}/evidence/provenance.json)',
+    f'**Playtest:** a visitor tries the actual experience. [Optional Godot practical]({COMPANION}/godot-practice.md)',
+], '88–90. Ask which evidence the team needs for the delivery candidate. Bring that decision into the AMA.')
+
 S.append(question('short_answer', 'Our visitor tries ___.\nWe saw ___.\nShould we change ___ or ___?',
     eyebrow_text='GROUP AMA · 90–95 MINUTES', size=88,
     hint='3 min to prepare, 2 min to choose a speaker. Ask aloud or pass a paper slip.',

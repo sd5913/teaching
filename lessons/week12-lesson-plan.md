@@ -1,20 +1,20 @@
-# Week 12 · Concepts across the course and group AMA
+# Week 12 · Programming concepts and group AMA
 
 Thursday 26 November 2026, Hong Kong. The 120-minute lecture revisits all eleven taught weeks and looks at one bounded agent loop. The separate [student tutorial](https://github.com/sd5913/pfad/blob/362ad2318e1bf42bee28a3ab43dec89d6e8a17ec/week12/README.md) also runs for 120 minutes.
 
-Students should be able to explain how a rule turns data into an experience, predict what persists after a disconnect or restart, and identify what evidence supports a result at each system boundary. Ask for a prediction before revealing or recounting each outcome. Use the local PDF and paper if the classroom tool or network is unavailable.
+Students should be able to explain how a rule turns data into an experience, predict what persists after a disconnect or restart, and identify what evidence supports a result at each system boundary. Use the definitions, notation and workflows on the slides as a reference. Select a prediction to discuss in each block. Use the local PDF and paper if the classroom tool or network is unavailable.
 
 | Minutes | Concept and classroom check |
 | --- | --- |
 | 0–4 | Open with the existing sourced news. Keep the announcements outside quiz scope. |
-| 4–7 | **W1: rules and reproducibility.** Hold Schotter’s seed fixed and vary chaos. Ask what a teammate needs to repeat the drawing at the same revision. |
+| 4–7 | **W1: source code, tools and reproducibility.** Hold Schotter’s seed fixed and vary chaos. Ask what a teammate needs to repeat the drawing at the same revision. |
 | 7–11 | **W2: types, control flow and data structures.** Predict the behavior of the tide loop with a quoted height or an empty list. Agree on an expected result before checking it. |
-| 11–15 | **W3: data and visual encoding.** Compare a tide clock and a line chart. Which change comes from the display rule? How would a missing hour appear? |
+| 11–15 | **W3: functions, dimensions and visual encoding.** Compare a tide clock and a line chart. Which change comes from the display rule? How would a missing hour appear? |
 | 15–19 | **W4: events, state, views, APIs and tests.** Predict the day selector, chart and caption after January 31 changes to February. Recall the red/green test with known input. |
 | 19–23 | **W5: pixels, frames and generation.** Predict reversal and a duration change. Explain how a structural guide influences a generated image and what still needs inspection. |
 | 23–27 | **W6: sampling, synthesis and speech.** Compare frequency and amplitude. Follow speech to a transcript, a response and synthesized sound. |
 | 27–31 | **W7: classes, instances and views.** Move one Ball. Explain which state changes, which stays shared across renderers and where a bounce rule belongs. |
-| 31–38 | **W8: collaboration, delivery and vision.** Identify what a branch, PR review, CI job and working delivery establish. Trace a frame to a landmark and a decision. Predict the behavior when no hand is detected. |
+| 31–38 | **W8: Agile, Scrum, agents, GitHub Actions and vision.** Identify the Scrum artifacts and what a PR review, CI job and working delivery establish. Trace a frame to a landmark and a decision. Predict the behavior when no hand is detected. |
 | 38–47 | **W9: protocols, shared state and recovery.** Trace address and transport to a service. Compare an HTTP snapshot with continuing WebSocket messages. Ask what a state revision and an acknowledgement prove, then predict a reconnect and a process restart. |
 | 47–60 | **W10: persistent models and retrieval.** Predict a fresh-process reload. Trace the owner's key across rows. Explain what a model method, index and transaction do. Use the real handbook example to compare compatible embeddings, ranking and source evidence. |
 | 60–70 | Break. |
