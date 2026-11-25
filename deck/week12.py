@@ -1,25 +1,33 @@
-"""Thursday 26 November 2026. Course review followed by a group AMA."""
+"""Thursday 26 November 2026. Visual course review, eSFQ and subject AMA."""
 from pathlib import Path
 import sys
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from deckgen.core import DEEP_TEAL, LINE, Rect, T, eyebrow
-from deckgen.layouts import content, end, figure_slide, question, statement, title
+from deckgen.core import DEEP_TEAL, LINE, Image, Rect, Slide, T, eyebrow
+from deckgen.layouts import content, figure_slide, question, title
 from week05_figures import frame_sequence
-import week09_figures as NETWORK
 import week09_layouts as L
-import week10_figures as DATA
 import week11_figures as TOOLS
+import week12_figures as REVIEW
+import week12_review_figures as VISUAL
 
 EYE = 'SD5913 · THURSDAY 26 NOVEMBER 2026'
-PIN = '362ad2318e1bf42bee28a3ab43dec89d6e8a17ec'
+PIN = '92061c101aed3a83a4708a7e07766db8571ee197'
 COURSE = 'https://github.com/sd5913/pfad/blob/2026'
 COMPANION = f'https://github.com/sd5913/pfad/blob/{PIN}/week12'
 ANT = 'https://www.anthropic.com/news/ipo-close'
 NVIDIA = 'https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Board-Reinstates-Jensen-Huang-as-President-CEO-and-Board-Director/default.aspx'
 ROCKSTAR = 'https://www.rockstargames.com/newswire/article/39akk424a9oo53/grand-theft-auto-vi-now-available'
+ESFQ_IMAGE = 'https://images.edm.polyu.edu.hk/resource/beefree/5b8ce21a598aab0001db7d32/SFQ%20QR%20code%20and%20Instruction.png'
+ESFQ = 'https://esfqprod.polyu.edu.hk/esfqstud/login.zul'
 S = []
+TIDE_LOOP = [
+    'heights = [1.05, 2.19]',
+    'for hour, height in enumerate(heights, start=1):',
+    '    if height > 2:',
+    '        print(hour, height)',
+]
 
 
 def week(number, label):
@@ -30,21 +38,79 @@ def page(label, heading, lines, notes):
     S.append(content(label, heading, lines, body_size=44, notes=notes))
 
 
-S.append(title(EYE, 'Programming concepts', 'Week-by-week reference and group AMA',
-               size=112, notes='0–1. Today we revisit the ideas that let us explain a program, predict what it will do and check the result. Keep one interaction from your team project in mind for the AMA.'))
+S.append(title(EYE, 'Programming concepts', 'Week-by-week reference and subject AMA',
+               size=112, notes='0–0:30. Today we revisit the ideas that let us explain a program, predict what it will do and check the result. Keep one concept you want to ask about in mind for the AMA.'))
+slide = L.page('Thoughts on GTA VI?',
+    '0:30–2. Invite impressions from people who have played or watched it. '
+    'What impressed or disappointed them? Which interaction or system would '
+    'they like to understand? Follow an example into objects and state, '
+    'input, animation, sound, simulation or delivery. Keep this an open '
+    'design/computing discussion rather than a quiz or a claim that we have '
+    'tested the game. The image is official launch artwork, not a gameplay '
+    'screenshot. Rockstar\'s source announcement says the console version is '
+    'available on PlayStation 5 and Xbox Series X|S. Source: ' + ROCKSTAR)
+slide.cp = {'type': 'short_answer', 'hide_names': False, 'multiple': True}
+slide.els.extend((
+    eyebrow(120, 94, 'OPENING DISCUSSION · OUTSIDE QUIZ SCOPE'),
+    Image(120, 320, 1040, 585, str(HERE / 'week12-assets/gta-vi-official.jpg'),
+          'contain', url=ROCKSTAR),
+    T(1250, 350, 550, 220, 'What impressed or disappointed you?',
+      'bold', 52, DEEP_TEAL, lh=1.12),
+    T(1250, 620, 550, 250, 'Which system would you like to understand?',
+      size=48, lh=1.18),
+    T(120, 925, 1040, 64, f'[Official Rockstar launch artwork]({ROCKSTAR})',
+      size=36),
+))
+S.append(slide)
+S.append(figure_slide('NEXT THURSDAY · 3 DECEMBER 2026',
+   'Final quiz and last project review', VISUAL.schedule(),
+   notes='2–2:30. Instructor confirmed on 25 November: next Thursday is 3 December; '
+   'the quiz starts at 10:30 in TU103 and is followed by the final group-project '
+   'review. This supersedes the older proposed 10:00–10:30 quiz window. '
+   'Three days refers to the interval from the 3 December review to the '
+   '6 December final repository deadline, not three days from today. '
+   'Keep the existing Canvas and public sd5913-owned repository requirements; '
+   'this reminder introduces no additional submission. The deadline is Sunday '
+   '6 December 2026, 23:59 HKT. Bring a working candidate, test or playtest '
+   'evidence and the main blocker to the final review.'))
 page('NEWS · OUTSIDE QUIZ SCOPE', 'What did the companies announce?', [
     f'[Anthropic]({ANT}) began trading Nov 19. The offer price was $83.',
     'Nov 20 close: $93.5B gross, including the option. Separate placement: $26B.',
     f'[NVIDIA]({NVIDIA}) reinstated Jensen Huang as president, CEO and board director on Nov 23.',
-], '1–2. The offer price and the first market trade measure different things. The IPO gross includes selling shareholders.')
-page('NEWS · OUTSIDE QUIZ SCOPE', 'Which game actually runs?', [
-    f'[Rockstar]({ROCKSTAR}) announced the GTA VI console launch.',
-    'A claimed Xbox build leak is a separate claim. What could verify its origin and platform?',
-    'For a PC claim, look for an authorized, independently reproducible run on identified hardware.',
-], '2–4. A console release establishes availability on consoles. A screenshot or a file name cannot establish the origin or playability of a different build.')
+], '2:30–4. The offer price and the first market trade measure different things. The IPO gross includes selling shareholders.')
+
+
+VISUAL_RECAPS = {
+    'Source code and the tools that run it': VISUAL.program_path,
+    'Git, GitHub and reproducibility': VISUAL.git_history,
+    'Event, state, view and handler': VISUAL.interface_state,
+    'Image and video dimensions': VISUAL.pixel_shape,
+    'Sampling and synthesis': VISUAL.sampling,
+    'Waveform, spectrum and speech': VISUAL.speech_path,
+    'Classes, objects and methods': VISUAL.ball_instances,
+    'Simulation and rendering': VISUAL.shared_views,
+    'Scrum artifacts and commitments': VISUAL.scrum_artifacts,
+    'Pull requests and coding agents': VISUAL.pull_request_graph,
+    'GitHub Actions, CI and delivery': VISUAL.ci_delivery,
+    'HTTP and WebSocket': VISUAL.http_websocket,
+    'Relational models and keys': VISUAL.relations,
+    'Embeddings and semantic search': VISUAL.embeddings,
+    'RAG, conversation memory and speech': VISUAL.model_context,
+    'GitHub OAuth and app sessions': TOOLS.oauth_identity,
+    'MCP and creative tools': TOOLS.live_mcp,
+    'From Blender source to Godot runtime': TOOLS.asset_path,
+    'Agents, tools and stop conditions': REVIEW.feedback,
+}
 
 
 def recap(number, heading, rows, notes):
+    if heading in VISUAL_RECAPS:
+        definitions = '\n\nReference:\n' + '\n'.join(
+            f'{term}: {definition}' for term, definition in rows)
+        S.append(figure_slide(
+            week(number, f'Week {number:02} · Class material') if number < 12 else 'Week 12 · Review',
+            heading, VISUAL_RECAPS[heading](), notes=notes + definitions))
+        return
     slide = L.page(heading, notes)
     if number < 12:
         source = week(number, f'Week {number:02} · Class material')
@@ -91,12 +157,24 @@ recap(2, 'Containers, lookup and assignment', [
     ('Aliasing', '{mono:b = a} names the same object. {mono:a.copy()} makes a shallow copy.'),
 ], '8–9. Ask what b shows when a is a list and an element is changed through a. A shallow copy still shares nested objects.')
 
-recap(2, 'Control flow and verification', [
-    ('Branch', '{mono:if} / {mono:elif} / {mono:else}: choose a block by condition'),
-    ('Loop', '{mono:for}: each item in a sequence. {mono:while}: repeat while a condition holds.'),
-    ('Indentation', 'Indented lines form the body of a branch, loop or function.'),
-    ('Verification', 'Expected result → run typical and boundary cases → compare actual result'),
-], '9–11. Use one normal tide list and an empty list. Ask what the specification should require for each.')
+slide = L.code('Control flow and verification', TIDE_LOOP,
+    '9–11. Reuse the Week 3 enumerate/filter loop with two real Quarry Bay heights. '
+    'Predict before running: the numeric list prints 2 2.19. Replacing the list '
+    'with ["1.05", "2.19"] raises TypeError at height > 2 before anything prints. '
+    'An empty list prints nothing because the body never runs. Convert incoming '
+    'numeric text with float before the comparison. Missing values need a stated '
+    'policy; do not infer that no output proves valid input. if/elif/else choose '
+    'a branch; for visits items; while repeats while a condition holds. Indentation '
+    'defines the body. Source: Week 3 Once for each number; the full day is in '
+    'deck/assets/data/tides-QUB-2026.json, 17 September.',
+    'What prints? Then try ["1.05", "2.19"], then [].')
+slide.els.extend((
+    eyebrow(120, 94, week(2, 'Week 02 · Class material')),
+    T(160, 668, 1600, 112,
+      'A branch chooses a block. A loop repeats it.\nIndentation groups the body. Predict → run → compare.',
+      size=44, lh=1.18),
+))
+S.append(slide)
 
 recap(3, 'Functions, modules and libraries', [
     ('Function', 'Named operation. {mono:def bar(height):} defines it. {mono:bar(1.2)} calls it.'),
@@ -112,11 +190,15 @@ recap(3, 'Dimensions, vectors and transforms', [
     ('Transformation', 'Map input to output. Translate {mono:(x, y)} → {mono:(x + dx, y + dy)}.'),
 ], '13–14. Name each coordinate and its unit before assigning a visual channel.')
 
-recap(3, 'Data source and visual encoding', [
-    ('Source record', 'Source + timestamp + numeric value + units'),
-    ('Visual encoding', 'Tide line: hour → horizontal position. Height → vertical position.'),
-    ('Polar encoding', 'Tide clock: hour → angle. Height → radius.'),
-], '14–15. The same day can produce both plots. Ask which plot makes it easier to spot the hour of high tide.')
+S.append(figure_slide(week(3, 'Week 03 · Class material'),
+    'The same data, two visual encodings', REVIEW.review_tides(),
+    notes='14–15. Both plots use the same 24 Quarry Bay heights for 17 September '
+    '2026 from the original Week 3 data and plotting functions. The line maps '
+    'hour to horizontal position and height to vertical position; the clock maps '
+    'hour to angle and height to radius. High water is 2.19 m at 01:00; low water '
+    'is 1.05 m at 07:00. The values and units stay fixed when the encoding changes. '
+    'Ask which plot makes the time of high tide easiest to read, and which '
+    'emphasizes the daily cycle. Source: deck/assets/data/tides-QUB-2026.json.'))
 
 recap(4, 'Event, state, view and handler', [
     ('Event', 'An occurrence, e.g. the user selects day 17'),
@@ -153,27 +235,43 @@ recap(6, 'Sampling and synthesis', [
     ('Frequency', 'Cycles per second (Hz). A 440 Hz tone is an octave above 220 Hz.'),
     ('Amplitude', 'Signal magnitude. A sine wave has peak amplitude {mono:A}.'),
     ('Sine wave', '{mono:sample = A × sin(2π × frequency × time)}'),
-], '23–25. Compare sample rate with the frequency of the tone. Doubling tone frequency doubles cycles in the same span.')
+], '23–25. Compare sample rate with the frequency of the tone. Doubling tone frequency doubles cycles in the same span. '
+   'The plotted curves cover the same 10 ms at the same peak amplitude A. '
+   'The dots are every twentieth sample of a 44,100 samples/second signal, '
+   'not a claim that the full signal has only these displayed samples.')
 
 recap(6, 'Waveform, spectrum and speech', [
     ('Waveform', 'Signal amplitude by time'),
     ('Spectrum', 'Frequency content. A spectrogram shows how it changes over time.'),
     ('Music pattern', 'Timed events. The renderer produces audio for the notes or samples.'),
     ('Speech pipeline', 'Audio → speech recognition → transcript → response text → speech synthesis → audio'),
-], '25–27. Follow sound through the recognizer and the response rule. Ask which output to inspect first when a control reacts to the wrong word.')
+], '25–27. Follow sound through the recognizer and the response rule. Ask which output to inspect first when a control reacts to the wrong word. '
+   'The turn-left transcript and response are illustrative. Speech recognition '
+   'produces text; the response rule/model decides the answer; synthesis '
+   'produces new audio. Waveform is amplitude over time, spectrum is '
+   'frequency content, and a spectrogram tracks that content over time.')
 
 recap(7, 'Classes, objects and methods', [
     ('Class', 'Definition of a type and its behavior, e.g. {mono:Ball}'),
     ('Instance', 'One object created from the class, e.g. {mono:Ball(5, 6, 1, 0)}'),
     ('Attribute', 'Value stored on the instance, e.g. {mono:red.x} or {mono:red.vx}'),
     ('Method', 'Function accessed through an object. {mono:red.update(dt)} acts on {mono:self = red}.'),
-], '27–29. Ask which position changes when red updates and blue has its own instance.')
+], '27–29. Ask which position changes when red updates and blue has its own instance. '
+   'The figure reuses the actual Week 7 values: red starts at (16, 8) with '
+   '(vx, vy) = (14, -5), blue at (44, 14). GRAVITY is 28. '
+   'red.update(0.1) gives (17.40, 7.78); blue is not updated. '
+   'Source: PFAD week07/ball.py and the Week 7 class demonstration.')
 
 recap(7, 'Simulation and rendering', [
     ('Model', 'Ball state: position + velocity. Update: {mono:x ← x + vx × dt}.'),
     ('Simulation', 'Advance all instances by the elapsed time. Apply the bounce rule.'),
     ('View', 'Translate state into a screen representation. Terminal and Pygame read the same model.'),
-], '29–31. Ask where to inspect a bad bounce seen in both renderers.')
+], '29–31. Ask where to inspect a bad bounce seen in both renderers. '
+   'Reuse the Week 7 One model, two views diagram. The terminal gives discrete '
+   'cell positions; Pygame draws circles at finer resolution. The figure is a '
+   'schematic of those two representations, not a screenshot. The combined '
+   'launcher advances shared objects once per tick; independent standalone '
+   'programs have their own clocks.')
 
 recap(8, 'Agile and Scrum', [
     ('Agile', 'Adaptive development through usable software, collaboration and feedback'),
@@ -187,7 +285,11 @@ recap(8, 'Scrum artifacts and commitments', [
     ('Sprint Backlog', 'Selected work + delivery plan → Sprint Goal'),
     ('Increment', 'Usable, integrated work → Definition of Done'),
     ('Project board', 'Tool for making work, owners and progress visible'),
-], '32–33. Match each artifact to its commitment. Notice which one contains usable work.')
+], '32–33. Match each artifact to its commitment. Notice which one contains usable work. '
+   'The pause menu, save game and sound cues are an illustrative product backlog. '
+   'The Sprint Backlog selects the pause menu and a delivery plan; the Increment '
+   'is usable integrated work meeting the Definition of Done. A project board '
+   'makes work visible but does not replace a working Increment.')
 
 recap(8, 'Scrum accountabilities and events', [
     ('Product Owner', 'Maximize value and order the Product Backlog.'),
@@ -237,7 +339,7 @@ recap(9, 'HTTP and WebSocket', [
     ('WebSocket', 'Open connection with message framing. Both endpoints can send.'),
 ], '41–43. Compare loading one gallery item with synchronizing a live scene.')
 
-S.append(figure_slide('WEEK 9 · SERVER AUTHORITY', 'One shared scene, two clients', NETWORK.journey(2),
+S.append(figure_slide('WEEK 9 · SERVER AUTHORITY', 'One shared scene, two clients', VISUAL.shared_scene(),
     notes='43–45. Browser A proposes a change. The server validates it and broadcasts the updated snapshot. A browser slider also has private local state.'))
 
 recap(9, 'Actions, acknowledgements and recovery', [
@@ -247,7 +349,7 @@ recap(9, 'Actions, acknowledgements and recovery', [
     ('Recovery', 'Reconnect → fetch current snapshot. Process restart → reload saved state if available.'),
 ], '45–47. The Week 9 scene starts fresh after a server restart. Ask what a tab should display while it is disconnected.')
 
-S.append(figure_slide('WEEK 10 · PERSISTENCE', 'Saved data and fresh objects', DATA.restart(),
+S.append(figure_slide('WEEK 10 · PERSISTENCE', 'Saved data and fresh objects', REVIEW.review_restart(),
     notes='47–49. The persistent ID and saved values survive the process. The new instance gets its methods from Python.'))
 
 recap(10, 'Relational models and keys', [
@@ -278,13 +380,32 @@ recap(10, 'Embeddings and semantic search', [
     ('Similarity', 'Cosine similarity ranks candidates. Inspect the returned passages for support.'),
 ], '55–57. A different model with 384 outputs can define a different vector space. Ask why student card cost and replacement fee might be close.')
 
-S.append(figure_slide('WEEK 10 · SEMANTIC RETRIEVAL', 'Ranked results and source pages', DATA.ranking(),
-    notes='57–60. These scores are from the six-passage fixture. Ask which passage provides the amount and which provides the rule.'))
+slide = L.page('What does a replacement card cost?',
+    '57–60. These are actual excerpts and cosine scores from the six-passage '
+    'MiniLM fixture, not the full-PDF Qwen index. The prepared query is '
+    'How much does replacing a lost student identity card cost? '
+    'PDF 76 supplies the amount, 150; its table is in HK dollars. PDF 20 supplies '
+    'the application rule. Ask students to point to the supporting words, then '
+    'compose an answer containing both amount and required action. A higher '
+    'similarity score is not a truth probability. Source IDs: hb2026-p076-fees '
+    'and hb2026-p020-replacement, fixtures/chunks.json at the pinned companion revision.')
+slide.els.append(eyebrow(120, 94, week(10, 'Week 10 · Class material')))
+for x, source, quote, role in (
+    (120, 'PDF 76 · fee table · 0.893',
+     '"Fee for replacement of the student identity card 150"', 'Find the amount.'),
+    (1020, 'PDF 20 · replacement · 0.737',
+     '"... you should submit an application for a replacement online."', 'Find the required action.'),
+):
+    slide.els.extend((
+        Rect(x, 320, 780, 2, LINE),
+        T(x, 350, 780, 112, source, 'bold', 44, DEEP_TEAL, lh=1.12),
+        T(x, 478, 780, 250, quote, size=48, lh=1.22),
+        T(x, 758, 780, 76, role, 'bold', 44, DEEP_TEAL),
+    ))
+L.takeaway(slide, 'Similarity ranks passages. The text supplies the evidence.')
+S.append(slide)
 
-S.append(statement('Ten-minute break', '60–70 MINUTES', size=112,
-    notes='60–70. Resume with retrieval, conversation history and generation.'))
-
-S.append(figure_slide('WEEK 10 · RETRIEVAL-AUGMENTED GENERATION', 'The retrieval tool call', DATA.tool_loop(),
+S.append(figure_slide('WEEK 10 · RETRIEVAL-AUGMENTED GENERATION', 'The retrieval tool call', REVIEW.review_tool_loop(),
     notes='70–73. Follow the retrieval request and returned evidence. The model uses the passages when composing its response.'))
 
 recap(10, 'RAG, conversation memory and speech', [
@@ -298,7 +419,7 @@ recap(11, 'Identity, credentials and permissions', [
     ('Identity', 'Account identifier. Registration creates the account.'),
     ('Authentication', 'Verify who is making the request using credentials or a session.'),
     ('Authorization', 'Check the authenticated caller’s permission for the requested resource.'),
-    ('Permission rule', 'Private note: use the verified session ID to select its owner’s row.'),
+    ('Permission rule', 'Verify the session, then select the note using the user ID from that session.'),
 ], '75–76. A successful sign-in gives the app a caller identity. The server must still enforce the note access rule.')
 
 recap(11, 'Password hashing, encryption and sessions', [
@@ -349,26 +470,84 @@ recap(12, 'Agents, tools and stop conditions', [
 page('WEEK 12 · RECORDED EVIDENCE', 'Behavior, replay and playtest', [
     f'**Behavior check:** 3 lights and exit at tick 166. [Model episode]({COMPANION}/model-episode.json)',
     f'**Visible result:** deterministic capture from the final source. [Film]({COMPANION}/evidence/model-selected-world.mp4) · [Provenance]({COMPANION}/evidence/provenance.json)',
-    f'**Playtest:** a visitor tries the actual experience. [Optional Godot practical]({COMPANION}/godot-practice.md)',
-], '88–90. Ask which evidence the team needs for the delivery candidate. Bring that decision into the AMA.')
+    f'**Playtest:** a visitor tries the actual experience. [Optional Godot practical]({COMPANION}/godot-practice.md) · [Tutorial reference]({COMPANION}/README.md)',
+], '88–90. Ask which evidence answers which question. Invite questions about '
+   'the subject material for the closing AMA, after time for eSFQ.')
 
-S.append(question('short_answer', 'Our visitor tries ___.\nWe saw ___.\nShould we change ___ or ___?',
-    eyebrow_text='GROUP AMA · 90–95 MINUTES', size=88,
-    hint='3 min to prepare, 2 min to choose a speaker. Ask aloud or pass a paper slip.',
-    notes='90–95. Give each team three minutes to form one question and two to choose a spokesperson and an observation. On paper, write the question or ask it aloud. No login, vote or submission is needed.'))
-S.append(L.rows('Group AMA · 95–115 minutes', [
-    ('Ask', 'One group names the decision and what they tried.'),
-    ('Answer', 'A second group offers a check; the tutor invites a follow-up.'),
-    ('Rotate', 'Move to another group or a different kind of blocker.'),
-], '95–115. Allow four rounds of five minutes (one to ask, three for answers, one for follow-up). Combine related questions in a large room and carry remaining questions to tutor support. With no network, collect paper slips and read them aloud.',
-    'Ask what to cut, keep or test with a visitor.'))
-page('AMA · 115–120 MINUTES', 'What will you try next?', [
-    'Say the next check, who will try it, and what result would change your decision.',
-    f'Use the existing team progress record for tutor feedback. [Group-project brief]({COURSE}/assignments/group-project.md)',
-    f'[Thursday’s paired tutorial]({COMPANION}/README.md) · break 55–65 · tutor support 100–120.',
-], '115–119. Give teams two minutes to decide and hear one or two exits aloud. The tutorial is a separate 120 minutes. This conversation creates no extra grade or upload.')
-S.append(end('One next check.', 'Take your candidate and your question to the tutor.',
-    'SD5913 · WEEK 12', notes='119–120. Finish at minute 120. The public project brief remains the source for assessment.'))
+S.append(figure_slide('TODAY\'S TUTORIAL · GROUP PROJECT DELIVERY',
+    'Make your project available to try', VISUAL.delivery_paths(),
+    notes='90–92. Tutorial time is primarily for moving the group project '
+    'forward; the PFAD concept prompts and Godot exercise are optional references. '
+    'The main two paths discussed in class are a deployed web app with a '
+    'shareable URL, or GitHub Actions producing downloadable builds for the '
+    'project\'s target platforms. The Godot course template exports Web, '
+    'Windows and Linux; other projects can choose appropriate platforms. '
+    'Do not require every platform or an app-store release. If the web app '
+    'uses a backend, verify its deployed data/configuration too. A deployment '
+    'or a successful build is a version to try, not a claim that the project '
+    'is ready. Have someone use the delivered version, record an observation '
+    'and make the next small improvement over the coming week. Source: '
+    'https://github.com/sd5913/godot-game-template/blob/'
+    'f4e774ce11f0d9e231cb9be229490530cd6ef0fb/.github/workflows/build.yml'))
 
-DECK = {'title': 'SD5913 · Week 12 · Course review and group AMA',
-        'pdf': 'SD5913-week12.pdf', 'slides': S}
+slide = L.page('Examples you can open',
+    '92–95. These are delivery examples in progress, not model answers or '
+    'claims that every feature is ready. BothPls and Pixel Paws public web '
+    'pages returned HTTP 200 on 25 November. BothPls source is '
+    'a0790918f40dd085be9d09e6d9ef3f791eb82f05. Pixel Paws run '
+    '45406859556 passed web and Android jobs and has unexpired web and '
+    'android-debug-apk artifacts; its release job was skipped, so link to '
+    'Actions artifacts rather than claiming a published release. Monster '
+    'Staff Access run 45606353689 passed and has an unexpired Windows '
+    'artifact at 2427203da9bf17ab8b4f1e4efb7d44e6c0517a71. '
+    'Artifact downloads may require GitHub sign-in and eventually expire; '
+    'use the latest successful workflow run if needed. Public-page access '
+    'and package presence do not establish complete gameplay, login or '
+    'save/reload acceptance. Ask a teammate to try the delivered version '
+    'on the intended device, then use their observation for the next iteration.')
+slide.els.append(eyebrow(120, 94, 'COURSE PROJECTS · DELIVERY EXAMPLES'))
+for y, name, links, detail in (
+    (320, 'BothPls',
+     '[Open web app](https://the-aliien-repo-oqpi.vercel.app) · '
+     '[Source](https://github.com/sd5913/The-Aliien-Repo)',
+     'Mobile web app in development.'),
+    (495, 'Pixel Paws',
+     '[Play on the web](https://sd5913.github.io/Pixel-Paws/) · '
+     '[CI build downloads](https://github.com/sd5913/Pixel-Paws/actions/runs/45406859556)',
+     'Web + Android debug packages (GitHub sign-in).'),
+    (670, 'Monster Staff Access',
+     '[Windows build](https://github.com/sd5913/ae4pa/actions/runs/45606353689) · '
+     '[Source](https://github.com/sd5913/ae4pa)',
+     'Download, extract, then test on Windows.'),
+):
+    slide.els.extend((
+        Rect(120, y, 1680, 2, LINE),
+        T(120, y + 24, 530, 120, name, 'bold', 48, DEEP_TEAL, lh=1.12),
+        T(720, y + 24, 1080, 68, links, size=44, lh=1.18),
+        T(720, y + 96, 1080, 70, detail, size=40, lh=1.18),
+    ))
+L.takeaway(slide, 'Today: share a URL or build, have someone try it, then refine it.')
+S.append(slide)
+
+S.append(Slide(title='Student Feedback Questionnaire (eSFQ)',
+    els=[Image(0, 0, 1920, 1080, str(HERE / 'week12-assets/esfq-instructions.png'),
+               'contain', url=ESFQ)],
+    notes='95–105. Give students up to ten minutes to complete the eSFQ. '
+    'Use the official university graphic unchanged. Scan its QR code, log in '
+    'with Student ID and password, and complete the form. The graphic states '
+    'that feedback is anonymous to teachers and does not affect grades. '
+    'Do not collect credentials or ask students to show their responses. '
+    'Keep the QR visible while students complete it, then move to the open '
+    'subject AMA. Source supplied by the instructor on 25 November 2026: ' + ESFQ_IMAGE))
+S.append(question('short_answer', 'Ask me anything.',
+    eyebrow_text='SUBJECT AMA · 105–120 MINUTES', size=112,
+    hint='Questions about the subject material. Ask aloud or send a question.',
+    cp={'type': 'short_answer', 'hide_names': False, 'multiple': True},
+    notes='105–120. Open questions to the instructor about the subject material '
+    'across the course. Revisit a diagram, trace a short example or explain a '
+    'concept in response. Accept spoken questions, paper slips or the optional '
+    'question inbox. No group preparation, spokesperson, project decision '
+    'template or extra submission is required. Finish at minute 120.'))
+
+DECK = {'title': 'SD5913 · Week 12 · Course review and subject AMA',
+        'pdf': 'SD5913-week12.pdf', 'presenter_start_slide': 1, 'slides': S}

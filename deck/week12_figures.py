@@ -152,3 +152,68 @@ def screenshot(filename):
     from PIL import Image
     w,h=Image.open(path).size
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}"><image width="{w}" height="{h}" href="data:image/png;base64,{data}"/></svg>',str(path))
+
+
+def review_tides():
+    import figures as tides
+
+    c = Canvas(1680, 640, bg=WHITE)
+    heights = tides._day()
+    c.text(0, 50, 'Line chart', 48, INK, mono=False, weight=700)
+    c.text(940, 50, 'Tide clock', 48, INK, mono=False, weight=700)
+    X, Y = tides._line_panel(c, heights, 100, 100, 670, 350,
+                            labels=False, width=5)
+    for value in (1.0, 1.5, 2.0):
+        label(c, 80, Y(value) + 14, str(value), 40, anchor='end')
+    label(c, 35, 95, 'm', 40)
+    for hour in (1, 6, 12, 18, 24):
+        label(c, X(hour), 492, f'{hour:02d}', 40, anchor='middle')
+    cx, cy, radius = tides._clock_panel(c, heights, 940, 100, 640, 380,
+                                        labels=False, width=5)
+    for hour, x, y in ((18, cx, cy - radius - 18),
+                       (6, cx, cy + radius + 48),
+                       (12, cx - radius - 55, cy + 14),
+                       (24, cx + radius + 55, cy + 14)):
+        label(c, x, y, f'{hour:02d}', 40, anchor='middle')
+    for value in (1, 2):
+        label(c, cx + 18, cy - value / 2.45 * radius + 14, f'{value} m', 40)
+    for x, value in ((0, 'hour across, height up'), (940, 'hour round, height out')):
+        c.text(x, 555, value, 44, TEAL, mono=False)
+    c.text(840, 625, 'Same 24 heights. Which view shows the time of high tide?',
+           44, INK, mono=False, anchor='middle')
+    return c.finish('week12-review-tides')
+
+
+def review_restart():
+    import week10_figures as data
+
+    c = Canvas(1680, 640, bg=data.PAPER)
+    data.box(c, 0, 115, 450, 365, '1. Process A',
+             ['Save values', 'Process stops'], data.TEAL)
+    data.box(c, 615, 115, 450, 365, '2. SQLite',
+             ['ID: 3', 'Owner: 1', 'Title: Handbook'], data.VIOLET)
+    data.box(c, 1230, 115, 450, 365, '3. Process B',
+             ['Load ID: 3', 'New object'], data.ORANGE)
+    data.arrow(c, 470, 290, 595, 290)
+    data.arrow(c, 1085, 290, 1210, 290)
+    data.text(c, 840, 590, 'Change the title without saving. What reloads?',
+              46, INK, 'middle')
+    return c.finish('week12-review-restart')
+
+
+def review_tool_loop():
+    import week10_figures as data
+
+    c = Canvas(1680, 640, bg=data.PAPER)
+    data.box(c, 0, 0, 740, 245, '1. Local model',
+             ['History + question', 'Compose a retrieval query'], data.TEAL)
+    data.box(c, 940, 0, 740, 245, '2. Python tool',
+             ['retrieve_handbook(query)', 'Encode + search vectors'], data.VIOLET)
+    data.box(c, 940, 395, 740, 245, '3. Tool result',
+             ['Source IDs + pages + text', 'Data sent back to model'], data.ORANGE)
+    data.box(c, 0, 395, 740, 245, '4. Answer phase',
+             ['Answer + source IDs', 'Validate, format, save'], data.TEAL)
+    data.arrow(c, 760, 125, 920, 125)
+    data.arrow(c, 1310, 265, 1310, 375)
+    data.arrow(c, 920, 520, 760, 520)
+    return c.finish('week12-review-tool-loop')

@@ -30,12 +30,13 @@ class CourseReview(unittest.TestCase):
                      'evidence/provenance.json', 'evidence/model-selected-world.mp4'):
             self.assertIn(f'{week12.COMPANION}/{path}', urls)
 
-    def test_ama_follows_the_break_and_preserves_the_offline_route(self):
+    def test_feedback_then_subject_ama_allow_offline_questions(self):
         notes = [s.notes for s in week12.S]
-        pause = next(i for i, note in enumerate(notes) if note.startswith('60–70'))
-        opening = next(i for i, note in enumerate(notes) if note.startswith('90–95'))
-        rounds = next(i for i, note in enumerate(notes) if note.startswith('95–115'))
-        self.assertLess(pause, opening)
-        self.assertLess(opening, rounds)
-        self.assertIn('paper', notes[rounds])
-        self.assertTrue(notes[-1].startswith('119–120'))
+        feedback = next(i for i, slide in enumerate(week12.S)
+                        if any(getattr(e, 'url', '') == week12.ESFQ for e in slide.els))
+        self.assertEqual(feedback, len(week12.S) - 2)
+        self.assertTrue(notes[feedback].startswith('95–105'))
+        self.assertTrue(notes[-1].startswith('105–120'))
+        self.assertIn('paper', notes[-1])
+        self.assertEqual(week12.S[-1].cp['type'], 'short_answer')
+        self.assertTrue(week12.S[-1].cp['multiple'])
