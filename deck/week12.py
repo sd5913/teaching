@@ -19,8 +19,6 @@ COMPANION = f'https://github.com/sd5913/pfad/blob/{PIN}/week12'
 ANT = 'https://www.anthropic.com/news/ipo-close'
 NVIDIA = 'https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Board-Reinstates-Jensen-Huang-as-President-CEO-and-Board-Director/default.aspx'
 ROCKSTAR = 'https://www.rockstargames.com/newswire/article/39akk424a9oo53/grand-theft-auto-vi-now-available'
-LEONIDA = 'https://github.com/ItsNotRexed/Leonida'
-WINDOW = LEONIDA + '/pulls?q=is%3Apr+created%3A2026-11-23T16%3A25%3A00Z..2026-11-23T16%3A34%3A59Z'
 S = []
 
 
@@ -43,12 +41,9 @@ page('NEWS · OUTSIDE QUIZ SCOPE', 'Which game actually runs?', [
     f'[Rockstar]({ROCKSTAR}) announced the GTA VI console launch.',
     'A claimed Xbox build leak is a separate claim. What could verify its origin and platform?',
     'For a PC claim, look for an authorized, independently reproducible run on identified hardware.',
-], '2–3. A console release establishes availability on consoles. A screenshot or a file name cannot establish the origin or playability of a different build.')
-page('NEWS · OUTSIDE QUIZ SCOPE', 'What does a pull request count?', [
-    f'[55 PRs opened]({WINDOW}) in 10 completed minutes: 5.5 per minute.',
-    '24 Nov, 00:25 to 00:35 HKT (end excluded). Counts submissions.',
-    f'At inspection, [Leonida’s README]({LEONIDA}/blob/c646bf836777ef63587ecdbea44bd62df827c433/README.md#project-status) said the game did not boot.',
-], '3–4. Counted created_at timestamps from GitHub for Nov 23, 16:25–16:35 UTC. PR volume establishes neither the number of agents nor a working game. Return to this distinction when reviewing team evidence.')
+], '2–4. A console release establishes availability on consoles. A screenshot or a file name cannot establish the origin or playability of a different build.')
+
+
 def recap(number, heading, rows, notes):
     slide = L.page(heading, notes)
     if number < 12:
